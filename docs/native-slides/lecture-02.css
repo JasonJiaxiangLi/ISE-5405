@@ -1,0 +1,1504 @@
+[data-native-deck="lecture-02"] .l2-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(18rem, .92fr);
+  gap: clamp(1rem, 2.4vw, 2.25rem);
+  align-items: center;
+}
+
+[data-native-deck="lecture-02"] .l2-grid--equal {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+[data-native-deck="lecture-02"] .l2-stack {
+  display: grid;
+  gap: .8rem;
+}
+
+[data-native-deck="lecture-02"] .l2-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: .8rem;
+}
+
+[data-native-deck="lecture-02"] .l2-card,
+[data-native-deck="lecture-02"] .l2-callout,
+[data-native-deck="lecture-02"] details {
+  border: 2px solid color-mix(in srgb, var(--native-maroon, #861f41) 30%, transparent);
+  border-radius: .8rem;
+  padding: .75rem 1rem;
+  background: #fff;
+}
+
+[data-native-deck="lecture-02"] .l2-card h3,
+[data-native-deck="lecture-02"] .l2-callout h3 {
+  margin: 0 0 .45rem;
+}
+
+[data-native-deck="lecture-02"] .l2-callout {
+  border-left: .55rem solid var(--native-orange, #e87722);
+}
+
+[data-native-deck="lecture-02"] .l2-equation {
+  margin: .65rem 0;
+  padding: .55rem .8rem;
+  border-radius: .55rem;
+  background: #f5f7f8;
+  font-family: "STIX Two Math", "Cambria Math", serif;
+  text-align: center;
+  line-height: 1.45;
+  overflow-x: auto;
+}
+
+[data-native-deck="lecture-02"] .l2-model {
+  display: block;
+  margin: .65rem auto;
+  width: 100%;
+  max-width: 100%;
+  font-family: "STIX Two Math", "Cambria Math", serif;
+}
+
+[data-native-deck="lecture-02"] .l2-model .l2-wide {
+  grid-column: 1 / -1;
+}
+
+[data-native-deck="lecture-02"] .l2-matrix {
+  display: inline-table;
+  border-collapse: separate;
+  border-spacing: .75rem .28rem;
+  border-inline: 2px solid currentColor;
+  border-radius: .3rem;
+  vertical-align: middle;
+}
+
+[data-native-deck="lecture-02"] .l2-matrix td {
+  text-align: center;
+  padding: 0;
+}
+
+[data-native-deck="lecture-02"] .l2-figure {
+  width: 100%;
+  max-height: 24rem;
+  overflow: visible;
+}
+
+[data-native-deck="lecture-02"] .l2-figure text {
+  font-family: inherit;
+}
+
+[data-native-deck="lecture-02"] .l2-epigraph-grid .l2-figure {
+  max-height: 17rem;
+}
+
+[data-native-deck="lecture-02"] .l2-epigraph-example p {
+  margin: .18rem 0;
+  font-size: .92em;
+  line-height: 1.25;
+}
+
+/* Diagram layers should change state, not drift independently into place. */
+[data-native-deck="lecture-02"] .l2-figure [data-reveal].ns-revealed {
+  animation: none;
+}
+
+[data-native-deck="lecture-02"] .l2-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: .7rem 1rem;
+  margin-block: .7rem;
+}
+
+[data-native-deck="lecture-02"] .l2-controls label {
+  display: grid;
+  gap: .25rem;
+  font-weight: 650;
+}
+
+[data-native-deck="lecture-02"] input[type="range"] {
+  width: 100%;
+  min-height: 2.75rem;
+}
+
+[data-native-deck="lecture-02"] button,
+[data-native-deck="lecture-02"] summary {
+  min-height: 2.75rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+[data-native-deck="lecture-02"] .l2-tabs {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin-bottom: .8rem;
+}
+
+[data-native-deck="lecture-02"] .l2-tabs button[aria-selected="true"] {
+  color: #fff;
+  background: var(--native-maroon, #861f41);
+}
+
+[data-native-deck="lecture-02"] .l2-tabs button {
+  min-width: 44px;
+  height: 44px;
+  padding-inline: .65rem;
+}
+
+[data-native-deck="lecture-02"] .l2-touch-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  padding-inline: .15rem;
+}
+
+[data-native-deck="lecture-02"] .l2-compact-equations {
+  gap: .55rem 1rem;
+}
+
+[data-native-deck="lecture-02"] .l2-compact-equations .l2-equation {
+  margin-block: .3rem;
+  padding-block: .35rem;
+}
+
+[data-native-deck="lecture-02"] .l2-production-controls {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .3rem .7rem;
+  margin-block: .25rem;
+}
+
+[data-native-deck="lecture-02"] .l2-production-controls label {
+  gap: .05rem;
+  font-size: .84em;
+}
+
+[data-native-deck="lecture-02"] [data-prod-result] {
+  margin: 0;
+  min-height: 4.4em;
+  font-size: .88em;
+}
+
+[data-native-deck="lecture-02"] .l2-compact-callout {
+  padding-block: .55rem;
+}
+
+[data-native-deck="lecture-02"] .l2-compact-callout h3,
+[data-native-deck="lecture-02"] .l2-compact-callout p {
+  display: inline;
+}
+
+[data-native-deck="lecture-02"] .l2-compact-callout h3 {
+  margin-right: .45rem;
+}
+
+[data-native-deck="lecture-02"] .l2-definition-list {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: .55rem .8rem;
+  align-items: baseline;
+  margin: 0;
+}
+
+[data-native-deck="lecture-02"] .l2-definition-list dt,
+[data-native-deck="lecture-02"] .l2-definition-list dd {
+  margin: 0;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-stack {
+  gap: .32rem;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-stack details {
+  padding: .42rem .7rem;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-stack details[open] {
+  max-height: 10rem;
+  overflow: auto;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .45rem;
+  margin-block: .35rem .55rem;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-tabs button {
+  padding: .45rem .55rem;
+  border: 2px solid color-mix(in srgb, var(--native-maroon, #861f41) 36%, transparent);
+  border-radius: .55rem;
+  background: #fff;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-tabs button[aria-selected="true"] {
+  border-color: var(--ns-maroon);
+  background: #f3dce4;
+  color: var(--ns-maroon-dark);
+  font-weight: 750;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-panel {
+  min-height: 10rem;
+  max-height: 11.5rem;
+  padding: .6rem .8rem;
+  overflow: auto;
+  border: 2px solid color-mix(in srgb, var(--native-maroon, #861f41) 30%, transparent);
+  border-radius: .8rem;
+  background: #fff;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-panel h3 {
+  margin: 0 0 .2rem;
+}
+
+[data-native-deck="lecture-02"] .l2-derivation-panel .l2-equation {
+  margin-block: .25rem;
+  padding-block: .35rem;
+}
+
+[data-native-deck="lecture-02"] .l2-practice-solution[open] {
+  max-height: 9.5rem;
+  overflow: auto;
+}
+
+[data-native-deck="lecture-02"] .l2-chip {
+  display: inline-block;
+  padding: .25rem .55rem;
+  border-radius: 99rem;
+  background: #eaf2f8;
+  margin: .15rem;
+  white-space: nowrap;
+}
+
+[data-native-deck="lecture-02"] .l2-step {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  gap: .7rem;
+  align-items: start;
+}
+
+[data-native-deck="lecture-02"] .l2-step > strong {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--native-maroon, #861f41);
+}
+
+[data-native-deck="lecture-02"] .l2-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+[data-native-deck="lecture-02"] .l2-table th,
+[data-native-deck="lecture-02"] .l2-table td {
+  border-bottom: 1px solid #c8ced2;
+  padding: .38rem .55rem;
+  text-align: right;
+}
+
+[data-native-deck="lecture-02"] .l2-table th:first-child,
+[data-native-deck="lecture-02"] .l2-table td:first-child {
+  text-align: left;
+}
+
+[data-native-deck="lecture-02"] .l2-title-word {
+  color: var(--native-maroon, #861f41);
+}
+
+[data-native-deck="lecture-02"] .l2-answer {
+  font-size: 1.08em;
+  font-weight: 700;
+  color: #176b3a;
+}
+
+[data-native-deck="lecture-02"] .l2-muted {
+  color: #59666c;
+}
+
+/* Updated 2026 reference-deck vocabulary. The selectors stay scoped to this
+   route so Robert's page composition can be preserved without importing his
+   private slide framework or global CSS. */
+[data-native-deck="lecture-02"] .l2-reference-title {
+  background:
+    radial-gradient(circle at 80% 30%, rgb(229 117 31 / .12), transparent 30%),
+    linear-gradient(135deg, #fff 0%, #faf7f3 100%);
+}
+
+[data-native-deck="lecture-02"] .l2-title-layout,
+[data-native-deck="lecture-02"] .l2-text-visual {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(20rem, .85fr);
+  gap: clamp(1rem, 3vw, 2.6rem);
+  align-items: center;
+  min-height: 100%;
+}
+
+[data-native-deck="lecture-02"] .l2-title-art {
+  width: min(100%, 29rem);
+  justify-self: center;
+}
+
+[data-native-deck="lecture-02"] .l2-title-kicker {
+  margin: 0;
+  color: var(--ns-orange, #e5751f);
+  font-size: .72em;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
+[data-native-deck="lecture-02"] .l2-route-grid,
+[data-native-deck="lecture-02"] .l2-app-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .55rem .9rem;
+}
+
+[data-native-deck="lecture-02"] .l2-box,
+[data-native-deck="lecture-02"] .l2-widget {
+  border: 2px solid #d9d2ca;
+  border-radius: .72rem;
+  padding: .65rem .85rem;
+  background: #fff;
+}
+
+[data-native-deck="lecture-02"] .l2-box h3,
+[data-native-deck="lecture-02"] .l2-widget h3,
+[data-native-deck="lecture-02"] .l2-app-grid h3 {
+  margin: 0 0 .32rem;
+}
+
+[data-native-deck="lecture-02"] .l2-box p,
+[data-native-deck="lecture-02"] .l2-widget p,
+[data-native-deck="lecture-02"] .l2-app-grid p {
+  margin: .2rem 0;
+}
+
+[data-native-deck="lecture-02"] .l2-orange {
+  border-color: #e5751f;
+  background: #fdf3ea;
+}
+
+[data-native-deck="lecture-02"] .l2-blue {
+  border-color: #33658a;
+  background: #eef3f7;
+}
+
+[data-native-deck="lecture-02"] .l2-green {
+  border-color: #1a7d3c;
+  background: #edf6ef;
+}
+
+[data-native-deck="lecture-02"] .l2-small {
+  font-size: .86em;
+}
+
+[data-native-deck="lecture-02"] .l2-note {
+  margin: .35rem 0 0;
+  color: #657177;
+  font-size: .73em;
+  line-height: 1.35;
+}
+
+[data-native-deck="lecture-02"] .l2-punchline {
+  margin: .7rem 0 0;
+  color: var(--ns-maroon, #861f41);
+  font-size: 1.02em;
+  font-weight: 700;
+  text-align: center;
+}
+
+[data-native-deck="lecture-02"] .l2-app-grid {
+  gap: .42rem .72rem;
+  font-size: .72em;
+}
+
+[data-native-deck="lecture-02"] .l2-app-grid .l2-box {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  padding: .46rem .62rem;
+}
+
+[data-native-deck="lecture-02"] .l2-explore {
+  min-height: 44px;
+  margin-left: .35rem;
+  padding: .25rem .6rem;
+  font-size: .84em;
+  vertical-align: middle;
+}
+
+[data-native-deck="lecture-02"] .l2-figure,
+[data-native-deck="lecture-02"] .ns-slide-body canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+[data-native-deck="lecture-02"] .ns-slide-body canvas {
+  max-width: 100%;
+  border-radius: .45rem;
+  background: #fff;
+  touch-action: none;
+}
+
+[data-native-deck="lecture-02"] .l2-maturity {
+  display: block;
+  width: 100%;
+  max-height: 23rem;
+}
+
+[data-native-deck="lecture-02"] .l2-workflow {
+  display: grid;
+  gap: .5rem;
+  margin: .2rem 0 .7rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: workflow;
+}
+
+[data-native-deck="lecture-02"] .l2-workflow li {
+  display: grid;
+  grid-template-columns: minmax(12rem, .35fr) 1fr;
+  gap: .9rem;
+  align-items: baseline;
+  padding: .45rem .75rem;
+  border-left: .4rem solid var(--ns-maroon, #861f41);
+  border-radius: 0 .55rem .55rem 0;
+  background: #f7f4f1;
+}
+
+[data-native-deck="lecture-02"] .l2-matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(3rem, 1fr));
+  gap: .32rem;
+  padding: .45rem;
+  border-inline: 3px solid #4f5659;
+}
+
+[data-native-deck="lecture-02"] .l2-matrix-cell {
+  min-width: 44px;
+  min-height: 44px;
+  border: 2px solid transparent;
+  border-radius: .35rem;
+  background: #f4f4f3;
+  font: inherit;
+}
+
+[data-native-deck="lecture-02"] .l2-matrix-cell.is-row { background: #f4dee6; }
+[data-native-deck="lecture-02"] .l2-matrix-cell.is-column { box-shadow: inset 0 0 0 3px #a6c7dd; }
+[data-native-deck="lecture-02"] .l2-matrix-cell.is-picked { border-color: #e5751f; background: #fff3ca; }
+
+[data-native-deck="lecture-02"] .l2-widget-output {
+  min-height: 2.4rem;
+  margin: .45rem 0 0;
+  padding: .45rem .65rem;
+  border-left: .32rem solid #e5751f;
+  border-radius: 0 .4rem .4rem 0;
+  background: #fdf3ea;
+  font-size: .76em;
+  line-height: 1.35;
+}
+
+[data-native-deck="lecture-02"] .l2-widget-output[data-state="good"] { border-color: #1a7d3c; background: #edf6ef; }
+[data-native-deck="lecture-02"] .l2-widget-output[data-state="bad"] { border-color: #b3261e; background: #fbeaea; }
+
+[data-native-deck="lecture-02"] .l2-range-row,
+[data-native-deck="lecture-02"] .l2-button-row,
+[data-native-deck="lecture-02"] .l2-derive-controls {
+  display: flex;
+  gap: .55rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+[data-native-deck="lecture-02"] .l2-range-row input[type="range"] {
+  flex: 1 1 12rem;
+}
+
+[data-native-deck="lecture-02"] .l2-button-row {
+  justify-content: center;
+  margin-top: .4rem;
+}
+
+[data-native-deck="lecture-02"] .l2-button-row button,
+[data-native-deck="lecture-02"] .l2-derive-controls button,
+[data-native-deck="lecture-02"] .l2-grapher button,
+[data-native-deck="lecture-02"] .l2-triptych button {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+[data-native-deck="lecture-02"] .l2-derive {
+  display: grid;
+  gap: .24rem;
+  font-size: .79em;
+  line-height: 1.24;
+}
+
+[data-native-deck="lecture-02"] .l2-derive [data-derive-step] {
+  display: none;
+  padding: .14rem .42rem;
+  border-radius: .5rem;
+  background: #fff;
+}
+
+[data-native-deck="lecture-02"] .l2-derive [data-derive-step].is-shown {
+  display: block;
+}
+
+[data-native-deck="lecture-02"] .l2-derive [data-derive-step]:not(:last-of-type) .l2-equation {
+  margin-block: .08rem;
+  padding-block: .1rem;
+}
+
+[data-native-deck="lecture-02"] .l2-derive .l2-widget-output {
+  min-height: 0;
+  padding-block: .35rem;
+}
+
+[data-native-deck="lecture-02"] .l2-derive-controls {
+  justify-content: center;
+}
+
+[data-native-deck="lecture-02"] [data-derive-dots] {
+  display: flex;
+  gap: .35rem;
+}
+
+[data-native-deck="lecture-02"] .l2-derive-dot {
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #cfc7bf 0 18%, transparent 20%);
+}
+
+[data-native-deck="lecture-02"] .l2-derive-dot.is-current {
+  background: radial-gradient(circle, #e5751f 0 24%, transparent 26%);
+}
+
+/* Page 51 deliberately keeps each algebraic state visible so the completed
+   conversion can be read as one proof. Compact only this cumulative state;
+   the equations remain projector-readable and the 44px controls stay intact. */
+[data-native-deck="lecture-02"] .ns-slide:is(
+  [data-slide-id="l2-51"],
+  [data-slide-id="l2-55"],
+  [data-slide-id="l2-58"],
+  [data-slide-id="l2-59"]
+) .l2-derive {
+  gap: .08rem;
+  font-size: .64em;
+  line-height: 1.14;
+}
+
+[data-native-deck="lecture-02"] .ns-slide:is(
+  [data-slide-id="l2-51"],
+  [data-slide-id="l2-55"],
+  [data-slide-id="l2-58"],
+  [data-slide-id="l2-59"]
+) .l2-derive [data-derive-step] {
+  padding: .03rem .3rem;
+}
+
+[data-native-deck="lecture-02"] .ns-slide:is(
+  [data-slide-id="l2-51"],
+  [data-slide-id="l2-55"],
+  [data-slide-id="l2-58"],
+  [data-slide-id="l2-59"]
+) .l2-equation,
+[data-native-deck="lecture-02"] .ns-slide:is(
+  [data-slide-id="l2-51"],
+  [data-slide-id="l2-55"],
+  [data-slide-id="l2-58"],
+  [data-slide-id="l2-59"]
+) mjx-container[display="true"] {
+  margin-block: 0;
+  padding-block: 0;
+}
+
+[data-native-deck="lecture-02"] .ns-slide:is(
+  [data-slide-id="l2-51"],
+  [data-slide-id="l2-55"],
+  [data-slide-id="l2-58"],
+  [data-slide-id="l2-59"]
+) .l2-derive .l2-widget-output {
+  margin: 0;
+  padding-block: .12rem;
+}
+
+/* These four worked conversions are not ancillary dense notes. Keep their
+   cumulative proof states but render them at the lecture's normal derivation
+   scale; compact spacing preserves the complete proofs without tiny type. */
+[data-native-deck="lecture-02"] .ns-slide:is(
+  [data-slide-id="l2-51"],
+  [data-slide-id="l2-55"],
+  [data-slide-id="l2-58"],
+  [data-slide-id="l2-59"]
+) .l2-derive {
+  font-size: .96em;
+  line-height: 1.12;
+}
+
+[data-native-deck="lecture-02"] .l2-quiz-question {
+  display: grid;
+  min-height: 4rem;
+  place-items: center;
+  font-size: 1.15em;
+}
+
+[data-native-deck="lecture-02"] [data-quiz-choice][data-state="correct"] {
+  outline: 4px solid #1a7d3c;
+}
+
+[data-native-deck="lecture-02"] [data-quiz-choice][data-state="incorrect"] {
+  outline: 4px solid #b3261e;
+}
+
+[data-native-deck="lecture-02"] .l2-master-layout {
+  display: grid;
+  grid-template-columns: minmax(12rem, .32fr) 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+[data-native-deck="lecture-02"] .l2-master-key {
+  padding: 1.2rem .8rem;
+  border-radius: .85rem;
+  color: #fff;
+  background: #861f41;
+  box-shadow: 0 .35rem 1rem rgb(134 31 65 / .3);
+  font-family: Georgia, serif;
+  font-size: 1.15em;
+  text-align: center;
+}
+
+[data-native-deck="lecture-02"] .l2-master-key span {
+  display: block;
+  margin-top: .5rem;
+  color: #f8dce6;
+  font-family: inherit;
+  font-size: .52em;
+}
+
+[data-native-deck="lecture-02"] .l2-three {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .65rem;
+}
+
+[data-native-deck="lecture-02"] .l2-code {
+  max-height: 21rem;
+  margin: 0;
+  overflow: auto;
+  border-radius: .7rem;
+  padding: .8rem 1rem;
+  color: #f7f5f1;
+  background: #26282e;
+  font-size: .64em;
+  line-height: 1.45;
+  white-space: pre;
+}
+
+/* Match Robert's fully visible 13.5px bakery listing after restoring its
+   instructional comments. Do not turn the added explanation into a scroll-
+   hidden code sample at wide projector sizes. */
+[data-native-deck="lecture-02"] [data-slide-id="l2-33"] .l2-code {
+  max-height: none;
+  font-size: min(.64em, 13.5px);
+}
+
+[data-native-deck="lecture-02"] .l2-grapher {
+  display: grid;
+  grid-template-columns: minmax(27rem, 1.08fr) minmax(25rem, .92fr);
+  gap: .8rem;
+  align-items: start;
+  font-size: .66em;
+}
+
+[data-native-deck="lecture-02"] .l2-grapher-controls {
+  display: grid;
+  gap: .35rem;
+}
+
+[data-native-deck="lecture-02"] .l2-grapher select,
+[data-native-deck="lecture-02"] .l2-grapher input[type="number"] {
+  min-height: 44px;
+  font: inherit;
+}
+
+[data-native-deck="lecture-02"] .l2-grapher > .l2-widget canvas {
+  max-height: 23rem;
+}
+
+[data-native-deck="lecture-02"] .l2-g-objective {
+  display: flex;
+  gap: .32rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+[data-native-deck="lecture-02"] .l2-g-objective input[type="number"],
+[data-native-deck="lecture-02"] .l2-constraint-row input[type="number"] {
+  width: 4.25rem;
+}
+
+[data-native-deck="lecture-02"] .l2-g-level {
+  flex: 1 0 100%;
+}
+
+[data-native-deck="lecture-02"] .l2-g-constraints {
+  min-width: 0;
+}
+
+[data-native-deck="lecture-02"] .l2-g-constraints-head {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+[data-native-deck="lecture-02"] .l2-g-constraints-head > span {
+  min-width: 0;
+}
+
+[data-native-deck="lecture-02"] [data-g-count] {
+  font-weight: 750;
+  color: var(--native-maroon, #861f41);
+}
+
+[data-native-deck="lecture-02"] [data-g-constraints] {
+  display: grid;
+  gap: .12rem;
+  margin-top: .16rem;
+}
+
+[data-native-deck="lecture-02"] .l2-constraint-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 3.45rem) max-content
+    minmax(0, 3.45rem) max-content
+    minmax(2.8rem, max-content) minmax(0, 3.7rem) 44px;
+  gap: .18rem;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+}
+
+[data-native-deck="lecture-02"] .l2-constraint-row label {
+  min-width: 0;
+}
+
+[data-native-deck="lecture-02"] .l2-constraint-row input[type="number"] {
+  width: 100%;
+  min-width: 0;
+  padding-inline: .28rem;
+}
+
+[data-native-deck="lecture-02"] .l2-constraint-row select {
+  width: 100%;
+  min-width: 0;
+  padding-inline: .2rem;
+}
+
+[data-native-deck="lecture-02"] .l2-constraint-row button {
+  width: 44px;
+  padding-inline: 0;
+}
+
+[data-native-deck="lecture-02"] .l2-vertex-table {
+  font-size: .9em;
+}
+
+[data-native-deck="lecture-02"] .l2-vertex-table tr.is-optimal {
+  color: #176b3a;
+  background: #edf6ef;
+  font-weight: 750;
+}
+
+[data-native-deck="lecture-02"] .l2-triptych {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .55rem;
+  font-size: .68em;
+}
+
+[data-native-deck="lecture-02"] .l2-triptych .l2-widget {
+  padding: .38rem;
+}
+
+[data-native-deck="lecture-02"] .l2-triptych canvas {
+  max-height: 17rem;
+}
+
+[data-native-deck="lecture-02"] .l2-big-number {
+  display: block;
+  margin-top: .35rem;
+  font-size: 1.25em;
+  font-weight: 800;
+}
+
+[data-native-deck="lecture-02"] .l2-app-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .55rem;
+  font-size: .56em;
+}
+
+[data-native-deck="lecture-02"] .l2-app-detail {
+  padding: .48rem .58rem;
+}
+
+[data-native-deck="lecture-02"] .l2-app-detail h3 span {
+  display: inline;
+  margin-left: .3rem;
+  color: #b25a12;
+  font-family: inherit;
+  font-size: .7em;
+}
+
+[data-native-deck="lecture-02"] .l2-app-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .35rem;
+}
+
+[data-native-deck="lecture-02"] .l2-app-detail-grid section {
+  padding: .34rem .42rem;
+  border-radius: .38rem;
+  background: #f6f3ef;
+}
+
+[data-native-deck="lecture-02"] .l2-app-detail h4,
+[data-native-deck="lecture-02"] .l2-app-detail-grid h4,
+[data-native-deck="lecture-02"] .l2-app-detail ul,
+[data-native-deck="lecture-02"] .l2-app-detail-grid ul {
+  margin: .08rem 0;
+}
+
+[data-native-deck="lecture-02"] .l2-app-detail ul,
+[data-native-deck="lecture-02"] .l2-app-detail-grid ul {
+  padding-left: 1rem;
+}
+
+[data-native-deck="lecture-02"] .l2-explore-kicker {
+  margin: 0 0 .45rem;
+  color: #b25a12;
+  font-weight: 800;
+  letter-spacing: .035em;
+}
+
+[data-native-deck="lecture-02"] .l2-app-flavor {
+  padding: .3rem .45rem;
+  border-left: .3rem solid #e5751f;
+  background: #fdf3ea;
+}
+
+[data-native-deck="lecture-02"] .l2-app-data {
+  color: #566168;
+}
+
+/* Page 24 carries Robert's complete four-part convention comparison. At wide
+   desktop viewports the stage and its container-scaled type both grow, while
+   the fixed masthead and toolbars leave slightly less than a full 16:9 screen.
+   Keep the final ISE 5406 payoff inside the stage without deleting content or
+   changing the reveal order. Preserve the runtime's established compact-stage
+   size and only cap the page body when container-scaled type grows past 24px. */
+@media screen and (min-width: 821px) {
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] .ns-slide-body {
+    font-size: min(1em, 24px);
+    line-height: 1.28;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] .l2-grid {
+    gap: clamp(.6rem, 1.4cqw, 1.1rem);
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] :is(.l2-card, .l2-callout) {
+    padding: .48rem .72rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] :is(.l2-card, .l2-callout) h3 {
+    margin-bottom: .22rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] :is(.l2-card, .l2-callout) p,
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] .l2-model {
+    margin-block: .18rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] mjx-container[display="true"] {
+    margin-block: .08rem;
+  }
+}
+
+/* A 1280x720 classroom laptop leaves a short 16:9 stage once the course
+   masthead, progress row, and toolbars are visible. Preserve Robert's full
+   teaching states at that size by tightening decoration and figure height,
+   not by removing content or shrinking the 44px interaction targets. */
+@media screen and (max-height: 720px) and (min-width: 821px) {
+  [data-native-deck="lecture-02"] .ns-slide {
+    padding: 2.1cqw 3.45cqw 2.15cqw;
+    line-height: 1.25;
+  }
+
+  /* Preserve near-body-size algebra on the cumulative worked examples.
+     Their fully revealed states need the pixels more than the surrounding
+     page decoration does. */
+  [data-native-deck="lecture-02"] .ns-slide:is(
+    [data-slide-id="l2-51"],
+    [data-slide-id="l2-55"],
+    [data-slide-id="l2-58"],
+    [data-slide-id="l2-59"]
+  ) {
+    padding-block: .85cqw;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide:is(
+    [data-slide-id="l2-51"],
+    [data-slide-id="l2-55"],
+    [data-slide-id="l2-58"],
+    [data-slide-id="l2-59"]
+  ) .ns-slide-header {
+    margin-bottom: .1em;
+    padding-bottom: .1em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide-header {
+    margin-bottom: .38em;
+    padding-bottom: .3em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide-header h1 {
+    font-size: 1.72em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-eyebrow {
+    margin-bottom: .18em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide p {
+    margin-bottom: .34em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide ul,
+  [data-native-deck="lecture-02"] .ns-slide ol {
+    margin-block: .08em .34em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide li {
+    margin-block: .12em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide-actions {
+    margin-top: .22em;
+  }
+
+  /* Checkpoint/K is always present in the persistent classroom toolbar. Keep
+     the duplicate slide action in the DOM, but do not spend a second 44px row
+     on it in the short projector layout. */
+  [data-native-deck="lecture-02"] .ns-slide-actions:has(> [data-checkpoint]:only-child) {
+    display: none;
+  }
+
+  [data-native-deck="lecture-02"] .l2-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(14rem, .92fr);
+    gap: .55rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-title-layout,
+  [data-native-deck="lecture-02"] .l2-text-visual {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+    gap: .55rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-stack {
+    gap: .3rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-cards,
+  [data-native-deck="lecture-02"] .l2-route-grid,
+  [data-native-deck="lecture-02"] .l2-app-grid,
+  [data-native-deck="lecture-02"] .l2-three {
+    gap: .32rem .45rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-card,
+  [data-native-deck="lecture-02"] .l2-callout,
+  [data-native-deck="lecture-02"] details,
+  [data-native-deck="lecture-02"] .l2-box,
+  [data-native-deck="lecture-02"] .l2-widget {
+    border-radius: .48rem;
+    padding: .34rem .5rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-card h3,
+  [data-native-deck="lecture-02"] .l2-callout h3,
+  [data-native-deck="lecture-02"] .l2-box h3,
+  [data-native-deck="lecture-02"] .l2-widget h3 {
+    margin-bottom: .16rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-equation,
+  [data-native-deck="lecture-02"] .ns-math-display mjx-container[display="true"],
+  [data-native-deck="lecture-02"] .ns-slide mjx-container[display="true"] {
+    margin-block: .14rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-equation {
+    padding: .18rem .4rem;
+    line-height: 1.22;
+  }
+
+  [data-native-deck="lecture-02"] .l2-controls {
+    gap: .2rem .45rem;
+    margin-block: .16rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-widget-output {
+    min-height: 0;
+    margin-top: .18rem;
+    padding: .22rem .4rem;
+    line-height: 1.2;
+  }
+
+  [data-native-deck="lecture-02"] .l2-note {
+    margin-top: .12rem;
+    line-height: 1.2;
+  }
+
+  [data-native-deck="lecture-02"] .l2-button-row {
+    margin-top: .16rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-04"] .l2-app-grid {
+    max-height: 14.2rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    padding-right: .18rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-04"] .l2-punchline {
+    margin-top: .25rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] .l2-grid {
+    gap: .3rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] .l2-callout {
+    padding-block: .12rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] .l2-card {
+    padding-block: .18rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] :is(.l2-card, .l2-callout) p {
+    margin-block: .08rem;
+  }
+
+  [data-native-deck="lecture-02"] [data-slide-id="l2-24"] mjx-container[display="true"] {
+    margin-block: .05rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-table th,
+  [data-native-deck="lecture-02"] .l2-table td {
+    padding: .2rem .34rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-figure {
+    max-height: 13rem;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-14"] [data-ip-canvas] {
+    max-height: 10.2rem;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-15"] [data-hp-canvas],
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-17"] [data-poly-builder] {
+    max-height: 8.55rem;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-34"] dl {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: .08rem .42rem;
+    margin-block: .15rem;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-34"] dd {
+    margin: 0;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-35"] .l2-figure {
+    width: min(100%, 11rem);
+    max-height: none;
+    height: auto;
+    justify-self: center;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-35"] [data-prod-result] {
+    min-height: 0;
+    margin: 0;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-35"] .l2-compact-callout {
+    padding-block: .1rem;
+    line-height: 1.18;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-39"] .l2-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    font-size: .86em;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-39"] .l2-figure {
+    max-height: 4.8rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-grapher {
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr);
+    grid-template-rows: minmax(0, 1fr);
+    height: 100%;
+    min-height: 0;
+    gap: .32rem;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  [data-native-deck="lecture-02"] .l2-grapher > .l2-widget {
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  [data-native-deck="lecture-02"] .l2-grapher > .l2-widget canvas {
+    width: min(100%, 16rem);
+    min-height: 0;
+    max-height: none;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  [data-native-deck="lecture-02"] .l2-grapher-controls {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    padding-right: .18rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-grapher select {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  [data-native-deck="lecture-02"] .l2-g-constraints {
+    display: flex;
+    max-height: 16rem;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  [data-native-deck="lecture-02"] .l2-g-constraints [data-g-constraints] {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  [data-native-deck="lecture-02"] .l2-vertex-table {
+    table-layout: fixed;
+    overflow-wrap: anywhere;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-48"] [data-cube-canvas] {
+    max-height: 10.5rem;
+    object-fit: contain;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-60"] .l2-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide[data-slide-id="l2-60"] .l2-cards {
+    gap: .25rem;
+    font-size: .9em;
+  }
+}
+
+@media (max-width: 820px) {
+  [data-native-deck="lecture-02"] .l2-grid,
+  [data-native-deck="lecture-02"] .l2-grid--equal {
+    grid-template-columns: 1fr;
+  }
+
+  [data-native-deck="lecture-02"] .l2-figure {
+    max-height: 18rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-production-controls {
+    grid-template-columns: 1fr;
+  }
+
+  [data-native-deck="lecture-02"] .l2-derivation-stack details[open] {
+    max-height: none;
+    overflow: visible;
+  }
+
+  [data-native-deck="lecture-02"] .l2-derivation-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-native-deck="lecture-02"] .l2-derivation-panel {
+    min-height: 0;
+    max-height: none;
+  }
+
+  [data-native-deck="lecture-02"] .l2-practice-solution[open] {
+    max-height: none;
+    overflow: visible;
+  }
+
+  [data-native-deck="lecture-02"] .l2-title-layout,
+  [data-native-deck="lecture-02"] .l2-text-visual,
+  [data-native-deck="lecture-02"] .l2-master-layout,
+  [data-native-deck="lecture-02"] .l2-grapher {
+    grid-template-columns: 1fr;
+  }
+
+  [data-native-deck="lecture-02"] .l2-route-grid,
+  [data-native-deck="lecture-02"] .l2-app-grid,
+  [data-native-deck="lecture-02"] .l2-three,
+  [data-native-deck="lecture-02"] .l2-triptych,
+  [data-native-deck="lecture-02"] .l2-app-pair {
+    grid-template-columns: 1fr;
+  }
+
+  [data-native-deck="lecture-02"] .l2-workflow li {
+    grid-template-columns: 1fr;
+    gap: .1rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-title-art,
+  [data-native-deck="lecture-02"] .l2-maturity {
+    max-height: 17rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-grapher {
+    font-size: .82em;
+  }
+
+  [data-native-deck="lecture-02"] .l2-constraint-row {
+    grid-template-columns:
+      minmax(0, 2.6rem) max-content
+      minmax(0, 2.6rem) max-content
+      minmax(2.6rem, max-content) minmax(0, 2.9rem) 44px;
+    gap: .1rem;
+    font-size: .92em;
+  }
+
+  [data-native-deck="lecture-02"] .l2-app-detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  [data-native-deck="lecture-02"] .l2-text-visual,
+  [data-native-deck="lecture-02"] .l2-title-layout,
+  [data-native-deck="lecture-02"] .l2-master-layout,
+  [data-native-deck="lecture-02"] .l2-grapher {
+    break-inside: avoid;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide:is(
+    [data-slide-id="l2-44"],
+    [data-slide-id="l2-46"],
+    [data-slide-id="l2-63"],
+    [data-slide-id="l2-64"],
+    [data-slide-id="l2-65"],
+    [data-slide-id="l2-66"]
+  ) {
+    font-size: 15pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide:is(
+    [data-slide-id="l2-21"],
+    [data-slide-id="l2-51"],
+    [data-slide-id="l2-55"],
+    [data-slide-id="l2-58"],
+    [data-slide-id="l2-59"]
+  ) {
+    font-size: 17pt;
+  }
+
+  [data-native-deck="lecture-02"] .l2-app-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  [data-native-deck="lecture-02"] .l2-grapher-controls,
+  [data-native-deck="lecture-02"] .l2-button-row,
+  [data-native-deck="lecture-02"] .l2-derive-controls,
+  [data-native-deck="lecture-02"] .l2-triptych button {
+    display: none;
+  }
+
+  [data-native-deck="lecture-02"] .l2-derive [data-derive-step] {
+    display: block;
+  }
+
+  /* MathJax's real fractions, matrices, and display spacing are taller than
+     the former font-styled HTML approximations. Keep dense handout pages on
+     one 16:9 sheet without clipping their final equation or callout. */
+  [data-native-deck="lecture-02"] .ns-print-slide:is(
+    [data-slide-id="l2-07"],
+    [data-slide-id="l2-15"],
+    [data-slide-id="l2-17"],
+    [data-slide-id="l2-23"]
+  ) {
+    font-size: 19pt;
+  }
+
+  /* These pages retain Robert's completed reveals or mounted final widget
+     states in the handout. The modest reduction keeps every claim visible on
+     one 16:9 sheet while remaining larger than ordinary document body text. */
+  [data-native-deck="lecture-02"] .ns-print-slide:is(
+    [data-slide-id="l2-09"],
+    [data-slide-id="l2-11"],
+    [data-slide-id="l2-13"],
+    [data-slide-id="l2-15"],
+    [data-slide-id="l2-18"],
+    [data-slide-id="l2-24"],
+    [data-slide-id="l2-34"],
+    [data-slide-id="l2-36"],
+    [data-slide-id="l2-40"],
+    [data-slide-id="l2-42"],
+    [data-slide-id="l2-62"]
+  ) {
+    font-size: 18pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide:is(
+    [data-slide-id="l2-13"],
+    [data-slide-id="l2-24"]
+  ) {
+    font-size: 17.5pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-24"] .ns-slide-body {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: .48rem;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-24"] .ns-slide-body > .l2-grid {
+    grid-column: 1 / -1;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-24"] .l2-callout {
+    padding: .45rem .62rem;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-19"] {
+    font-size: 20pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-21"] {
+    font-size: 17.5pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-38"] {
+    font-size: 18pt;
+  }
+
+  /* The welding-robots handout opens its complete formulation. Preserve the
+     problem context above the data table while keeping that final state on a
+     single 16:9 page. */
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-37"] {
+    font-size: 19.5pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-04"] {
+    padding-block: .34in .38in;
+    font-size: 19pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-02"],
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-05"],
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-10"] {
+    padding-block: .34in .35in;
+    font-size: 18.5pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-41"] {
+    padding-block: .31in .33in;
+    font-size: 17pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide[data-slide-id="l2-30"] {
+    padding-block: .25in .27in;
+    font-size: 15.5pt;
+  }
+
+  [data-native-deck="lecture-02"] .ns-print-slide:is(
+    [data-slide-id="l2-02"],
+    [data-slide-id="l2-05"],
+    [data-slide-id="l2-10"],
+    [data-slide-id="l2-30"],
+    [data-slide-id="l2-41"]
+  ) .l2-card,
+  [data-native-deck="lecture-02"] .ns-print-slide:is(
+    [data-slide-id="l2-02"],
+    [data-slide-id="l2-05"],
+    [data-slide-id="l2-10"],
+    [data-slide-id="l2-30"],
+    [data-slide-id="l2-41"]
+  ) .l2-callout {
+    padding: .48rem .7rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-print-conversion {
+    display: grid;
+    grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+    gap: .65rem;
+    align-items: stretch;
+  }
+
+  [data-native-deck="lecture-02"] .l2-print-conversion .l2-stack {
+    gap: .42rem;
+  }
+
+  [data-native-deck="lecture-02"] .l2-print-conversion .l2-equation {
+    margin: .25rem 0;
+    padding: .28rem .4rem;
+    line-height: 1.28;
+  }
+
+  [data-native-deck="lecture-02"] .l2-print-conversion .l2-matrix {
+    border-spacing: .45rem .12rem;
+  }
+
+  [data-native-deck="lecture-02"] details > * {
+    display: block !important;
+  }
+
+  [data-native-deck="lecture-02"] .l2-controls {
+    display: none;
+  }
+}

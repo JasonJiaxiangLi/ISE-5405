@@ -1,0 +1,843 @@
+/* Scoped styles for native Lecture 05. */
+
+[data-native-deck="lecture-05"] .ns-slide {
+  gap: 0;
+  font-size: clamp(13px, 1.66cqw, 26px);
+}
+
+[data-native-deck="lecture-05"] .ns-slide-header {
+  margin-bottom: .62em;
+}
+
+[data-native-deck="lecture-05"] .l5-lede {
+  margin: 0 0 .55em;
+  color: var(--ns-ink);
+  font-family: var(--ns-serif);
+  font-size: 1.18em;
+  line-height: 1.25;
+}
+
+[data-native-deck="lecture-05"] .l5-muted { color: var(--ns-muted); }
+[data-native-deck="lecture-05"] .l5-center { text-align: center; }
+
+[data-native-deck="lecture-05"] .l5-title-grid,
+[data-native-deck="lecture-05"] .l5-two,
+[data-native-deck="lecture-05"] .l5-visual-layout,
+[data-native-deck="lecture-05"] .l5-basis-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: .72em;
+  align-items: center;
+}
+
+[data-native-deck="lecture-05"] .l5-title-grid {
+  flex: 1 1 auto;
+  grid-template-columns: 1.08fr .92fr;
+}
+
+[data-native-deck="lecture-05"] .l5-title-art {
+  width: min(100%, 24em);
+  max-height: 17em;
+  justify-self: end;
+}
+
+[data-native-deck="lecture-05"] .l5-card,
+[data-native-deck="lecture-05"] .l5-callout,
+[data-native-deck="lecture-05"] .l5-result,
+[data-native-deck="lecture-05"] .l5-proof-panel {
+  margin: 0 0 .55em;
+  padding: .65em .78em;
+  border: 1px solid #d7d3cb;
+  border-radius: 6px;
+  background: #fff;
+}
+
+[data-native-deck="lecture-05"] .l5-card h3,
+[data-native-deck="lecture-05"] .l5-result h3,
+[data-native-deck="lecture-05"] .l5-proof-panel h3 {
+  margin-bottom: .28em;
+  color: var(--ns-maroon-dark);
+  font-size: 1em;
+}
+
+[data-native-deck="lecture-05"] .l5-card p,
+[data-native-deck="lecture-05"] .l5-callout p,
+[data-native-deck="lecture-05"] .l5-result p,
+[data-native-deck="lecture-05"] .l5-proof-panel p {
+  margin: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-theorem-statement {
+  margin-bottom: .4em;
+}
+
+[data-native-deck="lecture-05"] .l5-theorem-conditions {
+  display: grid;
+  gap: .12em;
+  margin: .28em 0 0;
+  padding-left: 1.5em;
+}
+
+[data-native-deck="lecture-05"] .l5-theorem-conditions li {
+  margin: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-callout {
+  border-left: .28em solid var(--ns-maroon);
+  background: #f8eef2;
+}
+
+[data-native-deck="lecture-05"] .l5-callout[data-tone="orange"] {
+  border-left-color: var(--ns-orange);
+  background: #fff4eb;
+}
+
+[data-native-deck="lecture-05"] .l5-callout[data-tone="green"] {
+  border-left-color: var(--ns-green);
+  background: #eef8f1;
+}
+
+[data-native-deck="lecture-05"] .l5-callout[data-tone="blue"] {
+  border-left-color: var(--ns-blue);
+  background: #edf5fa;
+}
+
+[data-native-deck="lecture-05"] .l5-equation {
+  margin: .35em 0 .6em;
+  padding: .48em .65em;
+  border-radius: 5px;
+  background: #f4f2ee;
+  color: var(--ns-ink);
+  font-family: var(--ns-serif);
+  font-size: 1.04em;
+  text-align: center;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-layout {
+  display: grid;
+  align-content: start;
+  gap: .42em;
+  min-height: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-layout > :is(.l5-card, .l5-callout) {
+  margin: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-example {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  gap: .35em .9em;
+  align-items: center;
+  padding: .58em .78em .65em;
+  border: 1px solid #d7d3cb;
+  border-top: .28em solid var(--ns-maroon);
+  border-radius: 6px;
+  background: #fff;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-example > h3 {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--ns-maroon-dark);
+  font-size: 1em;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-model > p {
+  margin: 0 0 .18em;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-system {
+  font-family: var(--ns-serif);
+  font-size: .88em;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-system mjx-container[display="true"] {
+  margin: .12em 0 !important;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-points {
+  display: grid;
+  gap: .58em;
+  margin: 0;
+  padding-left: 1.35em;
+}
+
+[data-native-deck="lecture-05"] .l5-degeneracy-points li {
+  margin: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-route {
+  display: grid;
+  gap: .42em;
+  margin: 0 0 .55em;
+  padding: 0;
+  list-style: none;
+}
+
+[data-native-deck="lecture-05"] .l5-route li {
+  display: grid;
+  grid-template-columns: minmax(11em, .8fr) 1.2fr;
+  gap: .7em;
+  align-items: baseline;
+  margin: 0;
+  padding: .48em .7em;
+  border-left: .22em solid var(--ns-orange);
+  background: #f8f6f2;
+}
+
+[data-native-deck="lecture-05"] .l5-route span { color: var(--ns-ink-soft); }
+
+[data-native-deck="lecture-05"] .l5-steps,
+[data-native-deck="lecture-05"] .l5-proof,
+[data-native-deck="lecture-05"] .l5-takeaways {
+  display: grid;
+  gap: .42em;
+  margin: .2em 0 .6em;
+  padding-left: 1.45em;
+}
+
+[data-native-deck="lecture-05"] .l5-steps li,
+[data-native-deck="lecture-05"] .l5-proof li,
+[data-native-deck="lecture-05"] .l5-takeaways li { margin: 0; }
+
+[data-native-deck="lecture-05"] .l5-proof li {
+  padding: .48em .62em;
+  border-left: .22em solid var(--ns-blue);
+  background: #f2f7fa;
+}
+
+[data-native-deck="lecture-05"] .l5-figure {
+  width: 100%;
+  max-height: 18em;
+  border: 1px solid #ddd9d2;
+  border-radius: 6px;
+  background: white;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-slide .ns-slide-header {
+  margin-bottom: .42em;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-slide .l5-basis-layout {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: .85em;
+  align-items: start;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-workspace,
+[data-native-deck="lecture-05"] .l5-basis-output {
+  min-width: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-model {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  font-family: var(--ns-serif);
+  font-size: .76em;
+  scrollbar-width: thin;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-model mjx-container[display="true"] {
+  display: block !important;
+  width: 100% !important;
+  margin: .08em 0 .2em !important;
+  text-align: center !important;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-model-mobile {
+  display: none;
+}
+
+[data-native-deck="lecture-05"] .l5-mobile-model-label {
+  margin: 0 0 .3em;
+  color: var(--ns-muted);
+  font-family: var(--ns-sans);
+  font-size: 1.12em;
+  font-weight: 700;
+}
+
+[data-native-deck="lecture-05"] .l5-mobile-matrix-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .22em .45em;
+}
+
+[data-native-deck="lecture-05"] .l5-mobile-matrix-columns span {
+  min-width: 0;
+  padding: .2em .3em;
+  border-radius: 4px;
+  background: #f4f2ee;
+  text-align: center;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-instruction {
+  margin: .08em 0 .38em;
+  color: var(--ns-muted);
+  font-size: .78em;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-picker {
+  min-width: 0;
+  margin: 0;
+  padding: .35em .48em .48em;
+  border: 1px solid #d7d3cb;
+  border-radius: 6px;
+  background: #fff;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-picker legend {
+  padding: 0 .25em;
+  color: var(--ns-ink);
+  font-family: var(--ns-serif);
+  font-size: .82em;
+  font-weight: 800;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-columns,
+[data-native-deck="lecture-05"] .l5-basis-print-selection {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(44px, 1fr));
+  gap: .24em;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-column,
+[data-native-deck="lecture-05"] .l5-basis-print-selection span {
+  display: grid;
+  min-width: 44px;
+  min-height: 54px;
+  place-items: center;
+  gap: .08em;
+  padding: .18em;
+  border: 1px solid #c9c4bc;
+  border-radius: 5px;
+  background: #f8f6f2;
+  color: var(--ns-ink);
+  font-size: .78em;
+  font-weight: 700;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-column {
+  cursor: pointer;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-column[data-selected],
+[data-native-deck="lecture-05"] .l5-basis-print-selection span[data-selected] {
+  border-color: var(--ns-maroon);
+  background: #f4e3e9;
+  color: var(--ns-maroon-dark);
+}
+
+[data-native-deck="lecture-05"] .l5-basis-column:has(input:focus-visible) {
+  outline: 3px solid var(--ns-focus);
+  outline-offset: 2px;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-column input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-presets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .3em;
+  margin-top: .38em;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-presets button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: .36em .52em;
+  border: 1px solid #aaa49c;
+  border-radius: 5px;
+  background: #f2efe9;
+  color: var(--ns-ink);
+  font-size: .7em;
+  font-weight: 700;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-output {
+  display: grid;
+  gap: .42em;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-slide .l5-result {
+  min-height: 9.7em;
+  margin: 0;
+  padding: .7em .82em;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-vector {
+  margin: .22em 0 .35em;
+  padding: .25em .4em;
+  border-radius: 4px;
+  background: #f4f2ee;
+  text-align: center;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-vector mjx-container[display="true"] {
+  margin: 0 !important;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-verdict {
+  margin: 0 0 .22em !important;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-summary {
+  margin: 0;
+  font-size: .75em;
+  line-height: 1.28;
+}
+
+[data-native-deck="lecture-05"] .l5-basis-print-selection {
+  margin-top: .65em;
+}
+
+[data-native-deck="lecture-05"] button,
+[data-native-deck="lecture-05"] input[type="range"] {
+  accent-color: var(--ns-maroon);
+}
+
+[data-native-deck="lecture-05"] input[type="range"] {
+  min-height: 44px;
+}
+
+[data-native-deck="lecture-05"] .l5-tool-buttons,
+[data-native-deck="lecture-05"] .l5-proof-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .38em;
+}
+
+[data-native-deck="lecture-05"] .l5-tool-buttons button,
+[data-native-deck="lecture-05"] .l5-proof-tabs button,
+[data-native-deck="lecture-05"] [data-sweep-play],
+[data-native-deck="lecture-05"] .l5-sequence-controls button,
+[data-native-deck="lecture-05"] .l5-workshop-controls button,
+[data-native-deck="lecture-05"] .l5-workshop-choices button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: .45em .65em;
+  border: 1px solid #aaa49c;
+  border-radius: 5px;
+  background: white;
+  color: var(--ns-ink);
+  font-weight: 700;
+}
+
+[data-native-deck="lecture-05"] button[aria-pressed="true"],
+[data-native-deck="lecture-05"] [role="tab"][aria-selected="true"] {
+  border-color: var(--ns-maroon);
+  background: #f4e3e9;
+  color: var(--ns-maroon-dark);
+}
+
+[data-native-deck="lecture-05"] .l5-result {
+  min-height: 9em;
+  background: #f8f6f2;
+}
+
+[data-native-deck="lecture-05"] .l5-result[data-tone="good"] {
+  border-color: #8fc6a2;
+  background: #eef8f1;
+}
+
+[data-native-deck="lecture-05"] .l5-result[data-tone="warn"] {
+  border-color: #e0a77e;
+  background: #fff4eb;
+}
+
+[data-native-deck="lecture-05"] .l5-result[data-tone="bad"] {
+  border-color: #c87570;
+  background: #fff0ef;
+}
+
+[data-native-deck="lecture-05"] .l5-result[data-tone="mid"] {
+  border-color: #d8a64d;
+  background: #fff8e8;
+}
+
+[data-native-deck="lecture-05"] .l5-result[data-tone="neutral"] {
+  border-color: #c9c4bc;
+  background: #f8f6f2;
+}
+
+[data-native-deck="lecture-05"] .l5-sweep-tool,
+[data-native-deck="lecture-05"] .l5-hull-tool {
+  display: grid;
+  gap: .35em;
+}
+
+[data-native-deck="lecture-05"] .l5-sweep-tool label {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: .5em;
+  align-items: center;
+  font-weight: 700;
+}
+
+[data-native-deck="lecture-05"] [data-sweep-play] {
+  justify-self: center;
+}
+
+[data-native-deck="lecture-05"] .l5-status {
+  min-height: 2.5em;
+  margin: 0;
+  color: var(--ns-ink-soft);
+  font-size: .82em;
+  text-align: center;
+}
+
+[data-native-deck="lecture-05"] .l5-proof-tabs {
+  margin-bottom: .55em;
+}
+
+[data-native-deck="lecture-05"] .l5-proof-tabs button { flex: 1 1 9em; }
+[data-native-deck="lecture-05"] .l5-proof-panel { min-height: 8.4em; background: #f8f6f2; }
+
+[data-native-deck="lecture-05"] .l5-sequence {
+  display: grid;
+  gap: .42em;
+}
+
+[data-native-deck="lecture-05"] .l5-sequence-controls,
+[data-native-deck="lecture-05"] .l5-workshop-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .42em;
+  margin: .45em 0;
+}
+
+[data-native-deck="lecture-05"] .l5-sequence-controls output,
+[data-native-deck="lecture-05"] .l5-workshop-controls output {
+  min-width: 7em;
+  text-align: center;
+}
+
+[data-native-deck="lecture-05"] .l5-sequence-controls button:disabled,
+[data-native-deck="lecture-05"] .l5-workshop-controls button:disabled {
+  cursor: not-allowed;
+  opacity: .46;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  flex: 1 1 auto;
+  gap: .46em;
+  min-height: 0;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-state {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5em;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-state > span {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: .55em;
+  align-items: center;
+  padding: .38em .55em;
+  border: 2px solid var(--ns-blue);
+  border-radius: 6px;
+  background: #edf5fa;
+  font-size: .82em;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-stage {
+  display: grid;
+  grid-auto-rows: max-content;
+  align-content: start;
+  align-items: stretch;
+  gap: .34em;
+  min-height: 0;
+  padding: .08em .28em .08em 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-stage > article {
+  padding: .48em .62em;
+  border: 2px solid #d7d3cb;
+  border-left: .38em solid var(--ns-maroon);
+  border-radius: 6px;
+  background: #fff;
+  font-size: .9em;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-stage > article:not([data-l5-question]) {
+  display: grid;
+  grid-template-columns: minmax(9.5em, .3fr) minmax(0, 1fr);
+  gap: .2em .65em;
+  align-items: start;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-stage > article:not([data-l5-question]) > p {
+  grid-column: 2;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-stage > article[data-l5-question] {
+  padding: .65em .75em;
+  border-color: var(--ns-maroon);
+  background: #fff7fa;
+  font-size: .94em;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-stage > article.l5-workshop-current {
+  border-color: var(--ns-orange);
+  border-left-color: var(--ns-orange);
+  background: #fff8f1;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-stage h3,
+[data-native-deck="lecture-05"] .l5-workshop-stage p { margin: 0; }
+[data-native-deck="lecture-05"] .l5-workshop-stage h3 { margin-bottom: .35em; color: var(--ns-maroon-dark); }
+
+[data-native-deck="lecture-05"] .l5-workshop-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+  gap: .34em;
+  margin-top: .48em;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-choices button {
+  width: 100%;
+  font-size: .88em;
+  text-align: left;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-choices button[aria-pressed="true"] {
+  border-color: var(--ns-green);
+  background: #eef8f1;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-feedback {
+  display: block;
+  min-height: 2.2em;
+  margin-top: .4em;
+  padding: .3em .45em;
+  border-radius: 5px;
+  background: #f4f2ee;
+  font-size: .8em;
+}
+
+[data-native-deck="lecture-05"] .l5-workshop-feedback[data-tone="good"] { color: #176536; background: #eef8f1; }
+[data-native-deck="lecture-05"] .l5-workshop-feedback[data-tone="bad"] { color: #8f201b; background: #fff0ef; }
+
+[data-native-deck="lecture-05"] .l5-hull-svg {
+  touch-action: none;
+}
+
+[data-native-deck="lecture-05"] .l5-hull-polygon {
+  fill: #f4e5eb;
+  stroke: var(--ns-maroon);
+  stroke-width: 5;
+}
+
+[data-native-deck="lecture-05"] [data-hull-handle] {
+  fill: #b9b2a9;
+  stroke: #fff;
+  stroke-width: 4;
+  cursor: grab;
+}
+
+[data-native-deck="lecture-05"] [data-hull-handle][data-extreme] { fill: var(--ns-maroon); }
+[data-native-deck="lecture-05"] [data-hull-handle]:focus-visible {
+  stroke: #2b72ae;
+  stroke-width: 7;
+  outline: none;
+}
+
+[data-native-deck="lecture-05"] .l5-bound-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .5em;
+}
+
+[data-native-deck="lecture-05"] .l5-bound-grid .l5-card { text-align: center; }
+
+[data-native-deck="lecture-05"] .l5-property-stack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .58em;
+}
+
+[data-native-deck="lecture-05"] .l5-property-stack .l5-card { min-height: 8em; }
+
+[data-native-deck="lecture-05"] .l5-next {
+  margin: .45em 0 .12em;
+  color: var(--ns-maroon);
+  font-family: var(--ns-serif);
+  font-size: 1.8em;
+  font-weight: 800;
+  text-align: center;
+}
+
+[data-native-deck="lecture-05"] [data-reveal].ns-revealed {
+  animation: ns-reveal 180ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-native-deck="lecture-05"] [data-reveal].ns-revealed { animation: none; }
+}
+
+@media screen and (max-height: 720px) and (min-width: 761px) {
+  /* The persistent toolbar already exposes Checkpoint/K. At projector height,
+     suppress only its redundant in-slide copy while retaining the action in
+     the DOM for discovery, printing, and parity checks. */
+  [data-native-deck="lecture-05"] .ns-slide-actions:has(> [data-checkpoint]:only-child) {
+    display: none;
+  }
+
+  [data-native-deck="lecture-05"] .l5-card,
+  [data-native-deck="lecture-05"] .l5-callout,
+  [data-native-deck="lecture-05"] .l5-result,
+  [data-native-deck="lecture-05"] .l5-proof-panel {
+    margin-bottom: .28em;
+    padding: .42em .58em;
+  }
+
+  [data-native-deck="lecture-05"] .l5-visual-layout { gap: .46em; }
+  [data-native-deck="lecture-05"] .l5-visual-layout > div > p { margin-bottom: .22em; }
+  [data-native-deck="lecture-05"] .l5-status { min-height: 1.8em; line-height: 1.15; }
+  [data-native-deck="lecture-05"] [data-slide-id="l5-09"] .l5-sweep-tool { gap: .2em; }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-09"] :is(.l5-card, .l5-callout) {
+    margin-bottom: .18em;
+    padding-block: .36em;
+  }
+
+  /* Aspect-preserving limits retain exact pointer/keyboard coordinate maps. */
+  [data-native-deck="lecture-05"] [data-slide-id="l5-09"] .l5-figure {
+    max-height: 12em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-11"] .l5-hull-svg {
+    max-height: 13em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-04"] :is(.l5-card, .l5-callout) {
+    padding-block: .38em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-04"] .l5-steps {
+    gap: .24em;
+    margin-block: .12em .3em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-06"] .l5-degeneracy-layout {
+    gap: .28em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-06"] .l5-degeneracy-example {
+    padding-block: .4em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-06"] .l5-degeneracy-points {
+    gap: .32em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-10"] .l5-workshop {
+    gap: .3em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-10"] .l5-workshop-stage > article {
+    padding-block: .38em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-10"] .l5-workshop-stage > article[data-l5-question] {
+    padding-block: .52em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-10"] .l5-workshop-choices {
+    gap: .24em;
+    margin-top: .3em;
+  }
+
+  [data-native-deck="lecture-05"] [data-slide-id="l5-10"] .l5-workshop-feedback {
+    min-height: 1.8em;
+    margin-top: .25em;
+  }
+}
+
+@media (max-width: 760px) {
+  [data-native-deck="lecture-05"] .l5-title-grid,
+  [data-native-deck="lecture-05"] .l5-two,
+  [data-native-deck="lecture-05"] .l5-visual-layout,
+  [data-native-deck="lecture-05"] .l5-basis-layout,
+  [data-native-deck="lecture-05"] .l5-bound-grid,
+  [data-native-deck="lecture-05"] .l5-property-stack {
+    grid-template-columns: 1fr;
+  }
+
+  [data-native-deck="lecture-05"] .l5-title-art { justify-self: center; }
+  [data-native-deck="lecture-05"] .l5-route li { grid-template-columns: 1fr; gap: .08em; }
+  [data-native-deck="lecture-05"] .l5-figure { max-height: none; }
+  [data-native-deck="lecture-05"] .l5-proof-panel { min-height: 0; }
+  [data-native-deck="lecture-05"] .l5-workshop-state { grid-template-columns: 1fr; }
+  [data-native-deck="lecture-05"] .l5-workshop-choices { grid-template-columns: 1fr; }
+  [data-native-deck="lecture-05"] .l5-workshop-stage > article:not([data-l5-question]) {
+    grid-template-columns: 1fr;
+  }
+  [data-native-deck="lecture-05"] .l5-workshop-stage > article:not([data-l5-question]) > p {
+    grid-column: 1;
+  }
+  [data-native-deck="lecture-05"] .l5-degeneracy-example {
+    grid-template-columns: 1fr;
+  }
+  [data-native-deck="lecture-05"] .l5-basis-slide .l5-basis-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  [data-native-deck="lecture-05"] .l5-basis-model-wide { display: none; }
+  [data-native-deck="lecture-05"] .l5-basis-model-mobile { display: block; }
+  [data-native-deck="lecture-05"] .l5-basis-slide { padding-bottom: 5rem; }
+  [data-native-deck="lecture-05"] .l5-basis-columns {
+    grid-template-columns: repeat(7, minmax(44px, 1fr));
+    gap: .12em;
+  }
+  [data-native-deck="lecture-05"] .l5-basis-print-selection {
+    grid-template-columns: repeat(4, minmax(44px, 1fr));
+  }
+  [data-native-deck="lecture-05"] .l5-basis-model { font-size: .72em; }
+  [data-native-deck="lecture-05"] .l5-basis-slide .l5-result { min-height: 0; }
+}
+
+@media print {
+  [data-native-deck="lecture-05"] .l5-proof-tabs,
+  [data-native-deck="lecture-05"] .l5-tool-buttons,
+  [data-native-deck="lecture-05"] .l5-basis-presets,
+  [data-native-deck="lecture-05"] .l5-sweep-tool label {
+    display: none !important;
+  }
+
+  [data-native-deck="lecture-05"] .ns-print-slide [data-sweep-play],
+  [data-native-deck="lecture-05"] .ns-print-slide .l5-sequence-controls,
+  [data-native-deck="lecture-05"] .ns-print-slide .l5-workshop-controls,
+  [data-native-deck="lecture-05"] .ns-print-slide .l5-workshop-state,
+  [data-native-deck="lecture-05"] .ns-print-slide .l5-workshop-choices,
+  [data-native-deck="lecture-05"] .ns-print-slide .l5-workshop-feedback {
+    display: none !important;
+  }
+
+  [data-native-deck="lecture-05"] .ns-print-slide [data-sequence-step][hidden] {
+    display: list-item !important;
+  }
+
+  [data-native-deck="lecture-05"] .l5-basis-slide .l5-basis-layout {
+    grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr) !important;
+  }
+
+  [data-native-deck="lecture-05"] .l5-basis-columns,
+  [data-native-deck="lecture-05"] .l5-basis-print-selection {
+    grid-template-columns: repeat(7, minmax(38px, 1fr)) !important;
+  }
+}

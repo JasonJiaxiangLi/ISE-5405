@@ -1,0 +1,33 @@
+@page { size: landscape; margin: 0; }
+
+html, body {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: white !important;
+}
+
+.viewer-masthead,
+.lecture-heading,
+.presentation-shell,
+.handout-toolbar,
+#handout-status,
+.plugin-panel,
+.viewer-dialog,
+.file-loader { display: none !important; }
+
+.handout-view { display: block !important; margin: 0 !important; padding: 0 !important; background: white !important; }
+.handout-pages { display: block !important; max-width: none !important; margin: 0 !important; }
+.handout-page {
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  break-after: page;
+  break-inside: avoid;
+  border: 0 !important;
+  box-shadow: none !important;
+  page-break-after: always;
+}
+.handout-page:last-child { break-after: auto; page-break-after: auto; }
+.handout-page > canvas { width: 100% !important; height: 100% !important; object-fit: contain; }
+.handout-page-label { display: none !important; }

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Present and annotate a local PDF entirely in your browser.">
+  <title>Local PDF Annotator · ISE 5405</title>
+  <link rel="icon" href="../../assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/base.css">
+  <link rel="stylesheet" href="../../assets/css/viewer.css">
+  <link rel="stylesheet" href="../../assets/css/print.css" media="print">
+</head>
+<body class="viewer-page annotator-page">
+  <a class="skip-link" href="#file-loader">Skip to PDF picker</a>
+  <header class="viewer-masthead">
+    <a class="viewer-brand" href="../../">ISE 5405 <span>Optimization I</span></a>
+    <nav aria-label="Tool links">
+      <a href="../../">course home</a>
+      <a href="../../accessibility/">accessibility</a>
+    </nav>
+  </header>
+
+  <section id="file-loader" class="file-loader" aria-labelledby="annotator-title">
+    <p class="eyebrow">browser tool</p>
+    <h1 id="annotator-title">Local PDF annotator</h1>
+    <p>Choose a PDF to present or annotate. <strong>Files never leave your device.</strong> The PDF bytes are not saved in browser storage.</p>
+    <label id="drop-zone" class="drop-zone" for="local-pdf-input">
+      <span class="drop-title">Drop a PDF here</span>
+      <span>or choose a file from your device</span>
+      <input id="local-pdf-input" type="file" accept="application/pdf,.pdf">
+    </label>
+    <label class="persist-choice"><input id="persist-local-ink" type="checkbox"> Remember annotations for this file on this device (keyed by its content hash)</label>
+    <p id="local-file-status" class="muted" aria-live="polite">No file selected.</p>
+  </section>
+
+  <div id="local-viewer" hidden>
+    <main id="viewer-app" class="viewer-app" tabindex="-1">
+  <div class="lecture-heading">
+    <div>
+      <p id="lecture-kicker" class="eyebrow">local PDF · stays on this device</p>
+      <h1 id="lecture-title">Choose a PDF to begin</h1>
+    </div>
+    <div class="document-actions">
+      <a id="open-pdf-link" class="text-action" href="#" target="_blank" rel="noopener">Open PDF <span aria-hidden="true">↗</span></a>
+      <a id="download-pdf-link" class="text-action" href="#" download>Download</a>
+    </div>
+  </div>
+
+  <div id="viewer-loading" class="viewer-loading" role="status">
+    <span class="loading-mark" aria-hidden="true"></span>
+    <span id="loading-message">Loading PDF…</span>
+  </div>
+  <div id="viewer-error" class="viewer-error" role="alert" hidden>
+    <h2>The PDF could not be opened.</h2>
+    <p id="viewer-error-message">Try reloading the page or downloading the original PDF.</p>
+  </div>
+
+  <section id="presentation-shell" class="presentation-shell" aria-label="PDF presentation" hidden>
+    <div class="toolbar" role="toolbar" aria-label="Presentation controls">
+      <div class="toolbar-group home-group" aria-label="Course navigation">
+        <a class="toolbar-home" href="../../" aria-label="Return to course homepage" title="Return to course homepage">
+          <span aria-hidden="true">←</span><span> Course home</span>
+        </a>
+      </div>
+
+      <div class="toolbar-group navigation-group" aria-label="Page navigation">
+        <button type="button" data-action="previous" aria-label="Previous page" title="Previous page (Left arrow)"><span aria-hidden="true">←</span></button>
+        <button type="button" data-action="next" aria-label="Next page" title="Next page (Right arrow)"><span aria-hidden="true">→</span></button>
+        <button class="page-indicator" type="button" data-action="thumbnails" aria-label="Open page menu">
+          <span id="current-page">1</span><span aria-hidden="true"> / </span><span class="sr-only"> of </span><span id="total-pages">–</span>
+        </button>
+      </div>
+
+      <div class="toolbar-group zoom-group" aria-label="Zoom">
+        <button type="button" data-action="zoom-out" aria-label="Zoom out" title="Zoom out"><span aria-hidden="true">−</span></button>
+        <label class="sr-only" for="zoom-select">Zoom level</label>
+        <select id="zoom-select" title="Zoom level">
+          <option value="fit-page">fit page</option>
+          <option value="fit-width">fit width</option>
+          <option value="0.75">75%</option>
+          <option value="1">100%</option>
+          <option value="1.25">125%</option>
+          <option value="1.5">150%</option>
+          <option value="2">200%</option>
+        </select>
+        <button type="button" data-action="zoom-in" aria-label="Zoom in" title="Zoom in"><span aria-hidden="true">+</span></button>
+      </div>
+
+      <div class="toolbar-group tool-group" aria-label="Pointer tools">
+        <button type="button" data-action="pen" aria-pressed="false" title="Pen (P)"><span aria-hidden="true">✎</span><span class="control-label"> pen</span></button>
+        <button type="button" data-action="eraser" aria-pressed="false" title="Stroke eraser (E)"><span aria-hidden="true">⌫</span><span class="control-label"> erase</span></button>
+        <button type="button" data-action="laser" aria-pressed="false" title="Laser pointer (L)"><span class="laser-icon" aria-hidden="true"></span><span class="control-label"> laser</span></button>
+        <button type="button" data-action="whiteboard" aria-pressed="false" title="Whiteboards (W)"><span aria-hidden="true">□</span><span class="control-label"> board</span></button>
+      </div>
+
+      <div id="ink-options" class="toolbar-group ink-options" aria-label="Ink options" hidden>
+        <fieldset class="color-options">
+          <legend class="sr-only">Pen color</legend>
+          <label class="color-choice color-navy" title="Navy"><input type="radio" name="pen-color" value="#153d63" checked><span class="sr-only">Navy</span></label>
+          <label class="color-choice color-maroon" title="Maroon"><input type="radio" name="pen-color" value="#861f41"><span class="sr-only">Maroon</span></label>
+          <label class="color-choice color-red" title="Red"><input type="radio" name="pen-color" value="#c43b32"><span class="sr-only">Red</span></label>
+          <label class="color-choice color-green" title="Green"><input type="radio" name="pen-color" value="#2f6b4f"><span class="sr-only">Green</span></label>
+          <label class="color-choice color-black" title="Black"><input type="radio" name="pen-color" value="#14181d"><span class="sr-only">Black</span></label>
+        </fieldset>
+        <label class="width-label" for="pen-width">width</label>
+        <select id="pen-width" title="Pen width">
+          <option value="2">thin</option>
+          <option value="4" selected>medium</option>
+          <option value="8">wide</option>
+        </select>
+        <button type="button" data-action="clear-page">clear page</button>
+      </div>
+
+      <div class="toolbar-group view-group" aria-label="View options">
+        <button id="exploration-button" class="exploration-button" type="button" data-action="explore" hidden>
+          <span aria-hidden="true">＋</span><span class="control-label"> explore</span>
+        </button>
+        <button type="button" data-action="thumbnails" title="Page menu (M)"><span aria-hidden="true">☷</span><span class="control-label"> pages</span></button>
+        <button type="button" data-action="handout" title="Handout view (H)"><span aria-hidden="true">☰</span><span class="control-label"> handout</span></button>
+        <button type="button" data-action="fullscreen" title="Fullscreen (F)"><span aria-hidden="true">⛶</span><span class="control-label"> full</span></button>
+        <button type="button" data-action="help" aria-label="Keyboard help" title="Keyboard help (?)">?</button>
+        <details class="more-menu">
+          <summary aria-label="More annotation options">more</summary>
+          <div class="more-menu-panel">
+            <button type="button" data-action="checkpoint">Checkpoint <kbd>K</kbd></button>
+            <button type="button" data-action="export-ink">Export annotations</button>
+            <button type="button" data-action="import-ink">Import annotations</button>
+            <button class="danger-action" type="button" data-action="wipe-ink">Wipe all annotations</button>
+            <input id="annotation-import" type="file" accept="application/json,.json" hidden>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="progress-track" aria-hidden="true"><span id="progress-fill"></span></div>
+
+    <div id="stage-container" class="stage-container">
+      <button class="stage-arrow stage-arrow-previous" type="button" data-action="previous" aria-label="Previous page"><span aria-hidden="true">‹</span></button>
+      <div id="page-stage" class="page-stage" aria-label="Lecture page 1" aria-describedby="viewer-instructions">
+        <canvas id="pdf-canvas" aria-hidden="true"></canvas>
+        <div id="text-layer" class="text-layer" aria-label="Selectable PDF text"></div>
+        <canvas id="annotation-canvas" aria-label="Freehand annotation layer"></canvas>
+        <div id="laser-pointer" class="laser-pointer" aria-hidden="true"></div>
+        <div id="whiteboard-label" class="whiteboard-label" hidden></div>
+      </div>
+      <button class="stage-arrow stage-arrow-next" type="button" data-action="next" aria-label="Next page"><span aria-hidden="true">›</span></button>
+    </div>
+
+    <p id="viewer-instructions" class="viewer-instructions">Use the arrow keys or page controls to navigate. Press <kbd>?</kbd> for all shortcuts.</p>
+    <div id="viewer-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  </section>
+
+  <section id="handout-view" class="handout-view" aria-labelledby="handout-title" hidden>
+    <div class="handout-toolbar">
+      <div><p class="eyebrow">all pages</p><h2 id="handout-title">Handout view</h2></div>
+      <div>
+        <button class="button button-secondary" type="button" data-action="exit-handout">Exit handout</button>
+        <button class="button" type="button" data-action="print">Print / Save as PDF</button>
+      </div>
+    </div>
+    <p id="handout-status" role="status">Preparing pages…</p>
+    <div id="handout-pages" class="handout-pages"></div>
+  </section>
+
+  <section id="plugin-panel" class="plugin-panel" aria-label="Lecture interaction" hidden></section>
+
+  <dialog id="thumbnail-dialog" class="viewer-dialog thumbnail-dialog" aria-labelledby="thumbnail-title">
+    <div class="dialog-heading"><div><p class="eyebrow">jump to</p><h2 id="thumbnail-title">Pages</h2></div><button type="button" data-dialog-close aria-label="Close page menu">×</button></div>
+    <div id="thumbnail-grid" class="thumbnail-grid"></div>
+  </dialog>
+
+  <dialog id="help-dialog" class="viewer-dialog help-dialog" aria-labelledby="help-title">
+    <div class="dialog-heading"><div><p class="eyebrow">presentation</p><h2 id="help-title">Keyboard shortcuts</h2></div><button type="button" data-dialog-close aria-label="Close keyboard help">×</button></div>
+    <dl class="help-grid">
+      <div><dt><kbd>→</kbd> <kbd>Space</kbd> <kbd>PgDn</kbd></dt><dd>Next page</dd></div>
+      <div><dt><kbd>←</kbd> <kbd>PgUp</kbd></dt><dd>Previous page</dd></div>
+      <div><dt><kbd>Home</kbd> / <kbd>End</kbd></dt><dd>First / last page</dd></div>
+      <div><dt><kbd>F</kbd></dt><dd>Fullscreen</dd></div>
+      <div><dt><kbd>M</kbd></dt><dd>Page-thumbnail menu</dd></div>
+      <div><dt><kbd>P</kbd></dt><dd>Pen</dd></div>
+      <div><dt><kbd>E</kbd></dt><dd>Stroke eraser</dd></div>
+      <div><dt><kbd>C</kbd></dt><dd>Clear current page ink</dd></div>
+      <div><dt><kbd>L</kbd></dt><dd>Laser pointer</dd></div>
+      <div><dt><kbd>W</kbd></dt><dd>Enter / leave whiteboards</dd></div>
+      <div><dt><kbd>H</kbd></dt><dd>Handout view</dd></div>
+      <div><dt><kbd>K</kbd></dt><dd>Current-page checkpoint</dd></div>
+      <div><dt><kbd>X</kbd></dt><dd>Explore this slide</dd></div>
+      <div><dt><kbd>?</kbd></dt><dd>This help</dd></div>
+      <div><dt><kbd>Esc</kbd></dt><dd>Close the active overlay</dd></div>
+    </dl>
+  </dialog>
+
+  <dialog id="checkpoint-dialog" class="viewer-dialog checkpoint-dialog" aria-labelledby="checkpoint-title">
+    <div class="dialog-heading"><div><p class="eyebrow">checkpoint</p><h2 id="checkpoint-title">Question</h2></div><button type="button" data-dialog-close aria-label="Close checkpoint">×</button></div>
+    <form id="checkpoint-form">
+      <p id="checkpoint-question" class="checkpoint-question"></p>
+      <fieldset id="checkpoint-choices"><legend class="sr-only">Answer choices</legend></fieldset>
+      <button class="button" type="submit">Check answer</button>
+      <p id="checkpoint-feedback" class="checkpoint-feedback" role="status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
+  <dialog id="exploration-dialog" class="viewer-dialog exploration-dialog" aria-labelledby="exploration-title">
+    <div class="dialog-heading">
+      <div><p class="eyebrow">explore this slide</p><h2 id="exploration-title">Explore</h2></div>
+      <button type="button" data-dialog-close aria-label="Close exploration">×</button>
+    </div>
+    <div class="exploration-content">
+      <p id="exploration-intro" class="exploration-intro"></p>
+      <div id="exploration-items" class="exploration-items"></div>
+    </div>
+  </dialog>
+</main>
+
+  </div>
+
+  <script id="viewer-config" type="application/json">{"checkpoints":[],"demos":[],"explorations":[],"id":"local-pdf","local":true,"pdf_hash":"pending","pdf_url":null,"plugin_url":null,"title":"Local PDF","whiteboards":3}</script>
+  <script type="module" src="../../assets/js/annotator.js"></script>
+</body>
+</html>

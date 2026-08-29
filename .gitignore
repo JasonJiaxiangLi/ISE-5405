@@ -1,0 +1,10 @@
+# This branch is a public deployment snapshot. Ignore every root item by
+# default and explicitly allow only the generated website and public notices.
+/*
+!/.gitignore
+!/README.md
+!/LICENSE.md
+!/ATTRIBUTION.md
+!/THIRD_PARTY_NOTICES.md
+!/docs/
+!/docs/**

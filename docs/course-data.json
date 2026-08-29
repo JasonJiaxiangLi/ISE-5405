@@ -1,0 +1,727 @@
+{
+  "course": {
+    "canvas_url": "https://canvas.vt.edu/courses/236227",
+    "code": "ISE 5405",
+    "instructor": "Jiaxiang (Jason) Li",
+    "location": "Durham Hall 261",
+    "meeting": "Tuesdays and Thursdays, 9:30–10:45 a.m.",
+    "personal_site": "https://jasonjiaxiangli.github.io/",
+    "site_updated": "2026-08-25",
+    "tagline": "Linear-programming theory, geometry, algorithms, modeling, and computation.",
+    "term": "Fall 2026",
+    "title": "Optimization I"
+  },
+  "demos": [
+    {
+      "description": "Explore feasible regions and compare several linear-programming algorithms in the browser.",
+      "tags": [
+        "geometry",
+        "simplex",
+        "interior point"
+      ],
+      "title": "lpviz",
+      "url": "https://lpviz.net/"
+    }
+  ],
+  "documents": [
+    {
+      "id": "syllabus",
+      "kind": "syllabus",
+      "pdf_hash": "1571ee3eb65c22f0072c07ca8307f42d52422d2e34a3742e3e65195bb0bed8a3",
+      "pdf_size": 218360,
+      "pdf_url": "materials/syllabus_fall2026.pdf",
+      "pdf_url_versioned": "materials/syllabus_fall2026.pdf?v=1571ee3eb65c",
+      "published": true,
+      "title": "Course Syllabus"
+    }
+  ],
+  "lectures": [
+    {
+      "checkpoints": [],
+      "date": "2026-08-25",
+      "demos": [],
+      "description": "Course logistics, instructional team, materials, assessment, policies, key dates, and first-week setup.",
+      "display_number": 0,
+      "explorations": [],
+      "id": "lecture-01",
+      "number": 1,
+      "pdf_hash": "9240edc86330eca8cfc3adc380fb8f93a30ea4278d25f5ac544d4000361b1daf",
+      "pdf_size": 234333,
+      "pdf_url": "materials/lecture_01.pdf",
+      "pdf_url_versioned": "materials/lecture_01.pdf?v=9240edc86330",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "syllabus",
+        "course logistics",
+        "policies"
+      ],
+      "title": "Syllabus & Logistics",
+      "viewer_url": "lectures/lecture-01",
+      "whiteboards": 2
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "True",
+            "False — feasible only means it satisfies the constraints"
+          ],
+          "correct_index": 1,
+          "explanation": "Feasible just means all constraints hold. Optimal is the stronger property: feasible and no feasible point has better cost. Keeping these separate is essential vocabulary.",
+          "page": 22,
+          "question": "True or false: a feasible solution must minimize the objective function."
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Decision variables",
+            "An objective to optimize",
+            "Constraints on the decisions",
+            "A guarantee that the optimal solution is unique"
+          ],
+          "correct_index": 3,
+          "explanation": "A mathematical program supplies variables, an objective, and constraints — but nothing promises the optimum is unique or even exists. Ties and unbounded problems are both possible.",
+          "page": 25,
+          "question": "Every mathematical program has three ingredients. Which of these is NOT one of them?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Always equal to the integer program's optimal value",
+            "At least as good — an optimistic bound on it",
+            "Always strictly worse",
+            "Unrelated to the integer program's value"
+          ],
+          "correct_index": 1,
+          "explanation": "Relaxing constraints can only enlarge the feasible set, so the relaxed optimum is at least as good as the original's — an optimistic bound. It may be fractional and strictly better.",
+          "page": 26,
+          "question": "Take an integer program and relax (drop) the integrality requirement. The optimal value of the resulting LP is…"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Proportionality",
+            "Additivity",
+            "Divisibility",
+            "Certainty"
+          ],
+          "correct_index": 2,
+          "explanation": "You cannot buy 3.7 trucks. The decision is inherently whole-numbered, which breaks divisibility and turns the model into an integer program.",
+          "page": 27,
+          "question": "Your model has a variable x = number of delivery trucks to purchase. Which LP axiom is at risk?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The 200 labor hours available",
+            "The number of units of product A to make",
+            "The $40 profit per unit of A",
+            "The number of constraints"
+          ],
+          "correct_index": 1,
+          "explanation": "The 200 hours, the $40 profit, and the constraint count are fixed data. Decision variables are the quantities of products to make.",
+          "page": 34,
+          "question": "In the production-planning LP, which of these is a decision variable?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "It gives fewer variables",
+            "The 5-consecutive-days rule can't be captured with y_j",
+            "y_j would have to be fractional",
+            "The objective would become nonlinear"
+          ],
+          "correct_index": 1,
+          "explanation": "With y_j = nurses working day j, there is no way to write 'each nurse works 5 consecutive days' linearly. Choosing x_j = nurses starting on day j bakes the rule into the model. Variable choice is a design decision!",
+          "page": 42,
+          "question": "In the nurse-scheduling model, why did we use x_j = nurses starting their week on day j, instead of y_j = nurses working on day j?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "A linear program",
+            "A mixed-integer program",
+            "A nonlinear program",
+            "Not an optimization problem"
+          ],
+          "correct_index": 1,
+          "explanation": "Whole trucks are a discrete decision, so this is a mixed-integer program. Dropping the whole-number requirement produces its LP relaxation.",
+          "page": 46,
+          "question": "A city must buy delivery trucks — whole trucks only — to serve routes at minimum cost. Which flavor of optimization is that?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "One ≥ constraint",
+            "Two opposing inequality constraints",
+            "A single slack variable",
+            "Nothing — equalities can't be converted"
+          ],
+          "correct_index": 1,
+          "explanation": "An equality is exactly the intersection of the two opposing inequalities: a'x = b if and only if a'x ≥ b and a'x ≤ b.",
+          "page": 50,
+          "question": "An equality constraint a'x = b can be replaced by…"
+        }
+      ],
+      "date": "2026-08-27",
+      "demos": [],
+      "description": "Why optimization matters, LP language and modeling, graphical solution concepts, canonical forms, and piecewise-linear reformulations.",
+      "display_number": 1,
+      "explorations": [
+        {
+          "button_label": "Explore applications",
+          "intro": "Choose an application. Each instructor-opened card explains its decisions, constraints, objective, model flavor, and required data.",
+          "items": [
+            {
+              "sections": [
+                {
+                  "body": "Crew pairings, aircraft type by route, and seats offered at each fare.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Every flight receives a crew; duty, rest, base, fleet, maintenance, and gate rules hold.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Reduce crew, fuel, and delay costs while protecting revenue.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "Large integer programs use LP relaxations with schedules, crew rules, fleet data, demand, fares, and disruptions.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Assign crews and aircraft, manage seats, and recover from disruptions.",
+              "title": "Airlines"
+            },
+            {
+              "sections": [
+                {
+                  "body": "Which generating units are on, their output, and available reserve.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Supply equals demand; ramping, minimum up/down times, and transmission limits hold.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Minimize fuel, startup, and emissions costs.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "Unit commitment is mixed-integer, dispatch is often linear, and AC network physics is nonlinear or approximated; grids re-solve with forecasts and outage data.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Commit generators and dispatch output while keeping the grid balanced.",
+              "title": "Energy"
+            },
+            {
+              "sections": [
+                {
+                  "body": "Vehicle routes, stop order, package assignments, and warehouse locations.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Capacity, driver hours, time windows, and exactly-once delivery.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Reduce miles, fuel, and cost while maintaining on-time service.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "Routing integer programs combine LP bounds and heuristics with spatial demand, travel-time predictions, costs, and service data.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Route packages and choose facilities under time and capacity limits.",
+              "title": "Logistics"
+            },
+            {
+              "sections": [
+                {
+                  "body": "Product quantities, cutting patterns, and blend fractions.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Machine and labor capacity, materials, recipes, quality, and demand.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Maximize profit or minimize waste and operating cost.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "A classic LP setting built from bills of materials, measured capacities, accounting data, and demand forecasts.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Plan production, cutting, and blending with scarce resources.",
+              "title": "Manufacturing"
+            },
+            {
+              "sections": [
+                {
+                  "body": "Asset fractions and rebalancing trades.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Budget, position and short-sale rules, regulation, and risk limits.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Balance expected return, risk, tracking error, and transaction costs.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "Variance models are quadratic; absolute-deviation and arbitrage models can be linear, using returns, covariances, and transaction costs.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Allocate assets and trades while managing risk and regulation.",
+              "title": "Finance"
+            },
+            {
+              "sections": [
+                {
+                  "body": "Beam intensities, nurse shifts, and donor–recipient matches.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Dose and coverage requirements, work rules, compatibility, and exchange cycles.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Protect healthy tissue, reduce staffing cost, or increase successful transplants.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "Treatment planning is approximately linear; scheduling and matching are discrete and depend on imaging, physics, arrivals, and compatibility data.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Plan radiation, staff shifts, and donor matches.",
+              "title": "Healthcare"
+            },
+            {
+              "sections": [
+                {
+                  "body": "Team, date, venue, series, and off-day assignments.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Venue calendars, travel and back-to-back limits, broadcasts, rivalry dates, and fairness.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Reduce travel and improve the placement of high-value matchups.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "A scheduling integer program uses venue calendars, travel times, broadcast contracts, and attendance history.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Build season schedules that respect venues, travel, and broadcasts.",
+              "title": "Sports"
+            },
+            {
+              "sections": [
+                {
+                  "body": "Model weights or parameters.",
+                  "heading": "Decisions"
+                },
+                {
+                  "body": "Often none explicitly, although regularization or fairness requirements may constrain the model.",
+                  "heading": "Constraints"
+                },
+                {
+                  "body": "Minimize prediction loss plus any regularization penalty.",
+                  "heading": "Objective"
+                },
+                {
+                  "body": "Training is often nonlinear; linear programming appears in L1 and robust regression and transport, with learned forecasts feeding later decision models.",
+                  "heading": "Model and data"
+                }
+              ],
+              "summary": "Choose model parameters by minimizing predictive loss.",
+              "title": "Machine learning"
+            }
+          ],
+          "page": 4,
+          "title": "Where optimization runs the world"
+        }
+      ],
+      "id": "lecture-02",
+      "number": 2,
+      "pdf_hash": "c100194a65884c6eab7a9470aee3ac705f712948b6f557f681b5e2c204a03c70",
+      "pdf_size": 334117,
+      "pdf_url": "materials/lecture_02.pdf",
+      "pdf_url_versioned": "materials/lecture_02.pdf?v=c100194a6588",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "linear programming",
+        "standard form",
+        "modeling",
+        "geometry"
+      ],
+      "title": "Introduction & Linear Optimization",
+      "viewer_url": "lectures/lecture-02",
+      "whiteboards": 7
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "If n² is odd, then n is odd",
+            "If n² is even, then n is even",
+            "If n is even, then n² is even",
+            "If n² is odd, then n is even"
+          ],
+          "correct_index": 1,
+          "explanation": "For P ⇒ Q with P = 'n odd', Q = 'n² odd': the contrapositive is ¬Q ⇒ ¬P, i.e. 'if n² is even, then n is even'. Options (a) and (d) are the original and its converse in disguise.",
+          "page": 7,
+          "question": "Claim: if n is odd, then n² is odd. Which statement is its contrapositive?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "It is true",
+            "Nothing conclusive — it remains unproven",
+            "It is false for some larger n",
+            "Induction now finishes the proof automatically"
+          ],
+          "correct_index": 1,
+          "explanation": "A million confirmations are evidence, not proof — remember n² + n + 41 surviving 39 checks. Until there's a proof, the honest status is 'open'.",
+          "page": 14,
+          "question": "A conjecture has been verified by computer for n = 1 up to 10⁶. What do we know?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Direct proof",
+            "Induction",
+            "Contradiction",
+            "Counterexample"
+          ],
+          "correct_index": 2,
+          "explanation": "There's nothing to construct — you rule the object out. Assume a smallest positive rational q exists; then q/2 is a smaller one. Contradiction.",
+          "page": 17,
+          "question": "Which technique fits best: “there is no smallest positive rational number”?"
+        }
+      ],
+      "date": "2026-09-01",
+      "demos": [],
+      "description": "Logical implication, proof techniques, counterexamples, mathematical writing, and a practical introduction to LaTeX.",
+      "display_number": 2,
+      "id": "lecture-03",
+      "number": 3,
+      "pdf_hash": "c7ab823d634b9592394bc1c2c12e1ed398c143e8c341ab2208e9774c7738acab",
+      "pdf_size": 265219,
+      "pdf_url": "materials/lecture_03.pdf",
+      "pdf_url_versioned": "materials/lecture_03.pdf?v=c7ab823d634b",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "proofs",
+        "logic",
+        "LaTeX"
+      ],
+      "title": "Proof Techniques & LaTeX",
+      "viewer_url": "lectures/lecture-03",
+      "whiteboards": 7
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "A halfspace {x: a'x ≥ b}",
+            "A line segment",
+            "A five-pointed star",
+            "The intersection of two convex sets"
+          ],
+          "correct_index": 2,
+          "explanation": "A star has 'dents': pick two points on different arms and the segment leaves the set. Halfspaces, segments, and intersections of convex sets are always convex — that last fact is exactly why polyhedra are convex.",
+          "page": 7,
+          "question": "Which of these sets is NOT convex?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Show every pair y, z ∈ P has x between them",
+            "Exhibit some y, z ∈ P ∖ {x} and λ ∈ [0, 1] with x = λy + (1 − λ)z",
+            "Show x is not optimal for any cost vector",
+            "Show fewer than n constraints exist"
+          ],
+          "correct_index": 1,
+          "explanation": "Not extreme means the definition fails: there EXIST y, z in P (both ≠ x) with x on the segment between them — you must exhibit them. Getting the negation right is half the proof.",
+          "page": 12,
+          "question": "To prove x ∈ P is not an extreme point, you must…"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "m · n",
+            "2ᵐ",
+            "C(m, n)",
+            "It can be infinite"
+          ],
+          "correct_index": 2,
+          "explanation": "The bound is (m choose n): a basic solution needs n linearly independent active constraints chosen from the m available, and each such choice pins down at most one point.",
+          "page": 17,
+          "question": "With m constraints in ℝⁿ, the number of basic solutions is at most…"
+        }
+      ],
+      "date": "2026-09-03",
+      "demos": [],
+      "description": "Convexity, polyhedra, extreme points, vertices, basic feasible solutions, and adjacency.",
+      "display_number": 3,
+      "id": "lecture-04",
+      "number": 4,
+      "pdf_hash": "921acdcf763183d26df742aa3c83dcabdf2c16f519579b44a84cf8d7a27318b2",
+      "pdf_size": 230529,
+      "pdf_url": "materials/lecture_04.pdf",
+      "pdf_url_versioned": "materials/lecture_04.pdf?v=921acdcf7631",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "geometry",
+        "polyhedra",
+        "basic feasible solutions"
+      ],
+      "title": "The Geometry of Linear Programming I",
+      "viewer_url": "lectures/lecture-04",
+      "whiteboards": 7
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Exactly 3 components are zero",
+            "More than 3 components are zero",
+            "The basis matrix is singular",
+            "Some component is negative"
+          ],
+          "correct_index": 1,
+          "explanation": "In standard form, nonbasic variables (n − m of them) are zero by construction. Degeneracy means MORE than n − m zeros — some basic variable is zero too. Here n − m = 7 − 4 = 3.",
+          "page": 6,
+          "question": "Standard form, n = 7 variables, m = 4 equations. A basic solution is degenerate when…"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The unit square",
+            "A halfplane in ℝ²",
+            "A triangle",
+            "A nonempty standard-form polyhedron"
+          ],
+          "correct_index": 1,
+          "explanation": "A halfplane contains lines, so it has no extreme point (Thm 2.6). The square and triangle are polytopes; standard-form polyhedra always have a BFS by Corollary 2.2.",
+          "page": 9,
+          "question": "Which polyhedron has no extreme point?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Every optimal solution is an extreme point",
+            "At least one optimal solution is an extreme point",
+            "The optimal solution is unique",
+            "P is bounded"
+          ],
+          "correct_index": 1,
+          "explanation": "Thm 2.7 says SOME optimal solution is at an extreme point — others may exist (a whole optimal edge, say). It does not force uniqueness or boundedness.",
+          "page": 14,
+          "question": "P has an extreme point and the LP has an optimal solution. Which is guaranteed?"
+        }
+      ],
+      "date": "2026-09-08",
+      "demos": [],
+      "description": "Standard-form bases, degeneracy, existence and optimality of extreme points, convex hulls, and Fourier–Motzkin elimination.",
+      "display_number": 4,
+      "id": "lecture-05",
+      "number": 5,
+      "pdf_hash": "323c5305f07d202127ec1643b6d98786b9d942c66864aeb4572f70a42c59e26b",
+      "pdf_size": 198525,
+      "pdf_url": "materials/lecture_05.pdf",
+      "pdf_url_versioned": "materials/lecture_05.pdf?v=323c5305f07d",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "bases",
+        "degeneracy",
+        "extreme points"
+      ],
+      "title": "The Geometry of Linear Programming II",
+      "viewer_url": "lectures/lecture-05",
+      "whiteboards": 7
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "The current basis",
+            "The current dictionary",
+            "The feasible polyhedron",
+            "The current endpoint"
+          ],
+          "correct_index": 2,
+          "explanation": "A pivot changes the basis, dictionary, and usually the current endpoint. It does not change the feasible polyhedron defined by the original constraints.",
+          "page": 16,
+          "question": "What remains unchanged during a simplex pivot?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The current basic feasible solution is optimal",
+            "The current basic feasible solution is unique",
+            "The feasible polyhedron is bounded",
+            "Every nonbasic variable must enter"
+          ],
+          "correct_index": 0,
+          "explanation": "Primal feasibility and nonnegative nonbasic reduced costs are the two checks for an optimal basis. They do not imply uniqueness or boundedness.",
+          "page": 29,
+          "question": "For a feasible basis in a minimization LP, what does every nonbasic reduced cost being nonnegative certify?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The current basis is optimal",
+            "The ratio test chooses the largest component of u",
+            "The direction is blocked at step zero",
+            "The path stays feasible for every nonnegative step and the objective is unbounded below"
+          ],
+          "correct_index": 3,
+          "explanation": "When u ≤ 0, the basic part of the direction is −u ≥ 0, so no variable blocks the improving move. The resulting feasible ray certifies unboundedness below.",
+          "page": 34,
+          "question": "An entering variable has negative reduced cost and u = B⁻¹Aⱼ ≤ 0. What follows?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The entering variable has zero reduced cost",
+            "The basis matrix is singular",
+            "x₆ remains basic at value zero because two ratio-test rows tied",
+            "The objective did not improve"
+          ],
+          "correct_index": 2,
+          "explanation": "The ratio test tied in the x₅ and x₆ rows. After x₅ leaves, x₆ remains in the basis at value zero, which is exactly degeneracy.",
+          "page": 38,
+          "question": "Why is x⁽¹⁾ = (10, 0, 0, 10, 0, 0) degenerate after x₁ enters and x₅ leaves?"
+        }
+      ],
+      "date": "2026-09-10",
+      "demos": [],
+      "description": "Basis partitions, equality-preserving feasible directions, maximum feasible steps, reduced costs, and the basis optimality test.",
+      "display_number": 5,
+      "id": "lecture-06",
+      "number": 6,
+      "pdf_hash": "38f5c866571e6b9356b44fff69947bb620f2e6bae870c0b15fef3b92c1feae7c",
+      "pdf_size": 1070085,
+      "pdf_url": "materials/lecture_06.pdf",
+      "pdf_url_versioned": "materials/lecture_06.pdf?v=38f5c866571e",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "simplex",
+        "basis directions",
+        "reduced costs"
+      ],
+      "title": "Simplex I: Basis Directions and Reduced Costs",
+      "viewer_url": "lectures/lecture-06",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Yes — adjacent bases always represent adjacent vertices",
+            "No — several bases can represent the same point, so the step can have length zero",
+            "Yes, provided the entering reduced cost is negative",
+            "No — a degenerate basis can never pivot"
+          ],
+          "correct_index": 1,
+          "explanation": "Simplex moves between bases. At a degenerate BFS, a one-column exchange can change the basis while leaving both the feasible point and objective value unchanged.",
+          "page": 8,
+          "question": "At a degenerate basic feasible solution, does exchanging one basis column always move to a distinct vertex?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Only rows with uᵢ > 0",
+            "Only rows with uᵢ < 0",
+            "Every row, using the absolute value of uᵢ",
+            "Only rows whose basic value is strictly positive"
+          ],
+          "correct_index": 0,
+          "explanation": "When uᵢ > 0, the component x_B,i − θuᵢ decreases and can hit zero. Rows with uᵢ ≤ 0 do not impose an upper bound on a nonnegative step.",
+          "page": 16,
+          "question": "For u = B⁻¹Aⱼ, which rows constrain the positive step θ in x_B(θ) = x_B − θu?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "A strictly positive feasible step",
+            "The largest possible objective improvement",
+            "An improving objective slope, but not necessarily a positive step",
+            "That the current point is not optimal"
+          ],
+          "correct_index": 2,
+          "explanation": "A negative reduced cost prices the basic direction: its objective slope is negative. A zero basic component can still block that direction at θ = 0.",
+          "page": 34,
+          "question": "At a degenerate BFS in a minimization problem, what does c̄ⱼ < 0 guarantee?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "B⁻¹b ≥ 0 and every nonbasic reduced cost is nonnegative",
+            "B⁻¹b = 0 and every nonbasic reduced cost is negative",
+            "B is nonsingular and the objective value is negative",
+            "Every basic variable and every reduced cost is strictly positive"
+          ],
+          "correct_index": 0,
+          "explanation": "B⁻¹b ≥ 0 supplies primal feasibility. Nonnegative nonbasic reduced costs show that no feasible nonbasic displacement can lower the objective.",
+          "page": 38,
+          "question": "Which pair certifies that a basis is optimal for this minimization LP?"
+        }
+      ],
+      "date": "2026-09-15",
+      "demos": [],
+      "description": "Adjacency, basic directions, maximum feasible steps, reduced costs, one complete basis pivot, degeneracy, and lifted-column optimality geometry.",
+      "display_number": 6,
+      "id": "lecture-10",
+      "number": 10,
+      "pdf_hash": "783b411858865561eacab58c524bd4cc326b928557f0741717c88ea97b7d0a13",
+      "pdf_size": 205987,
+      "pdf_url": "materials/lecture_10.pdf",
+      "pdf_url_versioned": "materials/lecture_10.pdf?v=783b41185886",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "simplex",
+        "reduced costs",
+        "geometry"
+      ],
+      "title": "Simplex II: Directions, Reduced Costs, and Column Geometry",
+      "viewer_url": "lectures/lecture-10",
+      "whiteboards": 3
+    }
+  ],
+  "pdfjs_version": "6.2.108",
+  "schema_version": 1
+}
