@@ -1,5 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" data-monogram="OPT">
+  <title>OPT — ISE 5405 Optimization I</title>
   <rect width="64" height="64" rx="5" fill="#1a3a5c"/>
-  <path d="M16 16h8v32h-8zm14 0h19v7H38v6h10v7H38v12h-8z" fill="#fdfcf9"/>
-  <path d="M12 53h40" stroke="#861f41" stroke-width="4"/>
+  <rect x="6" y="16" width="15" height="31" fill="#fdfcf9"/>
+  <rect x="11" y="22" width="5" height="19" fill="#1a3a5c"/>
+  <path fill="#fdfcf9" d="M25 16h9c5 0 8 3 8 9s-3 9-8 9h-3v13h-6V16zm19 0h15v6h-5v25h-6V22h-4v-6z"/>
+  <path fill="#1a3a5c" d="M31 22h3c1.3 0 2 1 2 3s-.7 3-2 3h-3v-6z"/>
+  <path d="M6 53h53" stroke="#861f41" stroke-width="4"/>
 </svg>
