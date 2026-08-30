@@ -74,126 +74,107 @@ export const metadata = {
   whiteboards: 3,
 };
 
-const LIFTED_POINTS = Object.freeze({
-  B: Object.freeze([1.0, 3.0, 4.1]),
-  C: Object.freeze([4.0, 2.8, 3.4]),
-  D: Object.freeze([3.5, 0.8, 1.2]),
-  E: Object.freeze([2.2, 1.1, 0.30]),
-  F: Object.freeze([0.0, 0.6, 2.1]),
-  b: Object.freeze([2.3, 1.0, 0]),
-  G: Object.freeze([2.3, 1.0, 408 / 655]),
-  H: Object.freeze([2.3, 1.0, 6299 / 3450]),
-  P: Object.freeze([2.2, 1.1, 13637 / 6900]),
+const COLUMN_POINTS = Object.freeze({
+  C: Object.freeze([0, 3]),
+  D: Object.freeze([4, 2]),
+  E: Object.freeze([1, 1 / 2]),
+  b: Object.freeze([5 / 2, 0]),
+  G: Object.freeze([5 / 2, 5 / 4]),
+  H: Object.freeze([5 / 2, 19 / 8]),
+  P: Object.freeze([1, 11 / 4]),
 });
 
-function projectLifted([x, y, z]) {
-  const scale = 68;
-  return [
-    66 + scale * (0.85 * x + 0.42 * y),
-    355 - scale * (-0.16 * x + 0.26 * y + 0.68 * z),
-  ];
+const COLUMN_VIEW = Object.freeze({ x0: 52, y0: 306, xScale: 78, yScale: 72 });
+const BASIS_VIEW = Object.freeze({ x0: 35, y0: 198, xScale: 58, yScale: 48 });
+
+function projectColumn([column, cost], view = COLUMN_VIEW) {
+  return [view.x0 + view.xScale * column, view.y0 - view.yScale * cost];
 }
 
-function liftedPoint(name, { className = "", dx = 9, dy = -9 } = {}) {
-  const coordinates = LIFTED_POINTS[name];
-  const [cx, cy] = projectLifted(coordinates);
-  const [x, y, z] = coordinates;
-  return `<g class="l10-lift-point ${className}" data-l10-lift-point="${name}" data-x="${x}" data-y="${y}" data-z="${z}">
+function columnPoint(name, {
+  view = COLUMN_VIEW, className = "", dx = 9, dy = -9, label = name,
+} = {}) {
+  const coordinates = COLUMN_POINTS[name];
+  const [cx, cy] = projectColumn(coordinates, view);
+  const [column, cost] = coordinates;
+  return `<g class="l10-column-point ${className}" data-l10-column-point="${name}" data-column="${column}" data-cost="${cost}">
     <circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="6"/>
-    <text x="${(cx + dx).toFixed(2)}" y="${(cy + dy).toFixed(2)}">${name}</text>
+    <text x="${(cx + dx).toFixed(2)}" y="${(cy + dy).toFixed(2)}">${label}</text>
   </g>`;
 }
 
-function liftedLine(a, b, className = "") {
-  const [x1, y1] = projectLifted(LIFTED_POINTS[a]);
-  const [x2, y2] = projectLifted(LIFTED_POINTS[b]);
-  return `<line class="${className}" x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}"/>`;
-}
-
-function liftedPolygon(names, className) {
-  const points = names.map((name) => projectLifted(LIFTED_POINTS[name]).map((value) => value.toFixed(2)).join(",")).join(" ");
-  return `<polygon class="${className}" points="${points}" data-l10-lift-face="${names.join("")}"/>`;
+function columnLine(a, b, className = "", view = COLUMN_VIEW, data = "") {
+  const [x1, y1] = projectColumn(COLUMN_POINTS[a], view);
+  const [x2, y2] = projectColumn(COLUMN_POINTS[b], view);
+  return `<line class="${className}" ${data} x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}"/>`;
 }
 
 function columnHullSvg() {
-  const requirementTop = projectLifted([2.3, 1.0, 4.5]);
-  const requirementBottom = projectLifted(LIFTED_POINTS.b);
+  const triangle = ["C", "D", "E"]
+    .map((name) => projectColumn(COLUMN_POINTS[name]).map((value) => value.toFixed(2)).join(","))
+    .join(" ");
+  const [requirementX, requirementBottom] = projectColumn(COLUMN_POINTS.b);
+  const [, requirementTop] = projectColumn([5 / 2, 3.55]);
   return `
-    <svg class="l10-lifted-svg" viewBox="0 0 520 390" role="img" aria-labelledby="l10-hull-title l10-hull-desc" data-l10-column-hull>
-      <title id="l10-hull-title">Lifted column hull and vertical requirement line</title>
-      <desc id="l10-hull-desc">Columns B through F are lifted by their costs. The vertical line through b intersects the hull first at G, the optimal cost; H is a higher intersection.</desc>
-      <defs><marker id="l10-axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker></defs>
-      <g class="l10-lift-axes" aria-hidden="true">
-        <line x1="54" y1="357" x2="490" y2="357" marker-end="url(#l10-axis-arrow)"/>
-        <line x1="66" y1="365" x2="66" y2="52" marker-end="url(#l10-axis-arrow)"/>
-        <text x="388" y="380">column space</text><text x="76" y="61">cost z</text>
+    <svg class="l10-column-svg" viewBox="0 0 430 340" role="img" aria-labelledby="l10-column-title l10-column-desc" data-l10-column-geometry="literal-2d">
+      <title id="l10-column-title">Literal two-dimensional lifted-column example</title>
+      <desc id="l10-column-desc">The horizontal coordinate is a scalar column value and the vertical coordinate is cost. The convex hull is triangle C D E. Its vertical slice above target b runs from G to H, with G having minimum cost.</desc>
+      <defs><marker id="l10-column-axis-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker></defs>
+      <g class="l10-column-axes" aria-hidden="true">
+        <line x1="42" y1="306" x2="410" y2="306" marker-end="url(#l10-column-axis-arrow)"/>
+        <line x1="52" y1="316" x2="52" y2="32" marker-end="url(#l10-column-axis-arrow)"/>
+        <text x="268" y="331">one-row column value</text><text x="61" y="42">cost</text>
       </g>
-      <g class="l10-hull-shape">
-        ${liftedPolygon(["F", "B", "C", "E"], "l10-hull-face l10-hull-face-back")}
-        ${liftedPolygon(["F", "C", "D"], "l10-hull-face l10-hull-face-mid")}
-        ${liftedPolygon(["F", "D", "E"], "l10-hull-face l10-hull-face-low")}
-        ${liftedLine("F", "B", "l10-hull-edge")}${liftedLine("B", "C", "l10-hull-edge")}
-        ${liftedLine("C", "E", "l10-hull-edge")}${liftedLine("E", "F", "l10-hull-edge")}
-        ${liftedLine("F", "C", "l10-hull-edge")}${liftedLine("C", "D", "l10-hull-edge")}
-        ${liftedLine("D", "E", "l10-hull-edge")}
-        ${["B", "C", "D", "E", "F"].map((name) => liftedPoint(name)).join("")}
+      <polygon class="l10-column-hull" points="${triangle}" data-l10-column-hull="CDE"/>
+      ${["C", "D", "E"].map((name) => columnPoint(name)).join("")}
+      <g data-reveal="requirement" class="l10-column-requirement">
+        <line x1="${requirementX.toFixed(2)}" y1="${requirementBottom.toFixed(2)}" x2="${requirementX.toFixed(2)}" y2="${requirementTop.toFixed(2)}"/>
+        ${columnPoint("b", { className: "l10-target-point", dx: -31, dy: 21, label: "target b" })}
       </g>
-      <g data-reveal="requirement" class="l10-requirement-line">
-        <line x1="${requirementBottom[0].toFixed(2)}" y1="${requirementBottom[1].toFixed(2)}" x2="${requirementTop[0].toFixed(2)}" y2="${requirementTop[1].toFixed(2)}"/>
-        ${liftedPoint("b", { className: "l10-base-point", dx: -19, dy: 20 })}
-        <text x="${(requirementTop[0] + 10).toFixed(2)}" y="${(requirementTop[1] + 4).toFixed(2)}">requirement line</text>
-      </g>
-      <g data-reveal="intersections" class="l10-intersections">
-        ${liftedPoint("H", { className: "l10-point-h", dx: 10, dy: 17 })}
-        ${liftedPoint("G", { className: "l10-point-g", dx: -20, dy: -9 })}
+      <g data-reveal="intersections" class="l10-column-fiber">
+        ${columnLine("G", "H", "l10-feasible-cost-fiber", COLUMN_VIEW, 'data-l10-feasible-fiber="G-H"')}
+        ${columnPoint("H", { className: "l10-point-h", dx: 10, dy: -9 })}
+        ${columnPoint("G", { className: "l10-point-g", dx: -20, dy: 19 })}
+        <text x="${(requirementX + 12).toFixed(2)}" y="${((projectColumn(COLUMN_POINTS.G)[1] + projectColumn(COLUMN_POINTS.H)[1]) / 2).toFixed(2)}">feasible costs</text>
       </g>
     </svg>`;
 }
 
-function pivotGeometrySvg() {
-  const requirementTop = projectLifted([2.3, 1.0, 4.4]);
-  const requirementBottom = projectLifted(LIFTED_POINTS.b);
-  const [gapX, gapY] = projectLifted([2.2, 1.1, 1.13]);
-  return `
-    <svg class="l10-lifted-svg l10-pivot-svg" viewBox="0 0 520 390" role="img" aria-labelledby="l10-pivot-title l10-pivot-desc" data-l10-pivot-geometry>
-      <title id="l10-pivot-title">A column-geometry pivot lowers the basic simplex</title>
-      <desc id="l10-pivot-desc">The old basic simplex CDF meets the requirement line at H. E lies below its dual plane by negative reduced cost. Pivoting around shared edge DF produces lower simplex DEF and moves the intersection to G.</desc>
-      <defs>
-        <marker id="l10-pivot-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker>
-        <marker id="l10-gap-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker>
-      </defs>
-      <g class="l10-lift-axes" aria-hidden="true">
-        <line x1="54" y1="357" x2="490" y2="357" marker-end="url(#l10-pivot-arrow)"/>
-        <line x1="66" y1="365" x2="66" y2="52" marker-end="url(#l10-pivot-arrow)"/>
-        <text x="75" y="61">z</text>
-      </g>
-      <g class="l10-old-simplex" data-l10-old-simplex="CDF">
-        ${liftedPolygon(["C", "D", "F"], "l10-old-plane")}
-        ${liftedLine("C", "D", "l10-old-edge")}${liftedLine("C", "F", "l10-old-edge")}${liftedLine("D", "F", "l10-old-edge")}
-        <text x="155" y="140">old dual plane</text>
-        ${["C", "D", "F"].map((name) => liftedPoint(name)).join("")}
-      </g>
-      <g class="l10-requirement-line">
-        <line x1="${requirementBottom[0].toFixed(2)}" y1="${requirementBottom[1].toFixed(2)}" x2="${requirementTop[0].toFixed(2)}" y2="${requirementTop[1].toFixed(2)}"/>
-        ${liftedPoint("H", { className: "l10-point-h", dx: 10, dy: 17 })}
-      </g>
-      <g data-reveal="gap" class="l10-gap-group">
-        ${liftedPoint("E", { className: "l10-point-e", dx: 10, dy: 18 })}
-        ${liftedPoint("P", { className: "l10-projection-point", dx: 10, dy: -8 })}
-        ${liftedLine("E", "P", "l10-reduced-cost-gap")}
-        <text x="${(gapX + 16).toFixed(2)}" y="${gapY.toFixed(2)}">vertical distance = −c̄<tspan baseline-shift="sub" font-size="75%">E</tspan></text>
-      </g>
-      <g data-reveal="pivot" class="l10-new-simplex" data-l10-new-simplex="DEF">
-        ${liftedPolygon(["D", "E", "F"], "l10-new-plane")}
-        ${liftedLine("D", "E", "l10-new-edge")}${liftedLine("E", "F", "l10-new-edge")}${liftedLine("D", "F", "l10-pivot-axis")}
-        <text x="250" y="286">new lower simplex</text>
-      </g>
-      <g data-reveal="lower" class="l10-lower-intersection">
-        ${liftedPoint("G", { className: "l10-point-g", dx: -20, dy: -9 })}
-        ${liftedLine("H", "G", "l10-intersection-drop")}
-        <text x="360" y="232">H → G</text>
-      </g>
+function basisAxes() {
+  return `<g class="l10-basis-axes" aria-hidden="true">
+    <line x1="27" y1="198" x2="285" y2="198"/>
+    <line x1="35" y1="207" x2="35" y2="25"/>
+    <text x="226" y="219">column</text><text x="43" y="33">cost</text>
+  </g>`;
+}
+
+function requirementLine(view = BASIS_VIEW) {
+  const [x, bottom] = projectColumn(COLUMN_POINTS.b, view);
+  const [, top] = projectColumn([5 / 2, 3.45], view);
+  return `<line class="l10-basis-requirement" data-l10-requirement-fiber="b" x1="${x.toFixed(2)}" y1="${bottom.toFixed(2)}" x2="${x.toFixed(2)}" y2="${top.toFixed(2)}"/>`;
+}
+
+function basisPanelSvg(kind) {
+  if (kind === "current") {
+    return `<svg class="l10-basis-svg" viewBox="0 0 300 230" role="img" aria-label="Old basis segment C D meets the target fiber at H" data-l10-basis-view="current">
+      ${basisAxes()}${columnLine("C", "D", "l10-old-basis-edge", BASIS_VIEW, 'data-l10-old-basis="CD"')}${requirementLine()}
+      ${columnPoint("C", { view: BASIS_VIEW })}${columnPoint("D", { view: BASIS_VIEW })}${columnPoint("H", { view: BASIS_VIEW, className: "l10-point-h", dx: 9, dy: -8 })}
     </svg>`;
+  }
+  if (kind === "price") {
+    return `<svg class="l10-basis-svg" viewBox="0 0 300 230" role="img" aria-label="Candidate E lies below point P on the old basis cost line" data-l10-basis-view="price">
+      ${basisAxes()}${columnLine("C", "D", "l10-old-basis-edge", BASIS_VIEW, 'data-l10-old-basis="CD"')}
+      ${columnLine("E", "P", "l10-reduced-cost-gap", BASIS_VIEW, 'data-l10-reduced-cost-gap="-9/4"')}
+      ${columnPoint("C", { view: BASIS_VIEW })}${columnPoint("D", { view: BASIS_VIEW })}
+      ${columnPoint("E", { view: BASIS_VIEW, className: "l10-point-e", dx: 9, dy: 18 })}${columnPoint("P", { view: BASIS_VIEW, className: "l10-projection-point", dx: 9, dy: -8 })}
+    </svg>`;
+  }
+  return `<svg class="l10-basis-svg" viewBox="0 0 300 230" role="img" aria-label="New basis segment D E meets the target fiber at lower point G" data-l10-basis-view="pivot">
+    ${basisAxes()}${columnLine("D", "E", "l10-new-basis-edge", BASIS_VIEW, 'data-l10-new-basis="DE"')}${requirementLine()}
+    ${columnLine("H", "G", "l10-objective-drop", BASIS_VIEW, 'data-l10-objective-drop="-9/8"')}
+    ${columnPoint("D", { view: BASIS_VIEW })}${columnPoint("E", { view: BASIS_VIEW, dx: 9, dy: 18 })}
+    ${columnPoint("H", { view: BASIS_VIEW, className: "l10-point-h l10-point-h-ghost", dx: 9, dy: -8 })}${columnPoint("G", { view: BASIS_VIEW, className: "l10-point-g", dx: -19, dy: 18 })}
+  </svg>`;
 }
 
 function adjacencySvg({ solution = false } = {}) {
@@ -595,30 +576,40 @@ export const slides = [
     checkpoint: checkpointReducedCost,
   },
   {
-    id: "l10-35", page: 35, className: "l10-column-slide", title: "Column Geometry: Lift Every Column by Its Cost",
+    id: "l10-35", page: 35, className: "l10-column-slide", title: "Column Geometry: A Literal 2D Picture",
     html: String.raw`
-      <p class="l10-column-intro">For the bounded form with \(\mathbf1^\top x=1\), lift each column to \(q_j=(A_j,c_j)\): \((b,z)=\sum_jx_jq_j\), with \(x\ge0\) and \(\sum_jx_j=1\).</p>
+      <p class="l10-column-intro">In general, \(q_j=(A_j,c_j)\in\mathbb R^{m+1}\). Here \(m=1\), so \(q_j=(a_j,c_j)\in\mathbb R^2\) lies on the page—this is <strong>not</strong> a perspective drawing. Because \(\mathbf1^\top x=1\), \((b,z)=\sum_jx_jq_j\) is a convex combination.</p>
       <div class="l10-column-layout">
         <div class="l10-figure-shell">${columnHullSvg()}</div>
         <div class="l10-side-stack">
-          <section class="l10-card"><h3>Convex hull</h3><p>All feasible lifted combinations lie in \(\operatorname{conv}\{q_1,\ldots,q_n\}\).</p></section>
-          <section class="l10-card" data-reveal="requirement"><h3>Requirement line</h3><p>Fixing \(Ax=b\) leaves a vertical line through \(b\); height is objective value.</p></section>
-          <aside class="l10-callout" data-tone="green" data-reveal="intersections"><strong>Optimization:</strong> no intersection means infeasible; the lowest intersection \(G\) is optimal.</aside>
+          <section class="l10-card"><h3>Exact points</h3><p>\(q_C=(0,3)\), \(q_D=(4,2)\), and \(q_E=(1,\tfrac12)\).</p></section>
+          <section class="l10-card" data-reveal="requirement"><h3>Fix the requirement</h3><p>\(a^\top x=b=\tfrac52\) selects the vertical slice of \(\operatorname{conv}\{q_C,q_D,q_E\}\).</p></section>
+          <aside class="l10-callout" data-tone="green" data-reveal="intersections"><strong>Minimize cost:</strong> every point from \(G\) to \(H\) is feasible; the lowest is \(G=(\tfrac52,\tfrac54)\).</aside>
         </div>
       </div>`,
   },
   {
-    id: "l10-36", page: 36, className: "l10-column-slide", title: "A Pivot Tilts the Basic Simplex Downward",
+    id: "l10-36", page: 36, className: "l10-column-slide l10-pivot-sequence-slide", title: "One Pivot, Shown in Three Separate Views",
     html: String.raw`
-      <div class="l10-column-layout l10-pivot-layout">
-        <div class="l10-figure-shell">${pivotGeometrySvg()}</div>
-        <div class="l10-side-stack">
-          <section class="l10-card"><h3>Current basis</h3><p>The gray basic simplex \(CDF\) lies in its dual plane and meets the requirement line at \(H\).</p></section>
-          <section class="l10-card" data-reveal="gap"><h3>Price \(E\)</h3><p>\(E\) lies below that plane exactly when \(\bar c_E<0\); the signed vertical gap is \(-\bar c_E\).</p></section>
-          <section class="l10-card" data-reveal="pivot"><h3>Pivot</h3><p>Let \(E\) enter and \(C\) leave, rotating around the shared face \(DF\).</p></section>
-          <aside class="l10-callout" data-tone="orange" data-reveal="lower">The new simplex \(DEF\) meets the requirement line lower: \(H\to G\).</aside>
-        </div>
-      </div>`,
+      <p class="l10-pivot-intro">The same literal 2D axes appear in every panel: column value horizontally, cost vertically. In higher dimensions, the segments become simplices.</p>
+      <div class="l10-pivot-sequence" data-l10-pivot-sequence data-step-size="1/2" data-reduced-cost="-9/4" data-objective-drop="-9/8">
+        <section class="l10-pivot-panel" data-l10-pivot-panel="current">
+          <h3><span>1</span> Current basis</h3>
+          <div class="l10-figure-shell">${basisPanelSvg("current")}</div>
+          <p>Edge \(CD\) meets the target fiber at \(H=(\tfrac52,\tfrac{19}{8})\).</p>
+        </section>
+        <section class="l10-pivot-panel" data-l10-pivot-panel="price" data-reveal="gap">
+          <h3><span>2</span> Price \(E\)</h3>
+          <div class="l10-figure-shell">${basisPanelSvg("price")}</div>
+          <p>\(\bar c_E=\tfrac12-\tfrac{11}{4}=-\tfrac94\). The upward cost gap \(EP\) is \(-\bar c_E\).</p>
+        </section>
+        <section class="l10-pivot-panel" data-l10-pivot-panel="pivot" data-reveal="pivot">
+          <h3><span>3</span> Pivot</h3>
+          <div class="l10-figure-shell">${basisPanelSvg("pivot")}</div>
+          <p>\(E\) enters, \(C\) leaves, and edge \(DE\) meets the fiber at \(G=(\tfrac52,\tfrac54)\).</p>
+        </section>
+      </div>
+      <aside class="l10-callout l10-pivot-result" data-tone="orange" data-reveal="lower"><strong>Do not confuse the two:</strong> reduced-cost gap \(-\bar c_E=\tfrac94\), but objective decrease \(z_H-z_G=-\theta^*\bar c_E=\tfrac98\), because \(\theta^*=\tfrac12\).</aside>`,
   },
   {
     id: "l10-37", page: 37, className: "l10-proof-slide", title: "Why Nonnegative Reduced Costs Prove Optimality",
