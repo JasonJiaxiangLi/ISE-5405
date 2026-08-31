@@ -414,6 +414,25 @@
   font-size: .72em;
 }
 
+/* Page 4 has eight substantive application cards followed by a concluding
+   reveal. Let the card region absorb short-stage pressure at every desktop
+   height, not only below the 720px compact breakpoint, so the conclusion
+   remains inside the page. Print slides retain their complete static flow. */
+@media screen and (min-width: 821px) {
+  [data-native-deck="lecture-02"] .ns-slide:not(.ns-print-slide)[data-slide-id="l2-04"] .l2-app-grid {
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    padding-right: .18rem;
+  }
+
+  [data-native-deck="lecture-02"] .ns-slide:not(.ns-print-slide)[data-slide-id="l2-04"] .l2-punchline {
+    flex: 0 0 auto;
+  }
+}
+
 [data-native-deck="lecture-02"] .l2-app-grid .l2-box {
   display: grid;
   grid-template-columns: 1fr;
@@ -1075,11 +1094,6 @@
 
   [data-native-deck="lecture-02"] [data-slide-id="l2-04"] .l2-app-grid {
     max-height: 14.2rem;
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable;
-    padding-right: .18rem;
   }
 
   [data-native-deck="lecture-02"] [data-slide-id="l2-04"] .l2-punchline {

@@ -16,7 +16,7 @@ const checkpointContrapositive = Object.freeze({
   ],
   correctIndex: 1,
   explanation:
-    "For \\(P \\Rightarrow Q\\) with \\(P\\) = ‘\\(n\\) odd’ and \\(Q\\) = ‘\\(n^2\\) odd’, the contrapositive is \\(\\neg Q \\Rightarrow \\neg P\\): if \\(n^2\\) is even, then \\(n\\) is even. Options (a) and (d) are the original and its converse in disguise.",
+    "For \\(P \\Rightarrow Q\\) with \\(P\\) = ‘\\(n\\) odd’ and \\(Q\\) = ‘\\(n^2\\) odd’, the contrapositive is \\(\\neg Q \\Rightarrow \\neg P\\): if \\(n^2\\) is even, then \\(n\\) is even.",
   autoOpen: true,
 });
 

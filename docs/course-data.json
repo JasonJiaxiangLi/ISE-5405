@@ -386,7 +386,7 @@
             "If n² is odd, then n is even"
           ],
           "correct_index": 1,
-          "explanation": "For P ⇒ Q with P = 'n odd', Q = 'n² odd': the contrapositive is ¬Q ⇒ ¬P, i.e. 'if n² is even, then n is even'. Options (a) and (d) are the original and its converse in disguise.",
+          "explanation": "For P ⇒ Q with P = 'n odd', Q = 'n² odd': the contrapositive is ¬Q ⇒ ¬P, i.e. 'if n² is even, then n is even'.",
           "page": 7,
           "question": "Claim: if n is odd, then n² is odd. Which statement is its contrapositive?"
         },
