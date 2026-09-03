@@ -1096,8 +1096,8 @@ export const slides = [
         <div class="l4-workshop-state"><span><strong>Assumptions</strong><output data-l4-workshop-assumption>—</output></span><span><strong>To show</strong><output data-l4-workshop-goal>—</output></span></div>
         <div class="l4-workshop-stage" role="region" aria-label="Cumulative proof history" tabindex="0">
           <article data-l4-workshop-step data-l4-question tabindex="-1"><h3>Which restatement gives us something constructive?</h3><div class="l4-workshop-choices"><button type="button" data-l4-workshop-choice data-correct data-explanation="Not-BFS gives rank deficiency, which lets us construct witnesses for not-extreme.">Contrapositive: not a BFS \(\Rightarrow\) not extreme</button><button type="button" data-l4-workshop-choice data-explanation="Assuming extreme gives a non-existence statement that is hard to compute with; flipping it puts construction on our side.">Work directly from “extreme”</button></div><output class="l4-workshop-feedback" data-l4-workshop-feedback aria-live="polite">Choose an answer to unlock the next move.</output><p class="l4-print-answer"><strong>Answer:</strong> use the contrapositive.</p></article>
-          <article data-l4-workshop-step data-l4-assume="\(x^*\in P\), active set \(I\), \(\operatorname{rank}\{a_i\}_{i\in I}&lt;n\)" data-l4-goal="exhibit \(y,z\in P\setminus\{x^*\}\) with \(x^*=\tfrac12y+\tfrac12z\)" tabindex="-1"><h3>Unpack not-basic.</h3><p>Feasibility makes every equality active. What fails is the rank condition: fewer than \(n\) active normals are independent.</p></article>
-          <article data-l4-workshop-step data-l4-question data-l4-assume="rank-deficient active normals" data-l4-goal="find a witness direction" tabindex="-1"><h3>What does linear algebra hand us?</h3><div class="l4-workshop-choices"><button type="button" data-l4-workshop-choice data-correct data-explanation="A rank-deficient system has a nontrivial null-space direction invisible to every active constraint.">A nonzero \(d\) with \(a_i^\top d=0\) for every \(i\in I\)</button><button type="button" data-l4-workshop-choice data-explanation="Objective-improving directions belong to later simplex analysis; here we need a direction orthogonal to all active normals.">A direction that improves the objective</button><button type="button" data-l4-workshop-choice data-explanation="The null space is exactly the concrete object rank deficiency supplies.">Nothing useful</button></div><output class="l4-workshop-feedback" data-l4-workshop-feedback aria-live="polite">Choose an answer to unlock the next move.</output><p class="l4-print-answer"><strong>Answer:</strong> a nonzero null-space direction.</p></article>
+          <article data-l4-workshop-step data-l4-assume="\(x^*\in P\), \(I=I(x^*)=\{i:a_i^\top x^*=b_i\}\), \(\operatorname{rank}\{a_i:i\in I\}&lt;n\)" data-l4-goal="exhibit \(y,z\in P\setminus\{x^*\}\) with \(x^*=\tfrac12y+\tfrac12z\)" tabindex="-1"><h3>Unpack not-basic.</h3><p>Let \(I=I(x^*)=\{i:a_i^\top x^*=b_i\}\) be the index set of active inequality constraints. Since \(x^*\) is not basic, their constraint vectors span a subspace of dimension less than \(n\).</p></article>
+          <article data-l4-workshop-step data-l4-question data-l4-assume="rank-deficient active constraint vectors" data-l4-goal="find a witness direction" tabindex="-1"><h3>What does linear algebra hand us?</h3><div class="l4-workshop-choices"><button type="button" data-l4-workshop-choice data-correct data-explanation="A rank-deficient row system has a nontrivial null-space direction invisible to every active constraint.">A nonzero \(d\) with \(a_i^\top d=0\) for every \(i\in I\)</button><button type="button" data-l4-workshop-choice data-explanation="Objective-improving directions belong to later simplex analysis; here we need a direction orthogonal to all active constraint vectors.">A direction that improves the objective</button><button type="button" data-l4-workshop-choice data-explanation="The null space is exactly the concrete object rank deficiency supplies.">Nothing useful</button></div><output class="l4-workshop-feedback" data-l4-workshop-feedback aria-live="polite">Choose an answer to unlock the next move.</output><p class="l4-print-answer"><strong>Answer:</strong> a nonzero null-space direction.</p></article>
           <article data-l4-workshop-step data-l4-assume="\(a_i^\top d=0\) for active \(i\)" data-l4-goal="two feasible witnesses" tabindex="-1"><h3>Step both ways.</h3><p>For \(\varepsilon&gt;0\), set \(y=x^*+\varepsilon d\) and \(z=x^*-\varepsilon d\). Their midpoint is already \(x^*\); now keep them feasible.</p></article>
           <article data-l4-workshop-step data-l4-question data-l4-assume="\(y=x^*+\varepsilon d\), \(z=x^*-\varepsilon d\)" data-l4-goal="prove \(y,z\in P\)" tabindex="-1"><h3>Why does a small \(\varepsilon\) preserve feasibility?</h3><div class="l4-workshop-choices"><button type="button" data-l4-workshop-choice data-correct data-explanation="Active rows do not move because \(a_i^\top d=0\); each inactive row has positive slack that survives a sufficiently small common step.">Active rows stay equalities; inactive slack absorbs the step</button><button type="button" data-l4-workshop-choice data-explanation="Convexity only combines points already known to lie in \(P\); feasibility of \(y,z\) is exactly what remains to prove.">Because \(P\) is convex</button></div><output class="l4-workshop-feedback" data-l4-workshop-feedback aria-live="polite">Choose an answer to unlock the next move.</output><p class="l4-print-answer"><strong>Answer:</strong> active rows do not move and inactive rows have slack.</p></article>
           <article data-l4-workshop-step data-l4-assume="finitely many inactive rows with positive slack" data-l4-goal="one \(\varepsilon\) that works for all rows" tabindex="-1"><h3>Choose one common step size.</h3><p class="l4-proof-math ns-math">\[\varepsilon&lt;\min_{\substack{i\notin I\\a_i^\top d\ne0}}\frac{a_i^\top x^*-b_i}{\lvert a_i^\top d\rvert}.\]</p><p>Then every inactive constraint still holds at both \(y\) and \(z\), so \(y,z\in P\).</p></article>
@@ -1108,8 +1108,28 @@ export const slides = [
     onMount: mountGuidedWorkshop,
   },
   {
-    id: "l4-16",
+    id: "l4-bfs-vertex",
     page: 16,
+    title: "Basic Feasible Solution ⇒ Vertex",
+    eyebrow: "Proof workshop 3 · Complete the cycle",
+    html: String.raw`
+      <section class="l4-workshop l4-fill">
+        <div class="l4-workshop-state"><span><strong>Assumptions</strong><output data-l4-workshop-assumption>—</output></span><span><strong>To show</strong><output data-l4-workshop-goal>—</output></span></div>
+        <div class="l4-workshop-stage" role="region" aria-label="Cumulative proof history" tabindex="0">
+          <article data-l4-workshop-step data-l4-assume="\(x^*\) is a BFS; \(B\subseteq I(x^*)\), \(|B|=n\), with independent \(a_i\)" data-l4-goal="find \(c\) for which \(x^*\) is the unique minimizer" tabindex="-1"><h3>Unpack “basic feasible.”</h3><p>Let \(I(x^*)=\{i:a_i^\top x^*=b_i\}\) be the full active set. Because \(x^*\) is basic, choose \(B\subseteq I(x^*)\) with \(|B|=n\) whose constraint vectors \(a_i\) are linearly independent.</p></article>
+          <article data-l4-workshop-step data-l4-question data-l4-assume="\(B\) contains \(n\) independent active constraints" data-l4-goal="build one exposing cost vector" tabindex="-1"><h3>Which cost vector combines all selected constraints?</h3><div class="l4-workshop-choices"><button type="button" data-l4-workshop-choice data-correct data-explanation="Adding the selected active constraint vectors makes the objective gap equal the sum of their nonnegative slacks.">\(c=\displaystyle\sum_{i\in B}a_i=A_B^\top\mathbf 1\)</button><button type="button" data-l4-workshop-choice data-explanation="The zero vector makes every feasible point tie, so it cannot expose a unique minimizer.">\(c=0\)</button><button type="button" data-l4-workshop-choice data-explanation="One selected constraint usually exposes a whole face; we need all \(n\) independent constraints to isolate the point.">Choose just one \(a_i\)</button></div><output class="l4-workshop-feedback" data-l4-workshop-feedback aria-live="polite">Choose an answer to unlock the next move.</output><p class="l4-print-answer"><strong>Answer:</strong> sum all selected constraint vectors.</p></article>
+          <article data-l4-workshop-step data-l4-assume="\(c=\sum_{i\in B}a_i\); \(a_i^\top y-b_i\ge0\) for every \(i\in B\)" data-l4-goal="compare \(c^\top y\) with \(c^\top x^*\)" tabindex="-1"><h3>Feasibility creates nonnegative gaps.</h3><p>For every \(i\in B\), feasibility gives \(a_i^\top y-b_i\ge0\), while activity at \(x^*\) gives \(a_i^\top x^*-b_i=0\).</p></article>
+          <article data-l4-workshop-step data-l4-assume="all selected gaps are nonnegative" data-l4-goal="show \(x^*\) minimizes the chosen objective" tabindex="-1"><h3>Add the selected gaps.</h3><p class="l4-proof-math ns-math">\[c^\top(y-x^*)=\sum_{i\in B}a_i^\top(y-x^*)=\sum_{i\in B}(a_i^\top y-b_i)\ge0.\]</p><p>Thus \(c^\top x^*\le c^\top y\) for every \(y\in P\).</p></article>
+          <article data-l4-workshop-step data-l4-question data-l4-assume="a sum of nonnegative selected gaps equals zero" data-l4-goal="decide whether another point can tie" tabindex="-1"><h3>When can equality hold?</h3><div class="l4-workshop-choices"><button type="button" data-l4-workshop-choice data-correct data-explanation="A finite sum of nonnegative numbers is zero only when every term is zero, so every constraint in \(B\) is active at \(y\).">Only when \(a_i^\top y=b_i\) for every \(i\in B\)</button><button type="button" data-l4-workshop-choice data-explanation="Cancellation is impossible because every selected slack is nonnegative.">Positive and negative gaps may cancel</button><button type="button" data-l4-workshop-choice data-explanation="One zero gap only places \(y\) on one boundary; it does not force the whole sum to vanish.">When at least one selected gap is zero</button></div><output class="l4-workshop-feedback" data-l4-workshop-feedback aria-live="polite">Choose an answer to unlock the next move.</output><p class="l4-print-answer"><strong>Answer:</strong> every selected gap must be zero.</p></article>
+          <article data-l4-workshop-step data-l4-assume="\(A_By=b_B=A_Bx^*\); the rows of \(A_B\) are independent" data-l4-goal="DONE—prove uniqueness" tabindex="-1"><h3>Independence makes equality unique.</h3><p>The square matrix \(A_B\) is nonsingular, so equality forces \(y=x^*\). Therefore every other \(y\in P\) satisfies \(c^\top x^*&lt;c^\top y\): \(x^*\) is the unique minimizer, hence a vertex. \(\square\)</p></article>
+        </div>
+        <div class="l4-workshop-controls"><button type="button" data-l4-workshop-previous>Previous move</button><output data-l4-workshop-progress aria-live="polite"></output><button type="button" data-l4-workshop-next>Next move</button><button type="button" data-l4-workshop-restart>Restart</button></div>
+      </section>`,
+    onMount: mountGuidedWorkshop,
+  },
+  {
+    id: "l4-16",
+    page: 17,
     title: "Only Finitely Many Corners (Cor. 2.1)",
     html: String.raw`
       <div class="l4-stack l4-fill">
@@ -1139,7 +1159,7 @@ export const slides = [
   },
   {
     id: "l4-17",
-    page: 17,
+    page: 18,
     title: "Adjacent Basic Solutions & Edges",
     html: String.raw`
       <div class="l4-text-visual l4-fill">
@@ -1175,7 +1195,7 @@ export const slides = [
   },
   {
     id: "l4-18",
-    page: 18,
+    page: 19,
     title: "Summary & What's Next",
     html: String.raw`
       <div class="l4-stack l4-fill">

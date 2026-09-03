@@ -477,7 +477,7 @@
           ],
           "correct_index": 2,
           "explanation": "The bound is (m choose n): a basic solution needs n linearly independent active constraints chosen from the m available, and each such choice pins down at most one point.",
-          "page": 17,
+          "page": 18,
           "question": "With m constraints in ℝⁿ, the number of basic solutions is at most…"
         }
       ],
@@ -487,10 +487,10 @@
       "display_number": 3,
       "id": "lecture-04",
       "number": 4,
-      "pdf_hash": "921acdcf763183d26df742aa3c83dcabdf2c16f519579b44a84cf8d7a27318b2",
-      "pdf_size": 230529,
+      "pdf_hash": "3e711d02357e59377510f394a95eee1b8611a8be1e7af5adc7aa57eaf775a841",
+      "pdf_size": 233660,
       "pdf_url": "materials/lecture_04.pdf",
-      "pdf_url_versioned": "materials/lecture_04.pdf?v=921acdcf7631",
+      "pdf_url_versioned": "materials/lecture_04.pdf?v=3e711d02357e",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

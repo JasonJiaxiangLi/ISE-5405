@@ -974,43 +974,43 @@
     margin-inline: auto;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop {
     gap: .25em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-state {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-state {
     gap: .3em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-state > span {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-state > span {
     padding: .24em .4em;
     font-size: .78em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-stage {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-stage {
     gap: .22em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-stage > article {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-stage > article {
     padding: .3em .45em;
     font-size: .88em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-stage > article[data-l4-question] {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-stage > article[data-l4-question] {
     padding: .42em .52em;
     font-size: .92em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-stage h3 {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-stage h3 {
     font-size: 1em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-choices {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-choices {
     gap: .2em;
     margin-top: .24em;
   }
 
-  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"]) .l4-workshop-feedback {
+  [data-native-deck="lecture-04"] .ns-slide:is([data-slide-id="l4-14"], [data-slide-id="l4-15"], [data-slide-id="l4-bfs-vertex"]) .l4-workshop-feedback {
     min-height: 0;
     margin-top: .2em;
     padding: .2em .35em;
@@ -1147,7 +1147,8 @@
   [data-native-deck="lecture-04"] .ns-print-slide[data-slide-id="l4-05"],
   [data-native-deck="lecture-04"] .ns-print-slide[data-slide-id="l4-07"],
   [data-native-deck="lecture-04"] .ns-print-slide[data-slide-id="l4-09"],
-  [data-native-deck="lecture-04"] .ns-print-slide[data-slide-id="l4-15"] {
+  [data-native-deck="lecture-04"] .ns-print-slide[data-slide-id="l4-15"],
+  [data-native-deck="lecture-04"] .ns-print-slide[data-slide-id="l4-bfs-vertex"] {
     padding-block: .32in .34in;
     font-size: 16.5pt;
   }
