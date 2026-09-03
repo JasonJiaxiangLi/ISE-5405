@@ -710,6 +710,44 @@
   display: none;
 }
 
+/* The shared dialog uses a compact 16px base. Geometry checkpoints are a
+   projected teaching surface, so keep their question, choices, feedback, and
+   actions readable from the back of the classroom without changing other
+   lectures or the instructor-opened Explore dialogs. */
+[data-native-deck="lecture-04"] .ns-dialog .ns-checkpoint {
+  font-size: clamp(1.125rem, 1.7vw, 1.375rem);
+  line-height: 1.35;
+}
+
+[data-native-deck="lecture-04"] .ns-dialog .ns-checkpoint legend {
+  margin-bottom: .75rem;
+  font-size: 1.35em;
+  line-height: 1.22;
+}
+
+[data-native-deck="lecture-04"] .ns-dialog .ns-checkpoint .ns-choice {
+  min-height: 60px;
+  gap: .7rem;
+  margin: .45rem 0;
+  padding: .65rem .8rem;
+}
+
+[data-native-deck="lecture-04"] .ns-dialog .ns-checkpoint .ns-choice input {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+[data-native-deck="lecture-04"] .ns-dialog .ns-checkpoint > .ns-control,
+[data-native-deck="lecture-04"] .ns-dialog:has(.ns-checkpoint) .ns-dialog-footer .ns-control {
+  min-height: 48px;
+  font-size: clamp(1.125rem, 1.7vw, 1.375rem);
+}
+
+[data-native-deck="lecture-04"] .ns-dialog .ns-checkpoint-result {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
 /* Dense pages receive local spacing adjustments so the shared type scale stays
    consistent across the deck. */
 [data-native-deck="lecture-04"] [data-slide-id="l4-09"] .l4-widget {

@@ -674,12 +674,12 @@ export const slides = [
           <svg class="l4-figure" viewBox="0 0 620 370" role="img" aria-labelledby="l4-local-title l4-local-desc">
             <title id="l4-local-title">Local and global minima compared with a linear objective</title>
             <desc id="l4-local-desc">A nonlinear curve has one local minimum and a lower global minimum. A straight objective line, revealed with its direction arrow, has no such local trap.</desc>
-            <path d="M55 92 C115 190 165 214 225 145 C286 73 333 267 412 285 C483 302 535 164 575 72" fill="none" stroke="#27658a" stroke-width="7" />
-            <circle cx="225" cy="145" r="11" fill="#e87722" />
-            <path d="M220 137 L185 100" stroke="#9e4e15" stroke-width="3" />
+            <path data-l4-objective-curve d="M55 92 C115 190 165 214 225 145 C286 73 333 267 412 285 C483 302 535 164 575 72" fill="none" stroke="#27658a" stroke-width="7" />
+            <circle data-l4-extremum="local" cx="158.806" cy="184.425" r="11" fill="#e87722" />
+            <path d="M179 96 L161 172" stroke="#9e4e15" stroke-width="3" />
             <rect x="92" y="54" width="175" height="42" rx="8" fill="#fff8f1" stroke="#e87722" stroke-width="2" />
             <text x="179" y="81" text-anchor="middle" fill="#8b4513" font-size="19" font-weight="700">local, not global</text>
-            <circle cx="412" cy="285" r="11" fill="#25834a" />
+            <circle data-l4-extremum="global" cx="423.945" cy="286.433" r="11" fill="#25834a" />
             <rect x="333" y="309" width="190" height="42" rx="8" fill="#f1faf4" stroke="#25834a" stroke-width="2" />
             <text x="428" y="336" text-anchor="middle" fill="#176536" font-size="19" font-weight="700">global minimum</text>
             <g data-reveal="linear">
