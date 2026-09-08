@@ -112,7 +112,7 @@ export const deck = Object.freeze({
             <h3>Instructor</h3>
             <p><strong>Dr. Jiaxiang “Jason” Li</strong> · <a href="mailto:jasonljx@vt.edu">jasonljx@vt.edu</a></p>
             <p>Durham Hall 213 · <a href="https://jasonjiaxiangli.github.io/">jasonjiaxiangli.github.io</a></p>
-            <p>Office hours: Thursdays, 11:00 a.m.–12:00 p.m. · Zoom meeting ID: <code>89033654462</code></p>
+            <p>Office hours: Thursdays, 3:30–4:30 p.m. · Zoom meeting ID: <code>89033654462</code></p>
             <p class="l1-note">Prof. Robert Hildebrand teaches the August 25 and August 27 meetings online.</p>
           </section>
           <section class="l1-person-card l1-person-card--blue">

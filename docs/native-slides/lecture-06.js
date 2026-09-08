@@ -171,6 +171,37 @@ export const metadata = {
 const pointText = (point) => `(${point.join(", ")})`;
 const jsonAttribute = (value) => JSON.stringify(value).replaceAll("'", "&#39;");
 
+function gilpProblemMarkup(dimension) {
+  if (dimension === "2d") {
+    return String.raw`
+      <section class="l6-problem-strip" data-l6-problem="2d"
+        data-objective='[5,3]'
+        data-constraints='[[2,1,20],[1,1,16],[1,0,7]]'
+        data-nonnegative="true"
+        aria-label="Two-dimensional linear-program definition.">
+        <strong>Problem</strong>
+        <div class="l6-problem-math ns-math">
+          <span>\(\max\ z=5x_1+3x_2\)</span>
+          <span>\(\text{s.t. }2x_1+x_2\le20,\;x_1+x_2\le16,\)</span>
+          <span>\(x_1\le7,\;x_1,x_2\ge0.\)</span>
+        </div>
+      </section>`;
+  }
+  return String.raw`
+    <section class="l6-problem-strip" data-l6-problem="3d"
+      data-objective='[1,2,4]'
+      data-constraints='[[1,0,0,6],[1,0,1,8],[0,0,1,5],[0,1,1,8]]'
+      data-nonnegative="true"
+      aria-label="Three-dimensional linear-program definition.">
+      <strong>Problem</strong>
+      <div class="l6-problem-math ns-math">
+        <span>\(\max\ z=x_1+2x_2+4x_3\)</span>
+        <span>\(\text{s.t. }x_1\le6,\;x_1+x_3\le8,\;x_3\le5,\)</span>
+        <span>\(x_2+x_3\le8,\;x_1,x_2,x_3\ge0.\)</span>
+      </div>
+    </section>`;
+}
+
 function project2D([x1, x2]) {
   return [54 + 44 * x1, 380 - 18 * x2];
 }
@@ -768,27 +799,33 @@ function mountThreeDPlayer(slideElement, announce, typesetMath, clearMath) {
   };
 }
 
-const twoDStateSlides = TWO_D_STATES.map((state, index) => ({
-  id: `l6-${String(index + 6).padStart(2, "0")}`,
-  page: index + 6,
-  className: "l6-gilp-slide",
-  title: `GILP Path in Two Dimensions: Iteration ${index} at (${state.point.join(",")})`,
-  html: twoDPlayerMarkup(index),
-  printHtml: twoDPlayerMarkup(index, { print: true }),
-  onMount: ({ slideElement, announce, typesetMath, clearMath }) =>
-    mountTwoDPlayer(slideElement, announce, typesetMath, clearMath),
-}));
+const twoDStateSlides = TWO_D_STATES.map((state, index) => {
+  const problem = index === 0 ? gilpProblemMarkup("2d") : "";
+  return {
+    id: `l6-${String(index + 6).padStart(2, "0")}`,
+    page: index + 6,
+    className: `l6-gilp-slide${index === 0 ? " l6-problem-slide" : ""}`,
+    title: `GILP Path in Two Dimensions: Iteration ${index} at (${state.point.join(",")})`,
+    html: `${problem}${twoDPlayerMarkup(index)}`,
+    printHtml: `${problem}${twoDPlayerMarkup(index, { print: true })}`,
+    onMount: ({ slideElement, announce, typesetMath, clearMath }) =>
+      mountTwoDPlayer(slideElement, announce, typesetMath, clearMath),
+  };
+});
 
-const threeDStateSlides = THREE_D_STATES.map((state, index) => ({
-  id: `l6-${String(index + 11).padStart(2, "0")}`,
-  page: index + 11,
-  className: "l6-gilp-slide l6-gilp-slide-3d",
-  title: `GILP Path in Three Dimensions: Iteration ${index}`,
-  html: threeDPlayerMarkup(index),
-  printHtml: threeDPlayerMarkup(index, { print: true }),
-  onMount: ({ slideElement, announce, typesetMath, clearMath }) =>
-    mountThreeDPlayer(slideElement, announce, typesetMath, clearMath),
-}));
+const threeDStateSlides = THREE_D_STATES.map((state, index) => {
+  const problem = index === 0 ? gilpProblemMarkup("3d") : "";
+  return {
+    id: `l6-${String(index + 11).padStart(2, "0")}`,
+    page: index + 11,
+    className: `l6-gilp-slide l6-gilp-slide-3d${index === 0 ? " l6-problem-slide" : ""}`,
+    title: `GILP Path in Three Dimensions: Iteration ${index}`,
+    html: `${problem}${threeDPlayerMarkup(index)}`,
+    printHtml: `${problem}${threeDPlayerMarkup(index, { print: true })}`,
+    onMount: ({ slideElement, announce, typesetMath, clearMath }) =>
+      mountThreeDPlayer(slideElement, announce, typesetMath, clearMath),
+  };
+});
 
 export const slides = [
   {
@@ -869,7 +906,7 @@ export const slides = [
     page: 5,
     title: "How to Read the GILP Sequence",
     html: String.raw`
-      <p>The GILP reference sequence uses</p>
+      <p><strong>GILP</strong> stands for <strong>Geometric Interpretation of Linear Programs</strong>. It is an interactive tool for visualizing LP geometry and simplex pivots. This 2D sequence uses</p>
       <div class="l6-equation ns-math">\[\max\ z=5x_1+3x_2,\]</div>
       <p>whereas our algebra uses minimization. Multiplying by \(-1\) connects the conventions:</p>
       <div class="l6-sign-bridge ns-math" aria-label="Larger z in the picture is equivalent to a negative reduced cost when minimizing negative z">

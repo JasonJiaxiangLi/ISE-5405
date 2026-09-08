@@ -27,10 +27,10 @@
     {
       "id": "syllabus",
       "kind": "syllabus",
-      "pdf_hash": "1571ee3eb65c22f0072c07ca8307f42d52422d2e34a3742e3e65195bb0bed8a3",
-      "pdf_size": 218360,
+      "pdf_hash": "dd7cb5a521de09793a4362460b36d2075c99c0ebb661282782abaf1501cacea9",
+      "pdf_size": 218367,
       "pdf_url": "materials/syllabus_fall2026.pdf",
-      "pdf_url_versioned": "materials/syllabus_fall2026.pdf?v=1571ee3eb65c",
+      "pdf_url_versioned": "materials/syllabus_fall2026.pdf?v=dd7cb5a521de",
       "published": true,
       "title": "Course Syllabus"
     }
@@ -45,10 +45,10 @@
       "explorations": [],
       "id": "lecture-01",
       "number": 1,
-      "pdf_hash": "9240edc86330eca8cfc3adc380fb8f93a30ea4278d25f5ac544d4000361b1daf",
-      "pdf_size": 234333,
+      "pdf_hash": "f450d106b598a291516d0d51bccd8fc08aaa4ed642a2ae5e8202fd25a76e955d",
+      "pdf_size": 234356,
       "pdf_url": "materials/lecture_01.pdf",
-      "pdf_url_versioned": "materials/lecture_01.pdf?v=9240edc86330",
+      "pdf_url_versioned": "materials/lecture_01.pdf?v=f450d106b598",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -515,7 +515,7 @@
           ],
           "correct_index": 1,
           "explanation": "In standard form, nonbasic variables (n − m of them) are zero by construction. Degeneracy means MORE than n − m zeros — some basic variable is zero too. Here n − m = 7 − 4 = 3.",
-          "page": 6,
+          "page": 8,
           "question": "Standard form, n = 7 variables, m = 4 equations. A basic solution is degenerate when…"
         },
         {
@@ -528,7 +528,7 @@
           ],
           "correct_index": 1,
           "explanation": "A halfplane contains lines, so it has no extreme point (Thm 2.6). The square and triangle are polytopes; standard-form polyhedra always have a BFS by Corollary 2.2.",
-          "page": 9,
+          "page": 11,
           "question": "Which polyhedron has no extreme point?"
         },
         {
@@ -541,7 +541,7 @@
           ],
           "correct_index": 1,
           "explanation": "Thm 2.7 says SOME optimal solution is at an extreme point — others may exist (a whole optimal edge, say). It does not force uniqueness or boundedness.",
-          "page": 14,
+          "page": 16,
           "question": "P has an extreme point and the LP has an optimal solution. Which is guaranteed?"
         }
       ],
@@ -628,10 +628,10 @@
       "display_number": 5,
       "id": "lecture-06",
       "number": 6,
-      "pdf_hash": "38f5c866571e6b9356b44fff69947bb620f2e6bae870c0b15fef3b92c1feae7c",
-      "pdf_size": 1070085,
+      "pdf_hash": "36215adda1772f8b8adcfb01671b430cc37a07cc3577d9dd46b8cf9b0af70a81",
+      "pdf_size": 1070984,
       "pdf_url": "materials/lecture_06.pdf",
-      "pdf_url_versioned": "materials/lecture_06.pdf?v=38f5c866571e",
+      "pdf_url_versioned": "materials/lecture_06.pdf?v=36215adda177",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

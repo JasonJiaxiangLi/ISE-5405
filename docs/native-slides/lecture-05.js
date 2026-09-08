@@ -56,6 +56,266 @@ const basisMatrix = Object.freeze([
 ]);
 const basisRhs = Object.freeze([8, 12, 4, 6]);
 
+const tinyBasisScene = Object.freeze({
+  id: "tiny-basis",
+  title: "Two equation planes, three coordinate planes, and every basic solution",
+  description: "A rotatable three-dimensional diagram. Two translucent equation planes intersect in a dashed line. The three coordinate planes meet that line at A, B, and C. A and B bound the green feasible segment in the nonnegative orthant. C lies below the third-coordinate-zero plane and is infeasible.",
+  /* A conventional x_1-right, x_2-left, x_3-up view keeps the three basic
+     solutions visually separated before the instructor rotates the model. */
+  camera: Object.freeze({ center: [1.5, 2.5, 0.5], scale: 46, yaw: 0.65, pitch: 0.55 }),
+  faces: Object.freeze([
+    Object.freeze({
+      id: "h1", kind: "equation", className: "l5-scene-equation-one",
+      normal: [1, 1, 1], rhs: 4,
+      vertices: [[-1, 2, 3], [2, -1, 3], [4, -1, 1], [4, 2, -2], [0, 6, -2], [-1, 6, -1]],
+    }),
+    Object.freeze({
+      id: "h2", kind: "equation", className: "l5-scene-equation-two",
+      normal: [1, 2, 3], rhs: 7,
+      vertices: [[-1, -0.5, 3], [0, -1, 3], [4, -1, 5 / 3], [4, 4.5, -2], [1, 6, -2], [-1, 6, -4 / 3]],
+    }),
+    Object.freeze({
+      id: "x3-zero", kind: "coordinate", className: "l5-scene-coordinate-three",
+      normal: [0, 0, 1], rhs: 0, reveal: "1",
+      label: "x₃ = 0 · floor", labelAt: [3.1, 4.7, 0],
+      vertices: [[-0.5, -0.5, 0], [3.4, -0.5, 0], [3.4, 5.6, 0], [-0.5, 5.6, 0]],
+    }),
+    Object.freeze({
+      id: "x2-zero", kind: "coordinate", className: "l5-scene-coordinate-two",
+      normal: [0, 1, 0], rhs: 0, reveal: "2",
+      label: "x₂ = 0", labelAt: [3.3, 0, 2.3],
+      vertices: [[0.4, 0, -0.7], [0.4, 0, 2.6], [3.6, 0, 2.6], [3.6, 0, -0.7]],
+    }),
+    Object.freeze({
+      id: "x1-zero", kind: "coordinate", className: "l5-scene-coordinate-one",
+      normal: [1, 0, 0], rhs: 0, reveal: "3",
+      label: "x₁ = 0", labelAt: [0, 5.5, 0.7],
+      vertices: [[0, 2.4, -1.6], [0, 5.8, -1.6], [0, 5.8, 0.9], [0, 2.4, 0.9]],
+    }),
+  ]),
+  lines: Object.freeze([
+    Object.freeze({ id: "equality", kind: "equality", from: [-0.5, 6, -1.5], to: [3, -1, 2] }),
+    Object.freeze({ id: "feasible", kind: "feasible", from: [1, 3, 0], to: [2.5, 0, 1.5], reveal: "4" }),
+    Object.freeze({
+      id: "c-below-x3", kind: "infeasible-gap", from: [0, 5, -1], to: [0, 5, 0],
+      point: "b23", plane: "x3-zero", reveal: "3",
+    }),
+  ]),
+  points: Object.freeze([
+    Object.freeze({ id: "b12", label: "A", labelOffset: [14, 26], vector: [1, 3, 0], basis: [1, 2], feasible: true, reveal: "1" }),
+    Object.freeze({ id: "b13", label: "B", labelOffset: [14, -14], vector: [2.5, 0, 1.5], basis: [1, 3], feasible: true, reveal: "2" }),
+    Object.freeze({ id: "b23", label: "C: x₃ = −1", labelOffset: [-132, 27], vector: [0, 5, -1], basis: [2, 3], feasible: false, reveal: "3" }),
+  ]),
+  axes: Object.freeze([
+    Object.freeze({ id: "one", label: "x₁", from: [0, 0, 0], to: [4, 0, 0] }),
+    Object.freeze({ id: "two", label: "x₂", from: [0, 0, 0], to: [0, 6, 0] }),
+    Object.freeze({ id: "three", label: "x₃", from: [0, 0, 0], to: [0, 0, 3] }),
+    Object.freeze({ id: "three-negative", from: [0, 0, 0], to: [0, 0, -2], negative: true }),
+  ]),
+  model: Object.freeze({
+    equations: Object.freeze([
+      Object.freeze({ normal: [1, 1, 1], rhs: 4 }),
+      Object.freeze({ normal: [1, 2, 3], rhs: 7 }),
+    ]),
+    parameterBase: Object.freeze([1, 3, 0]),
+    parameterDirection: Object.freeze([1, -2, 1]),
+    parameterRange: Object.freeze([-1.5, 2]),
+    feasibleRange: Object.freeze([0, 1.5]),
+  }),
+});
+
+function l5DataJson(value) {
+  return JSON.stringify(value);
+}
+
+function projectL5ScenePoint(scene, point, yaw = scene.camera.yaw, pitch = scene.camera.pitch) {
+  const centered = point.map((value, index) => value - scene.camera.center[index]);
+  const cosineYaw = Math.cos(yaw);
+  const sineYaw = Math.sin(yaw);
+  const horizontal = centered[0] * cosineYaw - centered[1] * sineYaw;
+  const depthBeforePitch = centered[0] * sineYaw + centered[1] * cosineYaw;
+  const cosinePitch = Math.cos(pitch);
+  const sinePitch = Math.sin(pitch);
+  const vertical = centered[2] * cosinePitch - depthBeforePitch * sinePitch;
+  const depth = centered[2] * sinePitch + depthBeforePitch * cosinePitch;
+  return {
+    x: 360 + scene.camera.scale * horizontal,
+    y: 215 - scene.camera.scale * vertical,
+    depth,
+  };
+}
+
+function l5SceneFacePoints(scene, face) {
+  return face.vertices ?? face.indices.map((index) => scene.vertices[index]);
+}
+
+function l5ProjectedPoints(scene, points, yaw = scene.camera.yaw, pitch = scene.camera.pitch) {
+  return points.map((point) => {
+    const projected = projectL5ScenePoint(scene, point, yaw, pitch);
+    return `${projected.x.toFixed(3)},${projected.y.toFixed(3)}`;
+  }).join(" ");
+}
+
+function l5SceneSvgMarkup(scene, { print = false } = {}) {
+  const idSuffix = print ? "-print" : "";
+  const titleId = `l5-${scene.id}-scene-title${idSuffix}`;
+  const descriptionId = `l5-${scene.id}-scene-description${idSuffix}`;
+  const arrowId = `l5-${scene.id}-axis-arrow${idSuffix}`;
+  const faces = scene.faces.map((face) => {
+    const worldPoints = l5SceneFacePoints(scene, face);
+    const depth = worldPoints.reduce(
+      (sum, point) => sum + projectL5ScenePoint(scene, point).depth,
+      0,
+    ) / worldPoints.length;
+    return { face, worldPoints, depth };
+  }).sort((left, right) => left.depth - right.depth).map(({ face, worldPoints }) => {
+    const reveal = face.reveal ? `data-reveal="${face.reveal}"` : "";
+    const classes = ["l5-scene-face", `l5-scene-face-${face.kind}`, face.className]
+      .filter(Boolean).join(" ");
+    return `<polygon class="${classes}" data-l5-scene-face="${face.id}"
+      data-kind="${face.kind}" data-world-points='${l5DataJson(worldPoints)}'
+      data-normal="${face.normal.join(",")}" data-rhs="${face.rhs}"
+      ${reveal}
+      points="${l5ProjectedPoints(scene, worldPoints)}"/>`;
+  }).join("");
+
+  const faceLabels = scene.faces.filter((face) => face.label && face.labelAt)
+    .map((face) => {
+      const projected = projectL5ScenePoint(scene, face.labelAt);
+      const reveal = face.reveal ? `data-reveal="${face.reveal}"` : "";
+      return `<text class="l5-scene-face-label ${face.className || ""}"
+        data-l5-scene-label="face-${face.id}" data-world="${face.labelAt.join(",")}" ${reveal}
+        x="${projected.x.toFixed(3)}" y="${projected.y.toFixed(3)}">${face.label}</text>`;
+    }).join("");
+
+  const axes = scene.axes.map((axis) => {
+    const start = projectL5ScenePoint(scene, axis.from);
+    const end = projectL5ScenePoint(scene, axis.to);
+    const label = axis.label
+      ? `<text class="l5-scene-axis-label" data-l5-scene-label="axis-${axis.id}"
+          data-world="${axis.to.join(",")}" data-offset="10,-8"
+          x="${(end.x + 10).toFixed(3)}" y="${(end.y - 8).toFixed(3)}">${axis.label}</text>`
+      : "";
+    return `<line class="l5-scene-axis${axis.negative ? " l5-scene-axis-negative" : ""}"
+      data-l5-scene-axis="${axis.id}" data-world-from="${axis.from.join(",")}" data-world-to="${axis.to.join(",")}"
+      x1="${start.x.toFixed(3)}" y1="${start.y.toFixed(3)}"
+      x2="${end.x.toFixed(3)}" y2="${end.y.toFixed(3)}"
+      ${axis.negative ? "" : `marker-end="url(#${arrowId})"`}/>${label}`;
+  }).join("");
+
+  const lines = (scene.lines ?? []).map((line) => {
+    const start = projectL5ScenePoint(scene, line.from);
+    const end = projectL5ScenePoint(scene, line.to);
+    const reveal = line.reveal ? `data-reveal="${line.reveal}"` : "";
+    return `<line class="l5-scene-line l5-scene-line-${line.kind}"
+      data-l5-scene-line="${line.id}" data-kind="${line.kind}"
+      data-world-from="${line.from.join(",")}" data-world-to="${line.to.join(",")}"
+      ${line.id === "feasible" ? 'data-from="b12" data-to="b13"' : ""} ${reveal}
+      ${line.point ? `data-point="${line.point}"` : ""}
+      ${line.plane ? `data-plane="${line.plane}"` : ""}
+      x1="${start.x.toFixed(3)}" y1="${start.y.toFixed(3)}"
+      x2="${end.x.toFixed(3)}" y2="${end.y.toFixed(3)}"/>`;
+  }).join("");
+
+  const points = scene.points.map((point) => {
+    const projected = projectL5ScenePoint(scene, point.vector);
+    const reveal = point.reveal ? `data-reveal="${point.reveal}"` : "";
+    const classes = [
+      "l5-scene-point-group",
+      point.feasible === true ? "l5-scene-point-feasible" : "",
+      point.feasible === false ? "l5-scene-point-infeasible" : "",
+    ].filter(Boolean).join(" ");
+    return `<g class="${classes}" data-l5-scene-point-group="${point.id}" ${reveal}
+      transform="translate(${projected.x.toFixed(3)} ${projected.y.toFixed(3)})">
+      <circle data-l5-scene-point="${point.id}" data-world="${point.vector.join(",")}" data-vector="${point.vector.join(",")}"
+        ${point.basis ? `data-basis="${point.basis.join(",")}"` : ""}
+        ${point.feasible !== undefined ? `data-feasible="${point.feasible}"` : ""}
+        cx="0" cy="0" r="${point.basis ? 10 : 4.5}"/>
+      ${point.label ? `<text x="${point.labelOffset?.[0] ?? 13}" y="${point.labelOffset?.[1] ?? -13}">${point.label}</text>` : ""}
+    </g>`;
+  }).join("");
+
+  const describedBy = print
+    ? ` aria-describedby="${descriptionId}"`
+    : ` aria-describedby="${descriptionId} l5-${scene.id}-scene-hint l5-${scene.id}-scene-status"`;
+  return `<svg class="l5-scene-svg" viewBox="0 0 720 430" role="img"
+    aria-labelledby="${titleId}"${describedBy}
+    ${print ? 'data-l5-print-scene=""' : 'tabindex="0" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown R"'} data-l5-scene-svg="${scene.id}">
+    <title id="${titleId}">${scene.title}</title>
+    <desc id="${descriptionId}">${scene.description}</desc>
+    <defs><marker id="${arrowId}" viewBox="0 0 10 10" refX="8.4" refY="5"
+      markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z"/></marker></defs>
+    <g class="l5-scene-face-layer" data-l5-scene-faces>${faces}</g>
+    <g class="l5-scene-face-label-layer">${faceLabels}</g>
+    <g class="l5-scene-axis-layer" aria-hidden="true">${axes}</g>
+    <g class="l5-scene-line-layer">${lines}</g>
+    <g class="l5-scene-point-layer">${points}</g>
+  </svg>`;
+}
+
+function l5SceneControlsMarkup(scene) {
+  return `<div class="l5-scene-controls" role="group" aria-label="Rotate the three-dimensional plot">
+    <button type="button" data-l5-scene-action="rotate-left" aria-label="Rotate view left">← Rotate</button>
+    <button type="button" data-l5-scene-action="rotate-right" aria-label="Rotate view right">Rotate →</button>
+    <button type="button" data-l5-scene-action="tilt-up" aria-label="Tilt view up">Tilt ↑</button>
+    <button type="button" data-l5-scene-action="tilt-down" aria-label="Tilt view down">Tilt ↓</button>
+    <button type="button" data-l5-scene-action="reset" aria-label="Reset three-dimensional view">Reset</button>
+  </div>
+  <p class="l5-scene-hint" id="l5-${scene.id}-scene-hint">Drag the model, use the buttons, or focus the plot and press the arrow keys; press R to reset.</p>
+  <p class="ns-visually-hidden" id="l5-${scene.id}-scene-status" data-l5-scene-status role="status" aria-live="polite">Three-dimensional view ready.</p>`;
+}
+
+function l5SceneRootAttributes(scene, { print = false } = {}) {
+  return `data-l5-3d-scene="" data-l5-scene-id="${scene.id}" data-initial-yaw="${scene.camera.yaw}"
+    data-initial-pitch="${scene.camera.pitch}" data-l5-yaw="${scene.camera.yaw}"
+    data-l5-pitch="${scene.camera.pitch}" data-l5-scale="${scene.camera.scale}"
+    data-center="${scene.camera.center.join(",")}"
+    data-vertices='${l5DataJson(scene.points.map((point) => point.vector))}'
+    data-faces='${l5DataJson(scene.faces.map((face) => ({ id: face.id, vertices: l5SceneFacePoints(scene, face) })))}'
+    ${scene.model ? `data-scene-model='${l5DataJson(scene.model)}'` : ""}
+    ${print ? 'data-l5-print-root=""' : ""}`;
+}
+
+function tinyBasisSlideMarkup({ print = false } = {}) {
+  return String.raw`
+    <div class="l5-tiny-layout">
+      <figure class="l5-tiny-figure l5-scene-shell" ${l5SceneRootAttributes(tinyBasisScene, { print })}>
+        <div class="l5-scene-key l5-tiny-scene-key" aria-label="Plot key">
+          <span data-key="equation-one"><i aria-hidden="true"></i>\(x_1+x_2+x_3=4\)</span>
+          <span data-key="equation-two"><i aria-hidden="true"></i>\(x_1+2x_2+3x_3=7\)</span>
+          <span data-key="coordinate-one"><i aria-hidden="true"></i>\(x_1=0\)</span>
+          <span data-key="coordinate-two"><i aria-hidden="true"></i>\(x_2=0\)</span>
+          <span data-key="coordinate-three"><i aria-hidden="true"></i>\(x_3=0\)</span>
+          <span data-key="intersection"><i aria-hidden="true"></i>dashed \(Ax=b\)</span>
+          <span data-key="feasible"><i aria-hidden="true"></i>green feasible set</span>
+        </div>
+        ${l5SceneSvgMarkup(tinyBasisScene, { print })}
+        ${print ? "" : l5SceneControlsMarkup(tinyBasisScene)}
+      </figure>
+      <section class="l5-tiny-algebra" aria-label="Enumerating the three bases">
+        <p class="l5-tiny-rule">Each plane \(x_j=0\) meets the dashed line at one basic solution.</p>
+        <div class="l5-tiny-choices">
+          <article class="l5-tiny-choice" data-l5-basis-row="b12" data-vector="1,3,0" data-nonbasic="3" data-feasible="true" data-reveal="1">
+            <h3>\(\mathcal B=\{1,2\}\)</h3>
+            <p class="ns-math">\(x_3=0\Rightarrow A=(1,3,0)\).</p>
+            <span class="l5-tiny-badge" data-tone="good">A · BFS</span>
+          </article>
+          <article class="l5-tiny-choice" data-l5-basis-row="b13" data-vector="2.5,0,1.5" data-nonbasic="2" data-feasible="true" data-reveal="2">
+            <h3>\(\mathcal B=\{1,3\}\)</h3>
+            <p class="ns-math">\(x_2=0\Rightarrow B=(\tfrac52,0,\tfrac32)\).</p>
+            <span class="l5-tiny-badge" data-tone="good">B · BFS</span>
+          </article>
+          <article class="l5-tiny-choice" data-l5-basis-row="b23" data-vector="0,5,-1" data-nonbasic="1" data-feasible="false" data-reveal="3">
+            <h3>\(\mathcal B=\{2,3\}\)</h3>
+            <p class="ns-math">\(x_1=0\Rightarrow C=(0,5,-1)\).</p>
+            <span class="l5-tiny-badge" data-tone="warn">C · basic only</span>
+          </article>
+        </div>
+        <aside class="l5-callout l5-tiny-conclusion" data-tone="green" data-reveal="4"><strong>Feasible set = green A–B.</strong> C is infeasible because \(x_3=-1\); its red drop reaches \(x_3=0\).</aside>
+      </section>
+    </div>`;
+}
+
 export const metadata = {
   id: "lecture-05",
   number: 5,
@@ -151,8 +411,56 @@ export const slides = [
       <aside class="l5-callout" data-tone="blue" data-reveal="terminology"><strong>Terminology:</strong> \(B=[A_{B(1)}\ \cdots\ A_{B(m)}]\) is the basis matrix; \(B(1),\ldots,B(m)\) are the basic indices.</aside>`,
   },
   {
-    id: "l5-05",
+    id: "l5-tiny-basis-worked",
     page: 5,
+    className: "l5-tiny-worked-slide",
+    eyebrow: "Tiny example · begin with one basis",
+    title: "One Basis by Hand",
+    html: String.raw`
+      <div class="l5-tiny-worked-layout">
+        <section class="l5-tiny-worked-setup" aria-label="Example system and basis choice">
+          <div class="l5-tiny-system ns-math" role="math" aria-label="x 1 plus x 2 plus x 3 equals 4; x 1 plus 2 x 2 plus 3 x 3 equals 7; x is nonnegative">
+            \[\begin{aligned}
+              x_1+x_2+x_3&=4,\\
+              x_1+2x_2+3x_3&=7,
+            \end{aligned}
+            \qquad x\ge0.\]
+          </div>
+          <p class="l5-tiny-worked-count">There are \(m=2\) equations and \(n=3\) variables, so a basis contains <strong>two columns</strong>.</p>
+          <article class="l5-tiny-worked-step" data-l5-worked-step="choose" data-reveal="choose">
+            <h3>1 · Choose \(\mathcal B=\{1,2\}\)</h3>
+            <p>Make \(x_1,x_2\) basic. The remaining variable is nonbasic, so set \(x_3=0\).</p>
+          </article>
+        </section>
+        <section class="l5-tiny-worked-proof" aria-label="Solving for the basic variables">
+          <article class="l5-tiny-worked-step" data-l5-worked-step="subtract" data-reveal="subtract">
+            <h3>2 · Solve the reduced system</h3>
+            <div class="ns-math" role="math" aria-label="x 1 plus x 2 equals 4; x 1 plus 2 x 2 equals 7">
+              \[x_1+x_2=4,\qquad x_1+2x_2=7.\]
+            </div>
+            <p>Subtract the first equation from the second: \(x_2=3\).</p>
+          </article>
+          <article class="l5-tiny-worked-step" data-l5-worked-step="finish" data-reveal="finish">
+            <h3>3 · Substitute back</h3>
+            <p>Then \(x_1=4-x_2=1\), so \(x=(1,3,0)\).</p>
+          </article>
+          <aside class="l5-callout l5-tiny-worked-result" data-tone="green" data-reveal="finish"><strong>Basic and feasible:</strong> every component is nonnegative, so \(A=(1,3,0)\) is a BFS.</aside>
+        </section>
+      </div>`,
+  },
+  {
+    id: "l5-tiny-basis",
+    page: 6,
+    className: "l5-tiny-basis-slide",
+    eyebrow: "Tiny example · now see all three",
+    title: "Every Basic Solution in 3D",
+    html: tinyBasisSlideMarkup(),
+    printHtml: tinyBasisSlideMarkup({ print: true }),
+    onMount: ({ slideElement, announce }) => mountL5RotatableScenes(slideElement, announce),
+  },
+  {
+    id: "l5-05",
+    page: 7,
     className: "l5-basis-slide",
     eyebrow: "Example 2.1 · Drive the theorem",
     title: "Pick a Basis, Get a Corner (or Not)",
@@ -228,7 +536,7 @@ export const slides = [
   },
   {
     id: "l5-06",
-    page: 6,
+    page: 8,
     title: "Degeneracy (§2.4)",
     html: String.raw`
       <div class="l5-degeneracy-layout">
@@ -258,7 +566,7 @@ export const slides = [
   },
   {
     id: "l5-07",
-    page: 7,
+    page: 9,
     title: "When Do Corners Exist? (§2.5)",
     html: String.raw`
       <div class="l5-visual-layout">
@@ -279,7 +587,7 @@ export const slides = [
   },
   {
     id: "l5-08",
-    page: 8,
+    page: 10,
     title: "Click-through: Extreme Point ⇒ No Line",
     html: String.raw`
       <p class="l5-lede"><strong>Claim:</strong> if \(P\) has an extreme point \(x^{\mathrm{ext}}\), then \(P\) contains no line.</p>
@@ -295,7 +603,7 @@ export const slides = [
   },
   {
     id: "l5-09",
-    page: 9,
+    page: 11,
     title: "Optimality of Extreme Points (§2.6)",
     html: String.raw`
       <div class="l5-visual-layout">
@@ -322,7 +630,7 @@ export const slides = [
   },
   {
     id: "l5-10",
-    page: 10,
+    page: 12,
     eyebrow: "Proof workshop · Theorem 2.7",
     title: "Some Optimal Solution is an Extreme Point",
     html: String.raw`
@@ -347,7 +655,7 @@ export const slides = [
   },
   {
     id: "l5-11",
-    page: 11,
+    page: 13,
     title: "The Other Representation: Convex Hulls (§2.7)",
     html: String.raw`
       <div class="l5-visual-layout">
@@ -372,7 +680,7 @@ export const slides = [
   },
   {
     id: "l5-12",
-    page: 12,
+    page: 14,
     title: "Fourier–Motzkin: Solving by Shadows (§2.8)",
     html: String.raw`
       <div class="l5-visual-layout">
@@ -392,7 +700,7 @@ export const slides = [
   },
   {
     id: "l5-13",
-    page: 13,
+    page: 15,
     title: "The Elimination Step",
     html: String.raw`
       <p>To eliminate \(x_n\), sort rows by the sign of its coefficient and normalize them as bounds.</p>
@@ -407,7 +715,7 @@ export const slides = [
   },
   {
     id: "l5-14",
-    page: 14,
+    page: 16,
     title: "Click-through: Fourier–Motzkin in Action",
     html: String.raw`
       <ol class="l5-proof l5-fm-proof l5-sequence">
@@ -422,7 +730,7 @@ export const slides = [
   },
   {
     id: "l5-15",
-    page: 15,
+    page: 17,
     title: "Why is LP Special? The Three Properties, Earned",
     html: String.raw`
       <div class="l5-property-stack">
@@ -434,7 +742,7 @@ export const slides = [
   },
   {
     id: "l5-16",
-    page: 16,
+    page: 18,
     title: "Key Takeaways",
     html: String.raw`
       <ul class="l5-takeaways">
@@ -448,6 +756,181 @@ export const slides = [
       <p class="l5-center l5-muted">We finally get to walk the corners.</p>`,
   },
 ];
+
+function l5SceneFromId(id) {
+  return id === tinyBasisScene.id ? tinyBasisScene : null;
+}
+
+function l5ParseVector(value) {
+  return String(value).split(",").map(Number);
+}
+
+function mountOneL5RotatableScene(root, scene, announce) {
+  const svg = root.querySelector("[data-l5-scene-svg]");
+  const faceLayer = root.querySelector("[data-l5-scene-faces]");
+  const faces = [...root.querySelectorAll("[data-l5-scene-face]")];
+  const segments = [...root.querySelectorAll("[data-world-from][data-world-to]")];
+  const pointGroups = [...root.querySelectorAll("[data-l5-scene-point-group]")];
+  const labels = [...root.querySelectorAll("[data-l5-scene-label]")];
+  const viewButtons = [...root.querySelectorAll("[data-l5-scene-action]")];
+  const status = root.querySelector("[data-l5-scene-status]");
+  const initialYaw = Number(root.dataset.initialYaw);
+  const initialPitch = Number(root.dataset.initialPitch);
+  let yaw = initialYaw;
+  let pitch = initialPitch;
+  let renderCount = 0;
+  let pointerId = null;
+  let pointerX = 0;
+  let pointerY = 0;
+  const cleanups = [];
+  const clampPitch = (value) => Math.max(0.16, Math.min(1.2, value));
+  const listen = (element, eventName, handler) => {
+    if (!element) return;
+    element.addEventListener(eventName, handler);
+    cleanups.push(() => element.removeEventListener(eventName, handler));
+  };
+  const position = (point) => projectL5ScenePoint(scene, point, yaw, pitch);
+  const setSegment = (element) => {
+    const from = position(l5ParseVector(element.dataset.worldFrom));
+    const to = position(l5ParseVector(element.dataset.worldTo));
+    element.setAttribute("x1", String(from.x));
+    element.setAttribute("y1", String(from.y));
+    element.setAttribute("x2", String(to.x));
+    element.setAttribute("y2", String(to.y));
+  };
+  const render = () => {
+    faces.map((element) => {
+      const worldPoints = JSON.parse(element.dataset.worldPoints);
+      const projected = worldPoints.map(position);
+      return {
+        element,
+        depth: projected.reduce((sum, point) => sum + point.depth, 0) / projected.length,
+        points: projected.map((point) => `${point.x},${point.y}`).join(" "),
+      };
+    }).sort((left, right) => left.depth - right.depth).forEach(({ element, points }) => {
+      element.setAttribute("points", points);
+      faceLayer.append(element);
+    });
+    segments.forEach(setSegment);
+    /* Depth sorting keeps each face in its reveal node while changing only draw order. */
+    pointGroups.forEach((group) => {
+      const point = group.querySelector("[data-l5-scene-point]");
+      const projected = position(l5ParseVector(point.dataset.world));
+      group.setAttribute("transform", `translate(${projected.x} ${projected.y})`);
+      group.dataset.screenX = String(projected.x);
+      group.dataset.screenY = String(projected.y);
+      group.dataset.depth = String(projected.depth);
+    });
+    labels.forEach((label) => {
+      const projected = position(l5ParseVector(label.dataset.world));
+      const [offsetX, offsetY] = l5ParseVector(label.dataset.offset || "0,0");
+      label.setAttribute("x", String(projected.x + offsetX));
+      label.setAttribute("y", String(projected.y + offsetY));
+    });
+    renderCount += 1;
+    root.dataset.l5Yaw = String(yaw);
+    root.dataset.l5Pitch = String(pitch);
+    root.dataset.l5RenderCount = String(renderCount);
+    root.dataset.l5Rendered = "true";
+  };
+
+  const focusDescription = () =>
+    "The two equation planes, their dashed intersection line, and all coordinate-plane intersections rotate together.";
+  const updateStatus = (prefix, shouldAnnounce = false) => {
+    const message = `${prefix} ${focusDescription()}`.trim();
+    if (status) status.textContent = message;
+    if (shouldAnnounce) announce?.(message);
+  };
+  const changeView = (deltaYaw, deltaPitch, message) => {
+    yaw += deltaYaw;
+    pitch = clampPitch(pitch + deltaPitch);
+    render();
+    updateStatus(message, true);
+  };
+  const resetView = (shouldAnnounce = true) => {
+    yaw = initialYaw;
+    pitch = initialPitch;
+    render();
+    updateStatus("Default three-dimensional view restored.", shouldAnnounce);
+  };
+
+  viewButtons.forEach((button) => listen(button, "click", () => {
+    const action = button.dataset.l5SceneAction;
+    if (action === "rotate-left") changeView(-0.16, 0, "View rotated left.");
+    if (action === "rotate-right") changeView(0.16, 0, "View rotated right.");
+    if (action === "tilt-up") changeView(0, 0.12, "View tilted up.");
+    if (action === "tilt-down") changeView(0, -0.12, "View tilted down.");
+    if (action === "reset") resetView();
+  }));
+
+  const pointerDown = (event) => {
+    pointerId = event.pointerId;
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    svg.setPointerCapture?.(pointerId);
+    svg.focus({ preventScroll: true });
+    event.preventDefault();
+  };
+  const pointerMove = (event) => {
+    if (pointerId !== event.pointerId) return;
+    yaw += (event.clientX - pointerX) * 0.008;
+    pitch = clampPitch(pitch + (event.clientY - pointerY) * 0.006);
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    render();
+  };
+  const pointerUp = (event) => {
+    if (pointerId !== event.pointerId) return;
+    svg.releasePointerCapture?.(pointerId);
+    pointerId = null;
+    updateStatus("View rotated by dragging.", true);
+  };
+  const releasePointerState = () => { pointerId = null; };
+  const keyDown = (event) => {
+    const movement = {
+      ArrowLeft: [-0.14, 0, "View rotated left."],
+      ArrowRight: [0.14, 0, "View rotated right."],
+      ArrowUp: [0, 0.1, "View tilted up."],
+      ArrowDown: [0, -0.1, "View tilted down."],
+    }[event.key];
+    if (movement) {
+      event.preventDefault();
+      changeView(...movement);
+      return;
+    }
+    if (event.key.toLowerCase() === "r") {
+      event.preventDefault();
+      resetView();
+    }
+  };
+  listen(svg, "pointerdown", pointerDown);
+  listen(svg, "pointermove", pointerMove);
+  listen(svg, "pointerup", pointerUp);
+  listen(svg, "pointercancel", pointerUp);
+  listen(svg, "lostpointercapture", releasePointerState);
+  listen(window, "blur", releasePointerState);
+  listen(svg, "keydown", keyDown);
+
+  root.dataset.reducedMotion = String(
+    window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false,
+  );
+  render();
+  updateStatus("");
+  return () => {
+    pointerId = null;
+    cleanups.splice(0).forEach((cleanup) => cleanup());
+  };
+}
+
+function mountL5RotatableScenes(slideElement, announce) {
+  const cleanups = [...slideElement.querySelectorAll("[data-l5-3d-scene]")]
+    .map((root) => {
+      const scene = l5SceneFromId(root.dataset.l5SceneId);
+      return scene ? mountOneL5RotatableScene(root, scene, announce) : null;
+    })
+    .filter(Boolean);
+  return () => cleanups.splice(0).forEach((cleanup) => cleanup());
+}
 
 function formatBasisValue(value) {
   if (Math.abs(value) < 1e-9) return "0";
