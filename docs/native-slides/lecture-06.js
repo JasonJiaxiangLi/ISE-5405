@@ -248,6 +248,132 @@ function twoDPlotSvg(stateIndex, { print = false } = {}) {
     </svg>`;
 }
 
+function basicDirectionPlot(page, { print = false } = {}) {
+  const theta = page === 21 && print ? 7 : 0;
+  const [pointX, pointY] = project2D([theta, 0]);
+  const [unitX, unitY] = project2D([1, 0]);
+  const reveal = page === 19 ? ' data-reveal="1"' : '';
+  const direction = `${page === 21 ? `<line class="l6-path-segment" data-l6-direction-trace x1="54" y1="380" x2="${pointX}" y2="${pointY}"/>` : ''}
+    <g class="l6-direction-unit" data-l6-unit-direction${reveal}>
+      <line data-l6-unit-arrow x1="54" y1="380" x2="${unitX}" y2="${unitY}"/>
+      <polygon points="${unitX},${unitY} ${unitX - 11},${unitY - 6} ${unitX - 11},${unitY + 6}"/>
+    </g>`;
+  return twoDPlotSvg(0, { print })
+    .replace('data-l6-2d-svg', 'data-l6-direction-svg')
+    .replace('aria-label="Feasible polygon and cumulative simplex path through iteration 0"',
+      'aria-label="The page 6 feasible polygon, fixed optimum (4,12), and the projected basic direction from (0,0) toward (1,0)."')
+    .replace('<polygon class="l6-optimum-marker"', `${direction}<polygon class="l6-optimum-marker"`)
+    .replace('data-l6-current-marker cx="54" cy="380"', `data-l6-direction-point cx="${pointX}" cy="${pointY}"`)
+    .replace('data-l6-current-label x="68" y="404">iterate 0',
+      `data-l6-direction-point-label x="${pointX + 14}" y="404">${theta ? 'x(7)' : 'start (0,0)'}`);
+}
+
+function basicDirectionVisual(page, { print = false } = {}) {
+  const theta = page === 21 && print ? 7 : 0;
+  const point = [theta, 0, 20 - 2 * theta, 16 - theta, 7 - theta];
+  return String.raw`
+    <section class="l6-direction-visual" aria-label="Worked two-dimensional example"
+      ${page === 21 ? `data-l6-direction-move data-origin='[0,0,20,16,7]' data-direction='[1,0,-2,-1,-1]' data-matrix='[[2,1,1,0,0],[1,1,0,1,0],[1,0,0,0,1]]' data-rhs='[20,16,7]' data-theta="${theta}" data-point5='${jsonAttribute(point)}'` : ''}>
+      <div class="l6-plot-shell">${basicDirectionPlot(page, { print })}</div>
+      <p class="l6-direction-caption">The plot shows \((x_1,x_2)\); the slacks change too.</p>
+      <p class="l6-direction-key" ${page === 19 ? 'data-reveal="1"' : ''}>Unit arrow: \((d_1,d_2)=(1,0)\).</p>
+      ${page === 21 ? String.raw`
+        <table class="l6-direction-values" aria-label="Current variables and objective">
+          <thead><tr>${[1, 2, 3, 4, 5].map(index => `<th scope="col">\\(x_${index}\\)</th>`).join('')}<th scope="col">\(z\)</th></tr></thead>
+          <tbody><tr>${point.map((value, index) => `<td><output data-l6-direction-component="${index}">${value}</output></td>`).join('')}<td><output data-l6-direction-objective>${5 * theta}</output></td></tr></tbody>
+        </table>
+        ${print ? String.raw`<p class="l6-direction-endpoint">At \(\theta=7\): \(x_1\) enters, \(x_5=0\) leaves.</p>` : String.raw`
+          <div class="l6-direction-controls" data-reveal="1">
+            <label><span>Step \(\theta\): <output data-l6-direction-theta-value>0</output></span>
+              <input data-l6-direction-theta type="range" min="0" max="7" step="0.5" value="0" aria-label="Feasible step theta">
+            </label>
+            <button class="ns-slide-action" type="button" data-l6-direction-end>Take the full step</button>
+          </div>
+          <p class="l6-visually-hidden" role="status" aria-live="polite" data-l6-direction-status></p>`}` : page === 20 ? String.raw`
+        <div class="l6-direction-start" data-reveal="1">
+          <strong>Keep each equality satisfied</strong>
+          <div class="l6-direction-equation">\[\begin{aligned}
+            d_3&=-2d_1-d_2=-2,\\
+            d_4&=-d_1-d_2=-1,\\
+            d_5&=-d_1=-1.
+          \end{aligned}\]</div>
+        </div>` : String.raw`
+        <div class="l6-direction-start">
+          <strong>Start at the slack basis</strong>
+          <p>\(x^{(0)}=(0,0,20,16,7)\)</p>
+          <p>\(B=[A_3\ A_4\ A_5]=I_3\).</p>
+        </div>`}
+    </section>`;
+}
+
+function basicDirectionStepMarkup({ print = false } = {}) {
+  return String.raw`
+      ${gilpProblemMarkup('2d')}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>With \(d_1=1,\ d_2=0\), solving \(Bd_{\mathcal B}=-A_1\) gave</p>
+          <div class="l6-direction-equation">\[d=(1,0,-2,-1,-1),\quad Ad=0.\]</div>
+          <p>The full point moves as \(x(\theta)=x^{(0)}+\theta d\):</p>
+          <div class="l6-direction-equation">\[\begin{aligned}
+            x(\theta)=\bigl(&\theta,0,20-2\theta,\\
+                          &16-\theta,7-\theta\bigr).
+          \end{aligned}\]</div>
+          <section class="l6-direction-step" data-reveal="1">
+            <h3>Keep all three slacks nonnegative</h3>
+            <div class="l6-direction-equation">\[\theta\le\min\!\left\{\frac{20}{2},\frac{16}{1},\frac{7}{1}\right\}=7.\]</div>
+            <p>Every \(0\le\theta\le7\) stays feasible.</p>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <p><strong>At \(\theta=7\):</strong> \(x=(7,0,6,9,0)\), \(z=35\). Variable \(x_1\) enters and \(x_5\) leaves.</p>
+            <p>Full step: \(7d\); unit direction: \(d\).</p>
+          </section>
+        </div>
+        ${basicDirectionVisual(21, { print })}
+      </div>`;
+}
+
+function mountBasicDirectionMove({ slideElement }) {
+  const root = slideElement.querySelector('[data-l6-direction-move]');
+  const slider = root.querySelector('[data-l6-direction-theta]');
+  const endButton = root.querySelector('[data-l6-direction-end]');
+  const storageKey = 'ise5405:basic-direction:lecture-06:l6-21:v1';
+  const saved = Number(localStorage.getItem(storageKey));
+  slider.value = Number.isFinite(saved) ? String(Math.max(0, Math.min(7, saved))) : '0';
+  const update = () => {
+    const theta = Number(slider.value);
+    const point = [theta, 0, 20 - 2 * theta, 16 - theta, 7 - theta];
+    const [plotX, plotY] = project2D(point);
+    const marker = root.querySelector('[data-l6-direction-point]');
+    const trace = root.querySelector('[data-l6-direction-trace]');
+    const label = root.querySelector('[data-l6-direction-point-label]');
+    marker.setAttribute('cx', String(plotX));
+    marker.setAttribute('cy', String(plotY));
+    trace.setAttribute('x2', String(plotX));
+    trace.setAttribute('y2', String(plotY));
+    label.setAttribute('x', String(plotX + 14));
+    label.textContent = theta ? `x(${theta})` : 'start (0,0)';
+    root.dataset.theta = String(theta);
+    root.dataset.point5 = JSON.stringify(point);
+    point.forEach((value, index) => {
+      root.querySelector(`[data-l6-direction-component="${index}"]`).textContent = String(value);
+    });
+    root.querySelector('[data-l6-direction-objective]').textContent = String(5 * theta);
+    root.querySelector('[data-l6-direction-theta-value]').textContent = String(theta);
+    const status = `Step ${theta}; x = (${point.join(', ')}); objective ${5 * theta}.${theta === 7 ? ' x1 enters; x5 reaches zero and leaves the basis.' : ''}`;
+    root.querySelector('[data-l6-direction-status]').textContent = status;
+    slider.setAttribute('aria-valuetext', status);
+    localStorage.setItem(storageKey, String(theta));
+  };
+  const takeFullStep = () => { slider.value = '7'; update(); };
+  slider.addEventListener('input', update);
+  endButton.addEventListener('click', takeFullStep);
+  update();
+  return () => {
+    slider.removeEventListener('input', update);
+    endButton.removeEventListener('click', takeFullStep);
+  };
+}
+
 function project3D(point, yaw = -0.7, pitch = 0.54) {
   const x = point[0] - 3;
   const y = point[1] - 4;
@@ -976,43 +1102,68 @@ export const slides = [
   {
     id: "l6-19",
     page: 19,
-    className: "l6-derivation-slide",
-    title: "Construct a Basic Direction: State 1 of 3",
+    className: "l6-direction-slide",
+    title: "Basic Direction: Choose the Entering Variable",
     html: String.raw`
-      <p>Choose a nonbasic index \(j\in\mathcal N\). Prescribe</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step" data-step="1">\[d_j=1,\qquad d_k=0\quad(k\in\mathcal N\setminus\{j\}).\]</div>
-        <div class="l6-proof-slot" aria-hidden="true"></div>
-        <div class="l6-proof-slot" aria-hidden="true"></div>
-      </div>
-      <aside class="l6-callout" data-tone="orange"><strong>Interpretation:</strong> \(x_j\) increases at unit rate; the basic variables must compensate so the equalities remain satisfied.</aside>`,
+      ${gilpProblemMarkup('2d')}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>Return to the origin from page 6. Add slack variables:</p>
+          <div class="l6-direction-equation">\[\begin{aligned}
+            2x_1+x_2+x_3&=20,\\
+            x_1+x_2+x_4&=16,\\
+            x_1+x_5&=7.
+          \end{aligned}\]</div>
+          <p>Basic indices: \(\mathcal B=(3,4,5)\).<br>Nonbasic indices: \(\mathcal N=(1,2)\).</p>
+          <section class="l6-direction-step" data-reveal="1">
+            <h3>Let \(x_1\) enter: choose \(j=1\)</h3>
+            <p>Set \(d_j=1\) and \(d_k=0\) for the other nonbasic indices.</p>
+            <div class="l6-direction-equation">\[d_1=1,\qquad d_2=0.\]</div>
+            <p>Increase \(x_1\) at unit rate. Next, find the three slack changes.</p>
+          </section>
+        </div>
+        ${basicDirectionVisual(19)}
+      </div>`,
   },
   {
     id: "l6-20",
     page: 20,
-    className: "l6-derivation-slide",
-    title: "Construct a Basic Direction: State 2 of 3",
+    className: "l6-direction-slide",
+    title: "Basic Direction: Solve for the Slack Changes",
     html: String.raw`
-      <p>Keep the prescribed nonbasic components visible:</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step" data-step="1">\[d_j=1,\qquad d_k=0\quad(k\in\mathcal N\setminus\{j\}).\]</div>
-        <div class="l6-proof-step" data-step="2" data-reveal="preserve">\[0=Ad=Bd_{\mathcal B}+A_j.\]</div>
-        <div class="l6-proof-step" data-step="3" data-reveal="solve">\[Bd_{\mathcal B}=-A_j.\]</div>
+      ${gilpProblemMarkup('2d')}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p><strong>Keep the choice:</strong> \(d_1=1,\ d_2=0\).</p>
+          <div class="l6-direction-equation">\[\begin{aligned}
+            0=Ad&=Bd_{\mathcal B}+A_1,\\
+            Bd_{\mathcal B}&=-A_1.
+          \end{aligned}\]</div>
+          <section class="l6-direction-step" data-reveal="1">
+            <h3>Substitute this basis and column</h3>
+            <p>\(B=I_3,\quad A_1=(2,1,1)^\top\).</p>
+            <div class="l6-direction-equation">\[\begin{aligned}
+              d_{\mathcal B}&=-B^{-1}A_1\\
+              &=(d_3,d_4,d_5)^\top\\
+              &=(-2,-1,-1)^\top.
+            \end{aligned}\]</div>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <div class="l6-direction-equation">\[\boxed{d=(1,0,-2,-1,-1).}\]</div>
+            <p>Each \(+1\) in \(x_1\) consumes \(2,1,1\) units of slack. Solve the basis system; no explicit inverse is needed.</p>
+          </section>
+        </div>
+        ${basicDirectionVisual(20)}
       </div>`,
   },
   {
     id: "l6-21",
     page: 21,
-    className: "l6-derivation-slide",
-    title: "Construct a Basic Direction: State 3 of 3",
-    html: String.raw`
-      <p>The complete cumulative derivation is</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step" data-step="1">\[d_j=1,\qquad d_k=0\quad(k\in\mathcal N\setminus\{j\}).\]</div>
-        <div class="l6-proof-step" data-step="2">\[0=Ad=Bd_{\mathcal B}+A_j.\]</div>
-        <div class="l6-proof-step l6-proof-result" data-step="3" data-reveal>\[\boxed{d_{\mathcal B}=-B^{-1}A_j}.\]</div>
-      </div>
-      <aside class="l6-callout" data-tone="green" data-reveal><strong>Compute by solving:</strong> solve \(Bd_{\mathcal B}=-A_j\). The inverse notation describes the answer; it is not an instruction to form \(B^{-1}\).</aside>`,
+    className: "l6-direction-slide",
+    title: "Basic Direction: Take One Feasible Step",
+    html: basicDirectionStepMarkup(),
+    printHtml: basicDirectionStepMarkup({ print: true }),
+    onMount: mountBasicDirectionMove,
   },
   {
     id: "l6-22",
