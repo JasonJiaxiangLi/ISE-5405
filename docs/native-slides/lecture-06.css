@@ -624,6 +624,28 @@
 [data-native-deck="lecture-06"] .l6-direction-controls button { font-size: .95em; min-width: 44px; min-height: 44px; }
 [data-native-deck="lecture-06"] .l6-direction-controls :is(input, button):focus-visible { outline: 3px solid var(--ns-focus); outline-offset: 2px; }
 
+/* Continue the same geometric example through objective slopes and pricing. */
+[data-native-deck="lecture-06"] .l6-pricing-slide .l6-direction-visual .l6-gilp-svg {
+  height: 12.5em;
+  min-height: 0;
+}
+
+[data-native-deck="lecture-06"] .l6-pricing-slide .l6-direction-visual > p {
+  margin: .3em 0;
+  line-height: 1.3;
+}
+
+[data-native-deck="lecture-06"] .l6-pricing-slide .l6-direction-step p { margin: .18em 0; }
+[data-native-deck="lecture-06"] .l6-pricing-slide .l6-direction-equation { margin: .22em 0; }
+[data-native-deck="lecture-06"] .l6-pricing-conclusion { margin-top: .45em; }
+[data-native-deck="lecture-06"] .l6-pricing-options { display: grid; gap: .28em; }
+[data-native-deck="lecture-06"] .l6-pricing-options p { margin: 0; padding-left: .45em; border-left: .24em solid var(--ns-green); }
+[data-native-deck="lecture-06"] .l6-pricing-options p + p { border-left-color: var(--ns-orange); }
+[data-native-deck="lecture-06"] .l6-pricing-edge line { stroke: currentColor; stroke-width: 6; }
+[data-native-deck="lecture-06"] .l6-pricing-edge polygon { fill: currentColor; }
+[data-native-deck="lecture-06"] .l6-pricing-improve { color: var(--ns-green); }
+[data-native-deck="lecture-06"] .l6-pricing-worsen { color: var(--ns-orange); }
+
 /* Cumulative algebra and proof layouts. */
 [data-native-deck="lecture-06"] .l6-check-pair,
 [data-native-deck="lecture-06"] .l6-derivation-pair,

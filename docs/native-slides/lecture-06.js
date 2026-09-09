@@ -374,6 +374,88 @@ function mountBasicDirectionMove({ slideElement }) {
   };
 }
 
+function pricingProblemMarkup() {
+  return gilpProblemMarkup('2d')
+    .replace('data-l6-problem="2d"', 'data-l6-pricing-problem')
+    .replace("data-objective='[5,3]'", "data-objective='[-5,-3]'")
+    .replace('<strong>Problem</strong>', '<strong>Same LP</strong>')
+    .replace(String.raw`\max\ z=5x_1+3x_2`, String.raw`\min\ f=-z=-5x_1-3x_2`);
+}
+
+function pricingPlot(page) {
+  const state = page === 23 ? 0 : 1;
+  const arrows = page === 23 ? `
+    <g class="l6-pricing-edge l6-pricing-improve" data-reveal="1">
+      <line data-l6-pricing-edge="first" x1="54" y1="380" x2="362" y2="380"/>
+      <polygon points="362,380 345,372 345,388"/>
+    </g>` : page === 24 ? `
+    <g data-reveal="1">
+      <g class="l6-pricing-edge l6-pricing-improve">
+        <line data-l6-pricing-edge="x2" x1="362" y1="380" x2="362" y2="272"/>
+        <polygon points="362,272 354,289 370,289"/>
+      </g>
+      <g class="l6-pricing-edge l6-pricing-worsen">
+        <line data-l6-pricing-edge="x5" x1="362" y1="380" x2="54" y2="380"/>
+        <polygon points="54,380 71,372 71,388"/>
+      </g>
+    </g>` : '';
+  return twoDPlotSvg(state)
+    .replace('data-l6-2d-svg', 'data-l6-pricing-svg')
+    .replace(`aria-label="Feasible polygon and cumulative simplex path through iteration ${state}"`,
+      `aria-label="The same feasible polygon and fixed optimum (4,12). ${page === 23
+        ? 'First step: move from (0,0) to (7,0), decreasing f from 0 to -35.'
+        : page === 24 ? 'At (7,0), increasing x2 moves up toward (7,6) and improves f; increasing x5 moves left toward (0,0) and worsens f.'
+        : 'Current point (7,0), with basic variables x1, x3, and x4.'}"`)
+    .replace('<polygon class="l6-optimum-marker"', `${arrows}<polygon class="l6-optimum-marker"`)
+    .replace(`>iterate ${state}</text>`, `>${state ? '(7,0)' : '(0,0)'}</text>`);
+}
+
+function pricingExample(page) {
+  const origin = page === 23;
+  const details = origin ? String.raw`
+      <p>First edge: \(x_1\) enters at the origin.</p>
+      <p>\(d=(1,0,-2,-1,-1)\).</p>
+      <div class="l6-direction-step" data-reveal="1">
+        <div class="l6-direction-equation">\[c^\top d=(-5)(1)+(-3)(0)=-5.\]</div>
+        <p>\(f(\theta)=-5\theta,\quad 0\le\theta\le7.\)</p>
+      </div>
+      <p class="l6-pricing-conclusion" data-reveal="2">At \((7,0)\): \(f=-35\), so \(z=35\).</p>` : page === 24 ? String.raw`
+      <p>At \((7,0)\): \(\mathcal B=(x_1,x_3,x_4)\),<br>\(\mathcal N=(x_2,x_5)\).</p>
+      <div class="l6-direction-equation" data-reveal="1">\[f=-35-3x_2+5x_5.\]</div>
+      <div class="l6-pricing-options" data-reveal="1">
+        <p><strong>Up with \(x_2\):</strong> \(\bar c_2=-3\) improves \(f\).</p>
+        <p><strong>Left with \(x_5\):</strong> \(\bar c_5=5\) worsens \(f\).</p>
+      </div>` : page === 25 ? String.raw`
+      <p>Same point \((7,0)\), same basis \((x_1,x_3,x_4)\).</p>
+      <div class="l6-direction-step" data-reveal="1">
+        <div class="l6-direction-equation">\[\begin{aligned}
+          2y_1+y_2+y_3&=-5,\\y_1&=0,\quad y_2=0.
+        \end{aligned}\]</div>
+        <p>Thus \(y=(0,0,-5)\).</p>
+      </div>
+      <div class="l6-direction-equation" data-reveal="2">\[\begin{aligned}
+        \bar c_2&=-3-(y_1+y_2)=-3,\\
+        \bar c_5&=0-y_3=5.
+      \end{aligned}\]</div>` : String.raw`
+      <p>At \((7,0)\), basic variables are \(x_1,x_3,x_4\).</p>
+      <div class="l6-direction-step" data-reveal="1">
+        <p>\(y=(0,0,-5)\), \(A_1=(2,1,1)\).</p>
+        <div class="l6-direction-equation">\[\bar c_1=-5-y^\top A_1=-5-(-5)=0.\]</div>
+      </div>
+      <div class="l6-direction-step l6-direction-result" data-reveal="2">
+        <p>All reduced costs: \(\bar c=(0,-3,0,0,5)\).</p>
+        <p>Basic columns: \(\bar c_1=\bar c_3=\bar c_4=0\).</p>
+      </div>`;
+  return `
+    <section class="l6-direction-visual" data-l6-pricing-example aria-label="Worked example for ${origin ? 'objective slope' : 'the basis at (7,0)'}"
+      data-cost='[-5,-3,0,0,0]' data-point5='${origin ? '[0,0,20,16,7]' : '[7,0,6,9,0]'}'
+      ${origin ? "data-direction='[1,0,-2,-1,-1]' data-slope='-5'"
+        : "data-basis='[1,3,4]' data-matrix='[[2,1,0],[1,0,1],[1,0,0]]' data-dual='[0,0,-5]' data-reduced-costs='[0,-3,0,0,5]'"}>
+      <div class="l6-plot-shell">${pricingPlot(page)}</div>
+      ${details}
+    </section>`;
+}
+
 function project3D(point, yaw = -0.7, pitch = 0.54) {
   const x = point[0] - 3;
   const y = point[1] - 4;
@@ -1177,59 +1259,111 @@ export const slides = [
   {
     id: "l6-23",
     page: 23,
-    className: "l6-derivation-slide",
+    className: "l6-direction-slide l6-pricing-slide",
     title: "Objective Slope Along a Basic Direction",
     html: String.raw`
-      <p>Along \(x(\theta)=x+\theta d\),</p>
-      <div class="l6-derivation-history l6-three-lines">
-        <div class="l6-proof-step">\[c^\top x(\theta)=c^\top x+\theta c^\top d.\]</div>
-        <div class="l6-proof-step" data-reveal="slope">\[c^\top d=c_j+c_{\mathcal B}^\top d_{\mathcal B}\]</div>
-        <div class="l6-proof-step l6-proof-result" data-reveal="slope">\[=c_j-c_{\mathcal B}^\top B^{-1}A_j.\]</div>
-      </div>
-      <aside class="l6-callout" data-tone="blue" data-reveal="meaning">This scalar is the objective change per unit increase in \(x_j\).</aside>`,
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p><strong>Use minimization:</strong> minimizing \(f=-z\) gives the same best point as maximizing \(z\).</p>
+          <p>With slacks, \(c=(-5,-3,0,0,0)\).</p>
+          <section class="l6-direction-step">
+            <p>Along \(x(\theta)=x+\theta d\),</p>
+            <div class="l6-direction-equation">\[c^\top x(\theta)=c^\top x+\theta c^\top d.\]</div>
+          </section>
+          <section class="l6-direction-step" data-reveal="1">
+            <p>Since \(d_j=1\) and \(d_{\mathcal B}=-B^{-1}A_j\),</p>
+            <div class="l6-direction-equation">\[\begin{aligned}
+              c^\top d&=c_j+c_{\mathcal B}^\top d_{\mathcal B}\\
+                       &=c_j-c_{\mathcal B}^\top B^{-1}A_j.
+            \end{aligned}\]</div>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <p>This scalar is the objective change per unit increase in the entering variable \(x_j\).</p>
+            <p>Here, each unit of \(x_1\) lowers \(f\) by \(5\).</p>
+          </section>
+        </div>
+        ${pricingExample(23)}
+      </div>`,
   },
   {
     id: "l6-24",
     page: 24,
+    className: "l6-direction-slide l6-pricing-slide",
     title: "Reduced Cost",
     html: String.raw`
-      <section class="l6-card l6-definition-card">
-        <h3>Definition</h3>
-        <p>The reduced cost of \(x_j\) relative to basis \(B\) is</p>
-        <div class="l6-equation ns-math">\[\boxed{\bar c_j=c_j-c_{\mathcal B}^\top B^{-1}A_j}.\]</div>
-      </section>
-      <div class="l6-sign-table" role="table" aria-label="Reduced-cost signs for a minimization problem" data-reveal>
-        <div role="row"><strong role="cell">\(\bar c_j<0\)</strong><span role="cell">improving slope</span></div>
-        <div role="row"><strong role="cell">\(\bar c_j=0\)</strong><span role="cell">locally flat direction</span></div>
-        <div role="row"><strong role="cell">\(\bar c_j>0\)</strong><span role="cell">objective initially rises</span></div>
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>The <strong>reduced cost</strong> of \(x_j\) relative to basis \(B\) is</p>
+          <div class="l6-direction-equation">\[\boxed{\bar c_j=c_j-c_{\mathcal B}^\top B^{-1}A_j}.\]</div>
+          <p>For a nonbasic variable, it is the slope along its basic direction.</p>
+          <div class="l6-sign-table" role="table" aria-label="Reduced-cost signs for a minimization problem" data-reveal="1">
+            <div role="row"><strong role="cell">\(\bar c_j<0\)</strong><span role="cell">objective decreases</span></div>
+            <div role="row"><strong role="cell">\(\bar c_j=0\)</strong><span role="cell">objective stays constant</span></div>
+            <div role="row"><strong role="cell">\(\bar c_j>0\)</strong><span role="cell">objective increases</span></div>
+          </div>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <p>The sign describes the slope. Nonnegativity still determines how far we may move.</p>
+            <p>Choose \(x_2\): it can increase from \(0\) to \(6\).</p>
+          </section>
+        </div>
+        ${pricingExample(24)}
       </div>`,
   },
   {
     id: "l6-25",
     page: 25,
+    className: "l6-direction-slide l6-pricing-slide",
     title: "Compute Reduced Costs with a Transpose Solve",
     html: String.raw`
-      <p>Rather than form \(B^{-1}\), solve</p>
-      <div class="l6-equation ns-math">\[B^\top y=c_{\mathcal B}.\]</div>
-      <div class="l6-derivation-pair" data-reveal>
-        <span>\(y^\top=c_{\mathcal B}^\top B^{-1}\)</span>
-        <span>\(\boxed{\bar c_j=c_j-y^\top A_j}\)</span>
-      </div>
-      <aside class="l6-callout" data-tone="green" data-reveal><strong>Reusable basis computation:</strong> one factorization of \(B\) supports basic values, pivot columns, and the transpose solve used for pricing.</aside>`,
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>Compute a vector \(y\) by solving</p>
+          <div class="l6-direction-equation">\[B^\top y=c_{\mathcal B}.\]</div>
+          <p>For \(\mathcal B=(x_1,x_3,x_4)\),</p>
+          <div class="l6-direction-equation">\[B=\begin{pmatrix}2&1&0\\1&0&1\\1&0&0\end{pmatrix},\quad
+            c_{\mathcal B}=\begin{pmatrix}-5\\0\\0\end{pmatrix}.\]</div>
+          <section class="l6-direction-step" data-reveal="1">
+            <div class="l6-direction-equation">\[y^\top=c_{\mathcal B}^\top B^{-1}.\]</div>
+            <p>Use this same \(y\) for every column \(A_j\):</p>
+            <div class="l6-direction-equation">\[\boxed{\bar c_j=c_j-y^\top A_j}.\]</div>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <p>Reuse the factorization of \(B\) for basic values, pivot columns, and this transpose solve.</p>
+          </section>
+        </div>
+        ${pricingExample(25)}
+      </div>`,
   },
   {
     id: "l6-26",
     page: 26,
-    className: "l6-derivation-slide",
+    className: "l6-direction-slide l6-pricing-slide",
     title: "Every Basic Variable Has Zero Reduced Cost",
     html: String.raw`
-      <p>For a basic index \(B(i)\),</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[B^{-1}A_{B(i)}=e_i.\]</div>
-        <div class="l6-proof-step" data-reveal="substitute">\[\bar c_{B(i)}=c_{B(i)}-c_{\mathcal B}^\top B^{-1}A_{B(i)}\]</div>
-        <div class="l6-proof-step l6-proof-result" data-reveal="finish">\[=c_{B(i)}-c_{\mathcal B}^\top e_i=0.\]</div>
-      </div>
-      <aside class="l6-callout" data-tone="blue" data-reveal="finish"><strong>Therefore:</strong> only nonbasic reduced costs need to be examined.</aside>`,
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>For basic column \(A_{B(i)}\), let \(e_i\) be the vector with a \(1\) in position \(i\) and zeros elsewhere.</p>
+          <section class="l6-direction-step">
+            <div class="l6-direction-equation">\[B^{-1}A_{B(i)}=e_i.\]</div>
+          </section>
+          <section class="l6-direction-step" data-reveal="1">
+            <div class="l6-direction-equation">\[\begin{aligned}
+              \bar c_{B(i)}&=c_{B(i)}-c_{\mathcal B}^\top B^{-1}A_{B(i)}\\
+                           &=c_{B(i)}-c_{\mathcal B}^\top e_i.
+            \end{aligned}\]</div>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <div class="l6-direction-equation">\[\bar c_{B(i)}=c_{B(i)}-c_{B(i)}=0.\]</div>
+            <p>Only <strong>nonbasic</strong> reduced costs need examination when choosing an entering variable.</p>
+          </section>
+          <p class="l6-pricing-conclusion" data-reveal="2">A basic reduced cost of zero is an identity for a basis column, not an independent entering move.</p>
+        </div>
+        ${pricingExample(26)}
+      </div>`,
   },
   {
     id: "l6-27",
