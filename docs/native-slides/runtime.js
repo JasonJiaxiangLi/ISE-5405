@@ -1645,17 +1645,28 @@ export class NativeDeckController {
   }
 
   openDialog(title, renderBody) {
+    this.dialogRevision = (this.dialogRevision ?? 0) + 1;
+    const revision = this.dialogRevision;
     this.dialogReturnFocus = document.activeElement;
     this.elements.dialogTitle.textContent = title;
     clearMath([this.elements.dialogBody]);
     this.elements.dialogBody.replaceChildren();
     renderBody(this.elements.dialogBody);
-    typesetMath([this.elements.dialogBody]);
+    const mathReady = typesetMath([this.elements.dialogBody]);
     if (typeof this.elements.dialog.showModal === "function") {
       this.elements.dialog.showModal();
     } else {
       this.elements.dialog.setAttribute("open", "");
     }
+    // A reused dialog body can retain the previous checkpoint's feedback
+    // scroll position. Reset after opening and again after MathJax reflows the
+    // current body; the revision guard cannot disturb a newer dialog.
+    this.elements.dialogBody.scrollTo(0, 0);
+    void mathReady.then(() => {
+      if (this.dialogRevision === revision && this.elements.dialog.hasAttribute("open")) {
+        this.elements.dialogBody.scrollTo(0, 0);
+      }
+    });
     const firstControl = this.elements.dialog.querySelector(
       "button, input, select, textarea, summary, a[href]",
     );

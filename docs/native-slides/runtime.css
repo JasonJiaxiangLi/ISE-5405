@@ -764,6 +764,7 @@
 
 .ns-dialog-body {
   overflow: auto;
+  overflow-anchor: none;
   padding: clamp(1rem, 3vw, 1.6rem);
   overscroll-behavior: contain;
 }
@@ -883,6 +884,50 @@
 .ns-checkpoint-result[data-result="incorrect"] { background: #fff4ed; color: #7d341e; }
 .ns-checkpoint-result[data-result="missing"] { background: #fff8db; color: #68520b; }
 .ns-checkpoint-result p { margin: 0.35rem 0 0; color: inherit; }
+
+/* Checkpoints are projected teaching surfaces, not compact utility dialogs.
+   Keep this scoped to checkpoint content so Explore, help, slide-menu, and
+   annotation dialogs retain their own density. Long checkpoints scroll in the
+   existing dialog body; they do not shrink to fit. */
+.ns-dialog .ns-checkpoint {
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  line-height: 1.35;
+}
+
+.ns-dialog .ns-checkpoint legend {
+  margin-bottom: 0.75rem;
+  font-size: clamp(1.75rem, 2.7vw, 2.25rem);
+  line-height: 1.22;
+}
+
+.ns-dialog .ns-checkpoint .ns-choice {
+  min-height: 64px;
+  gap: 0.7rem;
+  margin: 0.45rem 0;
+  padding: 0.65rem 0.8rem;
+}
+
+.ns-dialog .ns-checkpoint .ns-choice input {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.ns-dialog .ns-checkpoint > .ns-control,
+.ns-dialog:has(.ns-checkpoint) .ns-dialog-footer .ns-control {
+  min-height: 48px;
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+}
+
+.ns-dialog .ns-checkpoint-result {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/* The general form-control reset is more specific than `.ns-icon-button`.
+   Restore the intended × size only for checkpoint headers. */
+.ns-dialog:has(.ns-checkpoint) .ns-dialog-header .ns-icon-button {
+  font-size: 1.5rem;
+}
 
 .ns-shortcuts {
   display: grid;

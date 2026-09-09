@@ -73,25 +73,25 @@ const TWO_D_VERTICES = Object.freeze([
 const TWO_D_STATES = Object.freeze([
   Object.freeze({
     point: Object.freeze([0, 0]), value: 0,
-    basis: "\\(\\mathcal B=(x_3,x_4,x_5),\\quad \\mathcal N=(x_1,x_2)\\)",
+    basis: "<span>\\(\\mathcal B=(x_3,x_4,x_5),\\)</span><span>\\(\\mathcal N=(x_1,x_2)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=5x_1+3x_2,\\x_3&=20-2x_1-x_2,\\x_4&=16-x_1-x_2,\\x_5&=7-x_1.\end{aligned}\]`,
     transition: "Start at the slack basis. Next: x₁ enters, x₅ leaves, θ = 7.",
   }),
   Object.freeze({
     point: Object.freeze([7, 0]), value: 35,
-    basis: "\\(\\mathcal B=(x_1,x_3,x_4),\\quad \\mathcal N=(x_2,x_5)\\)",
+    basis: "<span>\\(\\mathcal B=(x_1,x_3,x_4),\\)</span><span>\\(\\mathcal N=(x_2,x_5)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=35+3x_2-5x_5,\\x_1&=7-x_5,\\x_3&=6-x_2+2x_5,\\x_4&=9-x_2+x_5.\end{aligned}\]`,
     transition: "x₁ entered and x₅ left. Next: x₂ enters, x₃ leaves, θ = 6.",
   }),
   Object.freeze({
     point: Object.freeze([7, 6]), value: 53,
-    basis: "\\(\\mathcal B=(x_1,x_2,x_4),\\quad \\mathcal N=(x_3,x_5)\\)",
+    basis: "<span>\\(\\mathcal B=(x_1,x_2,x_4),\\)</span><span>\\(\\mathcal N=(x_3,x_5)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=53-3x_3+x_5,\\x_1&=7-x_5,\\x_2&=6-x_3+2x_5,\\x_4&=3+x_3-x_5.\end{aligned}\]`,
     transition: "x₂ entered and x₃ left. Next: x₅ enters, x₄ leaves, θ = 3.",
   }),
   Object.freeze({
     point: Object.freeze([4, 12]), value: 56,
-    basis: "\\(\\mathcal B=(x_1,x_2,x_5),\\quad \\mathcal N=(x_3,x_4)\\)",
+    basis: "<span>\\(\\mathcal B=(x_1,x_2,x_5),\\)</span><span>\\(\\mathcal N=(x_3,x_4)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=56-2x_3-x_4,\\x_1&=4-x_3+x_4,\\x_2&=12+x_3-2x_4,\\x_5&=3+x_3-x_4.\end{aligned}\]`,
     transition: "Current point = marked optimum. Both remaining max-dictionary coefficients are nonpositive.",
   }),
@@ -126,31 +126,31 @@ const THREE_D_PATH = Object.freeze(THREE_D_PATH_INDICES.map((index) => THREE_D_V
 const THREE_D_STATES = Object.freeze([
   Object.freeze({
     point: THREE_D_PATH[0], value: 0,
-    basis: "\\(\\mathcal B=(x_4,x_5,x_6,x_7),\\quad \\mathcal N=(x_1,x_2,x_3)\\)",
+    basis: "<span>\\(\\mathcal B=(x_4,x_5,x_6,x_7),\\)</span><span>\\(\\mathcal N=(x_1,x_2,x_3)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=x_1+2x_2+4x_3,\\x_4&=6-x_1,\\x_5&=8-x_1-x_3,\\x_6&=5-x_3,\\x_7&=8-x_2-x_3.\end{aligned}\]`,
     transition: "Origin. Next: x₁ enters, x₄ leaves, θ = 6.",
   }),
   Object.freeze({
     point: THREE_D_PATH[1], value: 6,
-    basis: "\\(\\mathcal B=(x_1,x_5,x_6,x_7),\\quad \\mathcal N=(x_2,x_3,x_4)\\)",
+    basis: "<span>\\(\\mathcal B=(x_1,x_5,x_6,x_7),\\)</span><span>\\(\\mathcal N=(x_2,x_3,x_4)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=6+2x_2+4x_3-x_4,\\x_1&=6-x_4,\\x_5&=2-x_3+x_4,\\x_6&=5-x_3,\\x_7&=8-x_2-x_3.\end{aligned}\]`,
     transition: "x₁ entered, x₄ left. Next: x₂ enters, x₇ leaves, θ = 8.",
   }),
   Object.freeze({
     point: THREE_D_PATH[2], value: 22,
-    basis: "\\(\\mathcal B=(x_1,x_2,x_5,x_6),\\quad \\mathcal N=(x_3,x_4,x_7)\\)",
+    basis: "<span>\\(\\mathcal B=(x_1,x_2,x_5,x_6),\\)</span><span>\\(\\mathcal N=(x_3,x_4,x_7)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=22+2x_3-x_4-2x_7,\\x_1&=6-x_4,\\x_2&=8-x_3-x_7,\\x_5&=2-x_3+x_4,\\x_6&=5-x_3.\end{aligned}\]`,
     transition: "x₂ entered, x₇ left. Next: x₃ enters, x₅ leaves, θ = 2.",
   }),
   Object.freeze({
     point: THREE_D_PATH[3], value: 26,
-    basis: "\\(\\mathcal B=(x_1,x_2,x_3,x_6),\\quad \\mathcal N=(x_4,x_5,x_7)\\)",
+    basis: "<span>\\(\\mathcal B=(x_1,x_2,x_3,x_6),\\)</span><span>\\(\\mathcal N=(x_4,x_5,x_7)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=26+x_4-2x_5-2x_7,\\x_1&=6-x_4,\\x_2&=6-x_4+x_5-x_7,\\x_3&=2+x_4-x_5,\\x_6&=3-x_4+x_5.\end{aligned}\]`,
     transition: "x₃ entered, x₅ left. Next: x₄ enters, x₆ leaves, θ = 3.",
   }),
   Object.freeze({
     point: THREE_D_PATH[4], value: 29,
-    basis: "\\(\\mathcal B=(x_1,x_2,x_3,x_4),\\quad \\mathcal N=(x_5,x_6,x_7)\\)",
+    basis: "<span>\\(\\mathcal B=(x_1,x_2,x_3,x_4),\\)</span><span>\\(\\mathcal N=(x_5,x_6,x_7)\\)</span>",
     dictionary: String.raw`\[\begin{aligned}z&=29-x_5-x_6-2x_7,\\x_1&=3-x_5+x_6,\\x_2&=3+x_6-x_7,\\x_3&=5-x_6,\\x_4&=3+x_5-x_6.\end{aligned}\]`,
     transition: "Unique optimum. Every remaining max-dictionary coefficient is nonpositive.",
   }),
@@ -330,7 +330,7 @@ function pathControls(kind, interactive) {
 function statePanelCopies(states, stateIndex, summaryItems = null) {
   const copies = states.map((state, index) => `<div class="l6-state-copy" data-l6-state-copy="${index}"${index === stateIndex ? "" : " hidden"}>
       <h3>Iteration ${index}: ${pointText(state.point)}</h3>
-      <p class="l6-objective">\(z=${state.value}\)</p>
+      <p class="l6-objective">\\(z=${state.value}\\)</p>
       ${summaryItems ? "" : `<p class="l6-basis-line">${state.basis}</p><div class="l6-dictionary ns-math">${state.dictionary}</div><p class="l6-transition">${state.transition}</p>`}
     </div>`).join("");
   return `${copies}${summaryItems ?? ""}`;
@@ -353,7 +353,7 @@ function twoDPlayerMarkup(stateIndex, { interactive = false, summary = false, pr
     </div>
     <aside class="l6-state-panel">
       ${statePanelCopies(TWO_D_STATES, stateIndex, summaryItems)}
-      <p class="l6-player-status" data-l6-status role="status" aria-live="polite">Iteration ${stateIndex}; point ${pointText(state.point)}; objective ${state.value}.</p>
+      <p class="l6-player-status l6-visually-hidden" data-l6-status role="status" aria-live="polite">Iteration ${stateIndex}; point ${pointText(state.point)}; objective ${state.value}.</p>
     </aside>
     ${print ? "" : `<div class="l6-player-footer">${interactive ? stateButtons(3) : ""}${pathControls("2d", interactive)}</div>`}
   </div>`;
@@ -378,7 +378,7 @@ function threeDPlayerMarkup(stateIndex, { interactive = false, summary = false, 
     </div>
     <aside class="l6-state-panel">
       ${statePanelCopies(THREE_D_STATES, stateIndex, summaryItems)}
-      <p class="l6-player-status" data-l6-status role="status" aria-live="polite">Iteration ${stateIndex}; point ${pointText(state.point)}; objective ${state.value}.</p>
+      <p class="l6-player-status l6-visually-hidden" data-l6-status role="status" aria-live="polite">Iteration ${stateIndex}; point ${pointText(state.point)}; objective ${state.value}.</p>
     </aside>
     ${print ? "" : `<div class="l6-player-footer">${interactive ? stateButtons(4) : ""}${pathControls("3d", interactive)}</div>`}
   </div>`;

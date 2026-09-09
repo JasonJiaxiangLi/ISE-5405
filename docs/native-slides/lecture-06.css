@@ -179,6 +179,7 @@
 }
 
 /* Exact native GILP diagrams and controls. */
+[data-native-deck="lecture-06"] .l6-gilp-slide { padding-block: 2.4cqw; }
 [data-native-deck="lecture-06"] .l6-gilp-slide .ns-slide-header { margin-bottom: .3em; }
 
 [data-native-deck="lecture-06"] .l6-problem-strip {
@@ -216,7 +217,6 @@
 
 [data-native-deck="lecture-06"] .l6-problem-slide .l6-state-panel {
   padding: .46em .58em;
-  font-size: .9em;
 }
 
 [data-native-deck="lecture-06"] .l6-problem-slide .l6-gilp-player {
@@ -386,6 +386,7 @@
   border-top: .28em solid var(--ns-maroon);
   border-radius: 7px;
   background: #fff;
+  font-size: 1.08em;
 }
 
 [data-native-deck="lecture-06"] .l6-objective {
@@ -396,24 +397,32 @@
 }
 
 [data-native-deck="lecture-06"] .l6-basis-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .12em .65em;
   margin: 0 0 .08em;
   color: var(--ns-ink-soft);
-  font-size: .72em;
-  line-height: 1.24;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+[data-native-deck="lecture-06"] .l6-basis-line > span {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 [data-native-deck="lecture-06"] .l6-dictionary {
   overflow-x: auto;
   overflow-y: hidden;
   font-family: var(--ns-serif);
-  font-size: .67em;
+  font-size: 1em;
   scrollbar-width: thin;
 }
 
 [data-native-deck="lecture-06"] .l6-transition,
 [data-native-deck="lecture-06"] .l6-player-status {
   margin: .2em 0 0;
-  font-size: .67em;
+  font-size: .9em;
   line-height: 1.28;
 }
 
@@ -500,7 +509,6 @@
   min-height: 11.3em;
 }
 
-[data-native-deck="lecture-06"] .l6-gilp-synthesis .l6-state-panel { font-size: .9em; }
 [data-native-deck="lecture-06"] .l6-gilp-synthesis .l6-algorithm-question { margin: .28em 0 0; font-size: .82em; }
 [data-native-deck="lecture-06"] .l6-gilp-summary .l6-transition { display: none; }
 
@@ -509,7 +517,7 @@
   gap: .25em;
   margin: .28em 0;
   padding-left: 1.25em;
-  font-size: .82em;
+  font-size: 1em;
 }
 
 /* Cumulative algebra and proof layouts. */
@@ -732,6 +740,34 @@
   padding-block: .38em;
 }
 
+/* In a short desktop window, use the space beneath the plot for controls
+   while preserving the larger iteration mathematics beside it. */
+@media screen and (min-width: 761px) and (max-height: 640px) {
+  [data-native-deck="lecture-06"] .l6-gilp-slide { padding-block: 1cqw; }
+  [data-native-deck="lecture-06"] .l6-gilp-slide .ns-slide-header {
+    margin-bottom: .2em;
+    padding-bottom: .2em;
+  }
+  [data-native-deck="lecture-06"] .l6-gilp-slide .ns-slide-header h1 { font-size: 1.65em; }
+  [data-native-deck="lecture-06"] .l6-gilp-player,
+  [data-native-deck="lecture-06"] .l6-problem-slide .l6-gilp-player {
+    grid-template-areas: "plot panel" "footer panel";
+    align-items: start;
+  }
+  [data-native-deck="lecture-06"] .l6-player-footer {
+    align-self: end;
+    justify-content: flex-start;
+  }
+  [data-native-deck="lecture-06"] .l6-problem-slide.l6-gilp-slide-3d .l6-gilp-svg {
+    height: 14em;
+    min-height: 0;
+  }
+  [data-native-deck="lecture-06"] .l6-gilp-synthesis .l6-compact-list {
+    gap: .18em;
+    line-height: 1.22;
+  }
+}
+
 @media (max-width: 760px) {
   [data-native-deck="lecture-06"] .l6-title-grid,
   [data-native-deck="lecture-06"] .l6-gilp-player,
@@ -748,8 +784,7 @@
 
   [data-native-deck="lecture-06"] .l6-title-art { display: none; }
   [data-native-deck="lecture-06"] .l6-gilp-svg { height: 13em; min-height: 0; }
-  [data-native-deck="lecture-06"] .l6-state-panel { font-size: .86em; }
-  [data-native-deck="lecture-06"] .l6-dictionary { font-size: .72em; }
+  [data-native-deck="lecture-06"] .l6-state-panel { font-size: max(18px, 1.08em); }
   [data-native-deck="lecture-06"] .l6-player-footer { justify-content: flex-start; }
   [data-native-deck="lecture-06"] .l6-rotate-hint { display: none; }
   [data-native-deck="lecture-06"] .l6-problem-strip { grid-template-columns: 1fr; }
@@ -764,7 +799,6 @@
     height: 13em;
     min-height: 0;
   }
-  [data-native-deck="lecture-06"] .l6-problem-slide .l6-state-panel { font-size: .86em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
