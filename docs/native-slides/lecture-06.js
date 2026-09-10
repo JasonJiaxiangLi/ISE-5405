@@ -1305,11 +1305,21 @@ export const slides = [
   {
     id: "l6-22",
     page: 22,
-    title: "Equality Preservation Is Not Enough",
+    className: "l6-direction-slide l6-feasibility-bridge",
+    title: "We have checked whether a move is feasible. Next, we ask whether it improves the objective.",
+    titleHtml: `<span>We have checked whether a move is feasible.</span> <span>Next, we ask whether it improves the objective.</span>`,
     html: String.raw`
-      <section class="l6-card" data-tone="green"><h3>Nondegenerate basic feasible solution</h3><p>If \(x_{\mathcal B}>0\), every basic direction permits a sufficiently small positive step: \(x_{\mathcal B}+\theta d_{\mathcal B}\ge0\).</p></section>
-      <section class="l6-card" data-tone="orange" data-reveal><h3>Degenerate basic feasible solution</h3><p>If some \(x_{B(i)}=0\) and \(d_{B(i)}<0\), every positive step makes that component negative. The direction is blocked at \(\theta=0\).</p></section>
-      <aside class="l6-callout" data-tone="maroon" data-reveal><strong>The distinction:</strong> equality preservation gives an algebraically valid direction; nonnegativity decides whether it permits a positive geometric move.</aside>`,
+      <section class="l6-card" data-tone="green" data-l6-feasibility-recap>
+        <h3>What we have checked</h3>
+        <div class="l6-direction-equation">\[Ad=0,\qquad x+\theta d\ge0.\]</div>
+        <p>The move preserves the equality constraints and keeps every variable nonnegative.</p>
+        <p class="l6-bridge-note">If \(x_{\mathcal B}>0\), every basic direction allows a sufficiently small positive step.</p>
+      </section>
+      <aside class="l6-card" data-tone="orange" data-l6-degeneracy-caveat data-reveal="1">
+        <h3>One caveat: degeneracy — we will revisit this later</h3>
+        <p>A basic variable may already be zero. If \(x_{B(i)}=0\) and \(d_{B(i)}<0\), every positive step makes it negative, so this direction is blocked at \(\theta=0\).</p>
+        <p class="l6-bridge-note">We will return to degeneracy in the later worked example.</p>
+      </aside>`,
   },
   {
     id: "l6-23",
