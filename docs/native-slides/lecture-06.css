@@ -646,6 +646,16 @@
 [data-native-deck="lecture-06"] .l6-pricing-improve { color: var(--ns-green); }
 [data-native-deck="lecture-06"] .l6-pricing-worsen { color: var(--ns-orange); }
 
+[data-native-deck="lecture-06"] .l6-ratio-table { margin-top: .4em; font-size: 1em; }
+[data-native-deck="lecture-06"] .l6-ratio-table :is(th, td) { padding: .28em .2em; }
+[data-native-deck="lecture-06"] .l6-ratio-table thead th { font-size: .95em; }
+[data-native-deck="lecture-06"] .l6-ratio-limiting { background: #eef8f1; }
+[data-native-deck="lecture-06"] .l6-simplex-flow-slide .l6-direction-step { padding-block: .35em; }
+[data-native-deck="lecture-06"] .l6-simplex-flow-slide .l6-flow-model { margin: 0 0 .4em; }
+[data-native-deck="lecture-06"] .l6-simplex-flow-slide .l6-flow-stack { display: grid; gap: .45em; }
+[data-native-deck="lecture-06"] .l6-simplex-flow-slide .l6-flow-algorithm { font-size: 1em; }
+[data-native-deck="lecture-06"] .l6-simplex-flow-slide .l6-flow-algorithm li { padding-block: .35em; }
+
 /* Cumulative algebra and proof layouts. */
 [data-native-deck="lecture-06"] .l6-check-pair,
 [data-native-deck="lecture-06"] .l6-derivation-pair,
@@ -719,7 +729,18 @@
 }
 
 [data-native-deck="lecture-06"] .l6-three-lines { min-height: 9.2em; }
-[data-native-deck="lecture-06"] .l6-proof-optimality .l6-derivation-history { font-size: .88em; }
+[data-native-deck="lecture-06"] .l6-proof-optimality { padding: 1.5cqw 3.4cqw; }
+[data-native-deck="lecture-06"] .l6-proof-optimality .ns-slide-header { margin-bottom: .3em; padding-bottom: .3em; }
+[data-native-deck="lecture-06"] .l6-proof-optimality .ns-slide-header h1 { font-size: 1.85em; }
+[data-native-deck="lecture-06"] .l6-optimality-intro { margin: 0 0 .3em; }
+[data-native-deck="lecture-06"] .l6-optimality-history { display: grid; gap: .28em; font-size: 1em; }
+[data-native-deck="lecture-06"] .l6-optimality-step { padding: .2em .65em; border-left: .24em solid var(--ns-blue); border-radius: 4px; background: #f1f7fa; }
+[data-native-deck="lecture-06"] .l6-optimality-step h3 { margin: 0 0 .1em; font-size: 1em; color: var(--ns-ink); }
+[data-native-deck="lecture-06"] .l6-optimality-step p { margin: 0; }
+[data-native-deck="lecture-06"] .l6-optimality-feasibility { display: flex; flex-wrap: wrap; justify-content: center; gap: .15em 1.5em; }
+[data-native-deck="lecture-06"] .l6-optimality-equation { font-family: var(--ns-serif); }
+[data-native-deck="lecture-06"] .l6-optimality-equation mjx-container[display="true"] { margin: .08em 0 !important; }
+[data-native-deck="lecture-06"] .l6-optimality-step.l6-proof-result { border-left-color: var(--ns-green); background: #eef8f1; }
 
 [data-native-deck="lecture-06"] .l6-sign-table {
   display: grid;
@@ -895,6 +916,7 @@
 }
 
 @media (max-width: 760px) {
+  [data-native-deck="lecture-06"] .l6-proof-optimality { font-size: 18px; padding: 1.2rem 1.1rem; }
   [data-native-deck="lecture-06"] .l6-direction-slide { font-size: 18px; padding: 1.2rem 1.1rem; }
   [data-native-deck="lecture-06"] .l6-direction-grid { grid-template-columns: 1fr; }
   [data-native-deck="lecture-06"] .l6-direction-slide .l6-problem-math > span { white-space: normal; }

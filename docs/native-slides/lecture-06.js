@@ -35,16 +35,17 @@ const checkpointOptimality = Object.freeze({
 });
 
 const checkpointUnbounded = Object.freeze({
-  prompt: "An entering variable has negative reduced cost and u = B⁻¹Aⱼ ≤ 0. What follows?",
+  prompt: "At a basic feasible solution of a minimization LP, an entering variable has negative reduced cost and d_B ≥ 0. What follows?",
+  promptHtml: String.raw`At a basic feasible solution of a minimization LP, an entering variable has negative reduced cost and \(d_{\mathcal B}\ge0\). What follows?`,
   choices: [
     "The current basis is optimal",
-    "The ratio test chooses the largest component of u",
+    "The ratio test chooses the largest basic direction component",
     "The direction is blocked at step zero",
     "The path stays feasible for every nonnegative step and the objective is unbounded below",
   ],
   correctIndex: 3,
   explanation:
-    "Then d_B = −u ≥ 0, so no basic variable blocks the move. The ray remains feasible and its negative slope drives the objective to −∞.",
+    "No basic variable decreases, so no variable blocks the move. The direction preserves the equalities, and its negative objective slope makes the feasible ray unbounded below.",
   autoOpen: true,
 });
 
@@ -453,6 +454,60 @@ function pricingExample(page) {
         : "data-basis='[1,3,4]' data-matrix='[[2,1,0],[1,0,1],[1,0,0]]' data-dual='[0,0,-5]' data-reduced-costs='[0,-3,0,0,5]'"}>
       <div class="l6-plot-shell">${pricingPlot(page)}</div>
       ${details}
+    </section>`;
+}
+
+function pivotExample(page) {
+  const state = page === 32 ? 2 : 1;
+  const edge = page === 30 || page === 31 ? `
+    <g class="l6-pricing-edge l6-pricing-improve"${page === 30 ? ' data-reveal="1"' : ''}>
+      <line data-l6-pivot-edge x1="362" y1="380" x2="362" y2="272"/>
+      <polygon points="362,272 354,289 370,289"/>
+    </g>` : '';
+  const plot = twoDPlotSvg(state)
+    .replace('data-l6-2d-svg', 'data-l6-pivot-svg')
+    .replace(`aria-label="Feasible polygon and cumulative simplex path through iteration ${state}"`,
+      `aria-label="The original feasible polygon and fixed optimum (4,12). ${state === 2
+        ? 'The completed step from (7,0) to (7,6).'
+        : 'Current point (7,0); increasing x2 follows the vertical edge toward (7,6).'}"`)
+    .replace('<polygon class="l6-optimum-marker"', `${edge}<polygon class="l6-optimum-marker"`)
+    .replace(`>iterate ${state}</text>`, `>${state === 2 ? '(7,6)' : '(7,0)'}</text>`);
+  const details = page === 29 ? String.raw`
+      <p>\(\mathcal B=(x_1,x_3,x_4)\),<br>\(\mathcal N=(x_2,x_5)\), \(f=-35\).</p>
+      <div class="l6-direction-step" data-reveal="1">
+        <p>From the reduced-cost calculation:</p>
+        <div class="l6-direction-equation">\[\bar c_2=-3,\qquad\bar c_5=5.\]</div>
+      </div>` : page === 30 ? String.raw`
+      <p>Increase \(x_2=\theta\); keep \(x_5=0\).</p>
+      <div class="l6-direction-step" data-reveal="1">
+        <h3>The basic variables move together</h3>
+        <div class="l6-direction-equation">\[\begin{aligned}
+          x_1(\theta)&=7,\\x_3(\theta)&=6-\theta,\\x_4(\theta)&=9-\theta.
+        \end{aligned}\]</div>
+      </div>` : page === 31 ? String.raw`
+      <table class="l6-direction-values l6-ratio-table" data-reveal="1" aria-label="Step bounds from the basic variables">
+        <thead><tr><th scope="col">Basic</th><th scope="col">Value along the edge</th><th scope="col">Step bound</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">\(x_1\)</th><td>\(7\)</td><td>None</td></tr>
+          <tr class="l6-ratio-limiting"><th scope="row">\(x_3\)</th><td>\(6-\theta\)</td><td>\(\theta\le6\)</td></tr>
+          <tr><th scope="row">\(x_4\)</th><td>\(9-\theta\)</td><td>\(\theta\le9\)</td></tr>
+        </tbody>
+      </table>
+      <p data-reveal="2"><strong>\(x_3\) reaches zero first, at \(\theta=6\).</strong></p>` : String.raw`
+      <p>New point \((7,6)\), objective \(f=-53\).</p>
+      <p data-reveal="1">\(\mathcal B_{\mathrm{new}}=(x_1,x_2,x_4)\),<br>\(\mathcal N_{\mathrm{new}}=(x_3,x_5)\).</p>
+      <div class="l6-direction-step" data-reveal="2">
+        <p>At the new basis:</p>
+        <div class="l6-direction-equation">\[\bar c_3=3,\qquad\bar c_5=-1.\]</div>
+        <p>Another improving slope: examine \(x_5\) next.</p>
+      </div>`;
+  return `<section class="l6-direction-visual" data-l6-pivot-example
+      aria-label="One simplex pivot in the running two-dimensional example"
+      data-origin='[7,0,6,9,0]' data-direction='[0,1,-1,-1,0]'
+      data-cost='[-5,-3,0,0,0]' data-theta-max="6"
+      data-basis='${state === 2 ? '[1,2,4]' : '[1,3,4]'}'
+      data-point5='${state === 2 ? '[7,6,0,3,0]' : '[7,0,6,9,0]'}'>
+      <div class="l6-plot-shell">${plot}</div>${details}
     </section>`;
 }
 
@@ -1386,94 +1441,193 @@ export const slides = [
     className: "l6-derivation-slide l6-proof-optimality",
     title: "Why Nonnegative Reduced Costs Prove Optimality",
     html: String.raw`
-      <p>For any feasible \(x\), retain each substitution:</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[x_{\mathcal B}=B^{-1}b-B^{-1}A_{\mathcal N}x_{\mathcal N}.\]</div>
-        <div class="l6-proof-step" data-reveal="substitute">\[c^\top x=c_{\mathcal B}^\top B^{-1}b+\bigl(c_{\mathcal N}^\top-c_{\mathcal B}^\top B^{-1}A_{\mathcal N}\bigr)x_{\mathcal N}\]</div>
-        <div class="l6-proof-step l6-proof-result" data-reveal="collect">\[=c_{\mathcal B}^\top B^{-1}b+\bar c_{\mathcal N}^\top x_{\mathcal N}.\]</div>
-      </div>
-      <aside class="l6-callout" data-tone="green" data-reveal="conclude">If \(\bar c_{\mathcal N}\ge0\) and \(x_{\mathcal N}\ge0\), no feasible point has value below the current basic value.</aside>`,
+      <p class="l6-optimality-intro">Compare any feasible \(x\) with the current basic feasible solution \(\hat x\), where \(\hat x_{\mathcal N}=0\).</p>
+      <div class="l6-optimality-history" data-l6-optimality-proof>
+        <section class="l6-optimality-step" data-l6-optimality-stage="feasibility">
+          <h3>Both points satisfy the constraints</h3>
+          <p class="l6-optimality-feasibility"><span>Any \(x\): \(Bx_{\mathcal B}+A_{\mathcal N}x_{\mathcal N}=b\).</span>
+            <span>Current \(\hat x\): \(B\hat x_{\mathcal B}=b\).</span></p>
+        </section>
+        <section class="l6-optimality-step" data-l6-optimality-stage="subtract" data-reveal="1">
+          <h3>Subtract the equations, then multiply by \(B^{-1}\)</h3>
+          <div class="l6-optimality-equation">\[\begin{aligned}
+            B(x_{\mathcal B}-\hat x_{\mathcal B})&=-A_{\mathcal N}x_{\mathcal N},\\
+            x_{\mathcal B}-\hat x_{\mathcal B}&=-B^{-1}A_{\mathcal N}x_{\mathcal N}.
+          \end{aligned}\]</div>
+        </section>
+        <section class="l6-optimality-step" data-l6-optimality-stage="objective" data-reveal="2">
+          <h3>Split the objective into basic and nonbasic contributions</h3>
+          <div class="l6-optimality-equation">\[\begin{aligned}
+            c^\top x&=c_{\mathcal B}^\top x_{\mathcal B}+c_{\mathcal N}^\top x_{\mathcal N},\\
+            c^\top x-c^\top\hat x&=c_{\mathcal B}^\top(x_{\mathcal B}-\hat x_{\mathcal B})+c_{\mathcal N}^\top x_{\mathcal N}.
+          \end{aligned}\]</div>
+        </section>
+        <section class="l6-optimality-step" data-l6-optimality-stage="substitute" data-reveal="3">
+          <h3>Substitute the change in basic variables</h3>
+          <div class="l6-optimality-equation">\[\begin{aligned}
+            c^\top x-c^\top\hat x&=-c_{\mathcal B}^\top B^{-1}A_{\mathcal N}x_{\mathcal N}+c_{\mathcal N}^\top x_{\mathcal N}\\
+              &=\sum_{j\in\mathcal N}\bigl(c_j-c_{\mathcal B}^\top B^{-1}A_j\bigr)x_j
+               =\sum_{j\in\mathcal N}\bar c_jx_j.
+          \end{aligned}\]</div>
+        </section>
+        <section class="l6-optimality-step l6-proof-result" data-l6-optimality-stage="conclude" data-reveal="4">
+          <p>If \(\bar c_{\mathcal N}\ge0\), feasibility gives \(x_{\mathcal N}\ge0\), so every term \(\bar c_jx_j\ge0\).</p>
+          <p>Hence \(c^\top x-c^\top\hat x\ge0\) for every feasible \(x\): <strong>\(\hat x\) minimizes the objective.</strong></p>
+        </section>
+      </div>`,
   },
   {
     id: "l6-29",
     page: 29,
-    title: "The Two Checks for an Optimal Basis",
+    className: "l6-direction-slide l6-pricing-slide l6-simplex-flow-slide",
+    title: "Can We Stop at (7,0)?",
     html: String.raw`
-      <div class="l6-optimal-checks">
-        <section><h3>1 · Primal feasibility</h3><div class="ns-math">\[\boxed{B^{-1}b\ge0}\]</div><p>The associated basic solution lies in the feasible set.</p></section>
-        <section data-reveal><h3>2 · Optimality</h3><div class="ns-math">\[\boxed{\bar c_{\mathcal N}\ge0}\]</div><p>No nonbasic direction has a negative objective slope.</p></section>
-      </div>
-      <aside class="l6-callout" data-tone="orange" data-reveal><strong>Keep the questions separate:</strong> a nonsingular basis need not be feasible, and a feasible basis need not be optimal.</aside>`,
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>Apply the stopping rule to our current basis.</p>
+          <section class="l6-direction-step">
+            <h3>1 · Is the basic solution feasible?</h3>
+            <div class="l6-direction-equation">\[x_{\mathcal B}=B^{-1}b=(7,6,9)^\top\ge0.\]</div>
+            <p>Yes: all three basic values are positive.</p>
+          </section>
+          <section class="l6-direction-step" data-reveal="1">
+            <h3>2 · Are all nonbasic reduced costs nonnegative?</h3>
+            <p>No: \(\bar c_2=-3<0\).</p>
+            <p>The basis does not pass the stopping test.</p>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <h3>Next question: how should we move?</h3>
+            <p>Examine the basic direction for increasing \(x_2\). Its negative slope can lower \(f\) if a positive step is feasible.</p>
+          </section>
+        </div>
+        ${pivotExample(29)}
+      </div>`,
     checkpoint: checkpointOptimality,
   },
   {
     id: "l6-30",
     page: 30,
-    className: "l6-derivation-slide",
-    title: "A Negative Reduced Cost Chooses an Entering Variable",
+    className: "l6-direction-slide l6-pricing-slide l6-simplex-flow-slide",
+    title: "Choose a Direction: Increase x₂",
+    titleHtml: String.raw`Choose a Direction: Increase \(x_2\)`,
     html: String.raw`
-      <p>Suppose a nonbasic \(x_j\) has \(\bar c_j<0\). Let</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[u=B^{-1}A_j,\qquad d_{\mathcal B}=-u,\qquad d_j=1.\]</div>
-        <div class="l6-proof-step" data-reveal="path">\[x_{\mathcal B}(\theta)=x_{\mathcal B}-\theta u,\]</div>
-        <div class="l6-proof-step l6-proof-result" data-reveal="path">\[c^\top x(\theta)=c^\top x+\theta\bar c_j.\]</div>
-      </div>
-      <aside class="l6-callout" data-tone="blue" data-reveal="enter"><strong>Entering variable:</strong> \(x_j\) enters if the ratio test permits a positive move.</aside>`,
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p><strong>Recall:</strong> choose \(x_2\), since \(\bar c_2=-3\).</p>
+          <p>Set \(d_2=1\), \(d_5=0\), and solve</p>
+          <div class="l6-direction-equation">\[Bd_{\mathcal B}=-A_2.\]</div>
+          <section class="l6-direction-step" data-reveal="1">
+            <p>In basis order \((x_1,x_3,x_4)\),</p>
+            <div class="l6-direction-equation">\[d_{\mathcal B}=-B^{-1}A_2=(0,-1,-1)^\top.\]</div>
+            <p>The full direction is \(d=(0,1,-1,-1,0)\).</p>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <h3>Recall: reduced cost is the objective slope</h3>
+            <div class="l6-direction-equation">\[f(\theta)=f(0)+\theta\bar c_2=-35-3\theta.\]</div>
+            <p>Every feasible positive step improves this minimization objective.</p>
+          </section>
+          <p class="l6-pricing-conclusion" data-reveal="2"><strong>How large can \(\theta\) be?</strong></p>
+        </div>
+        ${pivotExample(30)}
+      </div>`,
   },
   {
     id: "l6-31",
     page: 31,
-    className: "l6-derivation-slide",
-    title: "The Maximum Feasible Step",
+    className: "l6-direction-slide l6-pricing-slide l6-simplex-flow-slide",
+    title: "How Far Can We Move?",
     html: String.raw`
-      <p>For each component with \(u_i>0\), nonnegativity requires</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[x_{\mathcal B,i}-\theta u_i\ge0\]</div>
-        <div class="l6-proof-step" data-reveal="bound">\[\theta\le\frac{x_{\mathcal B,i}}{u_i}\]</div>
-        <div class="l6-proof-step l6-proof-result" data-reveal="ratio">\[\boxed{\theta^*=\min_{i:u_i>0}\frac{x_{\mathcal B,i}}{u_i}}.\]</div>
-      </div>
-      <aside class="l6-callout" data-tone="orange" data-reveal="ratio">An index attaining the minimum identifies a basic variable that reaches zero and may <strong>leave</strong> the basis.</aside>`,
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>The direction preserves \(Ax=b\). Now keep every basic variable nonnegative:</p>
+          <div class="l6-direction-equation">\[x_{\mathcal B,i}+\theta d_{\mathcal B,i}\ge0.\]</div>
+          <section class="l6-direction-step" data-reveal="1">
+            <h3>Only decreasing basic variables limit the step</h3>
+            <p>When \(d_{\mathcal B,i}<0\),</p>
+            <div class="l6-direction-equation">\[\theta\le\frac{x_{\mathcal B,i}}{-d_{\mathcal B,i}}.\]</div>
+            <p>A zero or positive component gives no upper bound.</p>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <h3>Ratio test: take the first bound we reach</h3>
+            <div class="l6-direction-equation">\[\theta^*=\min_{i:d_{\mathcal B,i}<0}\frac{x_{\mathcal B,i}}{-d_{\mathcal B,i}}.\]</div>
+            <p>Here, \(\theta^*=\min\{6,9\}=6\).</p>
+          </section>
+        </div>
+        ${pivotExample(31)}
+      </div>`,
   },
   {
     id: "l6-32",
     page: 32,
-    className: "l6-derivation-slide",
-    title: "When No Variable Blocks the Move",
+    className: "l6-direction-slide l6-pricing-slide l6-simplex-flow-slide",
+    title: "Complete the Pivot at (7,6)",
     html: String.raw`
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[u\le0\quad\Longrightarrow\quad d_{\mathcal B}=-u\ge0\quad\Longrightarrow\quad x+\theta d\ge0\ \text{for every }\theta\ge0.\]</div>
-        <div class="l6-proof-step" data-reveal="certificate">\[Ad=0,\qquad d\ge0,\qquad c^\top d=\bar c_j<0.\]</div>
-        <div class="l6-proof-slot" aria-hidden="true"></div>
-      </div>
-      <aside class="l6-callout" data-tone="maroon" data-reveal="unbounded"><strong>Unboundedness certificate:</strong> \(x+\theta d\) stays feasible while the objective tends to \(-\infty\).</aside>`,
+      ${pricingProblemMarkup()}
+      <div class="l6-direction-grid">
+        <div class="l6-direction-copy">
+          <p>Take the maximum feasible step \(\theta^*=6\):</p>
+          <div class="l6-direction-equation">\[\begin{aligned}
+            x_{\mathrm{new}}&=x+6d=(7,6,0,3,0),\\
+            f_{\mathrm{new}}&=-35+6(-3)=-53.
+          \end{aligned}\]</div>
+          <section class="l6-direction-step" data-reveal="1">
+            <h3>Exchange one basis column</h3>
+            <p>\(x_2\) has increased from zero: it <strong>enters</strong>.</p>
+            <p>\(x_3\) has reached zero: it <strong>leaves</strong>.</p>
+            <div class="l6-direction-equation">\[\begin{aligned}
+              B&=[A_1\ A_3\ A_4],\\
+              B_{\mathrm{new}}&=[A_1\ A_2\ A_4].
+            \end{aligned}\]</div>
+          </section>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2">
+            <h3>Repeat the decision at the new basis</h3>
+            <p>Recompute reduced costs. The feasible polygon stays fixed, but the basis and objective slopes change.</p>
+          </section>
+        </div>
+        ${pivotExample(32)}
+      </div>`,
   },
   {
     id: "l6-33",
     page: 33,
-    className: "l6-algorithm-slide",
-    title: "One Simplex Iteration: State 1 of 2",
+    className: "l6-direction-slide l6-simplex-flow-slide",
+    title: "What If No Variable Limits the Step?",
     html: String.raw`
-      <ol class="l6-algorithm">
-        <li data-reveal="start"><span>1</span><p>Start with a feasible basis \(B\) and \(x_{\mathcal B}=B^{-1}b\).</p></li>
-        <li data-reveal="price"><span>2</span><p>Solve \(B^\top y=c_{\mathcal B}\) and price \(\bar c_j=c_j-y^\top A_j\).</p></li>
-        <li data-reveal="price"><span>3</span><p>If every \(\bar c_j\ge0\), stop: the current basis is optimal.</p></li>
-        <li data-reveal="enter"><span>4</span><p>Otherwise choose \(j\) with \(\bar c_j<0\) and solve \(Bu=A_j\).</p></li>
-        <li class="l6-algorithm-placeholder" aria-hidden="true"></li><li class="l6-algorithm-placeholder" aria-hidden="true"></li>
-      </ol>`,
+      <p>Our 2D example has a finite step. This is the other possible outcome.</p>
+      <div class="l6-flow-model ns-math">\[\min f(x)=c^\top x\qquad\text{s.t. }Ax=b,\quad x\ge0.\]</div>
+      <div class="l6-flow-stack" data-l6-unbounded-branch>
+        <section class="l6-direction-step" data-l6-ray-stage="basic">
+          <p>Start at a basic feasible solution. Choose a nonbasic \(x_j\) with \(\bar c_j<0\). If no basic variable decreases,</p>
+          <div class="l6-direction-equation">\[d_{\mathcal B}\ge0\quad\Longrightarrow\quad x_{\mathcal B}+\theta d_{\mathcal B}\ge0\quad(\theta\ge0).\]</div>
+        </section>
+        <section class="l6-direction-step" data-l6-ray-stage="feasible" data-reveal="1">
+          <p>Set \(d_j=1\); all other nonbasic components are zero. Since \(Ad=0\),</p>
+          <div class="l6-direction-equation">\[A(x+\theta d)=b,\qquad x+\theta d\ge0\quad\text{for every }\theta\ge0.\]</div>
+          <p>The entire ray stays feasible.</p>
+        </section>
+        <section class="l6-direction-step l6-direction-result" data-l6-ray-stage="objective" data-reveal="2">
+          <div class="l6-direction-equation">\[f(x+\theta d)=f(x)+\theta\bar c_j\longrightarrow-\infty.\]</div>
+          <p><strong>Stop: the minimization objective is unbounded below.</strong></p>
+        </section>
+      </div>`,
   },
   {
     id: "l6-34",
     page: 34,
-    className: "l6-algorithm-slide",
-    title: "One Simplex Iteration: State 2 of 2",
+    className: "l6-direction-slide l6-simplex-flow-slide",
+    title: "One Simplex Iteration: From a Basis to the Next",
     html: String.raw`
-      <ol class="l6-algorithm l6-algorithm-complete">
-        <li><span>1</span><p>Start with a feasible basis \(B\) and \(x_{\mathcal B}=B^{-1}b\).</p></li>
-        <li><span>2</span><p>Price nonbasic columns; stop if every \(\bar c_j\ge0\).</p></li>
-        <li><span>3</span><p>Choose entering \(j\) with \(\bar c_j<0\); solve \(Bu=A_j\).</p></li>
-        <li data-reveal="unbounded"><span>4</span><p>If \(u\le0\), return the unbounded direction \(d\).</p></li>
-        <li data-reveal="ratio"><span>5</span><p>Otherwise compute \(\displaystyle\theta^*=\min_{i:u_i>0}x_{\mathcal B,i}/u_i\).</p></li>
-        <li data-reveal="pivot"><span>6</span><p>Choose a minimizing row, exchange entering and leaving columns, and update.</p></li>
+      <p>For \(\min c^\top x\) subject to \(Ax=b,\;x\ge0\):</p>
+      <ol class="l6-algorithm l6-flow-algorithm" data-l6-simplex-algorithm>
+        <li data-l6-algorithm-step="feasible"><span>1</span><p><strong>Start feasible:</strong> \(x_{\mathcal B}=B^{-1}b\ge0\), \(x_{\mathcal N}=0\).</p></li>
+        <li data-l6-algorithm-step="optimal"><span>2</span><p><strong>Check reduced costs:</strong> solve \(B^\top y=c_{\mathcal B}\); compute \(\bar c_j=c_j-y^\top A_j\). If all nonbasic reduced costs are nonnegative, <strong>stop: optimal.</strong></p></li>
+        <li data-l6-algorithm-step="direction" data-reveal="1"><span>3</span><p><strong>Choose \(\bar c_j<0\):</strong> solve \(Bd_{\mathcal B}=-A_j\). Set \(d_j=1\) and all other nonbasic components to zero.</p></li>
+        <li data-l6-algorithm-step="unbounded" data-reveal="1"><span>4</span><p>If every \(d_{\mathcal B,i}\ge0\), <strong>stop: unbounded below.</strong> The direction \(d\) gives a feasible improving ray.</p></li>
+        <li data-l6-algorithm-step="ratio" data-reveal="2"><span>5</span><p><strong>Otherwise take</strong> \(\displaystyle\theta^*=\min_{i:d_{\mathcal B,i}<0}\frac{x_{\mathcal B,i}}{-d_{\mathcal B,i}}\). A minimizing row identifies a leaving variable.</p></li>
+        <li data-l6-algorithm-step="pivot" data-reveal="2"><span>6</span><p><strong>Update</strong> \(x\leftarrow x+\theta^*d\), exchange the entering and leaving basis columns, and repeat from step 2.</p></li>
       </ol>`,
     checkpoint: checkpointUnbounded,
   },
@@ -1513,7 +1667,7 @@ export const slides = [
     html: String.raw`
       <p>For entering variable \(x_1\),</p>
       <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[u=B_0^{-1}A_1=A_1=\begin{bmatrix}1\\2\\2\end{bmatrix}.\]</div>
+        <div class="l6-proof-step">\[d_{\mathcal B}=-B_0^{-1}A_1=\begin{bmatrix}-1\\-2\\-2\end{bmatrix},\qquad d_1=1.\]</div>
         <div class="l6-proof-step l6-proof-result" data-reveal="ratio">\[\theta^*=\min\left\{\frac{20}{1},\frac{20}{2},\frac{20}{2}\right\}=10.\]</div>
         <div class="l6-proof-slot" aria-hidden="true"></div>
       </div>

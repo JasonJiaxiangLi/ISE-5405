@@ -599,14 +599,14 @@
           "auto_open": true,
           "choices": [
             "The current basis is optimal",
-            "The ratio test chooses the largest component of u",
+            "The ratio test chooses the largest basic direction component",
             "The direction is blocked at step zero",
             "The path stays feasible for every nonnegative step and the objective is unbounded below"
           ],
           "correct_index": 3,
-          "explanation": "When u ≤ 0, the basic part of the direction is −u ≥ 0, so no variable blocks the improving move. The resulting feasible ray certifies unboundedness below.",
+          "explanation": "No basic variable decreases, so no variable blocks the move. The direction preserves the equalities, and its negative objective slope makes the feasible ray unbounded below.",
           "page": 34,
-          "question": "An entering variable has negative reduced cost and u = B⁻¹Aⱼ ≤ 0. What follows?"
+          "question": "At a basic feasible solution of a minimization LP, an entering variable has negative reduced cost and d_B ≥ 0. What follows?"
         },
         {
           "auto_open": true,
