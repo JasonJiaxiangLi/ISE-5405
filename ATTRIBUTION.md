@@ -27,6 +27,12 @@ repository's CC BY 4.0 license. This repository does not grant downstream
 permission to reuse them. A reuser must remove those portions or obtain any
 permission required from the relevant rights holder.
 
+The Simplex II Part 2 reference supplied in the handoff credits Alberto Del Pia
+and follows Bertsimas and Tsitsiklis, *Introduction to Linear Optimization*,
+§§3.4–3.7. The native adaptation retains those example and theorem numbers and
+credits that source lineage. These third-party contributions are likewise
+excluded from this repository's reuse licenses.
+
 ## GILP and other instructional references
 
 The Simplex I materials use selected states from the GILP reference sequence:

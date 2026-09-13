@@ -649,75 +649,155 @@
         {
           "auto_open": true,
           "choices": [
-            "Yes — adjacent bases always represent adjacent vertices",
-            "No — several bases can represent the same point, so the step can have length zero",
-            "Yes, provided the entering reduced cost is negative",
-            "No — a degenerate basis can never pivot"
+            "Only the objective value",
+            "The initial basis and complete tableau",
+            "Only the entering variable",
+            "A positive-length edge step"
           ],
           "correct_index": 1,
-          "explanation": "Simplex moves between bases. At a degenerate BFS, a one-column exchange can change the basis while leaving both the feasible point and objective value unchanged.",
-          "page": 8,
-          "question": "At a degenerate basic feasible solution, does exchanging one basis column always move to a distinct vertex?"
+          "explanation": "The sixth pivot restores the initial basis and every tableau entry. The fixed pivot rules then repeat the same six choices. The point and objective were unchanged throughout.",
+          "page": 10,
+          "question": "In Example 3.6, what repeats after the six zero-length pivots?"
         },
         {
           "auto_open": true,
           "choices": [
-            "Only rows with uᵢ > 0",
-            "Only rows with uᵢ < 0",
-            "Every row, using the absolute value of uᵢ",
-            "Only rows whose basic value is strictly positive"
-          ],
-          "correct_index": 0,
-          "explanation": "When uᵢ > 0, the component x_B,i − θuᵢ decreases and can hit zero. Rows with uᵢ ≤ 0 do not impose an upper bound on a nonnegative step.",
-          "page": 16,
-          "question": "For u = B⁻¹Aⱼ, which rows constrain the positive step θ in x_B(θ) = x_B − θu?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
-            "A strictly positive feasible step",
-            "The largest possible objective improvement",
-            "An improving objective slope, but not necessarily a positive step",
-            "That the current point is not optimal"
+            "It has the largest pivot entry",
+            "Its basic variable has the smallest index",
+            "The first unequal normalized entries satisfy 7/9 < 5/3",
+            "The row with the negative pivot entry leaves"
           ],
           "correct_index": 2,
-          "explanation": "A negative reduced cost prices the basic direction: its objective slope is negative. A zero basic component can still block that direction at θ = 0.",
-          "page": 34,
-          "question": "At a degenerate BFS in a minimization problem, what does c̄ⱼ < 0 guarantee?"
+          "explanation": "Lexicographic comparison starts at column 0 and stops at the first difference. The first difference is in column 2: 7/9 is smaller than 5/3, so normalized row 3 is smaller.",
+          "page": 16,
+          "question": "In Example 3.7, the ordinary ratios and the next entries tie. What selects row 3?"
         },
         {
           "auto_open": true,
           "choices": [
-            "B⁻¹b ≥ 0 and every nonbasic reduced cost is nonnegative",
-            "B⁻¹b = 0 and every nonbasic reduced cost is negative",
-            "B is nonsingular and the objective value is negative",
-            "Every basic variable and every reduced cost is strictly positive"
+            "Most negative reduced cost; smallest-index leaving variable",
+            "Smallest eligible entering index; smallest variable index among minimum-ratio ties",
+            "Smallest row number for both choices",
+            "Smallest entering index; largest feasible ratio"
+          ],
+          "correct_index": 1,
+          "explanation": "Bland uses the smallest variable index for the entering choice and for ties in the ordinary minimum-ratio test. Choosing a leaving variable by its row position, or choosing the most negative entering cost, is a different rule.",
+          "page": 28,
+          "question": "Which pair of choices is Bland’s anticycling rule?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The original LP is infeasible",
+            "The original LP is already optimal",
+            "An original feasible point exists, but its basis may still need cleanup",
+            "The artificial variable must become positive before Phase II"
+          ],
+          "correct_index": 2,
+          "explanation": "A zero sum of nonnegative artificial variables makes every artificial variable zero. The original variables are feasible. A zero artificial variable may remain in a degenerate basis, so we still need an original-variable basis and the original objective row.",
+          "page": 36,
+          "question": "Phase I ends with objective zero and an artificial variable still basic at zero. What do we know?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Yes: the zero right-hand side makes this a basis change at the same feasible point",
+            "No: every pivot element must be positive",
+            "No: a negative coefficient proves infeasibility",
+            "Only if the Phase I objective increases"
           ],
           "correct_index": 0,
-          "explanation": "B⁻¹b ≥ 0 supplies primal feasibility. Nonnegative nonbasic reduced costs show that no feasible nonbasic displacement can lower the objective.",
-          "page": 38,
-          "question": "Which pair certifies that a basis is optimal for this minimization LP?"
+          "explanation": "Cleanup changes the basis without taking a positive step. Dividing a zero-right-hand-side row by a negative pivot still leaves its right-hand side zero; eliminating that column from other rows does not change their right-hand sides. The feasible point is preserved.",
+          "page": 42,
+          "question": "An artificial basic variable has value zero. Its tableau row contains a negative, nonzero coefficient in an original column. Can we pivot on it?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The feasible set has changed",
+            "The basis columns must always become artificial again",
+            "A zero Phase I cost means every original reduced cost is zero",
+            "Phase I minimized artificial variables; Phase II uses the original cost vector"
+          ],
+          "correct_index": 3,
+          "explanation": "The constraint rows keep the feasible basis, but reduced costs depend on the objective. Recompute the current cost and every reduced cost using the original coefficients. Example 3.8 changes from Phase I cost zero to original cost 11/6 with a negative reduced cost for x4.",
+          "page": 62,
+          "question": "After all artificial columns are removed, why must we recompute the objective row?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "It is a negative reduced cost; a feasible positive step lowers the objective.",
+            "It gives the maximum feasible step.",
+            "It identifies the leaving basic point without a ratio test.",
+            "It proves that the original LP is infeasible."
+          ],
+          "correct_index": 0,
+          "explanation": "The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.",
+          "page": 85,
+          "question": "A nonbasic lifted point is below the current dual plane. What does its signed vertical gap tell us?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "All eight points are basic.",
+            "The requirement line can no longer meet the convex hull.",
+            "Every convex combination lies on or above that line, so no feasible mixture at b can have lower cost.",
+            "Every feasible mixture must use exactly the same weights."
+          ],
+          "correct_index": 2,
+          "explanation": "A supporting line bounds the cost of every convex combination from below. At the required horizontal coordinate, the mixture of points 5 and 8 attains the bound. Other optimal mixtures could exist in a different example.",
+          "page": 94,
+          "question": "In the final basis 5, 8, every lifted point is on or above the line through 5 and 8. Why is the current feasible mixture optimal?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Every pivoting rule needs exponentially many pivots",
+            "Some pivoting rule can follow an exponentially long improving path",
+            "Simplex can never solve a cube quickly",
+            "Avoiding cycling guarantees a short path"
+          ],
+          "correct_index": 1,
+          "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
+          "page": 108,
+          "question": "What does the perturbed-cube example establish?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Diameter counts Euclidean distance",
+            "A short graph path need not be improving or efficiently found by the pivot rule",
+            "Polyhedra have no vertex graphs",
+            "Polynomial diameter implies every path is short"
+          ],
+          "correct_index": 1,
+          "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
+          "page": 116,
+          "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         }
       ],
       "date": "2026-09-15",
       "demos": [],
-      "description": "Adjacency, basic directions, maximum feasible steps, reduced costs, one complete basis pivot, degeneracy, and lifted-column optimality geometry.",
+      "description": "A complete study resource on anticycling, lexicographic and Bland rules, artificial variables and two-phase initialization, column geometry, and computational efficiency, following the Part 2 reference.",
       "display_number": 6,
       "id": "lecture-10",
       "number": 10,
-      "pdf_hash": "7b77c0d54a9382d0bee09bc87d6cbfa4f47f511e0f56b6bff299917ceefdbce8",
-      "pdf_size": 208225,
+      "pdf_hash": "2fbbfc558ea53bfd7441745d5f6f02cd978e03045bb28be14309268ca34d9d83",
+      "pdf_size": 1618618,
       "pdf_url": "materials/lecture_10.pdf",
-      "pdf_url_versioned": "materials/lecture_10.pdf?v=7b77c0d54a93",
+      "pdf_url_versioned": "materials/lecture_10.pdf?v=2fbbfc558ea5",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
       "tags": [
         "simplex",
-        "reduced costs",
-        "geometry"
+        "anticycling",
+        "two-phase method",
+        "column geometry",
+        "computational complexity"
       ],
-      "title": "Simplex II: Directions, Reduced Costs, and Column Geometry",
+      "title": "Simplex II: Completing the Simplex Method",
       "viewer_url": "lectures/lecture-10",
       "whiteboards": 3
     }
