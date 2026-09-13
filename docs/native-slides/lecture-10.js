@@ -27,7 +27,6 @@ const intro = [
     html:String.raw`<p class="ns-lead">What turns a pivot procedure into a complete algorithm?</p>
       <nav class="l10-contents l10-title-contents" aria-label="Simplex II sections">${sections.map((s,i)=>`<a data-l10-section-link="${i}" href="#slide=1">${s.title}</a>`).join('')}</nav>
       <p>Lecture 6 · September 15, 2026 · Bertsimas–Tsitsiklis §§3.4–3.7</p>
-      <p class="l10-note">Adapted from Robert Hildebrand’s faculty reference, which credits Alberto Del Pia. Additional explanations and exact interactive examples by Jiaxiang Li.</p>
       <div class="ns-title-shortcuts"><span><kbd>→</kbd> / <kbd>Space</kbd> reveal or advance</span><span><kbd>←</kbd> previous step</span><span><kbd>M</kbd> slide menu</span><span><kbd>K</kbd> checkpoint</span><span><kbd>H</kbd> handout view</span></div>`,
   },
 ];

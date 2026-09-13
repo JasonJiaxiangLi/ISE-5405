@@ -31,6 +31,12 @@ equivalent reading order or screen-reader support.
 If you encounter a barrier or need another format, contact the instructor
 through Canvas.
 
+## Credits
+
+Simplex II adapts Robert Hildebrand’s course materials; the Part 2 reference
+credits Alberto Del Pia. Additional explanations and interactive examples
+are by Jiaxiang Li.
+
 ## Reuse
 
 Original course contributions are available for reuse under CC BY 4.0, and
