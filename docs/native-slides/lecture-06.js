@@ -427,21 +427,20 @@ function pricingExample(page) {
         <p><strong>Up with \(x_2\):</strong> \(\bar c_2=-3\) improves \(f\).</p>
         <p><strong>Left with \(x_5\):</strong> \(\bar c_5=5\) worsens \(f\).</p>
       </div>` : page === 25 ? String.raw`
-      <p>Same point \((7,0)\), same basis \((x_1,x_3,x_4)\).</p>
+      <p>After \(x_1\) enters: \(\mathcal B=(x_1,x_3,x_4)\).</p>
+      <p>The dictionary gives \(x_1=7-x_5\).</p>
       <div class="l6-direction-step" data-reveal="1">
-        <div class="l6-direction-equation">\[\begin{aligned}
-          2y_1+y_2+y_3&=-5,\\y_1&=0,\quad y_2=0.
-        \end{aligned}\]</div>
-        <p>Thus \(y=(0,0,-5)\).</p>
+        <p>Substitute into \(f=-5x_1-3x_2\):</p>
+        <div class="l6-direction-equation">\[f=-5(7-x_5)-3x_2.\]</div>
       </div>
-      <div class="l6-direction-equation" data-reveal="2">\[\begin{aligned}
-        \bar c_2&=-3-(y_1+y_2)=-3,\\
-        \bar c_5&=0-y_3=5.
-      \end{aligned}\]</div>` : String.raw`
+      <div class="l6-direction-step l6-direction-result" data-reveal="2">
+        <div class="l6-direction-equation">\[f=-35-3x_2+5x_5.\]</div>
+        <p>The coefficients are \(\bar c_2=-3\), \(\bar c_5=5\).</p>
+      </div>` : String.raw`
       <p>At \((7,0)\), basic variables are \(x_1,x_3,x_4\).</p>
       <div class="l6-direction-step" data-reveal="1">
-        <p>\(y=(0,0,-5)\), \(A_1=(2,1,1)\).</p>
-        <div class="l6-direction-equation">\[\bar c_1=-5-y^\top A_1=-5-(-5)=0.\]</div>
+        <p>\(A_1\) is the first column of \(B\), so \(B^{-1}A_1=e_1\).</p>
+        <div class="l6-direction-equation">\[\bar c_1=-5-c_{\mathcal B}^\top e_1=-5-(-5)=0.\]</div>
       </div>
       <div class="l6-direction-step l6-direction-result" data-reveal="2">
         <p>All reduced costs: \(\bar c=(0,-3,0,0,5)\).</p>
@@ -1379,24 +1378,32 @@ export const slides = [
   {
     id: "l6-25",
     page: 25,
-    className: "l6-direction-slide l6-pricing-slide",
-    title: "Compute Reduced Costs with a Transpose Solve",
+    className: "l6-direction-slide l6-pricing-slide l6-coefficient-slide",
+    title: "Reduced Costs Are the Objective-Row Coefficients",
     html: String.raw`
       ${pricingProblemMarkup()}
       <div class="l6-direction-grid">
         <div class="l6-direction-copy">
-          <p>Compute a vector \(y\) by solving</p>
-          <div class="l6-direction-equation">\[B^\top y=c_{\mathcal B}.\]</div>
-          <p>For \(\mathcal B=(x_1,x_3,x_4)\),</p>
-          <div class="l6-direction-equation">\[B=\begin{pmatrix}2&1&0\\1&0&1\\1&0&0\end{pmatrix},\quad
-            c_{\mathcal B}=\begin{pmatrix}-5\\0\\0\end{pmatrix}.\]</div>
-          <section class="l6-direction-step" data-reveal="1">
-            <div class="l6-direction-equation">\[y^\top=c_{\mathcal B}^\top B^{-1}.\]</div>
-            <p>Use this same \(y\) for every column \(A_j\):</p>
-            <div class="l6-direction-equation">\[\boxed{\bar c_j=c_j-y^\top A_j}.\]</div>
+          <p>Use the <strong>current basis</strong> \(B\) and nonbasic columns \(A_{\mathcal N}\):</p>
+          <div class="l6-direction-equation" data-l6-coefficient-stage="objective">\[f=c_{\mathcal B}^\top x_{\mathcal B}+c_{\mathcal N}^\top x_{\mathcal N}.\]</div>
+          <section class="l6-direction-step" data-reveal="1" data-l6-coefficient-stage="dictionary">
+            <h3>Solve the constraints for the basic variables</h3>
+            <div class="l6-direction-equation">\[\begin{aligned}
+              Bx_{\mathcal B}+A_{\mathcal N}x_{\mathcal N}&=b,\\
+              x_{\mathcal B}&=B^{-1}b-B^{-1}A_{\mathcal N}x_{\mathcal N}.
+            \end{aligned}\]</div>
           </section>
-          <section class="l6-direction-step l6-direction-result" data-reveal="2">
-            <p>Reuse the factorization of \(B\) for basic values, pivot columns, and this transpose solve.</p>
+          <section class="l6-direction-step l6-direction-result" data-reveal="2" data-l6-coefficient-stage="substitute">
+            <h3>Substitute into the objective and collect terms</h3>
+            <div class="l6-direction-equation">\[\begin{aligned}
+              f&=c_{\mathcal B}^\top(B^{-1}b-B^{-1}A_{\mathcal N}x_{\mathcal N})\\
+               &\qquad+c_{\mathcal N}^\top x_{\mathcal N}.
+            \end{aligned}\]</div>
+            <div class="l6-direction-equation" data-l6-coefficient-stage="collect">\[\begin{aligned}
+              f&=c_{\mathcal B}^\top B^{-1}b\\
+               &\quad+\sum\nolimits_{j\in\mathcal N}\underbrace{(c_j-c_{\mathcal B}^\top B^{-1}A_j)}_{\bar c_j}x_j.
+            \end{aligned}\]</div>
+            <p>The constant is the current value: \(x_{\mathcal N}=0\).</p>
           </section>
         </div>
         ${pricingExample(25)}
@@ -1633,7 +1640,7 @@ export const slides = [
       <p>For \(\min c^\top x\) subject to \(Ax=b,\;x\ge0\):</p>
       <ol class="l6-algorithm l6-flow-algorithm" data-l6-simplex-algorithm>
         <li data-l6-algorithm-step="feasible"><span>1</span><p><strong>Start feasible:</strong> \(x_{\mathcal B}=B^{-1}b\ge0\), \(x_{\mathcal N}=0\).</p></li>
-        <li data-l6-algorithm-step="optimal"><span>2</span><p><strong>Check reduced costs:</strong> solve \(B^\top y=c_{\mathcal B}\); compute \(\bar c_j=c_j-y^\top A_j\). If all nonbasic reduced costs are nonnegative, <strong>stop: optimal.</strong></p></li>
+        <li data-l6-algorithm-step="optimal"><span>2</span><p><strong>Check reduced costs:</strong> compute \(\bar c_j=c_j-c_{\mathcal B}^\top B^{-1}A_j\), the objective-row coefficients. If all nonbasic reduced costs are nonnegative, <strong>stop: optimal.</strong></p></li>
         <li data-l6-algorithm-step="direction" data-reveal="1"><span>3</span><p><strong>Choose \(\bar c_j<0\):</strong> solve \(Bd_{\mathcal B}=-A_j\). Set \(d_j=1\) and all other nonbasic components to zero.</p></li>
         <li data-l6-algorithm-step="unbounded" data-reveal="1"><span>4</span><p>If every \(d_{\mathcal B,i}\ge0\), <strong>stop: unbounded below.</strong> The direction \(d\) gives a feasible improving ray.</p></li>
         <li data-l6-algorithm-step="ratio" data-reveal="2"><span>5</span><p><strong>Otherwise take</strong> \(\displaystyle\theta^*=\min_{i:d_{\mathcal B,i}<0}\frac{x_{\mathcal B,i}}{-d_{\mathcal B,i}}\). A minimizing row identifies a leaving variable.</p></li>

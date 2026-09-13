@@ -642,6 +642,14 @@
 [data-native-deck="lecture-06"] .l6-pricing-slide .l6-direction-step p { margin: .18em 0; }
 [data-native-deck="lecture-06"] .l6-pricing-slide .l6-direction-equation { margin: .22em 0; }
 [data-native-deck="lecture-06"] .l6-pricing-conclusion { margin-top: .45em; }
+
+/* Reserve the complete substitution history beside the same geometric example. */
+[data-native-deck="lecture-06"] .l6-coefficient-slide { padding-block: 1.5cqw; }
+[data-native-deck="lecture-06"] .l6-coefficient-slide .l6-direction-grid {
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, .85fr);
+}
+[data-native-deck="lecture-06"] .l6-coefficient-slide .l6-direction-step { padding-block: .25em; }
+[data-native-deck="lecture-06"] .l6-coefficient-slide .l6-direction-visual .l6-gilp-svg { height: 11em; }
 [data-native-deck="lecture-06"] .l6-pricing-options { display: grid; gap: .28em; }
 [data-native-deck="lecture-06"] .l6-pricing-options p { margin: 0; padding-left: .45em; border-left: .24em solid var(--ns-green); }
 [data-native-deck="lecture-06"] .l6-pricing-options p + p { border-left-color: var(--ns-orange); }
@@ -923,6 +931,7 @@
   [data-native-deck="lecture-06"] .l6-proof-optimality { font-size: 18px; padding: 1.2rem 1.1rem; }
   [data-native-deck="lecture-06"] .l6-direction-slide { font-size: 18px; padding: 1.2rem 1.1rem; }
   [data-native-deck="lecture-06"] .l6-direction-grid { grid-template-columns: 1fr; }
+  [data-native-deck="lecture-06"] .l6-coefficient-slide .l6-direction-grid { grid-template-columns: 1fr; }
   [data-native-deck="lecture-06"] .l6-direction-slide .l6-problem-math > span { white-space: normal; }
   [data-native-deck="lecture-06"] .l6-direction-controls { grid-template-columns: 1fr; }
   [data-native-deck="lecture-06"] .l6-title-grid,
