@@ -85,6 +85,30 @@ function rationalTex(value) {
   return `${numerator.startsWith("-") ? "-" : ""}\\frac{${numerator.replace("-", "")}}{${denominator}}`;
 }
 
+function negateRational(value) {
+  return value === "0" ? "0" : value.startsWith("-") ? value.slice(1) : `-${value}`;
+}
+
+// Read the dictionary from the same exact coefficients as the initial tableau.
+// Basic columns are omitted because their variables are on the left-hand side.
+const initialState = auditData.cycling.states[0];
+function dictionaryExpression(constant, coefficients) {
+  let expression = constant === "0" ? "" : rationalTex(constant);
+  coefficients.forEach((coefficient, index) => {
+    if (coefficient === "0" || initialState.basis.includes(index + 1)) return;
+    const negative = coefficient.startsWith("-");
+    const magnitude = negative ? coefficient.slice(1) : coefficient;
+    expression += `${negative ? "-" : expression ? "+" : ""}${magnitude === "1" ? "" : rationalTex(magnitude)}x_${index + 1}`;
+  });
+  return expression || "0";
+}
+const initialDictionaryRows = initialState.tableau.slice(1).map((row, index) =>
+  `x_${initialState.basis[index]}&=${dictionaryExpression(row[0], row.slice(1).map(negateRational))}`
+).join(String.raw`\\`);
+const initialDictionaryObjective = dictionaryExpression(
+  negateRational(initialState.tableau[0][0]), initialState.tableau[0].slice(1)
+);
+
 function cycleTableau(index, { entering = null, leaving = null, label = "", hideCaption = false } = {}) {
   const state = auditData.cycling.states[index];
   const rows = state.tableau.map((row, rowIndex) => {
@@ -180,10 +204,42 @@ export const anticyclingSlides = [
       \end{aligned}\]</div>
       <section class="l10-box" data-tone="blue" data-reveal="1">
         <p>Start with \(\mathcal B=(x_5,x_6,x_7)\): \(x=(0,0,0,0,0,0,1)\), \(f_B=-3\).</p>
-        <p>Substitute \(x_7=1-x_3\): \(f=-3-\tfrac34x_1+20x_2-\tfrac12x_3+6x_4\).</p>
       </section>
-      <section data-reveal="2" class="l10-tableau-key">
-        <p><strong>Tableau key:</strong> row \(R_0\) records \(-f_B\), then reduced costs. Each constraint row records its basic value, then equation coefficients.</p>
+      <p data-reveal="1">First write a dictionary, just as in Simplex I.</p>`,
+  },
+  {
+    key: "cycle-dictionary", title: "Example 3.6: Start with a Dictionary", referencePages: [4],
+    html: String.raw`
+      <p>Basic variables: \((x_5,x_6,x_7)\). Nonbasic variables: \((x_1,x_2,x_3,x_4)\).</p>
+      <div class="l10-math" data-l10-initial-dictionary>\[\begin{aligned}${initialDictionaryRows}\end{aligned}\]</div>
+      <section data-reveal="1" data-l10-dictionary-objective>
+        <p>Substitute \(x_7=1-x_3\) into the minimization objective:</p>
+        <div class="l10-math">\[\begin{aligned}
+          f&=-\tfrac34x_1+20x_2-\tfrac72x_3+6x_4-3(1-x_3)\\
+           &=${initialDictionaryObjective}.
+        \end{aligned}\]</div>
+      </section>
+      <section class="l10-box" data-tone="blue" data-reveal="2">
+        <p>Set the nonbasic variables to zero: \((x_5,x_6,x_7)=(0,0,1)\) and \(f=-3\).</p>
+        <p>The objective coefficients are the reduced costs for this basis.</p>
+      </section>`,
+  },
+  {
+    key: "cycle-tableau-format", title: "From Dictionary Equations to a Tableau", referencePages: [4, 5],
+    className: "l10-tableau-slide l10-tableau-introduction",
+    html: String.raw`
+      <p>A <strong>tableau</strong> records each equation’s right-hand side and left-hand coefficients.</p>
+      <section data-l10-tableau-constraint>
+        <p><strong>Constraint rows:</strong> move the nonbasic terms to the left. For example,</p>
+        <div class="l10-math">\[\tfrac14x_1-8x_2-x_3+9x_4+x_5=0.\]</div>
+      </section>
+      <section data-reveal="1" data-l10-tableau-objective>
+        <p><strong>Objective row \(R_0\):</strong> move \(f\) left and the constant right:</p>
+        <div class="l10-math">\[-f-\tfrac34x_1+20x_2-\tfrac12x_3+6x_4=3.\]</div>
+      </section>
+      <section data-reveal="2" data-l10-tableau-format>
+        ${cycleTableau(0, { hideCaption: true, label: "The initial dictionary written as a tableau" })}
+        <p>\(R_0\) omits \(-f\). Column 0 is \(-f_B=3\); the other entries are unchanged reduced costs.</p>
       </section>`,
   },
   ...cyclingSlides,

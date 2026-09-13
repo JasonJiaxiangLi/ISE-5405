@@ -74,6 +74,8 @@
 [data-native-deck="lecture-10"] .l10-stack > :last-child { margin-bottom: 0; }
 [data-native-deck="lecture-10"] .l10-tableau-slide .l10-box { padding-block: .25em; }
 [data-native-deck="lecture-10"] .l10-tableau-slide mjx-container[display="true"] { margin-block: .15em !important; }
+/* The conversion keeps both rewritten equations and the full table together. */
+[data-native-deck="lecture-10"] .l10-tableau-introduction .ns-slide-body { gap: 0; }
 
 /* Keep each pivot question unanswered until its choice is revealed. */
 @media screen {
