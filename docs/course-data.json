@@ -613,13 +613,13 @@
           "choices": [
             "The entering variable has zero reduced cost",
             "The basis matrix is singular",
-            "x₆ remains basic at value zero because two ratio-test rows tied",
-            "The objective did not improve"
+            "The basic variable x₆ is already zero and would decrease, so the ratio test gives θ = 0",
+            "Every reduced cost is nonnegative"
           ],
           "correct_index": 2,
-          "explanation": "The ratio test tied in the x₅ and x₆ rows. After x₅ leaves, x₆ remains in the basis at value zero, which is exactly degeneracy.",
+          "explanation": "After the first pivot, x₆ is basic at zero. Increasing x₂ would make x₆ negative, so the maximum feasible step is zero. We can still exchange x₂ and x₆ in the basis; the dictionary changes while the point and objective stay fixed.",
           "page": 38,
-          "question": "Why is x⁽¹⁾ = (10, 0, 0, 10, 0, 0) degenerate after x₁ enters and x₅ leaves?"
+          "question": "Why does the second pivot change the basis but leave the point and objective unchanged?"
         }
       ],
       "date": "2026-09-10",
@@ -628,10 +628,10 @@
       "display_number": 5,
       "id": "lecture-06",
       "number": 6,
-      "pdf_hash": "089603273bd9e30ce07b56e461a81818cda04d9bfcb556ed31a52c354250861f",
-      "pdf_size": 1073025,
+      "pdf_hash": "81323c2fff9798b6b465b7e54fe8bb05c78cfa053612c06b99e5d52359f8c116",
+      "pdf_size": 1074960,
       "pdf_url": "materials/lecture_06.pdf",
-      "pdf_url_versioned": "materials/lecture_06.pdf?v=089603273bd9",
+      "pdf_url_versioned": "materials/lecture_06.pdf?v=81323c2fff97",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

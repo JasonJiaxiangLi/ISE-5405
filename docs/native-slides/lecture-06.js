@@ -16,7 +16,7 @@ const checkpointGeometry = Object.freeze({
   ],
   correctIndex: 2,
   explanation:
-    "A pivot changes the basis, dictionary, and current basic feasible solution. The constraints—and therefore the feasible polyhedron—stay fixed.",
+    "A pivot changes the basis and dictionary. The basic feasible solution can stay fixed during a zero-length pivot. The constraints—and therefore the feasible polyhedron—stay fixed.",
   autoOpen: true,
 });
 
@@ -50,16 +50,16 @@ const checkpointUnbounded = Object.freeze({
 });
 
 const checkpointDegeneratePivot = Object.freeze({
-  prompt: "Why is x⁽¹⁾ = (10, 0, 0, 10, 0, 0) degenerate after x₁ enters and x₅ leaves?",
+  prompt: "Why does the second pivot change the basis but leave the point and objective unchanged?",
   choices: [
     "The entering variable has zero reduced cost",
     "The basis matrix is singular",
-    "x₆ remains basic at value zero because two ratio-test rows tied",
-    "The objective did not improve",
+    "The basic variable x₆ is already zero and would decrease, so the ratio test gives θ = 0",
+    "Every reduced cost is nonnegative",
   ],
   correctIndex: 2,
   explanation:
-    "Rows x₅ and x₆ tie in the ratio test. After x₅ leaves, x₆ remains basic but also reaches zero, which is exactly degeneracy in standard form.",
+    "After the first pivot, x₆ is basic at zero. Increasing x₂ would make x₆ negative, so the maximum feasible step is zero. We can still exchange x₂ and x₆ in the basis; the dictionary changes while the point and objective stay fixed.",
   autoOpen: true,
 });
 
@@ -1651,88 +1651,134 @@ export const slides = [
   {
     id: "l6-35",
     page: 35,
-    className: "l6-worked-slide",
-    title: "Worked Example",
+    className: "l6-worked-trace-slide",
+    title: "Worked Example: The Initial Dictionary",
     html: String.raw`
-      <div class="l6-worked-model ns-math">
-        \[\begin{aligned}\min\quad&-10x_1-12x_2-12x_3\\
-        \text{s.t.}\quad&x_1+2x_2+2x_3+x_4=20,\\
-        &2x_1+x_2+2x_3+x_5=20,\\
-        &2x_1+2x_2+x_3+x_6=20,\\&x\ge0.\end{aligned}\]
+      <p><strong>Minimize \(f\)</strong> subject to the three slack equations below and \(x\ge0\):</p>
+      <div class="l6-trace-dictionary" data-l6-worked-dictionary="0">
+        \[\begin{aligned}
+        x_4&=20-x_1-2x_2-2x_3,\\
+        x_5&=20-2x_1-x_2-2x_3,\\
+        x_6&=20-2x_1-2x_2-x_3,\\
+        f&=-10x_1-12x_2-12x_3.
+        \end{aligned}\]
       </div>
-      <aside class="l6-callout" data-tone="blue" data-reveal><strong>Slack-basis start:</strong> \(B_0=[A_4\ A_5\ A_6]=I\), so \(x^{(0)}=(0,0,0,20,20,20)\) and \(c^\top x^{(0)}=0\).</aside>`,
+      <section data-reveal="1">
+        <p>With \(B_0=[A_4\ A_5\ A_6]=I\), set \(x_1=x_2=x_3=0\):</p>
+        <div class="l6-trace-equation">\[x^{(0)}=(0,0,0,20,20,20),\qquad f^{(0)}=0.\]</div>
+      </section>
+      <aside class="l6-callout" data-tone="blue" data-reveal="2"><strong>Rule for all three pivots:</strong> choose the smallest-index nonbasic variable with negative reduced cost. Among minimum-ratio ties, choose the smallest-index basic variable to leave.</aside>`,
   },
   {
     id: "l6-36",
     page: 36,
-    title: "Your Turn: Choose a First Pivot",
+    className: "l6-worked-trace-slide",
+    title: "Pivot 1: Choose the Direction and Step",
     html: String.raw`
-      <div class="l6-equation ns-math">\[\bar c=(-10,-12,-12,0,0,0).\]</div>
-      <ol class="l6-questions">
-        <li>Which nonbasic variables are eligible to enter?</li>
-        <li>Which variable does the most-negative rule choose, breaking a tie by smaller index?</li>
-        <li>May a different eligible variable enter under another valid simplex rule?</li>
-      </ol>
-      <section class="l6-answer" data-reveal="answer"><h3>Answer</h3><p>\(x_1,x_2,x_3\) are eligible; the stated most-negative rule selects \(x_2\); and yes—\(x_1\) or \(x_3\) may enter under a valid rule.</p></section>
-      <aside class="l6-callout" data-tone="orange" data-reveal="trace"><strong>Our worked trace deliberately chooses \(x_1\).</strong> It is valid, though not the most-negative choice.</aside>`,
+      <p>Initially \(\bar c_1=-10,\;\bar c_2=\bar c_3=-12\). Our rule selects <strong>\(x_1\) to enter.</strong></p>
+      <div class="l6-trace-equation">\[d_{\mathcal B}=-B_0^{-1}A_1=(-1,-2,-2)^\top,\qquad d_1=1.\]</div>
+      <p><strong>Your turn:</strong> increase \(x_1=\theta\), keeping \(x_2=x_3=0\). Which variable leaves?</p>
+      <section data-reveal="1">
+        <table class="l6-trace-table">
+          <caption class="l6-visually-hidden">First pivot: nonnegativity bounds on the step</caption>
+          <thead><tr><th scope="col">Basic variable</th><th scope="col">Along the move</th><th scope="col">Step bound</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">\(x_4\)</th><td>\(20-\theta\)</td><td>\(\theta\le20\)</td></tr>
+            <tr><th scope="row">\(x_5\)</th><td>\(20-2\theta\)</td><td>\(\theta\le10\)</td></tr>
+            <tr><th scope="row">\(x_6\)</th><td>\(20-2\theta\)</td><td>\(\theta\le10\)</td></tr>
+          </tbody>
+        </table>
+        <p>\(\theta^*=\min\{20,10,10\}=10\). The tie rule makes <strong>\(x_5\) leave.</strong></p>
+      </section>
+      <aside class="l6-callout" data-tone="green" data-reveal="2">\(x^{(1)}=(10,0,0,10,0,0)\), with \(f^{(1)}=-100\). Both \(x_5\) and \(x_6\) reach zero, but only \(x_5\) leaves the basis.</aside>`,
   },
   {
     id: "l6-37",
     page: 37,
-    className: "l6-derivation-slide",
-    title: "First Pivot: Direction and Ratio Test",
+    className: "l6-worked-trace-slide",
+    title: "After Pivot 1: A Degenerate Basic Solution",
     html: String.raw`
-      <p>For entering variable \(x_1\),</p>
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[d_{\mathcal B}=-B_0^{-1}A_1=\begin{bmatrix}-1\\-2\\-2\end{bmatrix},\qquad d_1=1.\]</div>
-        <div class="l6-proof-step l6-proof-result" data-reveal="ratio">\[\theta^*=\min\left\{\frac{20}{1},\frac{20}{2},\frac{20}{2}\right\}=10.\]</div>
-        <div class="l6-proof-slot" aria-hidden="true"></div>
-      </div>
-      <aside class="l6-callout" data-tone="orange" data-reveal="tie">Rows \(x_5\) and \(x_6\) tie. Choosing the smaller variable index makes \(x_5\) leave and \(x_1\) enter.</aside>`,
+      <p>Solve the leaving row for \(x_1\), then substitute into every other row, including \(f\):</p>
+      <div class="l6-trace-equation">\[x_5=20-2x_1-x_2-2x_3\quad\Longrightarrow\quad x_1=10-\tfrac12x_2-x_3-\tfrac12x_5.\]</div>
+      <section data-reveal="1">
+        <p>New basis \(\mathcal B=(x_1,x_4,x_6)\); nonbasic variables \(\mathcal N=(x_2,x_3,x_5)\).</p>
+        <div class="l6-trace-dictionary" data-l6-worked-dictionary="1">
+          \[\begin{aligned}
+          x_1&=10-\tfrac12x_2-x_3-\tfrac12x_5,\\
+          x_4&=10-\tfrac32x_2-x_3+\tfrac12x_5,\\
+          x_6&=-x_2+x_3+x_5,\\
+          f&=-100-7x_2-2x_3+5x_5.
+          \end{aligned}\]
+        </div>
+      </section>
+      <aside class="l6-callout" data-tone="orange" data-reveal="2"><strong>Degenerate:</strong> setting the nonbasic variables to zero gives \(x_6=0\), although \(x_6\) is basic. The first step was positive. Next, our rule selects \(x_2\), since \(\bar c_2=-7<0\).</aside>`,
   },
   {
     id: "l6-38",
     page: 38,
-    title: "After the First Pivot",
+    className: "l6-worked-trace-slide",
+    title: "Pivot 2: Change the Basis with a Zero Step",
     html: String.raw`
-      <div class="l6-pivot-summary">
-        <section><h3>Updated point</h3><p>\(x^{(1)}=(10,0,0,10,0,0)\)</p><p>\(c^\top x^{(1)}=-100\)</p></section>
-        <section><h3>New basis</h3><p>\(B_1=[A_4\ A_1\ A_6]\)</p><p>remaining reduced costs: \(\bar c_2=-7,\ \bar c_3=-2\)</p></section>
-      </div>
-      <aside class="l6-callout" data-tone="maroon" data-reveal="degenerate"><strong>A degenerate arrival:</strong> \(x_6\) remains basic at value zero because two ratios tied. The step length was positive, but the new BFS is degenerate.</aside>
-      <p class="l6-emphasis-line" data-reveal="continue">Both \(x_2\) and \(x_3\) still have negative reduced costs, so simplex continues.</p>`,
+      <p>Let \(x_2=\theta\), keeping \(x_3=x_5=0\). The current dictionary gives</p>
+      <div class="l6-trace-equation">\[x_1=10-\tfrac12\theta,\quad x_4=10-\tfrac32\theta,\quad x_6=-\theta.\]</div>
+      <p>\(\theta^*=\min\{20,20/3,0\}=0\): <strong>\(x_2\) enters and \(x_6\) leaves.</strong></p>
+      <section data-reveal="1">
+        <p>Rearrange \(x_6=-x_2+x_3+x_5\) as \(x_2=x_3+x_5-x_6\), then substitute:</p>
+        <div class="l6-trace-dictionary" data-l6-worked-dictionary="2">
+          \[\begin{aligned}
+          x_1&=10-\tfrac32x_3-x_5+\tfrac12x_6,\\
+          x_2&=x_3+x_5-x_6,\\
+          x_4&=10-\tfrac52x_3-x_5+\tfrac32x_6,\\
+          f&=-100-9x_3-2x_5+7x_6.
+          \end{aligned}\]
+        </div>
+      </section>
+      <aside class="l6-callout" data-tone="orange" data-reveal="2"><strong>New basis:</strong> \(\mathcal B=(x_1,x_2,x_4)\). <strong>Same point and value:</strong> \(x^{(2)}=x^{(1)}\), \(f^{(2)}=-100\). Now \(x_2\) is basic at zero.</aside>`,
     checkpoint: checkpointDegeneratePivot,
   },
   {
     id: "l6-39",
     page: 39,
-    className: "l6-final-dictionary-slide",
-    title: "The Final Dictionary",
+    className: "l6-worked-trace-slide",
+    title: "Pivot 3: Reach the Final Dictionary",
     html: String.raw`
-      <p>After valid pivots, use basic row order \(x_3,x_1,x_2\) and nonbasic slacks \(x_4,x_5,x_6\):</p>
-      <table class="l6-dictionary-table">
-        <caption class="l6-visually-hidden">Final simplex dictionary coefficients</caption>
-        <thead><tr><th scope="col">basic</th><th scope="col">value</th><th scope="col">\(x_4\)</th><th scope="col">\(x_5\)</th><th scope="col">\(x_6\)</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">\(x_3\)</th><td>4</td><td>\(-2/5\)</td><td>\(-2/5\)</td><td>\(3/5\)</td></tr>
-          <tr><th scope="row">\(x_1\)</th><td>4</td><td>\(3/5\)</td><td>\(-2/5\)</td><td>\(-2/5\)</td></tr>
-          <tr><th scope="row">\(x_2\)</th><td>4</td><td>\(-2/5\)</td><td>\(3/5\)</td><td>\(-2/5\)</td></tr>
-        </tbody>
-      </table>
-      <aside class="l6-callout" data-tone="green" data-reveal>Set \(x_4=x_5=x_6=0\): \(\boxed{x^*=(4,4,4,0,0,0)}\).</aside>`,
+      <p>Now \(\bar c_3=-9\) and \(\bar c_5=-2\). Choose <strong>\(x_3\) to enter</strong>; set \(x_3=\theta\), \(x_5=x_6=0\).</p>
+      <div class="l6-trace-equation">\[x_1=10-\tfrac32\theta,\quad x_2=\theta,\quad x_4=10-\tfrac52\theta.\]</div>
+      <p>\(x_2\) increases, so only \(x_1,x_4\) bound the step: \(\theta^*=\min\{20/3,4\}=4\). <strong>\(x_4\) leaves.</strong></p>
+      <section data-reveal="1">
+        <p>Solve for \(x_3=4-\tfrac25x_4-\tfrac25x_5+\tfrac35x_6\) and substitute:</p>
+        <div class="l6-trace-dictionary" data-l6-worked-dictionary="3">
+          \[\begin{aligned}
+          x_1&=4+\tfrac35x_4-\tfrac25x_5-\tfrac25x_6,\\
+          x_2&=4-\tfrac25x_4+\tfrac35x_5-\tfrac25x_6,\\
+          x_3&=4-\tfrac25x_4-\tfrac25x_5+\tfrac35x_6,\\
+          f&=-136+\tfrac{18}{5}x_4+\tfrac85x_5+\tfrac85x_6.
+          \end{aligned}\]
+        </div>
+      </section>
+      <aside class="l6-callout" data-tone="green" data-reveal="2">\(\mathcal B=(x_1,x_2,x_3)\). Set \(x_4=x_5=x_6=0\): \(x^{(3)}=(4,4,4,0,0,0)\).</aside>`,
   },
   {
     id: "l6-40",
     page: 40,
-    className: "l6-derivation-slide",
-    title: "Verify the Final Basis",
+    className: "l6-worked-trace-slide",
+    title: "Verify Optimality and Review the Three Pivots",
     html: String.raw`
-      <div class="l6-derivation-history">
-        <div class="l6-proof-step">\[B_*^{-1}b=\begin{bmatrix}4\\4\\4\end{bmatrix}\ge0.\]</div>
-        <div class="l6-proof-step" data-reveal="costs">\[\bar c_4=\frac{18}{5},\qquad \bar c_5=\frac{8}{5},\qquad \bar c_6=\frac{8}{5}.\]</div>
-        <div class="l6-proof-step l6-proof-result" data-reveal="finish">\[c^\top x^*=-136.\]</div>
-      </div>
-      <aside class="l6-callout" data-tone="green" data-reveal="finish"><strong>Optimal:</strong> both the primal-feasibility and reduced-cost checks pass.</aside>`,
+      <p>The final point \(x^*=(4,4,4,0,0,0)\) is nonnegative and satisfies all three equations.</p>
+      <div class="l6-trace-equation">\[f=-136+\underbrace{\tfrac{18}{5}}_{\bar c_4}x_4+\underbrace{\tfrac85}_{\bar c_5}x_5+\underbrace{\tfrac85}_{\bar c_6}x_6\ge-136.\]</div>
+      <aside class="l6-callout" data-tone="green" data-reveal="1"><strong>Optimal:</strong> every feasible point has \(x_4,x_5,x_6\ge0\), so none has objective below \(-136\). Our final point attains that value.</aside>
+      <section data-reveal="2">
+        <table class="l6-trace-table" data-l6-worked-summary>
+          <caption>Three pivots, two positive moves</caption>
+          <thead><tr><th scope="col">Pivot</th><th scope="col">Enters / leaves</th><th scope="col">\(\theta^*\)</th><th scope="col">New basis</th><th scope="col">\(f\)</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1</th><td>\(x_1\) / \(x_5\)</td><td>10</td><td>\((x_1,x_4,x_6)\)</td><td>\(-100\)</td></tr>
+            <tr><th scope="row">2</th><td>\(x_2\) / \(x_6\)</td><td>0</td><td>\((x_1,x_2,x_4)\)</td><td>\(-100\)</td></tr>
+            <tr><th scope="row">3</th><td>\(x_3\) / \(x_4\)</td><td>4</td><td>\((x_1,x_2,x_3)\)</td><td>\(-136\)</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Key distinction:</strong> a pivot always changes the basis; a zero-length pivot leaves the point and objective unchanged. This distinction matters for termination.</p>
+      </section>`,
   },
   {
     id: "l6-41",
