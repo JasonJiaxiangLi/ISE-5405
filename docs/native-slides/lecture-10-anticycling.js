@@ -942,36 +942,47 @@ const basicFirstSlides = [
   },
 ];
 
-function lexObjectiveRows() {
-  return String.raw`<div class="l10-table-wrap" tabindex="0" role="region" aria-label="Objective rows before and after the third natural-order lex pivot">
-    <table class="l10-table" data-l10-lex-objective-progress>
+function lexObjectiveRow(index) {
+  return String.raw`<div class="l10-table-wrap" tabindex="0" role="region" aria-label="Complete objective row ${index===2?'before':'after'} pivot 3; fixed order minus objective, then x1 through x7">
+    <table class="l10-table" data-l10-lex-objective-state="${index}">
       <thead><tr><th scope="col">\(R_0\)</th><th scope="col">\(-f_B\)</th>${Array.from({length:7},(_,j)=>`<th scope="col">\\(x_${j+1}\\)</th>`).join('')}</tr></thead>
-      <tbody>${[2,3].map(index=>String.raw`<tr><th scope="row">${index===2?'Before':'After'} pivot 3</th>${auditData.lexCycling.states[index].tableau[0].map((v,j)=>String.raw`<td${j===2?' data-pivot':''}>\(${rationalTex(v)}\)</td>`).join('')}</tr>`).join('')}</tbody>
+      <tbody><tr><th scope="row">${index===2?'Before':'After'}</th>${auditData.lexCycling.states[index].tableau[0].map((v,j)=>String.raw`<td${j===2?' data-pivot':''}>\(${rationalTex(v)}\)</td>`).join('')}</tr></tbody>
     </table></div>`;
 }
 
 const lexIntuitionSlides = [
   {
-    key:"lex-intuition-progress", title:"Intuition: Progress Even When the Point Stays Still", referencePages:[30,31,32,33,34],
+    key:"lex-intuition-before", title:"Intuition: Before Pivot 3", referencePages:[8,9,30,31,32,33,34],
+    className:"l10-lex-intuition-dictionary-slide",
     html:String.raw`
-      <p>The lex rule preserves lex-positive constraint rows and makes the <strong>complete objective row</strong> increase lexicographically.</p>
-      <p>Example 3.6, pivot 3: the point stays fixed and \(f=-3\), but compare \(R_0\):</p>
-      ${lexObjectiveRows()}
-      <section class="l10-box" data-tone="blue" data-reveal="1">
-        <p>\(-f_B\) and the \(x_1\) entry stay the same. The first change is \(0\to\frac{16}{3}\) in column \(x_2\).</p>
-        <div class="l10-math">\[R_0^{\mathrm{after}}>_L R_0^{\mathrm{before}}.\]</div>
-      </section>
-      <p data-reveal="2">A zero objective change can still give strict progress in a later entry of the row.</p>`,
+      <p>Example 3.6 after two pivots: \(\mathcal B=(x_1,x_2,x_7)\).</p>
+      ${lexDictionary(2)}
+      ${lexObjectiveRow(2)}
+      <section class="l10-box" data-tone="blue">
+        <p><strong>Pivot 3:</strong> \(x_3\) enters, \(x_2\) leaves, and \(\theta=0\). Solve the \(x_2\) equation for \(x_3\), then substitute into every other equation and the objective.</p>
+      </section>`,
+  },
+  {
+    key:"lex-intuition-progress", title:"Intuition: After Pivot 3", referencePages:[23,30,31,32,33,34],
+    className:"l10-lex-intuition-dictionary-slide",
+    html:String.raw`
+      <p>After substitution: \(\mathcal B=(x_1,x_3,x_7)\).</p>
+      ${lexDictionary(3)}
+      ${lexObjectiveRow(3)}
+      <section class="l10-box" data-tone="green">
+        <p>Same point, same \(f=-3\). The first change in \(R_0\) is \(0\to\frac{16}{3}\) in the \(x_2\) column: strict lexicographic progress, even with a zero step.</p>
+      </section>`,
   },
   {
     key:"lex-intuition-finite", title:"Intuition: Strict Progress Prevents Repeated Bases", referencePages:[35],
     html:String.raw`
+      <p>With a lex-positive start, the rule preserves lex-positive constraint rows and makes \(R_0\) strictly increase at every pivot.</p>
       <div class="l10-stack">
         <section class="l10-box" data-tone="blue"><h3>A basis determines its objective row</h3><p>For the same LP and fixed column order, returning to a basis would reproduce exactly the same \(R_0\).</p></section>
         <section class="l10-box" data-tone="blue" data-reveal="1"><h3>The row strictly increases at every pivot</h3><p>A strictly increasing lexicographic sequence cannot return to an earlier row. Therefore no basis can repeat.</p></section>
         <section class="l10-box" data-tone="green" data-reveal="2"><h3>There are only finitely many bases</h3><p>Simplex must stop: either all reduced costs are nonnegative, or an improving column has no eligible leaving row. These certify optimality or unboundedness, respectively.</p></section>
       </div>
-      <p data-reveal="2">The complete algebraic proof is available in the appendix.</p>`,
+      <p data-reveal="2">The complete algebraic proof is available in the appendix, and textbook Theorem 3.4.</p>`,
   },
 ];
 

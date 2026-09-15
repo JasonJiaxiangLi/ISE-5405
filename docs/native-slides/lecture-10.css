@@ -90,3 +90,18 @@
     background: #edf4f8;
   }
 }
+
+/* Keep the full before/after dictionaries and objective tables aligned while
+   navigating between the two intuition pages. All content is shown at once. */
+[data-native-deck="lecture-10"] .l10-lex-intuition-dictionary-slide [data-l10-lex-dictionary] {
+  height: 11.4em;
+  flex-shrink: 0;
+  display: block;
+}
+@media (max-width: 760px) {
+  [data-native-deck="lecture-10"] .l10-lex-intuition-dictionary-slide [data-l10-lex-dictionary] { height: auto; }
+  [data-native-deck="lecture-10"] .l10-lex-intuition-dictionary-slide .l10-table { min-width: 36em; }
+}
+
+[data-native-deck="lecture-10"] .l10-lex-intuition-dictionary-slide .l10-table { table-layout: fixed; }
+[data-native-deck="lecture-10"] .l10-lex-intuition-dictionary-slide .l10-table tbody :is(th,td) { height: 2.2em; }
