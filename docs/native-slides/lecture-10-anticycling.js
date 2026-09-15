@@ -92,10 +92,10 @@ function negateRational(value) {
 // Read the dictionary from the same exact coefficients as the initial tableau.
 // Basic columns are omitted because their variables are on the left-hand side.
 const initialState = auditData.cycling.states[0];
-function dictionaryExpression(constant, coefficients) {
+function dictionaryExpression(constant, coefficients, basis = initialState.basis) {
   let expression = constant === "0" ? "" : rationalTex(constant);
   coefficients.forEach((coefficient, index) => {
-    if (coefficient === "0" || initialState.basis.includes(index + 1)) return;
+    if (coefficient === "0" || basis.includes(index + 1)) return;
     const negative = coefficient.startsWith("-");
     const magnitude = negative ? coefficient.slice(1) : coefficient;
     expression += `${negative ? "-" : expression ? "+" : ""}${magnitude === "1" ? "" : rationalTex(magnitude)}x_${index + 1}`;
@@ -108,6 +108,872 @@ const initialDictionaryRows = initialState.tableau.slice(1).map((row, index) =>
 const initialDictionaryObjective = dictionaryExpression(
   negateRational(initialState.tableau[0][0]), initialState.tableau[0].slice(1)
 );
+
+
+// Both runs restart the same Example 3.6. Tableau coefficients stay in
+// natural variable order; comparisonOrder alone sets the lex priorities.
+auditData.lexCycling = {
+  "comparisonOrder": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "states": [
+    {
+      "basis": [
+        5,
+        6,
+        7
+      ],
+      "tableau": [
+        [
+          "3",
+          "-3/4",
+          "20",
+          "-1/2",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/4",
+          "-8",
+          "-1",
+          "9",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/2",
+          "-12",
+          "-1/2",
+          "3",
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "point": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "value": "-3"
+    },
+    {
+      "basis": [
+        1,
+        6,
+        7
+      ],
+      "tableau": [
+        [
+          "3",
+          "0",
+          "-4",
+          "-7/2",
+          "33",
+          "3",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "-32",
+          "-4",
+          "36",
+          "4",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "4",
+          "3/2",
+          "-15",
+          "-2",
+          "1",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "point": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "value": "-3"
+    },
+    {
+      "basis": [
+        1,
+        2,
+        7
+      ],
+      "tableau": [
+        [
+          "3",
+          "0",
+          "0",
+          "-2",
+          "18",
+          "1",
+          "1",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "0",
+          "8",
+          "-84",
+          "-12",
+          "8",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "1",
+          "3/8",
+          "-15/4",
+          "-1/2",
+          "1/4",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ],
+      "point": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "value": "-3"
+    },
+    {
+      "basis": [
+        1,
+        3,
+        7
+      ],
+      "tableau": [
+        [
+          "3",
+          "0",
+          "16/3",
+          "0",
+          "-2",
+          "-5/3",
+          "7/3",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "-64/3",
+          "0",
+          "-4",
+          "-4/3",
+          "8/3",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "8/3",
+          "1",
+          "-10",
+          "-4/3",
+          "2/3",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "-8/3",
+          "0",
+          "10",
+          "4/3",
+          "-2/3",
+          "1"
+        ]
+      ],
+      "point": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1"
+      ],
+      "value": "-3"
+    },
+    {
+      "basis": [
+        1,
+        3,
+        4
+      ],
+      "tableau": [
+        [
+          "16/5",
+          "0",
+          "24/5",
+          "0",
+          "0",
+          "-7/5",
+          "11/5",
+          "1/5"
+        ],
+        [
+          "2/5",
+          "1",
+          "-112/5",
+          "0",
+          "0",
+          "-4/5",
+          "12/5",
+          "2/5"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "1/10",
+          "0",
+          "-4/15",
+          "0",
+          "1",
+          "2/15",
+          "-1/15",
+          "1/10"
+        ]
+      ],
+      "point": [
+        "2/5",
+        "0",
+        "1",
+        "1/10",
+        "0",
+        "0",
+        "0"
+      ],
+      "value": "-16/5"
+    },
+    {
+      "basis": [
+        1,
+        3,
+        5
+      ],
+      "tableau": [
+        [
+          "17/4",
+          "0",
+          "2",
+          "0",
+          "21/2",
+          "0",
+          "3/2",
+          "5/4"
+        ],
+        [
+          "1",
+          "1",
+          "-24",
+          "0",
+          "6",
+          "0",
+          "2",
+          "1"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        [
+          "3/4",
+          "0",
+          "-2",
+          "0",
+          "15/2",
+          "1",
+          "-1/2",
+          "3/4"
+        ]
+      ],
+      "point": [
+        "1",
+        "0",
+        "1",
+        "0",
+        "3/4",
+        "0",
+        "0"
+      ],
+      "value": "-17/4"
+    }
+  ],
+  "pivots": [
+    {
+      "entering": 1,
+      "leaving": 5,
+      "pivotRow": 0,
+      "step": "0",
+      "reducedCost": "-3/4",
+      "normalizedRows": [
+        {
+          "variable": 5,
+          "divisor": "1/4",
+          "entries": [
+            "0",
+            "1",
+            "-32",
+            "-4",
+            "36",
+            "4",
+            "0",
+            "0"
+          ]
+        },
+        {
+          "variable": 6,
+          "divisor": "1/2",
+          "entries": [
+            "0",
+            "1",
+            "-24",
+            "-1",
+            "6",
+            "0",
+            "2",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "entering": 2,
+      "leaving": 6,
+      "pivotRow": 1,
+      "step": "0",
+      "reducedCost": "-4",
+      "normalizedRows": [
+        {
+          "variable": 6,
+          "divisor": "4",
+          "entries": [
+            "0",
+            "0",
+            "1",
+            "3/8",
+            "-15/4",
+            "-1/2",
+            "1/4",
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "entering": 3,
+      "leaving": 2,
+      "pivotRow": 1,
+      "step": "0",
+      "reducedCost": "-2",
+      "normalizedRows": [
+        {
+          "variable": 1,
+          "divisor": "8",
+          "entries": [
+            "0",
+            "1/8",
+            "0",
+            "1",
+            "-21/2",
+            "-3/2",
+            "1",
+            "0"
+          ]
+        },
+        {
+          "variable": 2,
+          "divisor": "3/8",
+          "entries": [
+            "0",
+            "0",
+            "8/3",
+            "1",
+            "-10",
+            "-4/3",
+            "2/3",
+            "0"
+          ]
+        },
+        {
+          "variable": 7,
+          "divisor": "1",
+          "entries": [
+            "1",
+            "0",
+            "0",
+            "1",
+            "0",
+            "0",
+            "0",
+            "1"
+          ]
+        }
+      ]
+    },
+    {
+      "entering": 4,
+      "leaving": 7,
+      "pivotRow": 2,
+      "step": "1/10",
+      "reducedCost": "-2",
+      "normalizedRows": [
+        {
+          "variable": 7,
+          "divisor": "10",
+          "entries": [
+            "1/10",
+            "0",
+            "-4/15",
+            "0",
+            "1",
+            "2/15",
+            "-1/15",
+            "1/10"
+          ]
+        }
+      ]
+    },
+    {
+      "entering": 5,
+      "leaving": 4,
+      "pivotRow": 2,
+      "step": "3/4",
+      "reducedCost": "-7/5",
+      "normalizedRows": [
+        {
+          "variable": 4,
+          "divisor": "2/15",
+          "entries": [
+            "3/4",
+            "0",
+            "-2",
+            "0",
+            "15/2",
+            "1",
+            "-1/2",
+            "3/4"
+          ]
+        }
+      ]
+    }
+  ],
+  "finalPoint": [
+    "1",
+    "0",
+    "1",
+    "0",
+    "3/4",
+    "0",
+    "0"
+  ],
+  "finalValue": "-17/4"
+};
+auditData.basicFirstLex = {
+  "comparisonOrder": [
+    0,
+    5,
+    6,
+    7,
+    1,
+    2,
+    3,
+    4
+  ],
+  "states": [
+    {
+      "basis": [
+        5,
+        6,
+        7
+      ],
+      "referencePages": [
+        4,
+        5
+      ],
+      "tableau": [
+        [
+          "3",
+          "-3/4",
+          "20",
+          "-1/2",
+          "6",
+          "0",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/4",
+          "-8",
+          "-1",
+          "9",
+          "1",
+          "0",
+          "0"
+        ],
+        [
+          "0",
+          "1/2",
+          "-12",
+          "-1/2",
+          "3",
+          "0",
+          "1",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ]
+    },
+    {
+      "basis": [
+        5,
+        1,
+        7
+      ],
+      "tableau": [
+        [
+          "3",
+          "0",
+          "2",
+          "-5/4",
+          "21/2",
+          "0",
+          "3/2",
+          "0"
+        ],
+        [
+          "0",
+          "0",
+          "-2",
+          "-3/4",
+          "15/2",
+          "1",
+          "-1/2",
+          "0"
+        ],
+        [
+          "0",
+          "1",
+          "-24",
+          "-1",
+          "6",
+          "0",
+          "2",
+          "0"
+        ],
+        [
+          "1",
+          "0",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ]
+      ]
+    }
+  ],
+  "pivots": [
+    {
+      "entering": 1,
+      "leaving": 6,
+      "pivotRow": 1,
+      "step": "0",
+      "reducedCost": "-3/4",
+      "normalizedRows": [
+        {
+          "variable": 5,
+          "divisor": "1/4",
+          "entries": [
+            "0",
+            "4",
+            "0",
+            "0",
+            "1",
+            "-32",
+            "-4",
+            "36"
+          ]
+        },
+        {
+          "variable": 6,
+          "divisor": "1/2",
+          "entries": [
+            "0",
+            "0",
+            "2",
+            "0",
+            "1",
+            "-24",
+            "-1",
+            "6"
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+function lexDictionary(index, trace = auditData.lexCycling) {
+  const {basis, tableau} = trace.states[index];
+  const rows = tableau.slice(1).map((row, i) => ({row, variable: basis[i]}))
+    .sort((a, b) => a.variable - b.variable)
+    .map(({row, variable}) => `x_${variable}&=${dictionaryExpression(row[0], row.slice(1).map(negateRational), basis)}`);
+  rows.push(`f&=${dictionaryExpression(negateRational(tableau[0][0]), tableau[0].slice(1), basis)}`);
+  return String.raw`<div class="l10-math" data-l10-lex-dictionary="${index}" data-basis="${[...basis].sort((a,b)=>a-b).join(',')}">\[\begin{aligned}${rows.join(String.raw`\\`)}\end{aligned}\]</div>`;
+}
+
+
+function lexNormalizedRows(pivotIndex = 0, trace = auditData.lexCycling, highlightColumn = 2) {
+  const pivot = trace.pivots[pivotIndex];
+  return String.raw`<div class="l10-table-wrap" tabindex="0" role="region" aria-label="Normalized eligible rows in fixed comparison order">
+    <table class="l10-table" data-l10-lex-cycle-rows="${pivotIndex+1}">
+      <caption>\(R_{x_i}\) is the row for basic \(x_i\); divide by its \(x_${pivot.entering}\)-column entry.</caption>
+      <thead><tr><th scope="col">row</th>${trace.comparisonOrder.map(j=>`<th scope="col">${j===0?'RHS':`\\(x_${j}\\)`}</th>`).join('')}</tr></thead>
+      <tbody>${pivot.normalizedRows.map(({variable,divisor,entries})=>String.raw`<tr><th scope="row">\(R_{x_${variable}}/(${rationalTex(divisor)})\)</th>${entries.map((v,i)=>String.raw`<td${i===highlightColumn?' data-pivot':''}>\(${rationalTex(v)}\)</td>`).join('')}</tr>`).join('')}</tbody>
+    </table></div>`;
+}
+
+const lexCyclingSlides = [
+  {
+    key: "lex-cycle-start", title: "Example 3.6 Again: Keep the Usual Column Order", referencePages: [4,23,37],
+    html: String.raw`
+      <p>Restart the same <strong>minimization</strong> problem at \(\mathcal B=(x_5,x_6,x_7)\). Keep the most-negative reduced-cost entering rule.</p>
+      ${lexDictionary(0)}
+      <section class="l10-box" data-tone="blue" data-reveal="1" data-l10-lex-fixed-order>
+        <p>Compare tableau rows from left to right, always in this order:</p>
+        <div class="l10-math">\[\mathrm{RHS}\;\big|\;x_1,x_2,x_3,x_4,x_5,x_6,x_7.\]</div>
+        <p>In the <strong>tableau</strong>, the first nonzero entries are \(+\frac14,+\frac12,1\). Thus all constraint rows start lex positive.</p>
+      </section>`,
+  },
+  {
+    key: "lex-cycle-first-choice", title: "Lex Pivot 1: The First Tie Still Chooses x₅", referencePages: [4,5,23],
+    html: String.raw`
+      <p>\(x_1\) enters: \(-\frac34<-\frac12\). Rows \(x_5,x_6\) tie at ratio zero; the \(x_7\) row is ineligible.</p>
+      ${lexNormalizedRows(0)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p>The RHS and \(x_1\) entries tie. The first difference is in column \(x_2\):</p>
+        <div class="l10-math">\[-32<-24\quad\Longrightarrow\quad
+          \frac{R_{x_5}}{1/4}<_L\frac{R_{x_6}}{1/2}.\]</div>
+      </section>
+      <p data-reveal="2"><strong>\(x_5\) leaves at \(\theta=0\).</strong> This first pivot agrees with the earlier cycling run.</p>`,
+  },
+  {
+    key: "lex-cycle-first-result", title: "After Pivot 1: Choose the Second Pivot", referencePages: [6,7,23],
+    html: String.raw`
+      <p>Solve the old \(x_5\) equation for \(x_1\) and substitute. The basis becomes \((x_1,x_6,x_7)\):</p>
+      ${lexDictionary(1)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p><strong>\(x_2\) enters:</strong> \(-4<-\frac72\). With the other nonbasic variables zero, \(x_6=-4x_2\ge0\) forces \(x_2=0\).</p>
+      </section>
+      <p data-reveal="2"><strong>Pivot 2: \(x_6\) leaves, \(\theta=0\).</strong> No ratio tie occurs. The first two pivots still match the cycling run.</p>`,
+  },
+  {
+    key: "lex-cycle-second-result", title: "After Pivot 2: A New Tie to Resolve", referencePages: [8,9,23],
+    html: String.raw`
+      <p>Solve the old \(x_6\) equation for \(x_2\), then substitute. Now \(\mathcal B=(x_1,x_2,x_7)\):</p>
+      ${lexDictionary(2)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p><strong>\(x_3\) enters:</strong> \(\bar c_3=-2\) is the only negative reduced cost.</p>
+        <div class="l10-math">\[\theta^*=\min\left\{\frac08,\frac0{3/8},\frac11\right\}=0.\]</div>
+      </section>
+      <p data-reveal="2">\(x_1\) and \(x_2\) tie at zero. Which complete normalized row is smaller?</p>`,
+  },
+  {
+    key: "lex-cycle-third-choice", title: "Lex Pivot 3: This Choice Breaks the Cycle", referencePages: [8,9,23],
+    html: String.raw`
+      <p>Compare the eligible rows in the same order: RHS, then \(x_1,\ldots,x_7\).</p>
+      ${lexNormalizedRows(2,auditData.lexCycling,1)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p>The \(x_7\) row has ratio 1. Among the zero-ratio rows, column \(x_1\) decides:</p>
+        <div class="l10-math">\[0<\frac18\quad\Longrightarrow\quad
+          \frac{R_{x_2}}{3/8}<_L\frac{R_{x_1}}8.\]</div>
+      </section>
+      <p data-reveal="2"><strong>\(x_2\) leaves at \(\theta=0\).</strong> The cycling run instead made \(x_1\) leave. We now reach a different basis.</p>`,
+  },
+  {
+    key: "lex-cycle-third-result", title: "After Pivot 3: The Fourth Pivot Can Move", referencePages: [23],
+    html: String.raw`
+      <p>Pivot on the old \(x_2\) row to make \(x_3\) basic. The new dictionary is</p>
+      ${lexDictionary(3)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p><strong>\(x_4\) enters:</strong> \(-2<-\frac53\). Set \(x_4=\theta\), with \(x_2=x_5=x_6=0\):</p>
+        <div class="l10-math">\[x_1=4\theta,\quad x_3=10\theta,\quad x_7=1-10\theta.\]</div>
+      </section>
+      <p data-reveal="2"><strong>Pivot 4: \(x_7\) leaves at \(\theta=\frac1{10}\).</strong> Only \(x_7\) decreases; the objective drops to \(-\frac{16}{5}\).</p>`,
+  },
+  {
+    key: "lex-cycle-fourth-result", title: "After Pivot 4: One More Improving Pivot", referencePages: [23],
+    html: String.raw`
+      <p>Solve the old \(x_7\) equation for \(x_4\) and substitute. Now \(\mathcal B=(x_1,x_3,x_4)\):</p>
+      ${lexDictionary(4)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p><strong>\(x_5\) enters:</strong> \(-\frac75\) is the only negative reduced cost. Only \(x_4\) decreases:</p>
+        <div class="l10-math">\[x_4=\frac1{10}-\frac2{15}\theta\ge0
+          \quad\Longrightarrow\quad\theta\le\frac34.\]</div>
+      </section>
+      <p data-reveal="2"><strong>Pivot 5: \(x_4\) leaves at \(\theta=\frac34\).</strong> Solve for \(x_5\) and substitute once more.</p>`,
+  },
+  {
+    key: "lex-cycle-optimal", title: "Example 3.6: Optimal After Five Lex Pivots", referencePages: [23,35],
+    html: String.raw`
+      <p>The final basis is \((x_1,x_3,x_5)\); the nonbasic variables are \((x_2,x_4,x_6,x_7)\).</p>
+      ${lexDictionary(5)}
+      <section class="l10-box" data-tone="green" data-reveal="1">
+        <p>All nonbasic reduced costs are positive. Set the nonbasic variables to zero:</p>
+        <div class="l10-math">\[x^*=(1,0,1,0,\tfrac34,0,0),\qquad f^*=-\tfrac{17}{4}.\]</div>
+      </section>
+      <p data-reveal="2">Three zero-length pivots, then two positive steps. The changed leaving choice at pivot 3 prevents the earlier six-pivot cycle.</p>`,
+  },
+];
+
+const basicFirstSlides = [
+  {
+    key:"lex-basic-first-choice", title:"Basic Columns First: A Convenient Setup", referencePages:[4,23,37],
+    html:String.raw`
+      <p>Restart Example 3.6 at \((x_5,x_6,x_7)\). Apply the setup just described and fix the comparison order:</p>
+      <div class="l10-math">\[\mathrm{RHS}\mid x_5,x_6,x_7\mid x_1,x_2,x_3,x_4.\]</div>
+      ${lexNormalizedRows(0,auditData.basicFirstLex,1)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p>\(x_1\) still enters. The RHS entries tie; the very next entry gives \(0<4\). <strong>\(x_6\) leaves at step zero.</strong></p>
+      </section>
+      <p data-reveal="2">The identity block guarantees a lex-positive start. Here it also resolves the tie one entry earlier than the usual column order.</p>`,
+  },
+  {
+    key:"lex-basic-first-result", title:"One Pivot with Basic Columns First", referencePages:[4,23,37],
+    html:String.raw`
+      <p>Solve the initial \(x_6\) equation for \(x_1\), then substitute into the other equations and the objective:</p>
+      ${lexDictionary(1,auditData.basicFirstLex)}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p>New basis: \((x_1,x_5,x_7)\). The point is unchanged and \(f=-3\). Keep the comparison order fixed if continuing this run.</p>
+      </section>
+      <p data-reveal="2">Different fixed orders can give different pivot paths. This setup guarantees the starting row condition; it does not guarantee fewer pivots.</p>`,
+  },
+];
+
+function lexObjectiveRows() {
+  return String.raw`<div class="l10-table-wrap" tabindex="0" role="region" aria-label="Objective rows before and after the third natural-order lex pivot">
+    <table class="l10-table" data-l10-lex-objective-progress>
+      <thead><tr><th scope="col">\(R_0\)</th><th scope="col">\(-f_B\)</th>${Array.from({length:7},(_,j)=>`<th scope="col">\\(x_${j+1}\\)</th>`).join('')}</tr></thead>
+      <tbody>${[2,3].map(index=>String.raw`<tr><th scope="row">${index===2?'Before':'After'} pivot 3</th>${auditData.lexCycling.states[index].tableau[0].map((v,j)=>String.raw`<td${j===2?' data-pivot':''}>\(${rationalTex(v)}\)</td>`).join('')}</tr>`).join('')}</tbody>
+    </table></div>`;
+}
+
+const lexIntuitionSlides = [
+  {
+    key:"lex-intuition-progress", title:"Intuition: Progress Even When the Point Stays Still", referencePages:[30,31,32,33,34],
+    html:String.raw`
+      <p>The lex rule preserves lex-positive constraint rows and makes the <strong>complete objective row</strong> increase lexicographically.</p>
+      <p>Example 3.6, pivot 3: the point stays fixed and \(f=-3\), but compare \(R_0\):</p>
+      ${lexObjectiveRows()}
+      <section class="l10-box" data-tone="blue" data-reveal="1">
+        <p>\(-f_B\) and the \(x_1\) entry stay the same. The first change is \(0\to\frac{16}{3}\) in column \(x_2\).</p>
+        <div class="l10-math">\[R_0^{\mathrm{after}}>_L R_0^{\mathrm{before}}.\]</div>
+      </section>
+      <p data-reveal="2">A zero objective change can still give strict progress in a later entry of the row.</p>`,
+  },
+  {
+    key:"lex-intuition-finite", title:"Intuition: Strict Progress Prevents Repeated Bases", referencePages:[35],
+    html:String.raw`
+      <div class="l10-stack">
+        <section class="l10-box" data-tone="blue"><h3>A basis determines its objective row</h3><p>For the same LP and fixed column order, returning to a basis would reproduce exactly the same \(R_0\).</p></section>
+        <section class="l10-box" data-tone="blue" data-reveal="1"><h3>The row strictly increases at every pivot</h3><p>A strictly increasing lexicographic sequence cannot return to an earlier row. Therefore no basis can repeat.</p></section>
+        <section class="l10-box" data-tone="green" data-reveal="2"><h3>There are only finitely many bases</h3><p>Simplex must stop: either all reduced costs are nonnegative, or an improving column has no eligible leaving row. These certify optimality or unboundedness, respectively.</p></section>
+      </div>
+      <p data-reveal="2">The complete algebraic proof is available in the appendix.</p>`,
+  },
+];
 
 function cycleTableau(index, { entering = null, leaving = null, label = "", hideCaption = false } = {}) {
   const state = auditData.cycling.states[index];
@@ -314,41 +1180,7 @@ export const anticyclingSlides = [
         <p data-reveal="2">Then \(x_{B(\ell)}\) leaves. Column 0 first minimizes the ordinary ratio; later columns resolve a tie. If no row is eligible, the improving direction is unbounded.</p>
       </div>`,
   },
-  {
-    key: "lex-example-ratios", title: "Example 3.7: The Ordinary Ratios Tie", referencePages: [24],
-    html: String.raw`
-      <p>The objective row is omitted. Column 0 holds the basic values \(\bar b_i\). Let column \(j=3\) enter.</p>
-      <div class="l10-table-wrap" tabindex="0" role="region" aria-label="Example 3.7 original constraint rows">
-        <table class="l10-table" data-l10-lex-example="original"><caption>Original tableau rows</caption>
-          <thead><tr><th scope="col">basic</th><th scope="col">column 0</th><th scope="col">column 1</th><th scope="col">column 2</th><th scope="col">column 3</th><th scope="col">remaining</th></tr></thead>
-          <tbody><tr><th scope="row">\(x_{B(1)}\)</th><td>\(1\)</td><td>\(0\)</td><td>\(5\)</td><td>\(3\)</td><td>\(\cdots\)</td></tr>
-          <tr><th scope="row">\(x_{B(2)}\)</th><td>\(2\)</td><td>\(4\)</td><td>\(6\)</td><td>\(-1\)</td><td>\(\cdots\)</td></tr>
-          <tr><th scope="row">\(x_{B(3)}\)</th><td>\(3\)</td><td>\(0\)</td><td>\(7\)</td><td>\(9\)</td><td>\(\cdots\)</td></tr></tbody>
-        </table></div>
-      <div class="l10-math" data-reveal="1">\[\frac{\bar b_1}{t_{13}}=\frac13,\qquad\frac{\bar b_3}{t_{33}}=\frac39=\frac13.\]</div>
-      <p data-reveal="2">Row 2 is ineligible because \(t_{23}=-1\): that basic variable increases. Rows 1 and 3 tie for the maximum feasible step.</p>`,
-  },
-  {
-    key: "lex-example-comparison", title: "Example 3.7: Compare the Complete Normalized Rows", referencePages: [25, 26, 27],
-    html: String.raw`
-      <p>Divide row 1 by \(3\) and row 3 by \(9\). Keep column 0 at the left.</p>
-      <div class="l10-table-wrap" tabindex="0" role="region" aria-label="Example 3.7 eligible normalized rows">
-        <table class="l10-table" data-l10-lex-example="normalized"><caption>Normalized eligible rows</caption>
-          <thead><tr><th scope="col">row</th><th scope="col">column 0</th><th scope="col">column 1</th><th scope="col">column 2</th><th scope="col">column 3</th><th scope="col">remaining</th></tr></thead>
-          <tbody><tr><th scope="row">\(R_1/3\)</th><td>\(1/3\)</td><td>\(0\)</td><td>\(5/3\)</td><td>\(1\)</td><td>\(\cdots\)</td></tr>
-          <tr><th scope="row">\(R_3/9\)</th><td>\(1/3\)</td><td>\(0\)</td><td>\(7/9\)</td><td>\(1\)</td><td>\(\cdots\)</td></tr></tbody>
-        </table></div>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><p>The ratios tie at \(1/3\), and column 1 also ties at zero. Column 2 is the first difference:</p>
-        <div class="l10-math">\[\frac79<\frac53\quad\Longrightarrow\quad\frac{R_3}{9}<_L\frac{R_1}{3}.\]</div></section>
-      <p data-reveal="2"><strong>Row 3 wins:</strong> \(x_{B(3)}\) leaves and \(\theta^*=1/3\).</p>`,
-    checkpoint: {
-      prompt: "In Example 3.7, the ordinary ratios and the next entries tie. What selects row 3?",
-      choices: ["It has the largest pivot entry", "Its basic variable has the smallest index", "The first unequal normalized entries satisfy 7/9 < 5/3", "The row with the negative pivot entry leaves"],
-      correctIndex: 2,
-      explanation: "Lexicographic comparison starts at column 0 and stops at the first difference. The first difference is in column 2: 7/9 is smaller than 5/3, so normalized row 3 is smaller.",
-      autoOpen: true,
-    },
-  },
+  ...lexCyclingSlides,
   {
     key: "lex-unique", title: "Why the Lexicographic Leaving Choice Is Unique", referencePages: [28],
     html: String.raw`
@@ -360,74 +1192,22 @@ export const anticyclingSlides = [
       </div>`,
   },
   {
-    key: "lex-theorem", title: "Theorem 3.4: Three Claims Prevent Cycling", referencePages: [29],
-    html: String.raw`
-      <p>Start at a feasible basis with every constraint row \(R_i>_L0\), \(i=1,\ldots,m\). Keep the column order fixed and use the lexicographic pivoting rule.</p>
-      <div class="l10-stack">
-        <section class="l10-box" data-tone="blue"><h3>(a) Preserve the row condition</h3><p>Every constraint row remains lexicographically positive.</p></section>
-        <section class="l10-box" data-tone="blue" data-reveal="1"><h3>(b) Obtain strict progress</h3><p>The zeroth row strictly increases lexicographically at every pivot.</p></section>
-        <section class="l10-box" data-tone="green" data-reveal="2"><h3>(c) Terminate</h3><p>No basis can repeat, so only finitely many pivots are possible.</p></section>
-      </div>`,
+    key:"lex-theorem", title:"Theorem 3.4: Finite Termination of Lexicographic Simplex", referencePages:[29],
+    html:String.raw`
+      <p>Consider \(\min\{c^\top x:Ax=b,\ x\ge0\}\), with \(\operatorname{rank}(A)=m\).</p>
+      <p>Start from a feasible basis whose constraint rows are lexicographically positive. Keep the column order fixed and use the lexicographic pivoting rule.</p>
+      <section class="l10-box" data-tone="blue" data-l10-theorem-statement>
+        <p><strong>Then all of the following hold:</strong></p>
+        <p><strong>(a)</strong> Every constraint row remains lexicographically positive at every iteration.</p>
+        <p><strong>(b)</strong> The complete objective row \(R_0=[-f_B\mid\bar c^\top]\) strictly increases lexicographically at every pivot.</p>
+        <p><strong>(c)</strong> The algorithm terminates after finitely many pivots, producing an optimal basis or certifying that the objective is unbounded below.</p>
+      </section>`,
   },
-  {
-    key: "lex-properties", title: "Four Lexicographic Facts Used in the Proof", referencePages: [30],
-    html: String.raw`
-      <div class="l10-proof" tabindex="0" role="region" aria-label="Four elementary lexicographic order properties">
-        <section><div class="l10-math">\[r>_Ls\quad\Longleftrightarrow\quad r-s>_L0.\]</div><p>Subtracting common entries leaves the same first difference.</p></section>
-        <section data-reveal="1"><div class="l10-math">\[r>_L0,\ \alpha>0\quad\Longrightarrow\quad\alpha r>_L0.\]</div><p>Positive scaling preserves the first nonzero sign.</p></section>
-        <section data-reveal="2"><div class="l10-math">\[r>_L0,\ s>_L0\quad\Longrightarrow\quad r+s>_L0.\]</div><p>At the first possible nonzero entry, positive entries cannot cancel.</p></section>
-        <section data-reveal="3"><div class="l10-math">\[r>_L0\quad\Longrightarrow\quad r+s>_Ls.\]</div><p>Apply the first fact to \((r+s)-s=r\).</p></section>
-      </div>`,
-  },
-  {
-    key: "lex-proof-pivot", title: "Proof (a): The Pivot Row Stays Positive", referencePages: [31, 32],
-    html: String.raw`
-      <p>Assume all old constraint rows satisfy \(R_i>_L0\). Let \(x_j\) enter and let row \(\ell\) leave.</p>
-      <div class="l10-proof" tabindex="0" role="region" aria-label="Lexicographic invariant: pivot-row proof">
-        <section><p>Eligibility gives \(t_{\ell j}>0\). Uniqueness and the lexicographic rule give</p>
-          <div class="l10-math">\[\frac{R_\ell}{t_{\ell j}}<_L\frac{R_i}{t_{ij}}\quad(i\ne\ell,\ t_{ij}>0).\]</div></section>
-        <section data-reveal="1"><div class="l10-math">\[R_\ell'=\frac{R_\ell}{t_{\ell j}}>_L0.\]</div><p>The new pivot row is a positive multiple of a lexicographically positive row.</p></section>
-        <section data-reveal="2"><p>The remaining rows use \(R_i'=R_i-t_{ij}R_\ell'\). We must check both possible signs of \(t_{ij}\).</p></section>
-      </div>`,
-  },
-  {
-    key: "lex-proof-other-rows", title: "Proof (a): Every Other Row Stays Positive", referencePages: [32, 33],
-    html: String.raw`
-      <p>We have \(R_i>_L0\), \(R_\ell'=R_\ell/t_{\ell j}>_L0\), and \(R_i'=R_i-t_{ij}R_\ell'\).</p>
-      <div class="l10-proof" tabindex="0" role="region" aria-label="Lexicographic invariant: both signs of the pivot-column entry">
-        <section><h3>Case 1: \(t_{ij}\le0\)</h3>
-          <div class="l10-math">\[R_i'=R_i+(-t_{ij})R_\ell'>_L0.\]</div>
-          <p>If \(t_{ij}=0\), the row is unchanged. Otherwise it is the sum of two lexicographically positive vectors.</p></section>
-        <section data-reveal="1"><h3>Case 2: \(t_{ij}>0\)</h3>
-          <div class="l10-math">\[R_i'=t_{ij}\left(\frac{R_i}{t_{ij}}-\frac{R_\ell}{t_{\ell j}}\right)>_L0.\]</div>
-          <p>The bracket is positive by the strict lexicographic choice; the multiplier is positive.</p></section>
-        <section data-reveal="2"><p><strong>Induction proves (a):</strong> every constraint row is positive initially, and every pivot preserves that condition.</p></section>
-      </div>`,
-  },
-  {
-    key: "lex-proof-objective", title: "Proof (b): The Zeroth Row Strictly Increases", referencePages: [34],
-    html: String.raw`
-      <p>The entering reduced cost is negative, \(\bar c_j<0\), and part (a) gives \(R_\ell'>_L0\).</p>
-      <div class="l10-proof" tabindex="0" role="region" aria-label="Proof of strict lexicographic increase of row zero">
-        <section><div class="l10-math">\[R_0'=R_0-\bar c_jR_\ell'.\]</div><p>This row operation makes the entering reduced cost zero.</p></section>
-        <section data-reveal="1"><div class="l10-math">\[R_0'-R_0=(-\bar c_j)R_\ell'>_L0\quad\Longrightarrow\quad R_0'>_LR_0.\]</div></section>
-        <section data-reveal="2"><p><strong>Even when \(\theta^*=0\), the whole zeroth row strictly increases.</strong> Its first entry \(-f_B\) may stay fixed; a later entry then supplies the first strict difference.</p></section>
-      </div>`,
-  },
-  {
-    key: "lex-proof-termination", title: "Proof (c): A Basis Cannot Recur", referencePages: [35],
-    html: String.raw`
-      <div class="l10-proof" tabindex="0" role="region" aria-label="Finite-termination proof for lexicographic pivoting">
-        <section><p>For fixed data and column order, the basis determines the complete zeroth row:</p>
-          <div class="l10-math">\[R_0=\left[-c_{\mathcal B}^\top B^{-1}b\ \middle|\ c^\top-c_{\mathcal B}^\top B^{-1}A\right].\]</div></section>
-        <section data-reveal="1"><p>Part (b) gives strict lexicographic increase at each pivot. Returning to an old basis would return to its old zeroth row, which is impossible.</p></section>
-        <section data-reveal="2"><p>There are finitely many choices of basic columns. Therefore the algorithm terminates after finitely many pivots, with an optimal basis or an improving unbounded ray.</p></section>
-      </div>`,
-  },
+  ...lexIntuitionSlides,
   {
     key: "lex-initialization", title: "Make the Initial Constraint Rows Lex Positive", referencePages: [37],
     html: String.raw`
-      <p>Start with any feasible basis \(B_0\). Put its basic columns first, in basis order; then keep this column order fixed for the entire run.</p>
+      <p>The usual column order already worked for Example 3.6. For a general feasible basis \(B_0\), an easy setup is to put its initial basic columns first and then keep that order fixed.</p>
       <div class="l10-math">\[\left[\begin{array}{c|c|c}
         B_0^{-1}b&I&B_0^{-1}A_{\mathcal N_0}
       \end{array}\right].\]</div>
@@ -437,6 +1217,7 @@ export const anticyclingSlides = [
         <section data-reveal="2"><p><strong>Every row starts lexicographically positive.</strong> Theorem 3.4 then preserves this property through all subsequent pivots.</p></section>
       </div>`,
   },
+  ...basicFirstSlides,
   {
     key: "lex-implementation", title: "What Information Does the Lex Rule Need?", referencePages: [36],
     html: String.raw`
@@ -494,6 +1275,103 @@ export const anticyclingSlides = [
           <div class="l10-math">\[B^{-1}b\ge0,\qquad \bar c_{\mathcal N}\ge0.\]</div></section>
         <section data-reveal="2"><p><strong>An optimal basis exists, even if the optimum is degenerate.</strong> The basic reduced costs are zero, so the complete reduced-cost vector is nonnegative.</p>
           <p>We still need a way to find the initial feasible basis. That is the next part of the method.</p></section>
+      </div>`,
+  },
+];
+
+// Preserve the separate row-comparison exercise as optional appendix practice.
+export const lexComparisonSlides = [
+  {
+    key: "appendix-lex-example-ratios", title: "Example 3.7: The Ordinary Ratios Tie", referencePages: [24],
+    html: String.raw`
+      <p>The objective row is omitted. Column 0 holds the basic values \(\bar b_i\). Let column \(j=3\) enter.</p>
+      <div class="l10-table-wrap" tabindex="0" role="region" aria-label="Example 3.7 original constraint rows">
+        <table class="l10-table" data-l10-lex-example="original"><caption>Original tableau rows</caption>
+          <thead><tr><th scope="col">basic</th><th scope="col">column 0</th><th scope="col">column 1</th><th scope="col">column 2</th><th scope="col">column 3</th><th scope="col">remaining</th></tr></thead>
+          <tbody><tr><th scope="row">\(x_{B(1)}\)</th><td>\(1\)</td><td>\(0\)</td><td>\(5\)</td><td>\(3\)</td><td>\(\cdots\)</td></tr>
+          <tr><th scope="row">\(x_{B(2)}\)</th><td>\(2\)</td><td>\(4\)</td><td>\(6\)</td><td>\(-1\)</td><td>\(\cdots\)</td></tr>
+          <tr><th scope="row">\(x_{B(3)}\)</th><td>\(3\)</td><td>\(0\)</td><td>\(7\)</td><td>\(9\)</td><td>\(\cdots\)</td></tr></tbody>
+        </table></div>
+      <div class="l10-math" data-reveal="1">\[\frac{\bar b_1}{t_{13}}=\frac13,\qquad\frac{\bar b_3}{t_{33}}=\frac39=\frac13.\]</div>
+      <p data-reveal="2">Row 2 is ineligible because \(t_{23}=-1\): that basic variable increases. Rows 1 and 3 tie for the maximum feasible step.</p>`,
+  },
+  {
+    key: "appendix-lex-example-comparison", title: "Example 3.7: Compare the Complete Normalized Rows", referencePages: [25, 26, 27],
+    html: String.raw`
+      <p>Divide row 1 by \(3\) and row 3 by \(9\). Keep column 0 at the left.</p>
+      <div class="l10-table-wrap" tabindex="0" role="region" aria-label="Example 3.7 eligible normalized rows">
+        <table class="l10-table" data-l10-lex-example="normalized"><caption>Normalized eligible rows</caption>
+          <thead><tr><th scope="col">row</th><th scope="col">column 0</th><th scope="col">column 1</th><th scope="col">column 2</th><th scope="col">column 3</th><th scope="col">remaining</th></tr></thead>
+          <tbody><tr><th scope="row">\(R_1/3\)</th><td>\(1/3\)</td><td>\(0\)</td><td>\(5/3\)</td><td>\(1\)</td><td>\(\cdots\)</td></tr>
+          <tr><th scope="row">\(R_3/9\)</th><td>\(1/3\)</td><td>\(0\)</td><td>\(7/9\)</td><td>\(1\)</td><td>\(\cdots\)</td></tr></tbody>
+        </table></div>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><p>The ratios tie at \(1/3\), and column 1 also ties at zero. Column 2 is the first difference:</p>
+        <div class="l10-math">\[\frac79<\frac53\quad\Longrightarrow\quad\frac{R_3}{9}<_L\frac{R_1}{3}.\]</div></section>
+      <p data-reveal="2"><strong>Row 3 wins:</strong> \(x_{B(3)}\) leaves and \(\theta^*=1/3\).</p>`,
+    checkpoint: {
+      prompt: "In Example 3.7, the ordinary ratios and the next entries tie. What selects row 3?",
+      choices: ["It has the largest pivot entry", "Its basic variable has the smallest index", "The first unequal normalized entries satisfy 7/9 < 5/3", "The row with the negative pivot entry leaves"],
+      correctIndex: 2,
+      explanation: "Lexicographic comparison starts at column 0 and stops at the first difference. The first difference is in column 2: 7/9 is smaller than 5/3, so normalized row 3 is smaller.",
+      autoOpen: true,
+    },
+  },
+];
+
+export const lexProofSlides = [
+  {
+    key: "appendix-lex-properties", title: "Four Lexicographic Facts Used in the Proof", referencePages: [30],
+    html: String.raw`
+      <div class="l10-proof" tabindex="0" role="region" aria-label="Four elementary lexicographic order properties">
+        <section><div class="l10-math">\[r>_Ls\quad\Longleftrightarrow\quad r-s>_L0.\]</div><p>Subtracting common entries leaves the same first difference.</p></section>
+        <section data-reveal="1"><div class="l10-math">\[r>_L0,\ \alpha>0\quad\Longrightarrow\quad\alpha r>_L0.\]</div><p>Positive scaling preserves the first nonzero sign.</p></section>
+        <section data-reveal="2"><div class="l10-math">\[r>_L0,\ s>_L0\quad\Longrightarrow\quad r+s>_L0.\]</div><p>At the first possible nonzero entry, positive entries cannot cancel.</p></section>
+        <section data-reveal="3"><div class="l10-math">\[r>_L0\quad\Longrightarrow\quad r+s>_Ls.\]</div><p>Apply the first fact to \((r+s)-s=r\).</p></section>
+      </div>`,
+  },
+  {
+    key: "appendix-lex-proof-pivot", title: "Proof (a): The Pivot Row Stays Positive", referencePages: [31, 32],
+    html: String.raw`
+      <p>Assume all old constraint rows satisfy \(R_i>_L0\). Let \(x_j\) enter and let row \(\ell\) leave.</p>
+      <div class="l10-proof" tabindex="0" role="region" aria-label="Lexicographic invariant: pivot-row proof">
+        <section><p>Eligibility gives \(t_{\ell j}>0\). Uniqueness and the lexicographic rule give</p>
+          <div class="l10-math">\[\frac{R_\ell}{t_{\ell j}}<_L\frac{R_i}{t_{ij}}\quad(i\ne\ell,\ t_{ij}>0).\]</div></section>
+        <section data-reveal="1"><div class="l10-math">\[R_\ell'=\frac{R_\ell}{t_{\ell j}}>_L0.\]</div><p>The new pivot row is a positive multiple of a lexicographically positive row.</p></section>
+        <section data-reveal="2"><p>The remaining rows use \(R_i'=R_i-t_{ij}R_\ell'\). We must check both possible signs of \(t_{ij}\).</p></section>
+      </div>`,
+  },
+  {
+    key: "appendix-lex-proof-other-rows", title: "Proof (a): Every Other Row Stays Positive", referencePages: [32, 33],
+    html: String.raw`
+      <p>We have \(R_i>_L0\), \(R_\ell'=R_\ell/t_{\ell j}>_L0\), and \(R_i'=R_i-t_{ij}R_\ell'\).</p>
+      <div class="l10-proof" tabindex="0" role="region" aria-label="Lexicographic invariant: both signs of the pivot-column entry">
+        <section><h3>Case 1: \(t_{ij}\le0\)</h3>
+          <div class="l10-math">\[R_i'=R_i+(-t_{ij})R_\ell'>_L0.\]</div>
+          <p>If \(t_{ij}=0\), the row is unchanged. Otherwise it is the sum of two lexicographically positive vectors.</p></section>
+        <section data-reveal="1"><h3>Case 2: \(t_{ij}>0\)</h3>
+          <div class="l10-math">\[R_i'=t_{ij}\left(\frac{R_i}{t_{ij}}-\frac{R_\ell}{t_{\ell j}}\right)>_L0.\]</div>
+          <p>The bracket is positive by the strict lexicographic choice; the multiplier is positive.</p></section>
+        <section data-reveal="2"><p><strong>Induction proves (a):</strong> every constraint row is positive initially, and every pivot preserves that condition.</p></section>
+      </div>`,
+  },
+  {
+    key: "appendix-lex-proof-objective", title: "Proof (b): The Zeroth Row Strictly Increases", referencePages: [34],
+    html: String.raw`
+      <p>The entering reduced cost is negative, \(\bar c_j<0\), and part (a) gives \(R_\ell'>_L0\).</p>
+      <div class="l10-proof" tabindex="0" role="region" aria-label="Proof of strict lexicographic increase of row zero">
+        <section><div class="l10-math">\[R_0'=R_0-\bar c_jR_\ell'.\]</div><p>This row operation makes the entering reduced cost zero.</p></section>
+        <section data-reveal="1"><div class="l10-math">\[R_0'-R_0=(-\bar c_j)R_\ell'>_L0\quad\Longrightarrow\quad R_0'>_LR_0.\]</div></section>
+        <section data-reveal="2"><p><strong>Even when \(\theta^*=0\), the whole zeroth row strictly increases.</strong> Its first entry \(-f_B\) may stay fixed; a later entry then supplies the first strict difference.</p></section>
+      </div>`,
+  },
+  {
+    key: "appendix-lex-proof-termination", title: "Proof (c): A Basis Cannot Recur", referencePages: [35],
+    html: String.raw`
+      <div class="l10-proof" tabindex="0" role="region" aria-label="Finite-termination proof for lexicographic pivoting">
+        <section><p>For fixed data and column order, the basis determines the complete zeroth row:</p>
+          <div class="l10-math">\[R_0=\left[-c_{\mathcal B}^\top B^{-1}b\ \middle|\ c^\top-c_{\mathcal B}^\top B^{-1}A\right].\]</div></section>
+        <section data-reveal="1"><p>Part (b) gives strict lexicographic increase at each pivot. Returning to an old basis would return to its old zeroth row, which is impossible.</p></section>
+        <section data-reveal="2"><p>There are finitely many choices of basic columns. Therefore the algorithm terminates after finitely many pivots, with an optimal basis or an improving unbounded ray.</p></section>
       </div>`,
   },
 ];

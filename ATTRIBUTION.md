@@ -29,7 +29,7 @@ permission required from the relevant rights holder.
 
 The Simplex II Part 2 reference supplied in the handoff credits Alberto Del Pia
 and follows Bertsimas and Tsitsiklis, *Introduction to Linear Optimization*,
-§§3.4–3.7. The native adaptation retains those example and theorem numbers and
+§§3.4–3.7. The native adaptation retains the theorem numbers and most example numbers and
 credits that source lineage. These third-party contributions are likewise
 excluded from this repository's reuse licenses.
 
@@ -43,6 +43,16 @@ The course also cites Bertsimas and Tsitsiklis, *Introduction to Linear
 Optimization*, and Hildebrand, Poirrier, Bish, and Moran, *Mathematical
 Programming and Operations Research*. Citations do not place third-party text,
 figures, or examples under this repository's licenses.
+
+## Three-dimensional cycling example
+
+Simplex II’s 3D appendix uses the Marshall–Suurballe cycling example collected as
+Problem 7 in Y. Yang, *Cycling problems in linear programming* (2021),
+<https://arxiv.org/abs/2101.01805>. Decision variables and slacks are reordered;
+the objective is multiplied by five while constraint/slack scaling is retained.
+The accompanying 3D primal visualization and exact dictionary walkthrough are
+new course explanations. The third-party example is excluded from the
+repository’s reuse licenses.
 
 ## Virginia Tech material
 

@@ -35,7 +35,8 @@ through Canvas.
 
 Simplex II adapts Robert Hildebrand’s course materials; the Part 2 reference
 credits Alberto Del Pia. Additional explanations and interactive examples
-are by Jiaxiang Li.
+are by Jiaxiang Li. The 3D cycling example comes from Marshall–Suurballe,
+as collected in Yang’s [*Cycling problems in linear programming*](https://arxiv.org/abs/2101.01805), Problem 7.
 
 ## Reuse
 

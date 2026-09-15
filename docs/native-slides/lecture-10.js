@@ -3,7 +3,8 @@
  * Simplex Method, Part 2 reference (§§3.4–3.7).
  * Reference overlay pages map to semantic pages and cumulative reveals below.
  */
-import { anticyclingSlides, auditData as anticyclingAudit } from './lecture-10-anticycling.js';
+import { anticyclingSlides, lexComparisonSlides, lexProofSlides, auditData as anticyclingAudit } from './lecture-10-anticycling.js';
+import { appendixSlides, auditData as appendixAudit } from './lecture-10-cycle-appendix.js';
 import { phaseOneSlides, auditData as phaseOneAudit } from './lecture-10-phase-one.js';
 import { geometrySlides, auditData as geometryAudit } from './lecture-10-geometry.js';
 import { efficiencySlides, auditData as efficiencyAudit } from './lecture-10-efficiency.js';
@@ -32,7 +33,7 @@ const intro = [
 ];
 const sources = {
   key:'sources', title:'References and paths for independent study', referencePages:[1,2],
-  html:String.raw`<div class="l10-source-list"><p><strong>Primary course reference:</strong> Robert Hildebrand’s 2025 faculty handoff, <em>The Simplex Method, Part 2</em> (the source deck credits Alberto Del Pia).</p><p><strong>Textbook:</strong> Bertsimas and Tsitsiklis, <em>Introduction to Linear Optimization</em>, §§3.4–3.7. Example and theorem numbers follow this source.</p><p><strong>Further reading:</strong> <a href="https://arxiv.org/abs/1006.2814">Santos: the Hirsch counterexample</a>; <a href="https://www.cs.yale.edu/homes/spielman/simplex/">Spielman and Teng: smoothed analysis</a>; <a href="https://arxiv.org/abs/2502.18019">Disser and Mosis: the pivot-rule complexity question</a>.</p><p>For practice, recompute a cycling pivot, finish Phase I before checking its solution, and explain the difference between a short graph path and an improving simplex path.</p></div>`,
+  html:String.raw`<div class="l10-source-list"><p><strong>Textbook:</strong> Bertsimas and Tsitsiklis, <em>Introduction to Linear Optimization</em>, §§3.4–3.7. Theorem numbers and the numbered examples follow this source.</p><p><strong>3D cycling example:</strong> <a href="https://arxiv.org/abs/2101.01805">Cycling problems in linear programming, Problem 7</a>.</p><p><strong>Further reading:</strong> <a href="https://arxiv.org/abs/1006.2814">Santos: the Hirsch counterexample</a>; <a href="https://www.cs.yale.edu/homes/spielman/simplex/">Spielman and Teng: smoothed analysis</a>; <a href="https://arxiv.org/abs/2502.18019">Disser and Mosis: the pivot-rule complexity question</a>.</p><p>For practice, recompute a cycling pivot, finish Phase I before checking its solution, and explain the difference between a short graph path and an improving simplex path.</p></div>`,
 };
 let assembled=[...intro.map(s=>({...s,section:'Simplex II · Overview'}))];
 const starts=[];
@@ -41,11 +42,14 @@ for(const section of sections){
   assembled.push(...section.slides.map(s=>({...s,section:section.title})));
 }
 assembled.push({...sources,section:'Simplex II · Study guide'});
+assembled.push(...appendixSlides.map(s=>({...s,section:'Appendix · 3D cycling example'})));
+assembled.push(...lexComparisonSlides.map(s=>({...s,section:'Appendix · Lexicographic comparison practice'})));
+assembled.push(...lexProofSlides.map(s=>({...s,section:'Appendix · Proof of Theorem 3.4'})));
 export const slides=assembled.map((s,i)=>({
   ...s, id:`l10-${s.key}`, page:i+1, eyebrow:s.section,
   html:s.html.replace(/data-l10-section-link="(\d+)" href="#slide=1"/g,(_,n)=>`data-l10-section-link="${n}" href="#slide=${starts[Number(n)]}"`),
 }));
 export const referenceMap=slides.map(({id,page,title,section,referencePages})=>({id,page,title,section,referencePages}));
-export const auditData={anticycling:anticyclingAudit,phaseOne:phaseOneAudit,geometry:geometryAudit,efficiency:efficiencyAudit};
+export const auditData={anticycling:anticyclingAudit,appendix:appendixAudit,phaseOne:phaseOneAudit,geometry:geometryAudit,efficiency:efficiencyAudit};
 export const deck={schemaVersion:1,id:metadata.id,number:metadata.number,title:metadata.title,metadata,styles:new URL('./lecture-10.css',import.meta.url).href,slides};
 export default deck;

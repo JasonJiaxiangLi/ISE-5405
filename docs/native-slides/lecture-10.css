@@ -1,3 +1,4 @@
+@import url("./lecture-10-cycle.css");
 @import url("./lecture-10-geometry.css");
 /* Simplex II: complete Part 2 resource. Scoped to this deck. */
 [data-native-deck="lecture-10"] .ns-slide { font-size: clamp(18px, 1.88cqw, 30px); gap: 0; padding: 2.1cqw 4.4cqw; }
@@ -46,7 +47,9 @@
 [data-native-deck="lecture-10"] .l10-source-list { font-size: .92em; }
 [data-native-deck="lecture-10"] .l10-source-list a { overflow-wrap: anywhere; }
 @media (max-width: 760px) {
-  [data-native-deck="lecture-10"] .ns-slide { font-size: 18px; }
+  /* Leave room above the sticky navigation and fixed ink tools when scrolled
+     to the end of a long mobile slide. */
+  [data-native-deck="lecture-10"] .ns-slide { font-size: 18px; padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
   [data-native-deck="lecture-10"] .ns-slide-header h1 { font-size: 1.55em; }
   [data-native-deck="lecture-10"] .l10-pair { grid-template-columns: 1fr; }
   [data-native-deck="lecture-10"] .l10-figure svg { max-height: none; }
