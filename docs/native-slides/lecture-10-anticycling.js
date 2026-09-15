@@ -1302,7 +1302,7 @@ export const anticyclingSlides = [
         <section data-reveal="1"><p>An improving unbounded ray is impossible when the optimal value is finite. The stopping basis must therefore satisfy</p>
           <div class="l10-math">\[B^{-1}b\ge0,\qquad \bar c_{\mathcal N}\ge0.\]</div></section>
         <section data-reveal="2"><p><strong>An optimal basis exists, even if the optimum is degenerate.</strong> The basic reduced costs are zero, so the complete reduced-cost vector is nonnegative.</p>
-          <p>We still need a way to find the initial feasible basis. That is the next part of the method.</p></section>
+          <p>Finite termination answers whether we stop. Does it also tell us how quickly?</p></section>
       </div>`,
   },
 ];

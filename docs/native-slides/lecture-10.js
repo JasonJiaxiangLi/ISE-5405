@@ -8,6 +8,7 @@ import { appendixSlides, auditData as appendixAudit } from './lecture-10-cycle-a
 import { phaseOneSlides, auditData as phaseOneAudit } from './lecture-10-phase-one.js';
 import { geometrySlides, auditData as geometryAudit } from './lecture-10-geometry.js';
 import { efficiencySlides, auditData as efficiencyAudit } from './lecture-10-efficiency.js';
+import { efficiencyPreviewSlides, auditData as efficiencyPreviewAudit } from './lecture-10-efficiency-preview.js';
 
 export const metadata = {
   id: 'lecture-10', number: 10,
@@ -17,7 +18,7 @@ export const metadata = {
   homeUrl: '../../', pdfUrl: '../../materials/lecture_10.pdf', whiteboards: 3,
 };
 const sections = [
-  {title:'3.4 · Anticycling', slides:anticyclingSlides},
+  {title:'3.4 · Anticycling', slides:[...anticyclingSlides,...efficiencyPreviewSlides]},
   {title:'3.5 · Finding an initial feasible basis', slides:phaseOneSlides},
   {title:'3.6 · Column geometry', slides:geometrySlides},
   {title:'3.7 · Computational efficiency', slides:efficiencySlides},
@@ -50,6 +51,6 @@ export const slides=assembled.map((s,i)=>({
   html:s.html.replace(/data-l10-section-link="(\d+)" href="#slide=1"/g,(_,n)=>`data-l10-section-link="${n}" href="#slide=${starts[Number(n)]}"`),
 }));
 export const referenceMap=slides.map(({id,page,title,section,referencePages})=>({id,page,title,section,referencePages}));
-export const auditData={anticycling:anticyclingAudit,appendix:appendixAudit,phaseOne:phaseOneAudit,geometry:geometryAudit,efficiency:efficiencyAudit};
+export const auditData={anticycling:anticyclingAudit,appendix:appendixAudit,phaseOne:phaseOneAudit,geometry:geometryAudit,efficiency:efficiencyAudit,efficiencyPreview:efficiencyPreviewAudit};
 export const deck={schemaVersion:1,id:metadata.id,number:metadata.number,title:metadata.title,metadata,styles:new URL('./lecture-10.css',import.meta.url).href,slides};
 export default deck;

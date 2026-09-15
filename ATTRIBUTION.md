@@ -54,6 +54,15 @@ The accompanying 3D primal visualization and exact dictionary walkthrough are
 new course explanations. The third-party example is excluded from the
 repository’s reuse licenses.
 
+## Klee–Minty efficiency example
+
+Simplex II’s termination-to-efficiency bridge uses the classical Klee–Minty
+LP. Its pivot paths are computed for the stated entering/leaving rules; the
+3D rendering and comparison are new course explanations. The discussion of
+Bland’s exponential worst case cites Avis and Chvátal, *Notes on Bland’s
+pivoting rule* (1978), <https://doi.org/10.1007/BFb0121192>. The third-party
+example is excluded from the repository’s reuse licenses.
+
 ## Virginia Tech material
 
 Virginia Tech names, marks, logos, institutional policy text, and other
