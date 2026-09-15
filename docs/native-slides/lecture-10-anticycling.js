@@ -834,7 +834,7 @@ const lexCyclingSlides = [
       <section class="l10-box" data-tone="blue" data-reveal="1" data-l10-lex-fixed-order>
         <p>Compare tableau rows from left to right, always in this order:</p>
         <div class="l10-math">\[\mathrm{RHS}\;\big|\;x_1,x_2,x_3,x_4,x_5,x_6,x_7.\]</div>
-        <p>In the <strong>tableau</strong>, the first nonzero entries are \(+\frac14,+\frac12,1\). Thus all constraint rows start lex positive.</p>
+
       </section>`,
   },
   {
@@ -1160,22 +1160,13 @@ export const anticyclingSlides = [
       <p data-reveal="2">Here the first entry decides, even though later entries go the other way.</p>`,
   },
   {
-    key: "lex-positive", title: "Lexicographically Positive Is a Different Condition", referencePages: [22],
-    html: String.raw`
-      <section class="l10-box" data-tone="blue"><p>A vector is <strong>lexicographically positive</strong> if its first nonzero entry is positive:</p>
-        <div class="l10-math">\[r>_L0.\]</div></section>
-      <div class="l10-math" data-reveal="1">\[(0,0,2,-100)>_L0,\qquad (0,-1,100,100)<_L0.\]</div>
-      <p data-reveal="1">Entries after the first nonzero entry may have either sign. The zero vector is not lexicographically positive.</p>
-      <section class="l10-box" data-tone="orange" data-reveal="2"><p>Write \(R_i\) for constraint row \(i\): its basic value first, then every coefficient in a fixed column order. Lexicographic comparison examines that whole ordered row.</p></section>`,
-  },
-  {
     key: "lex-rule", title: "The Lexicographic Pivoting Rule", referencePages: [23],
     html: String.raw`
       <div class="l10-stack">
         <section class="l10-box" data-tone="blue"><h3>1 · Choose an improving column</h3>
           <p>Choose any nonbasic \(x_j\) with \(\bar c_j<0\). Its entries are \(t_{ij}=(B^{-1}A_j)_i\).</p></section>
         <section class="l10-box" data-tone="blue" data-reveal="1"><h3>2 · Compare normalized eligible rows</h3>
-          <p>For each \(t_{ij}>0\), divide the <strong>entire row, including column 0,</strong> by \(t_{ij}\). Choose the lexicographically smallest result:</p>
+          <p>Let \(R_i\) be the full tableau row: RHS, then coefficients in a fixed column order. For each \(t_{ij}>0\), divide \(R_i\) by \(t_{ij}\) and choose the lexicographically smallest result:</p>
           <div class="l10-math">\[\frac{R_\ell}{t_{\ell j}}<_L\frac{R_i}{t_{ij}}\qquad(i\ne\ell,\ t_{ij}>0).\]</div></section>
         <p data-reveal="2">Then \(x_{B(\ell)}\) leaves. Column 0 first minimizes the ordinary ratio; later columns resolve a tie. If no row is eligible, the improving direction is unbounded.</p>
       </div>`,
@@ -1190,6 +1181,32 @@ export const anticyclingSlides = [
         <section data-reveal="1"><p>Deleting column 0 leaves proportional rows of \(T=B^{-1}A\), so \(T\) would not have independent rows.</p></section>
         <section data-reveal="2"><div class="l10-math">\[\operatorname{rank}(B^{-1}A)=\operatorname{rank}(A)=m.\]</div><p>This contradicts the full-row-rank assumption. Distinct eligible rows therefore cannot tie lexicographically.</p></section>
       </div>`,
+  },
+  {
+    key: "lex-termination-bridge", title: "What Guarantees Termination More Generally?", referencePages: [22,29],
+    html: String.raw`
+      <p>Example 3.6 reached an optimal dictionary after five pivots. We verified this run directly.</p>
+      <section class="l10-box" data-tone="blue"><h3>Computing the pivots</h3>
+        <p>Normalize eligible rows and compare them lexicographically. No extra positivity test is used to choose the leaving row.</p></section>
+      <section class="l10-box" data-tone="green"><h3>Guaranteeing termination</h3>
+        <p>Theorem 3.4 uses a property called <strong>lex positivity</strong>. Our example’s initial tableau already has it.</p></section>
+      <p>We now define this property and explain its role in the no-cycling guarantee.</p>`,
+  },
+  {
+    key: "lex-positive", title: "Lex Positivity: A Condition for the Termination Theorem", referencePages: [22],
+    html: String.raw`
+      <section class="l10-box" data-tone="blue"><p>A vector is <strong>lexicographically positive</strong> if its first nonzero entry is positive: \(r>_L0\).</p></section>
+      <section data-reveal="1" data-l10-initial-lex-positive>
+        <p>Example 3.6 already starts this way. In the order RHS, \(x_1,\ldots,x_7\), its constraint rows begin</p>
+        <div class="l10-math">\[\begin{aligned}
+          R_{x_5}&=(0,\boxed{\tfrac14},-8,\ldots),\\
+          R_{x_6}&=(0,\boxed{\tfrac12},-12,\ldots),\\
+          R_{x_7}&=(\boxed1,0,0,\ldots).
+        \end{aligned}\]</div>
+      </section>
+      <section class="l10-box" data-tone="green" data-reveal="2">
+        <p>All three rows are lex positive. Later entries may be negative; only the first nonzero entry decides. The zero vector is not lex positive.</p>
+      </section>`,
   },
   {
     key:"lex-theorem", title:"Theorem 3.4: Finite Termination of Lexicographic Simplex", referencePages:[29],

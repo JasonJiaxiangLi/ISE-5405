@@ -669,7 +669,7 @@
           ],
           "correct_index": 1,
           "explanation": "Bland uses the smallest variable index for the entering choice and for ties in the ordinary minimum-ratio test. Choosing a leaving variable by its row position, or choosing the most negative entering cost, is a different rule.",
-          "page": 35,
+          "page": 36,
           "question": "Which pair of choices is Bland’s anticycling rule?"
         },
         {
@@ -682,7 +682,7 @@
           ],
           "correct_index": 2,
           "explanation": "A zero sum of nonnegative artificial variables makes every artificial variable zero. The original variables are feasible. A zero artificial variable may remain in a degenerate basis, so we still need an original-variable basis and the original objective row.",
-          "page": 43,
+          "page": 44,
           "question": "Phase I ends with objective zero and an artificial variable still basic at zero. What do we know?"
         },
         {
@@ -695,7 +695,7 @@
           ],
           "correct_index": 0,
           "explanation": "Cleanup changes the basis without taking a positive step. Dividing a zero-right-hand-side row by a negative pivot still leaves its right-hand side zero; eliminating that column from other rows does not change their right-hand sides. The feasible point is preserved.",
-          "page": 49,
+          "page": 50,
           "question": "An artificial basic variable has value zero. Its tableau row contains a negative, nonzero coefficient in an original column. Can we pivot on it?"
         },
         {
@@ -708,7 +708,7 @@
           ],
           "correct_index": 3,
           "explanation": "The constraint rows keep the feasible basis, but reduced costs depend on the objective. Recompute the current cost and every reduced cost using the original coefficients. Example 3.8 changes from Phase I cost zero to original cost 11/6 with a negative reduced cost for x4.",
-          "page": 69,
+          "page": 70,
           "question": "After all artificial columns are removed, why must we recompute the objective row?"
         },
         {
@@ -721,7 +721,7 @@
           ],
           "correct_index": 0,
           "explanation": "The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.",
-          "page": 92,
+          "page": 93,
           "question": "A nonbasic lifted point is below the current dual plane. What does its signed vertical gap tell us?"
         },
         {
@@ -734,7 +734,7 @@
           ],
           "correct_index": 2,
           "explanation": "A supporting line bounds the cost of every convex combination from below. At the required horizontal coordinate, the mixture of points 5 and 8 attains the bound. Other optimal mixtures could exist in a different example.",
-          "page": 101,
+          "page": 102,
           "question": "In the final basis 5, 8, every lifted point is on or above the line through 5 and 8. Why is the current feasible mixture optimal?"
         },
         {
@@ -747,7 +747,7 @@
           ],
           "correct_index": 1,
           "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
-          "page": 115,
+          "page": 116,
           "question": "What does the perturbed-cube example establish?"
         },
         {
@@ -760,7 +760,7 @@
           ],
           "correct_index": 1,
           "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
-          "page": 123,
+          "page": 124,
           "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         },
         {
@@ -773,7 +773,7 @@
           ],
           "correct_index": 1,
           "explanation": "The sixth pivot restores the initial basis and every dictionary coefficient. The fixed pivot rules then repeat the same six choices. The point and objective were unchanged throughout.",
-          "page": 140,
+          "page": 141,
           "question": "In the 3D example, what repeats after the six zero-length pivots?"
         },
         {
@@ -786,7 +786,7 @@
           ],
           "correct_index": 2,
           "explanation": "Lexicographic comparison starts at column 0 and stops at the first difference. The first difference is in column 2: 7/9 is smaller than 5/3, so normalized row 3 is smaller.",
-          "page": 145,
+          "page": 146,
           "question": "In Example 3.7, the ordinary ratios and the next entries tie. What selects row 3?"
         }
       ],
@@ -796,10 +796,10 @@
       "display_number": 6,
       "id": "lecture-10",
       "number": 10,
-      "pdf_hash": "f0b12c05320d933eb4ce74852f1eeb5f0c5d07e53218524ec191ba4acdad6b7f",
-      "pdf_size": 2024963,
+      "pdf_hash": "fff42afdf67574f2eb6070a21c1719912718bb8d38b672dafce6708f5c3ad8d5",
+      "pdf_size": 2031600,
       "pdf_url": "materials/lecture_10.pdf",
-      "pdf_url_versioned": "materials/lecture_10.pdf?v=f0b12c05320d",
+      "pdf_url_versioned": "materials/lecture_10.pdf?v=fff42afdf675",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
