@@ -1292,15 +1292,20 @@ export const anticyclingSlides = [
     },
   },
   {
-    key: "optimal-basis-exists", title: "Termination Gives an Optimal Basis", referencePages: [19, 35, 40],
+    key: "optimal-basis-exists", title: "Finite Termination Gives an Optimal Basis", referencePages: [19, 35, 40],
     html: String.raw`
-      <p>Suppose the standard-form LP is feasible and its optimal value is finite.</p>
-      <div class="l10-proof" tabindex="0" role="region" aria-label="Existence of an optimal basis from finite termination">
-        <section><p>Start at a basic feasible solution and use either anticycling rule. The run ends after finitely many pivots.</p></section>
-        <section data-reveal="1"><p>An improving unbounded ray is impossible when the optimal value is finite. The stopping basis must therefore satisfy</p>
-          <div class="l10-math">\[B^{-1}b\ge0,\qquad \bar c_{\mathcal N}\ge0.\]</div></section>
-        <section data-reveal="2"><p><strong>An optimal basis exists, even if the optimum is degenerate.</strong> The basic reduced costs are zero, so the complete reduced-cost vector is nonnegative.</p>
-          <p>Finite termination answers whether we stop. Does it also tell us how quickly?</p></section>
+      <div class="l10-stack">
+        <section class="l10-box" data-tone="blue"><h3>Assumptions</h3>
+          <p>The standard-form LP is feasible and has a finite optimal value. Start from a feasible basis and use an anticycling rule.</p></section>
+        <section class="l10-box" data-tone="green" data-reveal="1"><h3>Conclusion</h3>
+          <p>Unboundedness is ruled out, so simplex terminates at a basis satisfying</p>
+          <div class="l10-math">\[
+            \underbrace{B^{-1}b\ge0}_{\text{feasible}}
+            \qquad\text{and}\qquad
+            \underbrace{\bar c_{\mathcal N}\ge0}_{\text{optimality condition}}.
+          \]</div>
+          <p><strong>The resulting basis is optimal—even if it is degenerate.</strong></p></section>
+        <p data-reveal="1">Termination is guaranteed. But how many pivots might it take?</p>
       </div>`,
   },
 ];
