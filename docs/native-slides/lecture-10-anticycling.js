@@ -1282,9 +1282,7 @@ export const anticyclingSlides = [
     html: String.raw`
       <section class="l10-box" data-tone="green"><h3>Termination theorem</h3>
         <p>Starting from a feasible basis, simplex with Bland’s entering and leaving rules never cycles and terminates after finitely many pivots.</p></section>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><h3>A useful implementation consequence</h3>
-        <p>Scan nonbasic variables in increasing index order. Stop computing reduced costs once the first negative one is found.</p></section>
-      <section class="l10-box" data-tone="orange" data-reveal="2"><p><strong>Both choices matter.</strong> Our cycling example already used the smallest-index leaving variable, but its most-negative entering rule still cycled.</p></section>`,
+      <section class="l10-box" data-tone="orange" data-reveal="1"><p><strong>Both choices matter.</strong> Our cycling example already used the smallest-index leaving variable, but its most-negative entering rule still cycled.</p></section>`,
     checkpoint: {
       prompt: "Which pair of choices is Bland’s anticycling rule?",
       choices: ["Most negative reduced cost; smallest-index leaving variable", "Smallest eligible entering index; smallest variable index among minimum-ratio ties", "Smallest row number for both choices", "Smallest entering index; largest feasible ratio"],
