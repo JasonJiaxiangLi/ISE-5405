@@ -1305,7 +1305,7 @@ export const anticyclingSlides = [
             \underbrace{\bar c_{\mathcal N}\ge0}_{\text{optimality condition}}.
           \]</div>
           <p><strong>The resulting basis is optimal—even if it is degenerate.</strong></p></section>
-        <p data-reveal="1">Termination is guaranteed. But how many pivots might it take?</p>
+        <p data-reveal="1">What do these basis changes look like in three dimensions?</p>
       </div>`,
   },
 ];

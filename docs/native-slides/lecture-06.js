@@ -163,7 +163,7 @@ export const metadata = {
   title: "Simplex I: Basis Directions and Reduced Costs",
   subtitle: "Lecture 5 · From a Basis to a Better Corner",
   course: "ISE 5405 · Optimization I",
-  date: "2026-09-10",
+  date: null,
   homeUrl: "../../",
   pdfUrl: "../../materials/lecture_06.pdf",
   whiteboards: 3,
@@ -1102,7 +1102,7 @@ export const slides = [
         <div>
           <p class="l6-title-kicker">Lecture 5</p>
           <p class="l6-lede">From a Basis to a Better Corner</p>
-          <p class="l6-muted">Bertsimas–Tsitsiklis §§3.1–3.2 · September 10, 2026</p>
+          <p class="l6-muted">Bertsimas–Tsitsiklis §§3.1–3.2</p>
           <div class="ns-title-shortcuts" aria-label="Presentation keyboard shortcuts">
             <span><kbd>→</kbd>/<kbd>Space</kbd> advance</span><span><kbd>←</kbd> back</span>
             <span><kbd>F</kbd> fullscreen</span><span><kbd>M</kbd> menu</span>

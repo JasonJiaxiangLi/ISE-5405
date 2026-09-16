@@ -322,7 +322,7 @@ export const metadata = {
   title: "The Geometry of Linear Programming II",
   subtitle: "Lecture 4 · ISE 5405: Optimization I",
   course: "ISE 5405 · Optimization I",
-  date: "2026-09-08",
+  date: null,
   homeUrl: "../../",
   pdfUrl: "../../materials/lecture_05.pdf",
   whiteboards: 7,

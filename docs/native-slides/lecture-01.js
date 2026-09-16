@@ -17,7 +17,7 @@ export const deck = Object.freeze({
   number: 1,
   title: "Syllabus & Logistics",
   subtitle: "ISE 5405: Optimization I · Lecture 0",
-  date: "2026-08-25",
+  date: null,
   aspectRatio: "16:9",
   styles: new URL("./lecture-01.css", import.meta.url).href,
   theme: Object.freeze({ accent: "#861f41", secondary: "#e87722" }),

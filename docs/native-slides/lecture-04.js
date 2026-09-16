@@ -589,7 +589,7 @@ export const slides = [
           </g>
         </svg>
         <p class="l4-lead">Polyhedra, convexity, and three equivalent definitions of a corner point</p>
-        <p><strong>ISE 5405 · Optimization I</strong> · September 3, 2026</p>
+        <p><strong>ISE 5405 · Optimization I</strong></p>
         <p class="l4-muted">Bertsimas–Tsitsiklis, §§2.1–2.2</p>
         <div class="ns-title-shortcuts" aria-label="Presentation keyboard shortcuts">
           <span><kbd>→</kbd>/<kbd>Space</kbd> advance</span><span><kbd>←</kbd> back</span>
@@ -1218,7 +1218,7 @@ export const metadata = {
   title: "The Geometry of Linear Programming I",
   subtitle: "Lecture 3 · ISE 5405: Optimization I",
   course: "ISE 5405 · Optimization I",
-  date: "2026-09-03",
+  date: null,
   aspectRatio: "16:9",
   theme: "virginia-tech",
   homeUrl: "../../",

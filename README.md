@@ -17,7 +17,8 @@ Open lectures from the course website for the interactive presentation. Use
 the arrow keys to move between steps, press the space bar to reveal or advance,
 and press `?` for the complete shortcut guide.
 
-Each lecture also includes a downloadable PDF handout for printing or offline
+Lecture resources can span more than one class meeting. Each lecture also
+includes a downloadable PDF handout for printing or offline
 reference. Materials may be updated during the semester; use Canvas as the
 source of record for announcements, assignments, deadlines, and grades.
 
@@ -33,7 +34,7 @@ through Canvas.
 
 ## Credits
 
-Simplex II adapts Robert Hildebrand’s course materials; the Part 2 reference
+Simplex II and III adapt Robert Hildebrand’s course materials; the Part 2 reference
 credits Alberto Del Pia. Additional explanations and interactive examples
 are by Jiaxiang Li. The 3D cycling example comes from Marshall–Suurballe,
 as collected in Yang’s [*Cycling problems in linear programming*](https://arxiv.org/abs/2101.01805), Problem 7.

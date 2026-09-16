@@ -165,7 +165,7 @@ const legacySlides = [
         <p class="eyebrow">Optimization I · Fall 2026</p>
         <h2 id="l2-title" class="l2-title-word">Introduction to Linear Optimization</h2>
         <p class="native-lede">From decision stories to vectors, constraints, geometry, and canonical forms.</p>
-        <p>Dr. Jiaxiang “Jason” Li · August 27, 2026</p>
+        <p>Dr. Jiaxiang “Jason” Li</p>
         <p class="l2-muted">Bertsimas–Tsitsiklis, §§1.1–1.4</p>
       </section>`,
     notes: "Frame the lecture as a modeling language first and an algorithmic form second.",
@@ -2300,7 +2300,7 @@ export const metadata = {
   title: "Introduction & Linear Optimization",
   subtitle: "Lecture 1 · ISE 5405: Optimization I",
   course: "ISE 5405 · Optimization I",
-  date: "2026-08-27",
+  date: null,
   whiteboards: 7,
   aspectRatio: "16:9",
   theme: "virginia-tech",

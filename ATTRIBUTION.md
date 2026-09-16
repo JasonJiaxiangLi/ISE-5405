@@ -17,7 +17,7 @@ Please link to the public course repository and to
 
 ## Robert Hildebrand material
 
-Lectures 0--6 contain selected instructional structure, examples, and visuals
+Lectures 0--7 contain selected instructional structure, examples, and visuals
 adapted with permission from Robert Hildebrand's Fall 2025 ISE 5405 materials
 and faculty-authorized reference decks. Copyright in Robert Hildebrand's
 contributions remains with him.
@@ -27,7 +27,7 @@ repository's CC BY 4.0 license. This repository does not grant downstream
 permission to reuse them. A reuser must remove those portions or obtain any
 permission required from the relevant rights holder.
 
-The Simplex II Part 2 reference supplied in the handoff credits Alberto Del Pia
+The Part 2 reference used for Simplex II and III credits Alberto Del Pia
 and follows Bertsimas and Tsitsiklis, *Introduction to Linear Optimization*,
 §§3.4–3.7. The native adaptation retains the theorem numbers and most example numbers and
 credits that source lineage. These third-party contributions are likewise
@@ -46,7 +46,7 @@ figures, or examples under this repository's licenses.
 
 ## Three-dimensional cycling example
 
-Simplex II’s 3D appendix uses the Marshall–Suurballe cycling example collected as
+Simplex II’s 3D closing example and appendix use the Marshall–Suurballe cycling example collected as
 Problem 7 in Y. Yang, *Cycling problems in linear programming* (2021),
 <https://arxiv.org/abs/2101.01805>. Decision variables and slacks are reordered;
 the objective is multiplied by five while constraint/slack scaling is retained.

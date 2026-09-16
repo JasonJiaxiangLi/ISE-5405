@@ -451,7 +451,7 @@ export const slides = Object.freeze([
         <p class="l3-kicker">ISE 5405 · Optimization I · Fall 2026</p>
         <h2 id="l3-title-heading">Proof Techniques &amp; LaTeX</h2>
         <p class="l3-title-subtitle">The reasoning and writing toolkit for everything that follows</p>
-        <p><strong>Lecture 2</strong> · September 1, 2026</p>
+        <p><strong>Lecture 2</strong></p>
         <div class="ns-title-shortcuts" aria-label="Presentation keyboard shortcuts">
           <span><kbd>→</kbd>/<kbd>Space</kbd> advance</span><span><kbd>←</kbd> back</span>
           <span><kbd>F</kbd> fullscreen</span><span><kbd>M</kbd> menu</span>
@@ -977,7 +977,7 @@ export const metadata = Object.freeze({
   title: "Proof Techniques & LaTeX",
   subtitle: "Lecture 2 · ISE 5405: Optimization I",
   course: "ISE 5405 · Optimization I",
-  date: "2026-09-01",
+  date: null,
   aspectRatio: "16:9",
   theme: "virginia-tech",
   homeUrl: "../../",
