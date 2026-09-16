@@ -1247,13 +1247,13 @@ export const anticyclingSlides = [
   },
   ...basicFirstSlides,
   {
-    key: "lex-implementation", title: "What Information Does the Lex Rule Need?", referencePages: [36],
+    key: "lex-to-bland", title: "From Row Comparisons to Variable Indices", referencePages: [38, 39],
     html: String.raw`
+      <p>Lexicographic comparison prevents cycling. Can we also prevent cycling using the <strong>variable indices</strong>?</p>
       <div class="l10-stack">
-        <section class="l10-box" data-tone="blue"><h3>Full tableau</h3><p>The normalized rows are already available. Compare column 0, then subsequent columns until the first difference.</p></section>
-        <section class="l10-box" data-tone="blue" data-reveal="1"><h3>Revised simplex</h3><p>The same rule can be used, but it needs information beyond the ordinary scalar ratio. One route is to form \(B^{-1}\) and recover the required tableau rows:</p>
-          <div class="l10-math">\[R_i=\left[e_i^\top B^{-1}b\ \middle|\ e_i^\top B^{-1}A\right].\]</div></section>
-        <p data-reveal="2">Here \(e_i\) is the unit vector selecting row \(i\). The mathematical rule is the same; the stored information and computation differ.</p>
+        <section class="l10-box" data-tone="blue"><h3>Lex: look farther along the rows</h3><p>When the ordinary minimum ratios tie, compare subsequent entries of the normalized rows in the fixed column order.</p></section>
+        <section class="l10-box" data-tone="green" data-reveal="1"><h3>Bland: use the basic-variable indices</h3><p>Among minimum-ratio ties, let the basic variable with the smallest index leave. If \(x_8\) and \(x_3\) tie, choose \(x_3\), regardless of row position.</p></section>
+        <section class="l10-box" data-tone="orange" data-reveal="2"><p><strong>The leaving choice alone is not enough.</strong> Bland also prescribes the entering choice. We need both parts of the rule for its termination guarantee.</p></section>
       </div>`,
   },
   {
@@ -1283,7 +1283,7 @@ export const anticyclingSlides = [
       <section class="l10-box" data-tone="green"><h3>Termination theorem</h3>
         <p>Starting from a feasible basis, simplex with Bland’s entering and leaving rules never cycles and terminates after finitely many pivots.</p></section>
       <section class="l10-box" data-tone="blue" data-reveal="1"><h3>A useful implementation consequence</h3>
-        <p>In revised simplex, scan nonbasic variables in increasing index order. Stop computing reduced costs once the first negative one is found.</p></section>
+        <p>Scan nonbasic variables in increasing index order. Stop computing reduced costs once the first negative one is found.</p></section>
       <section class="l10-box" data-tone="orange" data-reveal="2"><p><strong>Both choices matter.</strong> Our cycling example already used the smallest-index leaving variable, but its most-negative entering rule still cycled.</p></section>`,
     checkpoint: {
       prompt: "Which pair of choices is Bland’s anticycling rule?",

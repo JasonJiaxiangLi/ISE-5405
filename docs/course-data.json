@@ -747,7 +747,7 @@
           ],
           "correct_index": 1,
           "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
-          "page": 120,
+          "page": 121,
           "question": "What does the perturbed-cube example establish?"
         },
         {
@@ -760,7 +760,7 @@
           ],
           "correct_index": 1,
           "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
-          "page": 128,
+          "page": 129,
           "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         },
         {
@@ -773,7 +773,7 @@
           ],
           "correct_index": 1,
           "explanation": "The sixth pivot restores the initial basis and every dictionary coefficient. The fixed pivot rules then repeat the same six choices. The point and objective were unchanged throughout.",
-          "page": 145,
+          "page": 146,
           "question": "In the 3D example, what repeats after the six zero-length pivots?"
         },
         {
@@ -786,7 +786,7 @@
           ],
           "correct_index": 2,
           "explanation": "Lexicographic comparison starts at column 0 and stops at the first difference. The first difference is in column 2: 7/9 is smaller than 5/3, so normalized row 3 is smaller.",
-          "page": 150,
+          "page": 151,
           "question": "In Example 3.7, the ordinary ratios and the next entries tie. What selects row 3?"
         }
       ],
@@ -796,10 +796,10 @@
       "display_number": 6,
       "id": "lecture-10",
       "number": 10,
-      "pdf_hash": "bb3afe5c1167f2a90140a37aa24cc3db78e934542d85550e962e3e21db61c8b7",
-      "pdf_size": 2197661,
+      "pdf_hash": "cf8daeda0456355faf4ad8d11f6fc896acc04e4d9efe839a9bed53e0c51883da",
+      "pdf_size": 2210455,
       "pdf_url": "materials/lecture_10.pdf",
-      "pdf_url_versioned": "materials/lecture_10.pdf?v=bb3afe5c1167",
+      "pdf_url_versioned": "materials/lecture_10.pdf?v=cf8daeda0456",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

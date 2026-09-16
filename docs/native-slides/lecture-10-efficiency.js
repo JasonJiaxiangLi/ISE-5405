@@ -106,6 +106,24 @@ function diameterSvg(unbounded=false) {
 export const efficiencySlides=[
   slide('efficiency','How much work does simplex require?',raw`<p>We now know how to start, pivot, and avoid cycling. Termination alone does not tell us how long the algorithm takes.</p>${box(raw`\[\text{total work}\approx\text{work per pivot}\times\text{number of pivots}.\]`)}<p>We will examine both factors, then separate a deliberately difficult LP from typical behavior.</p>`,[121,122]),
   slide('pivot-work','First factor: the work in one pivot',raw`<p>For standard form, let \(m\) be the number of independent equations and \(n\) the number of variables.</p><div class="l10-stack">${box(raw`A full tableau has \(O(mn)\) entries. One pivot updates them by row operations: \(O(mn)\) arithmetic operations.`)}${box(raw`Revised simplex maintains and updates basis factors. Dense worst-case pricing and updates can also cost \(O(mn)\), since \(m\le n\).`,'blue','1')}${box(raw`A fresh dense factorization costs \(O(m^3)\). Sparsity matters; arithmetic counts also omit the bit length of exact numbers.`,'orange','2')}</div>`,[123]),
+  slide('lex-implementation','Why Lexicographic Comparison Needs More Than a Ratio',raw`
+    <p>For basis \(B\), write \(\bar b=B^{-1}b\) and \(\bar A=B^{-1}A\). Suppose \(x_j\) enters; consider a row with \(\bar a_{ij}>0\).</p>
+    <div class="l10-box" data-tone="blue">
+      <p><strong>Ordinary test:</strong> compare one ratio. <strong>Lex rule:</strong> if those ratios tie, compare further entries in the fixed column order.</p>
+      <div class="l10-math">\[
+        \frac{\bar b_i}{\bar a_{ij}}
+        \qquad\text{versus}\qquad
+        \frac{1}{\bar a_{ij}}
+          \left[\bar b_i\ \middle|\ \bar a_{i1},\ldots,\bar a_{in}\right].
+      \]</div>
+    </div>
+    <div class="l10-box" data-tone="blue" data-reveal="1">
+      <p><strong>Full tableau:</strong> store \([\bar b\mid\bar A]\). Read each candidate row and divide it by its positive entering-column coefficient.</p>
+    </div>
+    <div class="l10-box" data-tone="green" data-reveal="2">
+      <p><strong>Revised simplex:</strong> store basis factors for solving linear systems, instead of the full tableau. Obtain the needed normalized row for lex comparison by linear solves, without explicitly forming the inverse.</p>
+    </div>
+    `,[36]),
   slide('pivot-count','Second factor: how many pivots?',raw`<p>Many practical LPs need relatively few pivots. The reference describes counts roughly proportional to problem dimensions as an empirical observation.</p>${box(raw`That observation is not a bound for every LP. The feasible region can have exponentially many vertices.`)}<p data-reveal="1">To show slow behavior, we need more than many vertices: an <strong>improving edge path</strong> that a pivoting rule actually follows.</p>`,[124,125,126]),
   slide('cube-vertices','A cube already has exponentially many corners',raw`<div class="l10-pair"><div><p>Consider the unit cube:</p><div class="l10-math">\[0\le x_i\le1,\quad i=1,\ldots,n.\]</div><p>At a vertex each coordinate is either 0 or 1. There are \(2^n\) binary choices.</p>${box('A spanning path visits every vertex exactly once using edges.')}</div><figure class="l10-figure">${squareSvg()}<figcaption class="l10-caption">In two dimensions: 4 vertices and a path of 3 edges.</figcaption></figure></div>`,[127,128]),
   slide('cube-recursion','Build the path one dimension at a time',raw`<div class="l10-pair"><div><ol><li>Follow the square path on \(x_3=0\).</li><li>Cross one edge to \(x_3=1\).</li><li>Follow the same square path in reverse.</li></ol>${box(raw`\[L_n=2L_{n-1}+1=2^n-1.\]`)}<p>The same construction works recursively in every dimension.</p></div>${cubeWidget()}</div>`,[129],{onMount:mountCube}),
