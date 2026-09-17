@@ -675,19 +675,6 @@
         {
           "auto_open": true,
           "choices": [
-            "Only the objective value",
-            "The initial basis and complete dictionary",
-            "Only the entering variable",
-            "A positive-length edge step"
-          ],
-          "correct_index": 1,
-          "explanation": "The sixth pivot restores the initial basis and every dictionary coefficient. The fixed pivot rules then repeat the same six choices. The point and objective were unchanged throughout.",
-          "page": 58,
-          "question": "In the 3D example, what repeats after the six zero-length pivots?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
             "It has the largest pivot entry",
             "Its basic variable has the smallest index",
             "The first unequal normalized entries satisfy 7/9 < 5/3",
@@ -695,20 +682,20 @@
           ],
           "correct_index": 2,
           "explanation": "Lexicographic comparison starts at column 0 and stops at the first difference. The first difference is in column 2: 7/9 is smaller than 5/3, so normalized row 3 is smaller.",
-          "page": 63,
+          "page": 58,
           "question": "In Example 3.7, the ordinary ratios and the next entries tie. What selects row 3?"
         }
       ],
       "date": null,
       "demos": [],
-      "description": "Cycling, lexicographic pivoting, Bland’s rule, and finite termination, with a three-dimensional comparison and complete worked appendices.",
+      "description": "Cycling, lexicographic pivoting, Bland’s rule, and finite termination, with a complete three-dimensional worked example.",
       "display_number": 6,
       "id": "lecture-10",
       "number": 10,
-      "pdf_hash": "0352c51b665fbcc646f9e2cd6bccf2a8d1526462664148ba1e760fff97a9c16c",
-      "pdf_size": 1100536,
+      "pdf_hash": "3b7571c708453f4892a6fdd5443bb19034834982c404e8e854d819c24b008728",
+      "pdf_size": 1022020,
       "pdf_url": "materials/lecture_10.pdf",
-      "pdf_url_versioned": "materials/lecture_10.pdf?v=0352c51b665f",
+      "pdf_url_versioned": "materials/lecture_10.pdf?v=3b7571c70845",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

@@ -46,7 +46,7 @@ figures, or examples under this repository's licenses.
 
 ## Three-dimensional cycling example
 
-Simplex II’s 3D closing example and appendix use the Marshall–Suurballe cycling example collected as
+Simplex II’s complete 3D worked example uses the Marshall–Suurballe cycling example collected as
 Problem 7 in Y. Yang, *Cycling problems in linear programming* (2021),
 <https://arxiv.org/abs/2101.01805>. Decision variables and slacks are reordered;
 the objective is multiplied by five while constraint/slack scaling is retained.

@@ -65,3 +65,9 @@
 [data-native-deck="lecture-10"] .l10-cycle-choice mjx-container[display="true"] { margin:.1em 0!important; }
 [data-native-deck="lecture-10"] [data-cycle-rotate] { font-size:1.25em; }
 [data-native-deck="lecture-10"] .l10-cycle-plot-key { font:24px var(--ns-sans); fill:#465963; }
+
+/* Links between the starting dictionary, comparison, and detailed pivots. */
+[data-native-deck="lecture-10"] .l10-cycle-route { align-self:flex-start; font:inherit; padding:.15em .45em; }
+@media screen {
+ [data-native-deck="lecture-10"] .l10-cycle-dictionary-start .l10-cycle-algebra { gap:.1em; }
+}
