@@ -1,2 +1,22 @@
 @import url("./lecture-11-geometry.css");
 @import url("./simplex.css");
+
+/* Pair the numerical helper illustration with its general Phase I model. */
+[data-native-deck="lecture-11"] .l11-phase-intro .l10-stack { gap: .25em; }
+[data-native-deck="lecture-11"] .l11-phase-pair {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr);
+  gap: .85em;
+  align-items: start;
+  min-height: 0;
+}
+[data-native-deck="lecture-11"] .l11-phase-pair > * { min-width: 0; }
+[data-native-deck="lecture-11"] .l11-phase-help-figure { margin: .15em 0 0; }
+[data-native-deck="lecture-11"] .l11-phase-help-figure figcaption { margin-bottom: .4em; }
+[data-native-deck="lecture-11"] .l11-phase-help-table { margin-bottom: .5em; }
+[data-native-deck="lecture-11"] .l11-phase-help-table tbody td { padding-block: .3em; }
+[data-native-deck="lecture-11"] .l11-phase-help-table tbody td:first-child { background: #eef8f2; }
+[data-native-deck="lecture-11"] .l11-phase-help-table tbody td:nth-child(2) { background: #fff4e9; }
+@media (max-width: 760px) {
+  [data-native-deck="lecture-11"] .l11-phase-pair { grid-template-columns: 1fr; }
+}

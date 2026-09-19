@@ -73,6 +73,11 @@ const cyclingSlides=cycleData.cycling.pivots.map((pivot,index)=>{
  </section><section class="l10-cycle-visual">${fig}<p class="l10-cycle-nonbasic">Nonbasic: \(${nonbasic(state).map(j=>`x_${j}`).join(',')}\).<br><span data-reveal="2" data-l10-cycle-update="${index+1}"><strong>\(x_${pivot.entering}\) enters; \(x_${pivot.leaving}\) leaves.</strong></span></p></section></div>`,{index,proposal:true,planes:false}),explorations:[explore]};
 });
 const cycleInitial=cycleData.cycling.states[0];
+const lexFourthPivotComparison=String.raw`<section><h3>Choosing the leaving row at pivot 4</h3>
+ <p>\(x_4\) and \(x_5\) tie at reduced cost \(-2\); choose \(x_4\) by index. Move the dictionary terms to the left to form the tableau. In RHS, then \(x_1,\ldots,x_7\) order, these normalized-row prefixes settle the zero-ratio tie:</p>
+ <table class="l10-table" data-cycle-lex-prefix><thead><tr><th>row</th><th>RHS</th><th>\(x_1\)</th><th>\(x_2\)</th></tr></thead><tbody>
+ ${cycleData.lex.pivots[3].normalizedRows.map(r=>String.raw`<tr><th>\(R_{x_${r.variable}}/(${rationalTex(r.divisor)})\)</th>${r.entries.slice(0,3).map(v=>`<td>\\(${rationalTex(v)}\\)</td>`).join('')}</tr>`).join('')}
+ </tbody></table><p>The \(x_3\) row is lexicographically smallest, so \(x_3\) leaves at \(\theta=0\). The cycling rule chose \(x_1\).</p></section>`;
 function mountCycleSummary(context){
  const cleanup=mountCycleFigure(context),root=context.slideElement.querySelector('[data-cycle-summary]');if(!root)return cleanup;
  const widget=root.querySelector('[data-cycle-widget]'),copies=[...root.querySelectorAll('[data-cycle-summary-state]')],buttons=[...root.querySelectorAll('[data-cycle-summary-action]')];let index=0,timer=0;
@@ -114,20 +119,17 @@ export const appendixSlides=[
   {
     key:'lex-cycle-example',title:'The Lex Rule Breaks the 3D Cycle at Pivot 4',referencePages:[23,37],className:'l10-cycle-slide',
     ...figureSlide(fig=>String.raw`<div class="l10-cycle-layout"><section class="l10-cycle-algebra">
-      <p>Use RHS, then \(x_1,\ldots,x_7\). The first three pivots match the cycling run; now the basis is \((x_1,x_2,x_3,x_7)\).</p>
-      <p>\(x_4\) enters. These normalized-row prefixes settle the zero-ratio tie:</p>
-      <table class="l10-table" data-cycle-lex-prefix><thead><tr><th>row</th><th>RHS</th><th>\(x_1\)</th><th>\(x_2\)</th></tr></thead><tbody>
-        ${cycleData.lex.pivots[3].normalizedRows.map(r=>String.raw`<tr><th>\(R_{x_${r.variable}}/(${rationalTex(r.divisor)})\)</th>${r.entries.slice(0,3).map(v=>`<td>\\(${rationalTex(v)}\\)</td>`).join('')}</tr>`).join('')}
-      </tbody></table>
-      <p data-reveal="1"><strong>\(x_3\) leaves at \(\theta=0\).</strong> Its prefix is smallest. The cycling rule chose \(x_1\).</p>
+      <p><strong>Before pivot 4:</strong> the first three pivots match the cycling run.</p>
+      ${dictionary(cycleData.lex.states[3],{tag:'lex-3'})}
+      <section data-reveal="1"><p>\(x_4\) enters (tie by index). Compare rows in RHS, then \(x_1,\ldots,x_7\) order.</p><p><strong>\(x_3\) leaves at \(\theta=0\).</strong> The cycling rule chose \(x_1\).</p></section>
       <section class="l10-box" data-tone="green" data-reveal="2"><p>Pivot 5: \(x_5\) enters, \(x_7\) leaves at \(\theta=1\). We reach \((4,1,0)\), with \(f=-10\).</p></section>
       <button type="button" class="ns-slide-action" data-explore="lex-cycle-dictionaries">All five pivots</button>
-    </section><section class="l10-cycle-visual">${fig}</section></div>`,{trace:'lex',index:4,edge:true}),
-    explorations:[{id:'lex-cycle-dictionaries',label:'All five pivots and dictionaries',title:'The complete natural-order lexicographic run',html:String.raw`<p>Keep RHS, then \(x_1,\ldots,x_7\), throughout. The first three pivots match the cycling sequence. Pivot 4 changes the leaving choice; pivot 5 reaches the optimum.</p>${cycleData.lex.states.map((s,i)=>String.raw`<section><h3>${i===0?'Initial dictionary':`After pivot ${i}`}</h3>${i?String.raw`<p>\(x_${cycleData.lex.pivots[i-1].entering}\) enters; \(x_${cycleData.lex.pivots[i-1].leaving}\) leaves; \(\theta=${rationalTex(cycleData.lex.pivots[i-1].step)}\).</p>`:''}${dictionary(s,{tag:'lex-'+i})}</section>`).join('')}<p>The final nonbasic objective coefficients are positive. The final feasible dictionary is optimal.</p>`}],
+    </section><section class="l10-cycle-visual"><p><strong>Pivot 5:</strong> move from O to V.</p>${fig}</section></div>`,{trace:'lex',index:4,edge:true}),
+    explorations:[{id:'lex-cycle-dictionaries',label:'All five pivots and dictionaries',title:'The complete natural-order lexicographic run',html:String.raw`<p>Keep RHS, then \(x_1,\ldots,x_7\), throughout. The first three pivots match the cycling sequence. Pivot 4 changes the leaving choice; pivot 5 reaches the optimum.</p>${cycleData.lex.states.map((s,i)=>String.raw`<section><h3>${i===0?'Initial dictionary':`After pivot ${i}`}</h3>${i?String.raw`<p>\(x_${cycleData.lex.pivots[i-1].entering}\) enters; \(x_${cycleData.lex.pivots[i-1].leaving}\) leaves; \(\theta=${rationalTex(cycleData.lex.pivots[i-1].step)}\).</p>`:''}${dictionary(s,{tag:'lex-'+i})}${i===3?lexFourthPivotComparison:''}</section>`).join('')}<p>The final nonbasic objective coefficients are positive. The final feasible dictionary is optimal.</p>`}],
   },
   {
     key:'bland-cycle-departure',title:'Bland Changes the Sixth Pivot',referencePages:[12,13,39],className:'l10-cycle-slide l10-cycle-pivot-slide',
-    ...figureSlide(fig=>String.raw`<div class="l10-cycle-layout"><section class="l10-cycle-algebra"><p>After five pivots, compare the entering choices:</p>
+    ...figureSlide(fig=>String.raw`<div class="l10-cycle-layout"><section class="l10-cycle-algebra"><p><strong>Before pivot 6:</strong> after five pivots.</p>
      ${dictionary(cycleData.bland.states[5],{tag:'bland-5'})}
      <section class="l10-box" data-tone="blue" data-reveal="1" data-l10-cycle-choice="bland"><div class="l10-math">\[\bar c_1=-20,\qquad\bar c_6=-45.\]</div><p>Most-negative pricing chooses \(x_6\). Bland chooses the smaller eligible index, \(x_1\).</p></section>
      <section data-reveal="2"><p><strong>\(x_1\) enters; \(x_3\) leaves at \(\theta=0\).</strong> The new basis is \((x_1,x_4,x_5,x_7)\). Still O; a different basis.</p></section>

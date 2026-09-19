@@ -807,13 +807,39 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-auxiliary', title: 'Artificial Variables Give an Initial Basis', referencePages: [46],
-    html: String.raw`<div class="l10-stack">
-      <p>Introduce \(y\in\mathbb R^m\), a vector of <strong>artificial variables</strong>. Define the auxiliary objective \(w=\sum_{i=1}^m y_i\).</p>
-      <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}\min\quad&w=\mathbf1^\top y\\\text{subject to}\quad&Ax+y=b,\\&x\ge0,\quad y\ge0.\end{aligned}\]</div></section>
-      <section class="l10-box" data-tone="green" data-reveal="1"><div class="l10-math">\[x=0,\qquad y=b,\qquad B=I_m.\]</div><p>The artificial columns supply a feasible basis immediately. The vector \(\mathbf1\) contains \(m\) ones.</p></section>
-      <p data-reveal="2">The original objective \(c^\top x\) waits until Phase II. Phase I asks whether the artificial variables can all become zero.</p>
+    key: 'phase-artificial-start', title: 'Give Simplex a Starting Point with Temporary Help', referencePages: [46], className: 'l11-phase-intro',
+    html: String.raw`<div class="l10-stack" data-phase-help-start>
+      <p>Can we build a related problem that is easy to start? Use one equality to see the idea:</p>
+      <div class="l10-math">\[2x_1+x_2=6,\qquad x_1,x_2\ge0.\]</div>
+      <p>At \(x_1=x_2=0\), the left side supplies \(0\); the equality requires \(6\).</p>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><p>Add an <strong>artificial variable</strong> \(y\) to supply the missing amount:</p>
+        <div class="l10-math">\[2x_1+x_2+y=6,\qquad x_1,x_2,y\ge0.\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="2"><div class="l10-math">\[x_1=x_2=0,\qquad y=6.\]</div>
+        <p>This starts the <strong>auxiliary problem</strong> feasibly, with \(y\) basic.</p></section>
+      <p data-reveal="2">A slack represents unused capacity. Artificial help must become zero to recover the original equality.</p>
     </div>`,
+  },
+  {
+    key: 'phase-auxiliary', title: 'Can We Make the Temporary Help Disappear?', referencePages: [46], className: 'l11-phase-intro',
+    html: String.raw`<p>First minimize the artificial help. The original objective \(c^\top x\) waits until Phase II.</p>
+    <div class="l11-phase-pair">
+      <figure class="l11-phase-help-figure" data-phase-help-example>
+        <figcaption>One equation: minimize \(y\).<br>Keep \(2x_1+x_2+y=6\).</figcaption>
+        <table class="l10-table l11-phase-help-table" data-phase-help-table>
+          <thead><tr><th scope="col">Original<br>\(2x_1+x_2\)</th><th scope="col">Help<br>\(y\)</th><th scope="col">Total</th></tr></thead>
+          <tbody><tr><td>\(0\)</td><td>\(6\)</td><td>\(6\)</td></tr><tr><td>\(2\)</td><td>\(4\)</td><td>\(6\)</td></tr><tr><td>\(6\)</td><td>\(0\)</td><td>\(6\)</td></tr></tbody>
+        </table>
+        <p>When \(y=0\), the original variables satisfy the equality on their own.</p>
+      </figure>
+      <section class="l11-phase-general" data-reveal="1" data-phase-general-problem>
+        <p>For \(m\) equations, use <strong>one helper per row</strong>:</p>
+        <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}\min\quad&w=\sum_{i=1}^{m}y_i=\mathbf1^\top y\\\text{subject to}\quad&Ax+y=b,\\&x\ge0,\quad y\ge0.\end{aligned}\]</div></section>
+        <p>Since \(b\ge0\), start with \(x=0,\ y=b\).</p>
+        <p>Each helper has coefficient \(1\) in its own row and \(0\) elsewhere: \(B=I_m\).</p>
+        <p>The vector \(\mathbf1\) contains \(m\) ones.</p>
+      </section>
+    </div>
+    <section class="l10-box" data-tone="green" data-reveal="2"><p>Because every \(y_i\ge0\), total help is zero exactly when <strong>all helpers are zero</strong>.</p></section>`,
   },
   {
     key: 'phase-zero', title: 'Why Zero Phase I Cost Means Feasibility', referencePages: [47],
