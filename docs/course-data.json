@@ -761,7 +761,7 @@
           ],
           "correct_index": 0,
           "explanation": "The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.",
-          "page": 58,
+          "page": 59,
           "question": "A nonbasic lifted point is below the current dual plane. What does its signed vertical gap tell us?"
         },
         {
@@ -774,7 +774,7 @@
           ],
           "correct_index": 2,
           "explanation": "A supporting line bounds the cost of every convex combination from below. At the required horizontal coordinate, the mixture of points 5 and 8 attains the bound. Other optimal mixtures could exist in a different example.",
-          "page": 67,
+          "page": 68,
           "question": "In the final basis 5, 8, every lifted point is on or above the line through 5 and 8. Why is the current feasible mixture optimal?"
         },
         {
@@ -787,7 +787,7 @@
           ],
           "correct_index": 1,
           "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
-          "page": 82,
+          "page": 83,
           "question": "What does the perturbed-cube example establish?"
         },
         {
@@ -800,7 +800,7 @@
           ],
           "correct_index": 1,
           "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
-          "page": 90,
+          "page": 91,
           "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         }
       ],
@@ -810,10 +810,10 @@
       "display_number": 7,
       "id": "lecture-11",
       "number": 11,
-      "pdf_hash": "477fa8ecd198685cd2fb14749d9906c237cb0ec6276a88764923d11df506c120",
-      "pdf_size": 1355176,
+      "pdf_hash": "b8fa5c3fe47fb5f1483180daa4f1724a6c35fb2a75a58820210995a479957cfb",
+      "pdf_size": 1533179,
       "pdf_url": "materials/lecture_11.pdf",
-      "pdf_url_versioned": "materials/lecture_11.pdf?v=477fa8ecd198",
+      "pdf_url_versioned": "materials/lecture_11.pdf?v=b8fa5c3fe47f",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

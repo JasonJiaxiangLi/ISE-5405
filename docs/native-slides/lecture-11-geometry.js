@@ -31,6 +31,7 @@ export const example310 = Object.freeze({
 
 const COLORS = { ink: '#263943', blue: '#326b8c', green: '#177441', orange: '#b95013', maroon: '#861f41', grid: '#a8b7bf' };
 const DEFAULT_CAMERA = { yaw: -.65, pitch: .35 };
+const INTRO_CAMERA = { yaw: .65, pitch: .55 };
 const raw = String.raw;
 const box = (body, tone = 'blue', reveal = '') => `<section class="l10-box" data-tone="${tone}"${reveal ? ` data-reveal="${reveal}"` : ''}>${body}</section>`;
 const pair = (body, figure) => `<div class="l10-pair"><div class="l10-stack">${body}</div>${figure}</div>`;
@@ -82,15 +83,6 @@ function sceneMarkup(kind, yaw = DEFAULT_CAMERA.yaw, pitch = DEFAULT_CAMERA.pitc
   result += line([0, 0, 0], [3.4, 0, 0], COLORS.grid) + line([0, 0, 0], [0, 1.7, 0], COLORS.grid);
   result += line([-.25, -.25, 0], [-.25, -.25, 7.1], COLORS.ink);
   result += label([-.25, -.25, 7.1], 'cost', -24, -8, COLORS.ink);
-  if (kind === 'lift') {
-    const lifted = [[.25, .4, 4.5], [2.1, .3, 3], [.5, 2.5, 6.5], [2.6, 2.5, 4]];
-    lifted.forEach((point, i) => {
-      const base = [point[0], point[1], 0];
-      result += line(base, point, COLORS.blue, 2.5) + dot(base, `${i + 1}`, COLORS.blue, 3, i === 1 ? [-32, -5] : [8, 15]);
-      result += dot(point, `${i + 1}`, COLORS.blue, 5);
-    });
-    return result + line([1.3, 1.4, 0], [1.3, 1.4, 7.4], COLORS.maroon, 3) + dot([1.3, 1.4, 0], 'b', COLORS.maroon, 4);
-  }
   const tetra = ['tetrahedron', 'faces', 'leaving', 'hinge'].includes(kind);
   const triangleOnly = kind === 'triangle';
   const basis = kind === 'candidate-b' ? ['B', 'C', 'D'] : ['candidate-e', 'optimal-plane'].includes(kind) ? ['D', 'E', 'F'] : ['C', 'D', 'F'];
@@ -142,7 +134,6 @@ function sceneMarkup(kind, yaw = DEFAULT_CAMERA.yaw, pitch = DEFAULT_CAMERA.pitc
 function columnFigure(kind = 'hull', { hinge = false, print = false } = {}) {
   const t = print && hinge ? 1 : 0;
   const description = {
-    lift: 'Four columns at the horizontal floor, each joined vertically to its lifted point at objective height. The requirement line passes through b.',
     infeasible: 'The requirement line at the changed target (2.4,2.4) misses the convex hull of lifted points B, C, D, E and F.',
     triangle: 'The three noncollinear lifted points C, D and F form a triangle.',
     tetrahedron: 'Noncoplanar points C, D, E and F form a tetrahedron with four triangular faces.',
@@ -162,15 +153,109 @@ function columnFigure(kind = 'hull', { hinge = false, print = false } = {}) {
   </figure>`;
 }
 
+// Each teaching layer has a stable outer wrapper. Rotation redraws its
+// contents without replacing the runtime's reveal state on that wrapper.
+function columnIntroScene(kind, stage, yaw = INTRO_CAMERA.yaw, pitch = INTRO_CAMERA.pitch) {
+  const pts = columnModel.points, b = columnModel.requirement;
+  const floor = [[-.25, -.25, 0], [3.3, -.25, 0], [3.3, 3.3, 0], [-.25, 3.3, 0]];
+  const costBase = [-.55, 3.55, 0], costTop = [-.55, 3.55, 7.8];
+  const frame = [...floor, ...Object.values(pts), costBase, costTop, [3.6, 0, 0], [0, 3.6, 0], [...b, 7.8]];
+  const projected = frame.map(q => cameraProject(q, yaw, pitch));
+  const lo = [0, 1].map(i => Math.min(...projected.map(q => q[i])));
+  const hi = [0, 1].map(i => Math.max(...projected.map(q => q[i])));
+  const scale = Math.min(450 / (hi[0] - lo[0]), 315 / (hi[1] - lo[1]));
+  const project = q => cameraProject(q, yaw, pitch).map((v, i) => i < 2 ? [310, 215][i] + scale * (v - (lo[i] + hi[i]) / 2) : v);
+  const line = (a, z, color = COLORS.grid, width = 2, dash = false, attrs = '') => {
+    const u = project(a), v = project(z);
+    return `<line x1="${f(u[0])}" y1="${f(u[1])}" x2="${f(v[0])}" y2="${f(v[1])}" stroke="${color}" stroke-width="${width}"${dash ? ' stroke-dasharray="6 5"' : ''} ${attrs}/>`;
+  };
+  const label = (q, text, offset = [9, -10], color = COLORS.ink, axis = false) => {
+    const v = project(q);
+    return `<text x="${f(v[0] + offset[0])}" y="${f(v[1] + offset[1])}" style="fill:${color}"${axis ? ' class="l11-column-axis"' : ''}>${text}</text>`;
+  };
+  const dot = (q, name, space = 'lifted', color = COLORS.blue, text = name, offset = [9, -10]) => {
+    const v = project(q);
+    return `<circle cx="${f(v[0])}" cy="${f(v[1])}" r="${space === 'floor' ? 4 : 6}" fill="${color}" stroke="white" stroke-width="2" data-world="${q.join(',')}" data-column-point="${name}" data-column-space="${space}"/>${text ? label(q, text, offset, color) : ''}`;
+  };
+  const polygon = (names, color, opacity, attrs = '') => {
+    const vertices = names.map(q => project(typeof q === 'string' ? pts[q] : q).slice(0, 2).map(f).join(',')).join(' ');
+    return `<polygon points="${vertices}" fill="${color}" fill-opacity="${opacity}" stroke="${color}" stroke-width="2" ${attrs}/>`;
+  };
+  let result = '';
+  if (stage === 0) {
+    result += polygon(floor, '#c7d3da', .18, 'data-column-floor');
+    result += line([0, 0, 0], [3.6, 0, 0]) + line([0, 0, 0], [0, 3.6, 0]);
+    result += label([3.6, 0, 0], 'Equation 1', [-60, 37], COLORS.ink, true);
+    result += label([0, 3.6, 0], 'Equation 2', [-42, 33], COLORS.ink, true);
+    result += line(costBase, costTop, COLORS.ink);
+    result += label(costTop, 'Unit cost', [-35, -15], COLORS.ink, true);
+  }
+  const offsets = { B: [9, -10], C: [10, -10], D: [10, -10], E: [10, -7], F: [-25, -8] };
+  if (kind === 'intro-lift') {
+    if (stage === 0) return result + dot([3, 0, 0], 'C', 'floor', COLORS.blue, 'C: floor', [12, -12]);
+    for (const [name, q] of Object.entries(pts).filter(([name]) => (stage === 1) === (name === 'C'))) {
+      const base = [q[0], q[1], 0];
+      result += line(base, q, COLORS.blue, name === 'C' ? 3 : 2, name !== 'C', `data-column-lift="${name}"`);
+      if (name !== 'C') result += dot(base, name, 'floor', COLORS.blue, '');
+      result += dot(q, name, 'lifted', COLORS.blue, name === 'C' ? 'C: cost 4' : name, offsets[name]);
+    }
+    return result;
+  }
+  if (stage === 0) {
+    if (kind === 'intro-hull') {
+      const faces = [['B', 'C', 'D'], ['B', 'C', 'F'], ['B', 'D', 'F'], ['E', 'C', 'D'], ['E', 'C', 'F'], ['E', 'D', 'F']];
+      faces.sort((a, z) => z.reduce((s, n) => s + project(pts[n])[2], 0) - a.reduce((s, n) => s + project(pts[n])[2], 0));
+      for (const face of faces) result += polygon(face, COLORS.blue, .055, 'data-column-hull-face');
+    }
+    for (const [name, q] of Object.entries(pts)) result += dot(q, name, 'lifted', COLORS.blue, name, offsets[name]);
+    result += dot([...b, 0], 'b', 'target', COLORS.maroon, 'b = (1, 1)', [-35, 25]);
+    if (kind === 'intro-hull') result += line([...b, 0], [...b, 7.8], COLORS.maroon, 2, true, 'data-requirement-line') + dot(columnModel.intersections.H, 'H', 'mixture', COLORS.maroon, 'H: cost 4', [-130, -5]);
+  }
+  if (kind === 'intro-mixture' && stage === 1) {
+    result += polygon(['C', 'D', 'F'], COLORS.blue, .15, 'data-column-mixture-triangle');
+    result += line([...b, 0], [...b, 7.8], COLORS.maroon, 2, true, 'data-requirement-line');
+    for (const name of ['C', 'D', 'F']) result += line(pts[name], columnModel.intersections.H, COLORS.blue, 1.5, true);
+    result += dot(columnModel.intersections.H, 'H', 'mixture', COLORS.maroon, 'H = (1, 1, 4)', [-155, -15]);
+  }
+  if (kind === 'intro-hull' && stage === 1) {
+    result += line(columnModel.intersections.G, columnModel.intersections.I, COLORS.maroon, 6, false, 'data-attainable-costs="2.5,5.5"');
+    result += dot(columnModel.intersections.I, 'I', 'mixture', COLORS.maroon, 'I: cost 5.5', [12, -8]);
+    result += dot(columnModel.intersections.G, 'G', 'mixture', COLORS.green, 'G: cost 2.5', [-140, 27]);
+  }
+  if (kind === 'intro-hull' && stage === 2) {
+    const g = project(columnModel.intersections.G);
+    result += `<circle cx="${f(g[0])}" cy="${f(g[1])}" r="11" fill="none" stroke="${COLORS.green}" stroke-width="3" data-column-optimum/>`;
+  }
+  return result;
+}
+
+function columnIntroFigure(kind) {
+  const stages = kind === 'intro-mixture' ? [0, 1] : [0, 1, 2];
+  const description = {
+    'intro-lift': 'Column C has equation coefficients (3,0). Attach its cost 4 to get (3,0,4), then lift the remaining columns B, D, E, F using the same LP data.',
+    'intro-mixture': 'Equal weights on C, D, F give H=(1,1,4). Its first two coordinates match the target b=(1,1); its height is cost 4.',
+    'intro-hull': 'The convex hull contains all weighted averages of B, C, D, E, F. The vertical line through b=(1,1) intersects it from cost 2.5 to 5.5. G at cost 2.5 is optimal.',
+  }[kind];
+  return `<figure class="l10-column-figure l11-column-intro-figure" data-column-view="${kind}">
+    <svg class="l10-column-svg" viewBox="0 0 640 460" role="img" tabindex="0" aria-label="${description} Drag or use arrow keys to rotate.">
+      ${stages.map(stage => `<g data-column-intro-layer="${stage}"${stage ? ` data-reveal="${stage}"` : ''}>${columnIntroScene(kind, stage)}</g>`).join('')}
+    </svg>
+    <div class="l10-column-controls" data-screen-only><button type="button" data-column-reset>Reset view</button><span class="l10-column-instruction">Drag or use arrow keys to rotate.</span></div>
+  </figure>`;
+}
+
 function mountColumnGeometry({ slideElement }) {
   const root = slideElement.querySelector('[data-column-view]');
   if (!root) return undefined;
   const svg = root.querySelector('svg'), group = root.querySelector('[data-column-scene]');
   const reset = root.querySelector('[data-column-reset]'), slider = root.querySelector('[data-column-hinge]');
-  let yaw = DEFAULT_CAMERA.yaw, pitch = DEFAULT_CAMERA.pitch, dragging = null, last = [0, 0];
+  const initialCamera = root.dataset.columnView.startsWith('intro-') ? INTRO_CAMERA : DEFAULT_CAMERA;
+  let yaw = initialCamera.yaw, pitch = initialCamera.pitch, dragging = null, last = [0, 0];
   const update = () => {
     const t = slider ? Number(slider.value) : 0;
-    group.innerHTML = sceneMarkup(root.dataset.columnView, yaw, pitch, t);
+    const layers = root.querySelectorAll('[data-column-intro-layer]');
+    if (layers.length) layers.forEach(layer => { layer.innerHTML = columnIntroScene(root.dataset.columnView, Number(layer.dataset.columnIntroLayer), yaw, pitch); });
+    else group.innerHTML = sceneMarkup(root.dataset.columnView, yaw, pitch, t);
     root.dataset.camera = JSON.stringify([yaw, pitch]);
     root.dataset.hinge = String(t);
     if (slider) {
@@ -180,7 +265,12 @@ function mountColumnGeometry({ slideElement }) {
       slider.setAttribute('aria-valuetext', status);
     }
   };
-  const down = event => { if (event.button !== 0) return; dragging = event.pointerId; last = [event.clientX, event.clientY]; svg.setPointerCapture(event.pointerId); svg.style.cursor = 'grabbing'; };
+  const down = event => {
+    if (event.button !== 0) return;
+    if (initialCamera === INTRO_CAMERA) { event.preventDefault(); svg.focus({ preventScroll: true }); }
+    dragging = event.pointerId; last = [event.clientX, event.clientY];
+    svg.setPointerCapture(event.pointerId); svg.style.cursor = 'grabbing';
+  };
   const move = event => { if (dragging !== event.pointerId) return; yaw += .008 * (event.clientX - last[0]); pitch = Math.max(.1, Math.min(1.25, pitch + .006 * (event.clientY - last[1]))); last = [event.clientX, event.clientY]; update(); };
   const up = event => { if (event.pointerId !== dragging) return; if (svg.hasPointerCapture(event.pointerId)) svg.releasePointerCapture(event.pointerId); dragging = null; svg.style.cursor = 'grab'; };
   const key = event => {
@@ -192,7 +282,7 @@ function mountColumnGeometry({ slideElement }) {
     if (event.key === 'ArrowDown') pitch = Math.max(.1, pitch - .08);
     update();
   };
-  const resetView = () => { yaw = DEFAULT_CAMERA.yaw; pitch = DEFAULT_CAMERA.pitch; update(); };
+  const resetView = () => { yaw = initialCamera.yaw; pitch = initialCamera.pitch; update(); };
   const handlers = [[svg, 'pointerdown', down], [svg, 'pointermove', move], [svg, 'pointerup', up], [svg, 'pointercancel', up], [svg, 'lostpointercapture', up], [svg, 'keydown', key], [reset, 'click', resetView], ...(slider ? [[slider, 'input', update]] : [])];
   handlers.forEach(([element, event, handler]) => element.addEventListener(event, handler));
   update();
@@ -249,30 +339,46 @@ const slide = (key, title, html, referencePages, options = {}) => ({ key, title,
 const visualSlide = (key, title, body, kind, referencePages, options = {}) => slide(key, title, pair(body, columnFigure(kind)), referencePages, { onMount: mountColumnGeometry, ...options });
 
 export const geometrySlides = [
-  slide('column-geometry-model', 'Column geometry: use the variables as mixture weights',
-    p('The same basis calculations have a second geometric interpretation.') +
-    math(raw`\[\begin{aligned}\min\quad &c^\top x\\\text{s.t.}\quad &Ax=b,\quad \sum_{j=1}^{n}x_j=1,\quad x\ge0.\end{aligned}\]`) +
-    box(p(raw`The added <strong>convexity constraint</strong> makes the variables nonnegative weights that sum to one. Here \(A\) has \(m\) rows.`)) +
-    box(p('A bounded feasible LP can be reformulated this way. Self-study: derive such a reformulation by rescaling bounded nonnegative variables and adding one slack weight.'), 'orange', '1'), [91, 92]),
+  slide('column-geometry-model', 'A new picture: columns are points, variables are weights',
+    p(raw`Previously, a point represented \(x\). Here, each column \(A_j\) is a point and \(x_j\) is its weight.`) +
+    math(raw`\[Ax=\sum_jx_jA_j=b.\]`) +
+    box(p(raw`For a matrix \(A\) with \(m\) rows, study this mixture-form LP:`) +
+      math(raw`\[\min c^\top x\qquad\text{s.t.}\quad Ax=b,\quad \sum_jx_j=1,\quad x\ge0.\]`)) +
+    box(p(raw`Nonnegative weights summing to one make \(b\) a <strong>weighted average</strong> of the columns. Each column lists coefficients in the equations.`), 'green', '1') +
+    p(raw`The sum-to-one condition belongs to this model. Adding it to an arbitrary LP can change the feasible set.`) +
+    p('Self-study: reformulate a bounded feasible LP using scaled variables and a slack weight.'), [91, 92]),
 
-  visualSlide('lifted-columns', 'Lift each column to its objective height',
-    p(raw`Set \(z=c^\top x\) and attach cost \(c_j\) to column \(A_j\):`) +
-    math(raw`\[P_j=\begin{pmatrix}A_j\\c_j\end{pmatrix},\qquad\sum_jx_jP_j=\begin{pmatrix}b\\z\end{pmatrix}.\]`) +
-    box(p(raw`For \(m=2\), columns live in the horizontal plane. Their costs provide the third coordinate. The vertical line passes through \(b\).`)) +
-    p(raw`Each label \(j\) identifies column \(A_j\) at the floor and lifted point \(P_j\) above it.`), 'lift', [93, 94]),
+  slide('column-coordinate-model', 'One five-column LP for the whole picture',
+    p(raw`Choose weights \(x_B,x_C,x_D,x_E,x_F\). The labels B–F identify the five columns:`) +
+    `<div class="l10-table-wrap"><table class="l10-table l10-column-coordinates" data-column-model-table><thead><tr><th scope="col">Column</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th><th scope="col">E</th><th scope="col">F</th></tr></thead><tbody><tr><th scope="row">${raw`Equation 1: \(A_{1j}\)`}</th><td>${raw`\(1/2\)`}</td><td>3</td><td>0</td><td>2</td><td>0</td></tr><tr><th scope="row">${raw`Equation 2: \(A_{2j}\)`}</th><td>${raw`\(1/2\)`}</td><td>0</td><td>3</td><td>${raw`\(1/2\)`}</td><td>0</td></tr><tr><th scope="row">${raw`Unit cost: \(c_j\)`}</th><td>7</td><td>4</td><td>4</td><td>1</td><td>4</td></tr></tbody></table></div>` +
+    math(raw`\[\begin{aligned}\min\quad z&=7x_B+4x_C+4x_D+x_E+4x_F\\\text{s.t.}\quad \sum_jx_jA_j&=(1,1)^\top,\qquad\sum_jx_j=1,\quad x_j\ge0.\end{aligned}\]`) +
+    box(p(raw`The required weighted average is \(b=(1,1)\). For example, column C contributes \(3\) to equation 1, \(0\) to equation 2, and costs \(4\) per unit weight.`)), [97]),
 
-  slide('column-coordinate-model', 'A concrete realization of the five-point picture',
-    p('We will use these constructed coordinates throughout the 3D example. A point name also labels its mixture weight.') +
-    `<div class="l10-table-wrap"><table class="l10-table l10-column-coordinates"><thead><tr><th>Point</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr></thead><tbody><tr><th>${raw`\(A_{1j}\)`}</th><td>${raw`\(1/2\)`}</td><td>3</td><td>0</td><td>2</td><td>0</td></tr><tr><th>${raw`\(A_{2j}\)`}</th><td>${raw`\(1/2\)`}</td><td>0</td><td>3</td><td>${raw`\(1/2\)`}</td><td>0</td></tr><tr><th>${raw`\(c_j\)`}</th><td>7</td><td>4</td><td>4</td><td>1</td><td>4</td></tr></tbody></table></div>` +
-    math(raw`\[\min\sum_jc_jx_j\quad\text{s.t.}\quad\sum_jA_jx_j=(1,1)^\top,\quad\sum_jx_j=1,\quad x_j\ge0.\]`) +
-    p(raw`The target horizontal coordinate stays fixed at \(b=(1,1)\).`), [97]),
+  slide('lifted-columns', 'Add cost as the height of each column',
+    pair(p(raw`Start with column C: \(A_C=(3,0)^\top\). Its two equation coefficients locate it on the floor.`) +
+      box(p(raw`Attach its unit cost \(c_C=4\) as a third coordinate:`) +
+        math(raw`\[P_C=(3,0,4).\]`), 'blue', '1') +
+      box(p('Do the same for all five columns:') +
+        math(raw`\[P_j=\begin{pmatrix}A_j\\c_j\end{pmatrix}.\]`), 'green', '2') +
+      p(raw`The vertical segments show the attached costs. The variables \(x_j\) will tell us how to mix these points.`), columnIntroFigure('intro-lift')),
+    [93, 94], { onMount: mountColumnGeometry }),
 
-  visualSlide('requirement-line', 'Feasibility is an intersection with a vertical line',
-    p(raw`A feasible weight vector places \((b,z)\) inside the convex hull of the lifted columns.`) +
-    box(p(raw`The <strong>requirement line</strong> consists of all points \((b,z)\) with the same horizontal coordinate \(b\).`)) +
-    box(p('The thick vertical segment contains all attainable costs. Its lowest point, G, is optimal.'), 'green', '1') +
-    p('H and I are feasible too, but they sit higher.'),
-    'hull', [95, 96, 97]),
+  slide('column-feasible-mixture', 'A feasible mixture lands above the target',
+    pair(p('Give C, D, and F equal weights:') +
+      math(raw`\[x_C=x_D=x_F=\tfrac13,\qquad x_B=x_E=0.\]`) +
+      p(raw`Their lifted points are \(P_C=(3,0,4)\), \(P_D=(0,3,4)\), and \(P_F=(0,0,4)\).`) +
+      box(math(raw`\[\begin{aligned}H&=\tfrac13P_C+\tfrac13P_D+\tfrac13P_F\\&=(1,1,4).\end{aligned}\]`) +
+        p(raw`Horizontal coordinates: \(b=(1,1)\).<br>Height: objective value \(z=4\).`), 'green', '1') +
+      p(raw`In general, the same weights give \(\sum_jx_jP_j=(Ax,c^\top x)=(b,z)\).`), columnIntroFigure('intro-mixture')),
+    [94, 97, 104, 105], { onMount: mountColumnGeometry }),
+
+  slide('requirement-line', 'Find the lowest attainable cost above the target',
+    pair(p('All nonnegative weighted averages with weights summing to one fill the convex hull of B–F.') +
+      p(raw`The <strong>requirement line</strong> contains all \((1,1,z)\): the two requirements stay fixed while cost varies.`) +
+      box(p('Only the part of that line inside the hull is attainable:') +
+        math(raw`\[\tfrac52\le z\le\tfrac{11}{2}.\]`), 'blue', '1') +
+      box(p(raw`Minimization chooses the lowest point, G, with \(z=5/2\). H has cost \(4\); I has cost \(11/2\).`), 'green', '2'), columnIntroFigure('intro-hull')),
+    [95, 96, 97], { onMount: mountColumnGeometry }),
 
   visualSlide('empty-requirement-line', 'If the line misses the hull, no mixture is feasible',
     p(raw`Keep the same five lifted columns, but change the requirement to \(b'=(2.4,2.4)\).`) +

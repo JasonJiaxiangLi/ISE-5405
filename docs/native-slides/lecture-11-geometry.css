@@ -15,6 +15,8 @@
 [data-native-deck="lecture-11"] .l10-column-status { margin: .25em 0 0; font-variant-numeric: tabular-nums; }
 [data-native-deck="lecture-11"] .l10-column-coordinates th { white-space: nowrap; }
 [data-native-deck="lecture-11"] .l10-column-coordinates :is(th,td) { text-align: center; }
+[data-native-deck="lecture-11"] .l11-column-intro-figure .l11-column-axis { font-family: Arial, sans-serif; font-size: 23px; }
+[data-native-deck="lecture-11"] .l11-column-intro-figure .l10-column-svg { max-height: none; }
 @media (max-width: 760px) {
   [data-native-deck="lecture-11"] .l10-column-svg { max-height: none; }
   [data-native-deck="lecture-11"] .l10-column-controls button { min-height: 48px; }
