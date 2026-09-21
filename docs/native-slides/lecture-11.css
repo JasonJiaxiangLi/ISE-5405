@@ -19,4 +19,6 @@
 [data-native-deck="lecture-11"] .l11-phase-help-table tbody td:nth-child(2) { background: #fff4e9; }
 @media (max-width: 760px) {
   [data-native-deck="lecture-11"] .l11-phase-pair { grid-template-columns: 1fr; }
+  /* Leave room for the final MathJax line's depth on a narrow screen. */
+  [data-native-deck="lecture-11"] .l11-phase-intro [data-phase-normalization] { padding-bottom: .65em; }
 }

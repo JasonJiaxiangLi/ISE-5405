@@ -797,16 +797,6 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-normalize', title: 'Prepare the Equality Constraints', referencePages: [45],
-    html: String.raw`<div class="l10-stack">
-      <p>Now consider the general standard-form linear program:</p>
-      <div class="l10-math">\[\min f(x)=c^\top x\quad\text{subject to }Ax=b,\quad x\ge0.\]</div>
-      <p>Here \(x\in\mathbb R^n\), \(b\in\mathbb R^m\), and \(c\) is the original cost vector.</p>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><p>If a right-hand side \(b_i&lt;0\), multiply <strong>that entire equality</strong> by \(-1\).</p><div class="l10-math">\[A_{i:}x=b_i\quad\Longleftrightarrow\quad(-A_{i:})x=-b_i.\]</div></section>
-      <p data-reveal="2">After these equivalent row changes, assume \(b\ge0\). This alone does not supply an original-variable basis.</p>
-    </div>`,
-  },
-  {
     key: 'phase-artificial-start', title: 'Give Simplex a Starting Point with Temporary Help', referencePages: [46], className: 'l11-phase-intro',
     html: String.raw`<div class="l10-stack" data-phase-help-start>
       <p>Can we build a related problem that is easy to start? Use one equality to see the idea:</p>
@@ -820,8 +810,8 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-auxiliary', title: 'Can We Make the Temporary Help Disappear?', referencePages: [46], className: 'l11-phase-intro',
-    html: String.raw`<p>First minimize the artificial help. The original objective \(c^\top x\) waits until Phase II.</p>
+    key: 'phase-auxiliary', title: 'Can We Make the Temporary Help Disappear?', referencePages: [45, 46], className: 'l11-phase-intro',
+    html: String.raw`<p>The original LP is \(\min c^\top x\) subject to \(Ax=b,\ x\ge0\). Its cost waits until Phase II.</p>
     <div class="l11-phase-pair">
       <figure class="l11-phase-help-figure" data-phase-help-example>
         <figcaption>One equation: minimize \(y\).<br>Keep \(2x_1+x_2+y=6\).</figcaption>
@@ -829,17 +819,16 @@ export const phaseOneSlides = [
           <thead><tr><th scope="col">Original<br>\(2x_1+x_2\)</th><th scope="col">Help<br>\(y\)</th><th scope="col">Total</th></tr></thead>
           <tbody><tr><td>\(0\)</td><td>\(6\)</td><td>\(6\)</td></tr><tr><td>\(2\)</td><td>\(4\)</td><td>\(6\)</td></tr><tr><td>\(6\)</td><td>\(0\)</td><td>\(6\)</td></tr></tbody>
         </table>
-        <p>When \(y=0\), the original variables satisfy the equality on their own.</p>
+        <p>At \(y=0\), the original equality is satisfied.</p>
       </figure>
       <section class="l11-phase-general" data-reveal="1" data-phase-general-problem>
         <p>For \(m\) equations, use <strong>one helper per row</strong>:</p>
-        <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}\min\quad&w=\sum_{i=1}^{m}y_i=\mathbf1^\top y\\\text{subject to}\quad&Ax+y=b,\\&x\ge0,\quad y\ge0.\end{aligned}\]</div></section>
-        <p>Since \(b\ge0\), start with \(x=0,\ y=b\).</p>
-        <p>Each helper has coefficient \(1\) in its own row and \(0\) elsewhere: \(B=I_m\).</p>
-        <p>The vector \(\mathbf1\) contains \(m\) ones.</p>
+        <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}\min\quad&w=\sum_{i=1}^{m}y_i\\\text{subject to}\quad&Ax+y=b,\\&x\ge0,\quad y\ge0.\end{aligned}\]</div></section>
+        <p><strong>Intended start:</strong> \(x=0,\ y=b,\ B=I_m\).</p>
+        <p>Since \(y\ge0\), total help \(w=0\) means <strong>every helper is zero</strong>.</p>
       </section>
     </div>
-    <section class="l10-box" data-tone="green" data-reveal="2"><p>Because every \(y_i\ge0\), total help is zero exactly when <strong>all helpers are zero</strong>.</p></section>`,
+    <section class="l10-box" data-tone="green" data-reveal="2" data-phase-normalization><p><strong>Make this start feasible:</strong> first make \(b\ge0\). If \(b_i&lt;0\), multiply <strong>that entire equality</strong> by \(-1\) <strong>before adding the helpers</strong>. Then \(y=b\ge0\).</p></section>`,
   },
   {
     key: 'phase-zero', title: 'Why Zero Phase I Cost Means Feasibility', referencePages: [47],
