@@ -1310,7 +1310,7 @@ export const phaseOneSlides = [
         <tr><th scope="row">A finite optimum exists</th><td>Phase II terminates at an optimal basis.</td></tr>
       </tbody></table></div>
       <p data-reveal="1">An anticycling rule supplies the termination guarantee, including degenerate cases.</p>
-      <section class="l10-box" data-tone="blue" data-reveal="2"><p>We now know how to start and finish. Next, interpret these basis exchanges geometrically using the columns of the constraint matrix.</p></section>
+      <section class="l10-box" data-tone="blue" data-reveal="2"><p>We now know how to start and finish. Practice the complete method in the <a href="../../materials/simplex_workshop.pdf">workshop</a>. Then <a href="../lecture-12/#slide=1">Simplex IV</a> interprets basis exchanges through the columns of the constraint matrix.</p></section>
     </div>`,
   },
 ];

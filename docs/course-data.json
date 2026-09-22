@@ -33,6 +33,24 @@
       "pdf_url_versioned": "materials/syllabus_fall2026.pdf?v=dd7cb5a521de",
       "published": true,
       "title": "Course Syllabus"
+    },
+    {
+      "date": "2026-09-24",
+      "description": "Four guided problems on pivot rules, degeneracy, two-phase simplex, and infeasibility, plus an optional unboundedness problem.",
+      "id": "simplex-workshop",
+      "kind": "worksheet",
+      "lecture_id": "lecture-11",
+      "pdf_hash": "13bbeebf298faec31a6fd132629bc962462efc89064f5c7c8997932a541b100f",
+      "pdf_size": 157023,
+      "pdf_url": "materials/simplex_workshop.pdf",
+      "pdf_url_versioned": "materials/simplex_workshop.pdf?v=13bbeebf298f",
+      "published": true,
+      "tags": [
+        "simplex",
+        "two-phase method",
+        "practice"
+      ],
+      "title": "Simplex Problem-Solving Workshop"
     }
   ],
   "lectures": [
@@ -750,7 +768,32 @@
           "explanation": "After substitution and removal of a, x₁ = 2 − 2x₃ − x₄ and x₂ = x₃ + x₄. At x₃ = x₄ = 0 the point is still (2, 0). All three variables in the artificial row are valid replacements; we chose the smallest-index candidate x₂. Only the basis changes.",
           "page": 34,
           "question": "At (x₁, x₂) = (2, 0), the basic artificial variable satisfies a = −x₂ + x₃ + x₄ = 0. We solve for x₂, substitute, and remove a. What changes?"
-        },
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Find an initial feasible basis with Phase I, remove artificial variables, restore the original objective, and complete the two-phase method.",
+      "display_number": 7,
+      "id": "lecture-11",
+      "number": 11,
+      "pdf_hash": "edf6c55a30b992fab6e9cf132dfe264b0000e794e3c46b15502bbbdc3375759b",
+      "pdf_size": 652577,
+      "pdf_url": "materials/lecture_11.pdf",
+      "pdf_url_versioned": "materials/lecture_11.pdf?v=edf6c55a30b9",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "simplex",
+        "two-phase method",
+        "initial basis"
+      ],
+      "title": "Simplex III: Two-Phase Simplex",
+      "viewer_url": "lectures/lecture-11",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
         {
           "auto_open": true,
           "choices": [
@@ -761,7 +804,7 @@
           ],
           "correct_index": 0,
           "explanation": "The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.",
-          "page": 55,
+          "page": 17,
           "question": "A nonbasic lifted point is below the current dual plane. What does its signed vertical gap tell us?"
         },
         {
@@ -774,7 +817,7 @@
           ],
           "correct_index": 2,
           "explanation": "A supporting line bounds the cost of every convex combination from below. At the required horizontal coordinate, the mixture of points 5 and 8 attains the bound. Other optimal mixtures could exist in a different example.",
-          "page": 64,
+          "page": 26,
           "question": "In the final basis 5, 8, every lifted point is on or above the line through 5 and 8. Why is the current feasible mixture optimal?"
         },
         {
@@ -787,7 +830,7 @@
           ],
           "correct_index": 1,
           "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
-          "page": 79,
+          "page": 41,
           "question": "What does the perturbed-cube example establish?"
         },
         {
@@ -800,32 +843,30 @@
           ],
           "correct_index": 1,
           "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
-          "page": 87,
+          "page": 49,
           "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         }
       ],
       "date": null,
       "demos": [],
-      "description": "Find an initial feasible basis with Phase I, complete the two-phase method, interpret pivots through column geometry, and study computational efficiency.",
-      "display_number": 7,
-      "id": "lecture-11",
-      "number": 11,
-      "pdf_hash": "5d2add35750c8814f143ec05443453581aff2a9a94d365b224913acd92ade9d3",
-      "pdf_size": 1623210,
-      "pdf_url": "materials/lecture_11.pdf",
-      "pdf_url_versioned": "materials/lecture_11.pdf?v=5d2add35750c",
+      "description": "Interpret simplex pivots through column geometry, connect reduced costs to objective heights, and study work per pivot, long paths, and practical performance.",
+      "display_number": 8,
+      "id": "lecture-12",
+      "number": 12,
+      "pdf_hash": "63cbd3531a6100c741f685e98d3778a91617d9875141243d6fb7b621204201f4",
+      "pdf_size": 1125573,
+      "pdf_url": "materials/lecture_12.pdf",
+      "pdf_url_versioned": "materials/lecture_12.pdf?v=63cbd3531a61",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
       "tags": [
         "simplex",
-        "two-phase method",
-        "initial basis",
         "column geometry",
         "computational efficiency"
       ],
-      "title": "Simplex III: Two-Phase Simplex, Geometry, and Efficiency",
-      "viewer_url": "lectures/lecture-11",
+      "title": "Simplex IV: Column Geometry and Efficiency",
+      "viewer_url": "lectures/lecture-12",
       "whiteboards": 3
     }
   ],

@@ -1,15 +1,13 @@
 /**
- * Public Lecture 7: initialization, two-phase simplex, column geometry,
- * and computational efficiency. Moved slides retain their stable IDs.
+ * Public Lecture 7: initialization and two-phase simplex.
+ * Geometry and efficiency continue in lecture-12; Phase I details stay here.
  */
 import { phaseOneSlides, auditData as phaseOneAudit } from './lecture-11-phase-one.js';
-import { geometrySlides, auditData as geometryAudit } from './lecture-11-geometry.js';
-import { efficiencySlides, auditData as efficiencyAudit } from './lecture-11-efficiency.js';
 
 export const metadata = {
   id: 'lecture-11', number: 11,
-  title: 'Simplex III: Two-Phase Simplex, Geometry, and Efficiency',
-  subtitle: 'Lecture 7 · Initialization, Column Geometry, and Computational Work',
+  title: 'Simplex III: Two-Phase Simplex',
+  subtitle: 'Lecture 7 · Finding a Feasible Basis and Solving the Original LP',
   course: 'ISE 5405 · Optimization I',
   homeUrl: '../../', pdfUrl: '../../materials/lecture_11.pdf', whiteboards: 3,
 };
@@ -36,28 +34,26 @@ if (allPhaseSlides.length !== phaseOneSlides.length ||
 const phaseDetails = s => ({...s, className: [s.className, 'l11-phase-details'].filter(Boolean).join(' ')});
 const sections = [
   {title: '3.5 · Finding an initial feasible basis', slides: phaseTeachingOrder.map(phaseDetails)},
-  {title: '3.6 · Column geometry', slides: geometrySlides},
-  {title: '3.7 · Computational efficiency', slides: efficiencySlides},
 ];
 const intro = {
   key: '01', id: 'l11-01', kind: 'title', title: metadata.title, referencePages: [41],
-  html: String.raw`<p class="ns-lead">How do we start simplex, interpret its basis changes, and understand its computational cost?</p>
+  html: String.raw`<p class="ns-lead">How can simplex find a feasible starting basis, then solve the original problem?</p>
     <nav class="l10-contents l10-title-contents" aria-label="Simplex III sections">` +
     sections.map((s,i) => '<a data-l11-section-link="' + i + '" href="#slide=1">' + s.title + '</a>').join('') +
-    '</nav><p>Lecture 7 · Bertsimas–Tsitsiklis §§3.5–3.7</p>' +
+    '</nav><p>Lecture 7 · Bertsimas–Tsitsiklis §3.5</p>' +
     '<p>Use the pivot, reduced-cost, and anticycling rules developed in Simplex I and II.</p>' +
     '<div class="ns-title-shortcuts"><span><kbd>→</kbd> / <kbd>Space</kbd> reveal or advance</span><span><kbd>M</kbd> slide menu</span><span><kbd>K</kbd> checkpoint</span><span><kbd>H</kbd> handout view</span></div>',
 };
 const sources = {
   key: 'sources', id: 'l11-sources', title: 'References and Paths for Independent Study', referencePages: [1, 2],
   html: String.raw`<div class="l10-stack">
-    <section class="l10-box" data-tone="blue"><h3>Practice the complete method</h3>
-      <p>Construct Phase I, interpret its optimum, remove artificial variables, and restore the original objective. Explain a pivot using both the dictionary and the column picture.</p></section>
+    <section class="l10-box" data-tone="blue"><h3>Practice the complete two-phase method</h3>
+      <p>Construct Phase I, interpret its optimum, remove artificial variables, and restore the original objective. Continue Phase II until you establish optimality or unboundedness.</p></section>
+    <p><strong>Practice:</strong> <a href="../../materials/simplex_workshop.pdf">Simplex problem-solving workshop</a>: pivot rules, degenerate steps, two phases, and infeasibility.</p>
     <p><strong>Optional details:</strong> <a data-l11-appendix-link href="#slide=1">Why artificial variables can be removed</a>. Review the worked dictionaries first.</p>
-    <p><strong>Textbook:</strong> Bertsimas and Tsitsiklis, <em>Introduction to Linear Optimization</em>, §§3.5–3.7.</p>
-    <p><strong>Review:</strong> <a href="../lecture-10/#slide=1">Simplex II: Cycling and Anticycling</a> develops the finite-termination rules used in both phases.</p>
-    <p><strong>Further reading:</strong> <a href="https://arxiv.org/abs/1006.2814">Santos: the Hirsch counterexample</a>; <a href="https://www.cs.yale.edu/homes/spielman/simplex/">Spielman and Teng: smoothed analysis</a>; <a href="https://arxiv.org/abs/2502.18019">Disser and Mosis: the pivot-rule complexity question</a>.</p>
-    <p>Distinguish the existence of a short edge path, an improving path, and an algorithm that finds such a path efficiently.</p>
+    <p><strong>Textbook:</strong> Bertsimas and Tsitsiklis, <em>Introduction to Linear Optimization</em>, §3.5.</p>
+    <p><strong>Review:</strong> <a href="../lecture-10/#slide=1">Simplex II: Cycling and Anticycling</a>.</p>
+    <p><strong>Continue:</strong> <a href="../lecture-12/#slide=1">Simplex IV: Column Geometry and Efficiency</a>.</p>
   </div>`,
 };
 let assembled = [{...intro, section: 'Simplex III · Overview'}];
@@ -78,7 +74,7 @@ export const slides = assembled.map((s,i) => ({
     'data-l11-appendix-link href="#slide=' + appendixStart + '"'),
 }));
 export const referenceMap = slides.map(({id,page,title,section,referencePages}) => ({id,page,title,section,referencePages}));
-export const auditData = {phaseOne: phaseOneAudit, geometry: geometryAudit, efficiency: efficiencyAudit};
+export const auditData = {phaseOne: phaseOneAudit};
 export const deck = {schemaVersion: 1, id: metadata.id, number: metadata.number,
   title: metadata.title, metadata, styles: new URL('./lecture-11.css', import.meta.url).href, slides};
 export default deck;

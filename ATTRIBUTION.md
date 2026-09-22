@@ -27,7 +27,7 @@ repository's CC BY 4.0 license. This repository does not grant downstream
 permission to reuse them. A reuser must remove those portions or obtain any
 permission required from the relevant rights holder.
 
-The Part 2 reference used for Simplex II and III credits Alberto Del Pia
+The Part 2 reference used for Simplex II, III, and IV credits Alberto Del Pia
 and follows Bertsimas and Tsitsiklis, *Introduction to Linear Optimization*,
 §§3.4–3.7. The native adaptation retains the theorem numbers and most example numbers and
 credits that source lineage. These third-party contributions are likewise

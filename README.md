@@ -34,7 +34,7 @@ through Canvas.
 
 ## Credits
 
-Simplex II and III adapt Robert Hildebrand’s course materials; the Part 2 reference
+Simplex II, III, and IV adapt Robert Hildebrand’s course materials; the Part 2 reference
 credits Alberto Del Pia. Additional explanations and interactive examples
 are by Jiaxiang Li. The 3D cycling example comes from Marshall–Suurballe,
 as collected in Yang’s [*Cycling problems in linear programming*](https://arxiv.org/abs/2101.01805), Problem 7.
