@@ -797,38 +797,38 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-artificial-start', title: 'Give Simplex a Starting Point with Temporary Help', referencePages: [46], className: 'l11-phase-intro',
+    key: 'phase-artificial-start', title: 'The Usual Starting Dictionary Can Be Infeasible', referencePages: [44, 46], className: 'l11-phase-intro',
     html: String.raw`<div class="l10-stack" data-phase-help-start>
-      <p>Can we build a related problem that is easy to start? Use one equality to see the idea:</p>
-      <div class="l10-math">\[2x_1+x_2=6,\qquad x_1,x_2\ge0.\]</div>
-      <p>At \(x_1=x_2=0\), the left side supplies \(0\); the equality requires \(6\).</p>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><p>Add an <strong>artificial variable</strong> \(y\) to supply the missing amount:</p>
-        <div class="l10-math">\[2x_1+x_2+y=6,\qquad x_1,x_2,y\ge0.\]</div></section>
-      <section class="l10-box" data-tone="green" data-reveal="2"><div class="l10-math">\[x_1=x_2=0,\qquad y=6.\]</div>
-        <p>This starts the <strong>auxiliary problem</strong> feasibly, with \(y\) basic.</p></section>
-      <p data-reveal="2">A slack represents unused capacity. Artificial help must become zero to recover the original equality.</p>
+      <p>The previous slack-basis start does not work for every feasible system:</p>
+      <div class="l10-math">\[x_1+x_2\ge2,\qquad x_1+2x_2\le6,\qquad x_1,x_2\ge0.\]</div>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><p>Subtract a <strong>surplus</strong> \(s_1\ge0\) from the first left side; add a <strong>slack</strong> \(s_2\ge0\) to the second. Solve for them:</p>
+        <div class="l10-math">\[\begin{aligned}s_1&=-2+x_1+x_2,\\s_2&=6-x_1-2x_2.\end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="orange" data-reveal="2"><p>Set the nonbasic variables \(x_1=x_2=0\): then \(s_1=-2,\ s_2=6\).<br>This starting dictionary is <strong>infeasible</strong> because \(s_1&lt;0\).</p></section>
+      <p data-reveal="2">Yet \((x_1,x_2)=(2,0)\) satisfies both constraints. How can we find a feasible basis <strong>systematically</strong>?</p>
     </div>`,
   },
   {
-    key: 'phase-auxiliary', title: 'Can We Make the Temporary Help Disappear?', referencePages: [45, 46], className: 'l11-phase-intro',
-    html: String.raw`<p>The original LP is \(\min c^\top x\) subject to \(Ax=b,\ x\ge0\). Its cost waits until Phase II.</p>
-    <div class="l11-phase-pair">
-      <figure class="l11-phase-help-figure" data-phase-help-example>
-        <figcaption>One equation: minimize \(y\).<br>Keep \(2x_1+x_2+y=6\).</figcaption>
-        <table class="l10-table l11-phase-help-table" data-phase-help-table>
-          <thead><tr><th scope="col">Original<br>\(2x_1+x_2\)</th><th scope="col">Help<br>\(y\)</th><th scope="col">Total</th></tr></thead>
-          <tbody><tr><td>\(0\)</td><td>\(6\)</td><td>\(6\)</td></tr><tr><td>\(2\)</td><td>\(4\)</td><td>\(6\)</td></tr><tr><td>\(6\)</td><td>\(0\)</td><td>\(6\)</td></tr></tbody>
-        </table>
-        <p>At \(y=0\), the original equality is satisfied.</p>
-      </figure>
-      <section class="l11-phase-general" data-reveal="1" data-phase-general-problem>
-        <p>For \(m\) equations, use <strong>one helper per row</strong>:</p>
-        <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}\min\quad&w=\sum_{i=1}^{m}y_i\\\text{subject to}\quad&Ax+y=b,\\&x\ge0,\quad y\ge0.\end{aligned}\]</div></section>
+    key: 'phase-artificial-dictionary', title: 'An Artificial Variable Gives a Feasible Start', referencePages: [46, 85], className: 'l11-phase-intro',
+    html: String.raw`<div class="l10-stack" data-phase-auxiliary-dictionary>
+      <p>Keep \(s_2\) basic. Add an <strong>artificial variable</strong> \(y\ge0\) to the first equality:</p>
+      <div class="l10-math">\[x_1+x_2-s_1+y=2.\]</div>
+      <section class="l10-box" data-tone="blue"><p>Solve for the new basic variables \(y,s_2\):</p>
+        <div class="l10-math">\[\begin{aligned}y&=2-x_1-x_2+s_1,\\s_2&=6-x_1-2x_2.\end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>Set the nonbasic variables \(x_1=x_2=s_1=0\). Then \(y=2,\ s_2=6\):<br>we have a <strong>feasible auxiliary dictionary</strong>. All five variables are nonnegative.</p></section>
+      <section class="l10-box" data-tone="blue" data-reveal="2"><p><strong>Phase I: minimize \(w=y\)</strong> subject to this dictionary and nonnegativity.<br>When \(y=0\), we recover the original constraints. Keep the legitimate slack and surplus variables.</p></section>
+    </div>`,
+  },
+  {
+    key: 'phase-auxiliary', title: 'The General Phase I Problem', referencePages: [45, 46], className: 'l11-phase-intro',
+    html: String.raw`<div class="l10-stack" data-phase-general-problem>
+      <p>Write the original LP as \(\min c^\top x\) subject to \(Ax=b,\ x\ge0\). Here \(x\) includes any slack and surplus variables.</p>
+      <p>For \(m\) equalities, a general construction uses <strong>one artificial variable per row</strong>:</p>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><div class="l10-math">\[\begin{aligned}\min\quad&w=\sum_{i=1}^{m}y_i\\\text{subject to}\quad&Ax+y=b,\\&x\ge0,\quad y\ge0.\end{aligned}\]</div>
         <p><strong>Intended start:</strong> \(x=0,\ y=b,\ B=I_m\).</p>
-        <p>Since \(y\ge0\), total help \(w=0\) means <strong>every helper is zero</strong>.</p>
       </section>
-    </div>
-    <section class="l10-box" data-tone="green" data-reveal="2" data-phase-normalization><p><strong>Make this start feasible:</strong> first make \(b\ge0\). If \(b_i&lt;0\), multiply <strong>that entire equality</strong> by \(-1\) <strong>before adding the helpers</strong>. Then \(y=b\ge0\).</p></section>`,
+      <section class="l10-box" data-tone="green" data-reveal="2" data-phase-normalization><p><strong>Make this start feasible:</strong> first make \(b\ge0\). If \(b_i&lt;0\), multiply <strong>that entire equality</strong> by \(-1\) <strong>before adding the helpers</strong>. Then \(y=b\ge0\).</p></section>
+      <p data-reveal="2">Since \(y\ge0\), total help \(w=0\) means <strong>every helper is zero</strong>. The original cost \(c^\top x\) waits until Phase II.</p>
+    </div>`,
   },
   {
     key: 'phase-zero', title: 'Why Zero Phase I Cost Means Feasibility', referencePages: [47],
