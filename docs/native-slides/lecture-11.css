@@ -3,6 +3,10 @@
 
 /* Keep the dictionary-to-Phase-I explanation readable as stacked blocks. */
 [data-native-deck="lecture-11"] .l11-phase-intro .l10-stack { gap: .25em; }
+[data-native-deck="lecture-11"] :is(.l11-ex38-arithmetic, .l11-ex38-tableau) .l10-stack { gap: .2em; }
+[data-native-deck="lecture-11"] .l11-ex38-tableau .l10-math { margin-block: .05em; }
+[data-native-deck="lecture-11"] .l11-ex38-tableau mjx-container[display="true"] { margin-block: .1em !important; }
+[data-native-deck="lecture-11"] .l11-math-wrap { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .3em 1.4em; padding-block: .25em; }
 [data-native-deck="lecture-11"] .l11-phase-plot-slide .l10-pair { flex: 0 0 auto; }
 [data-native-deck="lecture-11"] .l11-start-figure { padding: .2em .35em .35em; }
 [data-native-deck="lecture-11"] .l11-start-plot { position: relative; }
@@ -21,6 +25,7 @@
 [data-native-deck="lecture-11"] .l11-lower-key { color: #ad510e; }
 [data-native-deck="lecture-11"] .l11-upper-key { color: #2f6d8f; }
 @media (max-width: 760px) {
+  [data-native-deck="lecture-11"] .l11-ex38-arithmetic .l10-stack { padding-bottom: .65em; }
   [data-native-deck="lecture-11"] .l11-start-plot { aspect-ratio: 540 / 420; }
   [data-native-deck="lecture-11"] .l11-plot-point { top: 77%; }
   [data-native-deck="lecture-11"] .l11-start-figure { padding-bottom: .65em; }

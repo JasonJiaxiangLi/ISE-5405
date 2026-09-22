@@ -1003,48 +1003,57 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-ex38-initial-point', title: 'Example 3.8: The Artificial Basis Costs 11', referencePages: [67],
+    key: 'phase-ex38-initial-point', title: 'Example 3.8: Solve for the Basic Variables', referencePages: [67], className: 'l11-ex38-arithmetic',
     html: String.raw`<div class="l10-stack">
-      <div class="l10-math">\[x_1=x_2=x_3=x_4=0,\qquad(x_5,x_6,x_7,x_8)=(3,2,5,1).\]</div>
-      <section class="l10-box" data-tone="blue"><p>The basis columns are the four artificial unit columns:</p><div class="l10-math">\[B=[A_5\ A_6\ A_7\ A_8]=I_4,\qquad w=3+2+5+1=11.\]</div></section>
-      <p data-reveal="1">Here \(A_5,\ldots,A_8\) denote columns of the <strong>augmented</strong> constraint matrix. The original matrix has only columns \(A_1,\ldots,A_4\).</p>
-      <p data-reveal="2">Our task is to reduce \(w\) to zero while preserving the augmented equalities and nonnegativity.</p>
+      <p>Choose \(x_5,x_6,x_7,x_8\) as basic. Move the other terms to the right in each equality:</p>
+      <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}
+        x_5&=3-x_1-2x_2-3x_3,\\
+        x_6&=2+x_1-2x_2-6x_3,\\
+        x_7&=5-4x_2-9x_3,\\
+        x_8&=1-3x_3-x_4.
+      \end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>Set the nonbasic variables \(x_1=x_2=x_3=x_4=0\):</p><div class="l10-math">\[(x_5,x_6,x_7,x_8)=(3,2,5,1).\]</div><p>Every value is nonnegative, so this is a <strong>feasible starting dictionary</strong>.</p></section>
+      <p data-reveal="2">Its Phase I cost is \(w=3+2+5+1=11\). Next, express \(w\) using only the nonbasic variables.</p>
     </div>`,
   },
   {
-    key: 'phase-ex38-tableau-convention', title: 'Read the Objective Row Before We Pivot', referencePages: [68, 69, 70, 71],
+    key: 'phase-ex38-build-objective', title: 'Substitute the Dictionary into the Phase I Objective', referencePages: [68, 69, 70, 71], className: 'l11-ex38-arithmetic',
     html: String.raw`<div class="l10-stack">
-      <p>Let \(M=[A\mid I_4]\), \(v=(x_1,\ldots,x_8)\), and \(q=(0,0,0,0,1,1,1,1)\). The auxiliary objective is \(w=q^\top v\).</p>
-      <div class="l10-math">\[w=w_0+\bar q^\top v,\qquad \bar q^\top=q^\top-q_{\mathcal B}^\top B^{-1}M.\]</div>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><p>Our tableau convention is</p><div class="l10-math">\[\begin{array}{c|c}-w_0&\bar q^\top\\\hline B^{-1}b&B^{-1}M\end{array}.\]</div></section>
-      <p data-reveal="2"><strong>RHS</strong> means right-hand side. Its top entry is <strong>minus</strong> the current objective; entries below it are basic values. \(R_0\) names the objective row.</p>
+      <p>Start with \(w=x_5+x_6+x_7+x_8\). Substitute the four expressions we just obtained:</p>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><div class="l10-math">\[\begin{aligned}
+        w&=(3-x_1-2x_2-3x_3)\\
+         &\quad +(2+x_1-2x_2-6x_3)\\
+         &\quad +(5-4x_2-9x_3)\\
+         &\quad +(1-3x_3-x_4).
+      \end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="2"><p>The \(x_1\) terms cancel. Collect the remaining terms:</p><div class="l10-math">\[\boxed{w=11-8x_2-21x_3-x_4}.\]</div></section>
+      <p data-reveal="2">The coefficient \(\bar q_j\) of \(x_j\) is its <strong>Phase I reduced cost</strong>. For \(x_1,x_2,x_3,x_4\), these are \(0,-8,-21,-1\).</p>
     </div>`,
   },
   {
-    key: 'phase-ex38-build-objective', title: 'Construct the Phase I Objective Row', referencePages: [68, 69, 70, 71],
+    key: 'phase-ex38-tableau-initial', title: 'From the Dictionary to the Initial Tableau', referencePages: [68, 69, 70, 71, 72, 73], className: 'l11-ex38-tableau l10-tableau-slide',
     html: String.raw`<div class="l10-stack">
-      <p>Initially \(B=I_4\) and \(q_{\mathcal B}=\mathbf1\). Eliminate the basic artificial coefficients from the raw objective row.</p>
-      <div class="l10-math">\[\begin{aligned}
-        \bar q^\top&=[\mathbf0^\top\mid\mathbf1^\top]-\mathbf1^\top[A\mid I_4]\\
-                    &=[-\mathbf1^\top A\mid\mathbf0^\top].
-      \end{aligned}\]</div>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><p>The four original column sums are \(0,8,21,1\). Therefore</p><div class="l10-math">\[\bar q=(0,-8,-21,-1,0,0,0,0).\]</div></section>
-      <section class="l10-box" data-tone="green" data-reveal="2"><p>Subtract the four constraint rows from the raw objective row:</p><div class="l10-math">\[R_0=[-11\mid0,-8,-21,-1,0,0,0,0].\]</div></section>
+      <p>Move nonbasic terms left in each constraint, e.g. \(x_1+2x_2+3x_3+x_5=3\).</p>
+      <p>Use \(-w\) for the objective row: \(-w-8x_2-21x_3-x_4=-11\).</p>
+      <div data-reveal="1">${tableau('initial')}</div>
+      <p data-reveal="2">In \(R_0\), \(-w\) is implicit. The <strong>RHS</strong> (right-hand side) is \(-w_0=-11\); remaining entries are reduced costs.</p>
     </div>`,
   },
   {
-    key: 'phase-ex38-tableau-initial', title: 'Example 3.8: The Initial Tableau', referencePages: [72, 73],
+    key: 'phase-ex38-tableau-convention', title: 'The Same Calculation in Matrix Notation', referencePages: [67, 68, 69, 70, 71], className: 'l11-ex38-arithmetic',
     html: String.raw`<div class="l10-stack">
-      ${tableau('initial')}
-      <p>The upper-left entry is \(-11\), so \(w=11\). The basic artificial columns form the identity.</p>
-      <p data-reveal="1">We choose eligible entering variables in the reference order \(x_4,x_3,x_2,x_1\). Break leaving-variable ties by smaller variable index.</p>
-      <p data-reveal="2">First choose \(x_4\): its reduced cost is \(-1\), and its column is already a unit column.</p>
+      <p>Here \(A,b\) describe the original four equalities <strong>after the sign change</strong>. Group the variables as</p>
+      <div class="l10-math l11-math-wrap"><span>\(x_{\mathcal B}=(x_5,x_6,x_7,x_8)^\top,\)</span><span>\(x_{\mathcal N}=(x_1,x_2,x_3,x_4)^\top.\)</span></div>
+      <section class="l10-box" data-tone="blue"><div class="l10-math l11-math-wrap"><span>\(Ax_{\mathcal N}+x_{\mathcal B}=b,\quad B=I_4\)</span><span>\(\Longrightarrow\quad x_{\mathcal B}=b-Ax_{\mathcal N}.\)</span></div><p>This is the same four-equation dictionary.</p></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>Multiplying by \(\mathbf1^\top=(1,1,1,1)\) <strong>adds those four equations</strong>:</p><div class="l10-math">\[w=\mathbf1^\top x_{\mathcal B}=\mathbf1^\top b-\mathbf1^\top A x_{\mathcal N}.\]</div></section>
+      <section class="l10-box" data-tone="blue" data-reveal="2"><div class="l10-math l11-math-wrap"><span>\(\mathbf1^\top b=11,\)</span><span>\(\mathbf1^\top A=(0,8,21,1).\)</span></div><p>Thus \(w=11-8x_2-21x_3-x_4\), exactly as obtained by substitution.</p></section>
     </div>`,
   },
   {
     key: 'phase-ex38-pivot-x4', title: 'Pivot 1: x₄ Enters and x₈ Leaves', referencePages: [72, 73],
     html: String.raw`<div class="l10-stack">
-      <p>Increase \(x_4=\theta\). Its only nonzero constraint coefficient is one in the \(x_8\) row.</p>
+      <p>For this example, test nonbasic variables in the order \(x_4,x_3,x_2,x_1\); choose the first negative reduced cost. Break minimum-ratio ties by smaller basic-variable index.</p>
+      <p>Choose \(x_4\), whose reduced cost is \(-1\). Increasing \(x_4=\theta\) changes only \(x_8\):</p>
       <div class="l10-math">\[x_8=1-\theta\ge0\quad\Longrightarrow\quad\theta^*=1.\]</div>
       <section class="l10-box" data-tone="blue" data-reveal="1"><p>Replace basic \(x_8\) by \(x_4\). Their columns are identical, so the basis matrix remains \(I_4\).</p><div class="l10-math">\[w_{\mathrm{new}}=11+(-1)(1)=10.\]</div></section>
       <section class="l10-box" data-tone="green" data-reveal="2"><p>Only the objective row changes numerically:</p><div class="l10-math">\[R_0\leftarrow R_0+R_4.\]</div><p>The fourth basic-variable label changes from \(x_8\) to \(x_4\).</p></section>
