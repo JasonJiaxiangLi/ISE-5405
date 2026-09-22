@@ -25,7 +25,7 @@
 [data-native-deck="lecture-11"] .l11-lower-key { color: #ad510e; }
 [data-native-deck="lecture-11"] .l11-upper-key { color: #2f6d8f; }
 @media (max-width: 760px) {
-  [data-native-deck="lecture-11"] .l11-ex38-arithmetic .l10-stack { padding-bottom: .65em; }
+  [data-native-deck="lecture-11"] :is(.l11-ex38-arithmetic, .l11-phase-details) .l10-stack { padding-bottom: .65em; }
   [data-native-deck="lecture-11"] .l11-start-plot { aspect-ratio: 540 / 420; }
   [data-native-deck="lecture-11"] .l11-plot-point { top: 77%; }
   [data-native-deck="lecture-11"] .l11-start-figure { padding-bottom: .65em; }

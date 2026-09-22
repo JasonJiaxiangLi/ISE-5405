@@ -740,28 +740,28 @@ function tableau(key) {
 }
 
 const checkpointPhaseOne = {
-  prompt: 'Phase I ends with objective zero and an artificial variable still basic at zero. What do we know?',
+  prompt: 'A feasible Phase I solution has w = 0. What have we established?',
   choices: [
     'The original LP is infeasible',
     'The original LP is already optimal',
-    'An original feasible point exists, but its basis may still need cleanup',
-    'The artificial variable must become positive before Phase II',
+    'All artificial variables are zero, and the original variables satisfy the original constraints',
+    'Every artificial variable has left the basis',
   ],
   correctIndex: 2,
-  explanation: 'A zero sum of nonnegative artificial variables makes every artificial variable zero. The original variables are feasible. A zero artificial variable may remain in a degenerate basis, so we still need an original-variable basis and the original objective row.',
+  explanation: 'The artificial variables are nonnegative and sum to zero, so each is zero. The auxiliary equalities therefore reduce to the original equalities. This establishes feasibility, not optimality for the original objective or which variables are basic.',
   autoOpen: true,
 };
 
-const checkpointCleanup = {
-  prompt: 'An artificial basic variable has value zero. Its tableau row contains a negative, nonzero coefficient in an original column. Can we pivot on it?',
+const checkpointBasisExchange = {
+  prompt: 'At x₂ = 0, the dictionary is x₁ = 1 − x₂ and a = 2x₂. We solve for x₂ instead of artificial a, then set a = 0. What changes?',
   choices: [
-    'Yes: the zero right-hand side makes this a basis change at the same feasible point',
-    'No: every pivot element must be positive',
-    'No: a negative coefficient proves infeasibility',
-    'Only if the Phase I objective increases',
+    'The basis changes from (x₁, a) to (x₁, x₂), but the feasible point remains (1, 0)',
+    'The original point moves to (0, 1)',
+    'The Phase I objective becomes negative',
+    'The negative tableau pivot coefficient makes the new point infeasible',
   ],
   correctIndex: 0,
-  explanation: 'Cleanup changes the basis without taking a positive step. Dividing a zero-right-hand-side row by a negative pivot still leaves its right-hand side zero; eliminating that column from other rows does not change their right-hand sides. The feasible point is preserved.',
+  explanation: 'Solving a = 2x₂ gives x₂ = a/2 and x₁ = 1 − a/2. With nonbasic a = 0, we still have x₁ = 1 and x₂ = 0. Only the basis changes; the artificial variable leaves at a zero step.',
   autoOpen: true,
 };
 
@@ -774,7 +774,7 @@ const checkpointPhaseTwo = {
     'Phase I minimized artificial variables; Phase II uses the original cost vector',
   ],
   correctIndex: 3,
-  explanation: 'The constraint rows keep the feasible basis, but reduced costs depend on the objective. Recompute the current cost and every reduced cost using the original coefficients. Example 3.8 changes from Phase I cost zero to original cost 11/6 with a negative reduced cost for x4.',
+  explanation: 'The constraint rows keep the feasible basis, but reduced costs depend on the objective. Substitute the current dictionary into the original objective to obtain its constant and nonbasic-variable coefficients. Example 3.8 changes from Phase I cost zero to original cost 11/6 with a negative reduced cost for x4.',
   autoOpen: true,
 };
 
@@ -890,14 +890,13 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-zero-basis', title: 'A Feasible Point Is Not Yet the Starting Basis', referencePages: [48, 50, 51],
+    key: 'phase-zero-basis', title: 'Phase I Has Found a Feasible Point', referencePages: [48, 50, 51], className: 'l11-ex38-arithmetic',
     html: String.raw`<div class="l10-stack">
-      <p>Suppose Phase I ends at \((x^*,y^*)\) with \(w=0\). Then \(y^*=0\), and \(x^*\) is feasible for the original LP.</p>
-      <section class="l10-box" data-tone="orange" data-reveal="1"><p>An artificial variable can still be <strong>basic at value zero</strong>. The auxiliary basic feasible solution is then degenerate.</p></section>
-      <section class="l10-box" data-tone="green" data-reveal="2"><h3>What Phase II needs</h3><p>A basis made entirely of original columns, its constraint rows, and reduced costs for the <strong>original</strong> objective.</p></section>
+      <section class="l10-box" data-tone="green"><p>In Example 3.8, \(w=0\). Every artificial variable is zero, and</p><div class="l10-math">\[(x_1,x_2,x_3,x_4)=(1,\tfrac12,\tfrac13,0)\]</div><p>satisfies the original constraints. <strong>Phase I has succeeded.</strong></p></section>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><p>The current basic variables are \((x_1,x_2,x_7,x_3)\), with values \((1,\tfrac12,0,\tfrac13)\).</p><p><strong>Basic</strong> means solved for in the dictionary; it does not mean positive. Thus artificial \(x_7\) is still basic at zero—a degenerate basis.</p></section>
+      <p data-reveal="2">Next, write a dictionary using only original variables and restore \(f=x_1+x_2+x_3\). We do not need to reduce \(w\) further.</p>
     </div>`, checkpoint: checkpointPhaseOne,
-  },
-  {
+  },  {
     key: 'phase-clean-basis', title: 'If the Final Basis Already Uses Original Columns', referencePages: [49],
     html: String.raw`<div class="l10-stack">
       <p>Suppose the final auxiliary basis \(B\) consists entirely of columns of \(A\). Keep its feasible basic values \(B^{-1}b\).</p>
@@ -907,7 +906,7 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-extend-basis', title: 'Why Cleanup Is Possible When A Has Full Row Rank', referencePages: [52, 53],
+    key: 'phase-extend-basis', title: 'Why Original Columns Can Replace the Artificial Columns', referencePages: [52, 53],
     html: String.raw`<div class="l10-stack">
       <p>Suppose the final auxiliary basis contains \(k&lt;m\) original columns. Reorder the basis so these are \(A_{B(1)},\ldots,A_{B(k)}\).</p>
       <section class="l10-box" data-tone="blue"><p>They are linearly independent because they are part of a basis.</p></section>
@@ -927,7 +926,7 @@ export const phaseOneSlides = [
     key: 'phase-cleanup-row', title: 'Inspect the Row of a Zero Artificial Variable', referencePages: [56, 57],
     html: String.raw`<div class="l10-stack">
       <p>Let row \(\ell\) belong to an artificial basic variable with value zero. Write \(H=B^{-1}A\) and \(h=B^{-1}b\); \(H_{ij}\) is row \(i\), column \(j\).</p>
-      <div class="l10-table-wrap" tabindex="0" role="region" aria-label="Artificial-variable cleanup tableau">
+      <div class="l10-table-wrap" tabindex="0" role="region" aria-label="Tableau row of a zero basic artificial variable">
       <table class="l10-table"><thead><tr><th scope="col">Value</th><th scope="col">\(x_1\)</th><th scope="col">\(\cdots\)</th><th scope="col">\(x_j\)</th><th scope="col">\(\cdots\)</th><th scope="col">\(x_n\)</th><th scope="col">Artificial column</th></tr></thead><tbody>
       <tr><td>\(h_i\)</td><td>\(H_{i1}\)</td><td>\(\cdots\)</td><td>\(H_{ij}\)</td><td>\(\cdots\)</td><td>\(H_{in}\)</td><td>\(0\)</td></tr>
       <tr><td>\(h_\ell=0\)</td><td>\(H_{\ell1}\)</td><td>\(\cdots\)</td><td>\(\boxed{H_{\ell j}}\)</td><td>\(\cdots\)</td><td>\(H_{\ell n}\)</td><td>\(1\)</td></tr>
@@ -953,8 +952,8 @@ export const phaseOneSlides = [
       <div class="l10-math">\[R_\ell\leftarrow R_\ell/p,\qquad R_i\leftarrow R_i-H_{ij}R_\ell\quad(i\ne\ell).\]</div>
       <section class="l10-box" data-tone="blue" data-reveal="1"><p>The entering column becomes \(e_\ell\). Original variable \(x_j\) enters; the artificial variable leaves.</p></section>
       <section class="l10-box" data-tone="green" data-reveal="2"><p>Since \(h_\ell=0\), scaling this row and adding it to other rows changes no basic value. The same feasible point remains, with one fewer basic artificial variable.</p></section>
-      <p><strong>The pivot may be negative:</strong> this cleanup exchanges basis columns at a zero step.</p>
-    </div>`, checkpoint: checkpointCleanup,
+      <p><strong>The pivot may be negative:</strong> this operation exchanges basis columns at a zero step.</p>
+    </div>`,
   },
   {
     key: 'phase-cleanup-zero-row', title: 'Case 2: Every Original Entry in the Row Is Zero', referencePages: [63],
@@ -1138,17 +1137,47 @@ export const phaseOneSlides = [
       <p data-reveal="1">The basis still includes artificial \(x_7=0\). Inspect its row before starting Phase II.</p>
     </div>`,
   },
+
   {
-    key: 'phase-ex38-redundancy', title: 'The x₇ Row Identifies an Exact Redundancy', referencePages: [81],
-    html: String.raw`<div class="l10-stack">
-      <p>The \(x_7\) tableau row is</p>
-      <div class="l10-math">\[\bigl[0\mid0,0,0,0\mid-1,-1,1,0\bigr].\]</div>
-      <p>Every original-column entry is zero. The artificial block identifies \(g=(-1,-1,1,0)\).</p>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><div class="l10-math">\[-A_{1:}-A_{2:}+A_{3:}=0,\qquad-3-2+5=0.\]</div><p>For the normalized model, row 3 equals row 1 plus row 2.</p></section>
-      <p data-reveal="2">Delete this zero transformed row and the basic artificial variable \(x_7\). The remaining independent equations have a three-column basis.</p>
+    key: 'phase-ex38-final-dictionary', title: 'Example 3.8: Read the Final Phase I Dictionary', referencePages: [80], className: 'l11-ex38-arithmetic',
+    html: String.raw`<div class="l10-stack" data-phase-final-dictionary>
+      <p>The preceding tableau represents these equations. Nonbasic variables are \(x_4,x_5,x_6,x_8\):</p>
+      <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}
+        x_1&=1-\tfrac12x_4-\tfrac12x_5+\tfrac12x_6-\tfrac12x_8,\\
+        x_2&=\tfrac12+\tfrac34x_4-\tfrac14x_5-\tfrac14x_6+\tfrac34x_8,\\
+        x_7&=x_5+x_6,\\
+        x_3&=\tfrac13-\tfrac13x_4-\tfrac13x_8,\\
+        w&=2x_5+2x_6+x_8.
+      \end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>To return to the original LP, fix <strong>all artificial variables</strong> \(x_5,x_6,x_7,x_8\) at zero. What does each equation become?</p></section>
     </div>`,
   },
   {
+    key: 'phase-ex38-original-dictionary', title: 'Set the Artificial Variables to Zero', referencePages: [81, 82, 83], className: 'l11-ex38-arithmetic',
+    html: String.raw`<div class="l10-stack" data-phase-original-dictionary>
+      <p>Substitute \(x_5=x_6=x_7=x_8=0\) into the same dictionary:</p>
+      <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}
+        x_1&=1-\tfrac12x_4,\\
+        x_2&=\tfrac12+\tfrac34x_4,\\
+        0&=0,\\
+        x_3&=\tfrac13-\tfrac13x_4.
+      \end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>The \(x_7=x_5+x_6\) row becomes \(0=0\). It imposes no restriction, so remove it. <strong>No additional pivot is needed in this example.</strong></p></section>
+      <p data-reveal="2">The remaining basic variables are \(x_1,x_2,x_3\). Setting nonbasic \(x_4=0\) gives the same feasible point \((1,\tfrac12,\tfrac13,0)\).</p>
+    </div>`,
+  },
+  {
+    key: 'phase-ex38-redundancy', title: 'Why Did One Equation Become 0 = 0?', referencePages: [81], className: 'l11-ex38-arithmetic',
+    html: String.raw`<div class="l10-stack">
+      <p>Look at the original equalities after reversing the sign of the second one:</p>
+      <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}
+        x_1+2x_2+3x_3&=3,\\
+        -x_1+2x_2+6x_3&=2.
+      \end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>Add them. The \(x_1\) terms cancel:</p><div class="l10-math">\[4x_2+9x_3=5.\]</div><p>This is exactly the third equality. Any point satisfying the first two already satisfies it: the third equality is <strong>redundant</strong>.</p></section>
+      <p data-reveal="2">Subtracting the first two equalities from the third gives \(0=0\). Removing this redundant equation loses no original feasible points.</p>
+    </div>`,
+  },  {
     key: 'phase-ex38-row-removed', title: 'Remove the Redundant Tableau Row', referencePages: [82],
     html: String.raw`<div class="l10-stack">
       ${tableau('redundant-row-removed')}
@@ -1165,14 +1194,18 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-ex38-reprice', title: 'Rebuild the Original Objective Row', referencePages: [83],
-    html: String.raw`<div class="l10-stack">
-      <p>The current original objective is \(f_0=1+\frac12+\frac13=\frac{11}{6}\).</p>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><p>The basic reduced costs are zero. For \(x_4\), the transformed column is \((1/2,-3/4,1/3)^\top\):</p><div class="l10-math">\[\bar c_4=0-\left(\frac12-\frac34+\frac13\right)=-\frac1{12}.\]</div></section>
-      <section class="l10-box" data-tone="green" data-reveal="2"><div class="l10-math">\[R_0=\left[-\frac{11}{6}\mid0,0,0,-\frac1{12}\right].\]</div><p>Feasibility survives cleanup. Reduced costs change because the objective changes.</p></section>
+    key: 'phase-ex38-reprice', title: 'Restore the Original Objective by Substitution', referencePages: [83], className: 'l11-ex38-arithmetic',
+    html: String.raw`<div class="l10-stack" data-phase-original-objective>
+      <p>The original objective is \(f=x_1+x_2+x_3\). Substitute the remaining dictionary:</p>
+      <section class="l10-box" data-tone="blue"><div class="l10-math">\[\begin{aligned}
+        f&=(1-\tfrac12x_4)+(\tfrac12+\tfrac34x_4)+(\tfrac13-\tfrac13x_4)\\
+         &=\tfrac{11}{6}+(-\tfrac12+\tfrac34-\tfrac13)x_4\\
+         &=\boxed{\tfrac{11}{6}-\tfrac1{12}x_4}.
+      \end{aligned}\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>At \(x_4=0\), the original cost is \(11/6\). The coefficient \(-1/12\) is its reduced cost: increasing \(x_4\) can improve \(f\).</p></section>
+      <div data-reveal="2"><p>For the tableau, write \(-f-\tfrac1{12}x_4=-\tfrac{11}{6}\):</p><div class="l10-math">\[R_0=\left[-\tfrac{11}{6}\mid0,0,0,-\tfrac1{12}\right].\]</div></div>
     </div>`, checkpoint: checkpointPhaseTwo,
-  },
-  {
+  },  {
     key: 'phase-ex38-phase-two', title: 'Phase II Begins from a Feasible Original Basis', referencePages: [84],
     html: String.raw`<div class="l10-stack">
       ${tableau('phase-two-start')}
@@ -1197,6 +1230,16 @@ export const phaseOneSlides = [
       <p data-reveal="2">Check the original four equalities directly. The redundant equality still holds even though we no longer store it.</p>
     </div>`,
   },
+
+  {
+    key: 'phase-zero-exchange', title: 'When a Zero Artificial Variable Needs a Pivot', referencePages: [60, 61, 62], className: 'l11-ex38-arithmetic',
+    html: String.raw`<div class="l10-stack" data-phase-zero-exchange>
+      <p>Consider original constraints \(x_1+x_2=1,\ -2x_2=0,\ x\ge0\). Add artificial \(a\ge0\) to the second equality: \(-2x_2+a=0\).</p>
+      <section class="l10-box" data-tone="blue"><p><strong>Before:</strong> basic \((x_1,a)\); nonbasic \(x_2=0\).</p><div class="l10-math">\[x_1=1-x_2,\qquad a=2x_2,\qquad w=a=0.\]</div></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p><strong>Pivot:</strong> solve \(a=2x_2\) for \(x_2\), then substitute into the other row.</p><div class="l10-math">\[x_2=\tfrac12a,\qquad x_1=1-\tfrac12a.\]</div><p>Set nonbasic \(a=0\): <strong>same point</strong> \((x_1,x_2)=(1,0)\), now both basic. Remove \(a\).</p></section>
+      <p data-reveal="2">The pivot entry is \(-2\) in \(a-2x_2=0\). This <strong>zero-step exchange</strong> changes no value.</p>
+    </div>`, checkpoint: checkpointBasisExchange,
+  },
   {
     key: 'phase-fewer-artificials', title: 'Use Existing Unit Columns When Possible', referencePages: [85],
     html: String.raw`<div class="l10-stack">
@@ -1215,20 +1258,19 @@ export const phaseOneSlides = [
     </ol>`,
   },
   {
-    key: 'phase-algorithm-cleanup', title: 'Phase I: Turn the Feasible Point into a Basis', referencePages: [88],
+    key: 'phase-algorithm-cleanup', title: 'Remove Artificial Variables: Two Possible Cases', referencePages: [88],
     html: String.raw`<div class="l10-stack">
-      <p>While an artificial variable is basic at zero, inspect its tableau row \(\ell\) over original columns:</p>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><h3>A nonzero original entry exists</h3><p>Pivot on any \((B^{-1}A_j)_\ell\ne0\). Original \(x_j\) enters; the artificial basic variable leaves. The point stays fixed.</p></section>
-      <section class="l10-box" data-tone="orange" data-reveal="2"><h3>All original entries are zero</h3><p>The row is a redundant equality at zero Phase I cost. Delete it and its artificial basic variable.</p></section>
-      <p>Repeat until all basic variables are original. Discard the remaining artificial columns.</p>
+      <p>At \(w=0\), fix nonbasic artificial variables at zero. For each <strong>basic</strong> artificial variable, inspect its dictionary equation:</p>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><h3>An original nonbasic variable has a nonzero coefficient</h3><p>Solve for that original variable and substitute into the other rows. It replaces the artificial variable in the basis at the <strong>same point</strong>—as in \(a=2x_2\).</p></section>
+      <section class="l10-box" data-tone="green" data-reveal="2"><h3>No original variable remains in the row</h3><p>Setting the artificial variables to zero leaves \(0=0\). Remove that redundant equation—as with \(x_7=x_5+x_6\) in Example 3.8.</p></section>
+      <p>Repeat until no basic artificial variable remains. Remove artificial columns, then restore the original objective. The appendix gives the matrix justification.</p>
     </div>`,
-  },
-  {
+  },  {
     key: 'phase-algorithm-two', title: 'Phase II: Restore and Optimize the Original Cost', referencePages: [89],
     html: String.raw`<ol class="l10-stack">
-      <li><strong>Keep the basis</strong> produced by Phase I after cleanup. It is feasible for the remaining independent original equalities.</li>
+      <li><strong>Keep the basis</strong> obtained after removing artificial variables. It is feasible for the remaining independent original equalities.</li>
       <li><strong>Keep the constraint rows</strong> after removing artificial columns; discard the Phase I objective row.</li>
-      <li data-reveal="1"><strong>Reprice:</strong> compute the current original objective \(f_0\) and \(\bar c_j=c_j-c_{\mathcal B}^\top B^{-1}A_j\) using the original costs.</li>
+      <li data-reveal="1"><strong>Restore the objective:</strong> substitute the dictionary into \(f=c^\top x\). Its constant is the current cost; the nonbasic coefficients are the reduced costs.</li>
       <li data-reveal="2"><strong>Continue simplex</strong> with an anticycling rule until an optimal basis or an improving feasible ray is obtained.</li>
     </ol>`,
   },
@@ -1237,7 +1279,7 @@ export const phaseOneSlides = [
     html: String.raw`<div class="l10-stack">
       <div class="l10-table-wrap"><table class="l10-table"><thead><tr><th scope="col">What happens?</th><th scope="col">Where it is handled</th></tr></thead><tbody>
         <tr><th scope="row">The original LP is infeasible</th><td>Phase I optimum \(w^*>0\).</td></tr>
-        <tr><th scope="row">Feasible equalities are dependent</th><td>Phase I cleanup removes redundant rows.</td></tr>
+        <tr><th scope="row">Feasible equalities are dependent</th><td>Remove redundant equality rows after Phase I.</td></tr>
         <tr><th scope="row">Original objective is unbounded below</th><td>Phase II finds an improving feasible ray.</td></tr>
         <tr><th scope="row">A finite optimum exists</th><td>Phase II terminates at an optimal basis.</td></tr>
       </tbody></table></div>
