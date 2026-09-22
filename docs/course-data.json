@@ -741,15 +741,15 @@
         {
           "auto_open": true,
           "choices": [
-            "The basis changes from (x₁, a) to (x₁, x₂), but the feasible point remains (1, 0)",
-            "The original point moves to (0, 1)",
+            "The basis changes from (x₁, a) to (x₁, x₂), but the feasible point remains (2, 0)",
+            "The original point moves to (0, 2)",
             "The Phase I objective becomes negative",
-            "The negative tableau pivot coefficient makes the new point infeasible"
+            "Only x₂ could replace a; choosing x₃ or x₄ would be infeasible"
           ],
           "correct_index": 0,
-          "explanation": "Solving a = 2x₂ gives x₂ = a/2 and x₁ = 1 − a/2. With nonbasic a = 0, we still have x₁ = 1 and x₂ = 0. Only the basis changes; the artificial variable leaves at a zero step.",
-          "page": 33,
-          "question": "At x₂ = 0, the dictionary is x₁ = 1 − x₂ and a = 2x₂. We solve for x₂ instead of artificial a, then set a = 0. What changes?"
+          "explanation": "After substitution and removal of a, x₁ = 2 − 2x₃ − x₄ and x₂ = x₃ + x₄. At x₃ = x₄ = 0 the point is still (2, 0). All three variables in the artificial row are valid replacements; we chose the smallest-index candidate x₂. Only the basis changes.",
+          "page": 34,
+          "question": "At (x₁, x₂) = (2, 0), the basic artificial variable satisfies a = −x₂ + x₃ + x₄ = 0. We solve for x₂, substitute, and remove a. What changes?"
         },
         {
           "auto_open": true,
@@ -761,7 +761,7 @@
           ],
           "correct_index": 0,
           "explanation": "The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.",
-          "page": 54,
+          "page": 55,
           "question": "A nonbasic lifted point is below the current dual plane. What does its signed vertical gap tell us?"
         },
         {
@@ -774,7 +774,7 @@
           ],
           "correct_index": 2,
           "explanation": "A supporting line bounds the cost of every convex combination from below. At the required horizontal coordinate, the mixture of points 5 and 8 attains the bound. Other optimal mixtures could exist in a different example.",
-          "page": 63,
+          "page": 64,
           "question": "In the final basis 5, 8, every lifted point is on or above the line through 5 and 8. Why is the current feasible mixture optimal?"
         },
         {
@@ -787,7 +787,7 @@
           ],
           "correct_index": 1,
           "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
-          "page": 78,
+          "page": 79,
           "question": "What does the perturbed-cube example establish?"
         },
         {
@@ -800,7 +800,7 @@
           ],
           "correct_index": 1,
           "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
-          "page": 86,
+          "page": 87,
           "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         }
       ],
@@ -810,10 +810,10 @@
       "display_number": 7,
       "id": "lecture-11",
       "number": 11,
-      "pdf_hash": "57ccdc84c24c2fa15e2f000263821339cfce207d7a5d35492cf3b4d6b652fc39",
-      "pdf_size": 1599025,
+      "pdf_hash": "5d2add35750c8814f143ec05443453581aff2a9a94d365b224913acd92ade9d3",
+      "pdf_size": 1623210,
       "pdf_url": "materials/lecture_11.pdf",
-      "pdf_url_versioned": "materials/lecture_11.pdf?v=57ccdc84c24c",
+      "pdf_url_versioned": "materials/lecture_11.pdf?v=5d2add35750c",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

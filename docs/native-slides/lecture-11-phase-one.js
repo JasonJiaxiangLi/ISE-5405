@@ -753,16 +753,16 @@ const checkpointPhaseOne = {
 };
 
 const checkpointBasisExchange = {
-  prompt: 'At x₂ = 0, the dictionary is x₁ = 1 − x₂ and a = 2x₂. We solve for x₂ instead of artificial a, then set a = 0. What changes?',
-  choices: [
-    'The basis changes from (x₁, a) to (x₁, x₂), but the feasible point remains (1, 0)',
-    'The original point moves to (0, 1)',
-    'The Phase I objective becomes negative',
-    'The negative tableau pivot coefficient makes the new point infeasible',
+  "prompt": "At (x₁, x₂) = (2, 0), the basic artificial variable satisfies a = −x₂ + x₃ + x₄ = 0. We solve for x₂, substitute, and remove a. What changes?",
+  "choices": [
+    "The basis changes from (x₁, a) to (x₁, x₂), but the feasible point remains (2, 0)",
+    "The original point moves to (0, 2)",
+    "The Phase I objective becomes negative",
+    "Only x₂ could replace a; choosing x₃ or x₄ would be infeasible"
   ],
-  correctIndex: 0,
-  explanation: 'Solving a = 2x₂ gives x₂ = a/2 and x₁ = 1 − a/2. With nonbasic a = 0, we still have x₁ = 1 and x₂ = 0. Only the basis changes; the artificial variable leaves at a zero step.',
-  autoOpen: true,
+  "correctIndex": 0,
+  "explanation": "After substitution and removal of a, x₁ = 2 − 2x₃ − x₄ and x₂ = x₃ + x₄. At x₃ = x₄ = 0 the point is still (2, 0). All three variables in the artificial row are valid replacements; we chose the smallest-index candidate x₂. Only the basis changes.",
+  "autoOpen": true
 };
 
 const checkpointPhaseTwo = {
@@ -1232,38 +1232,64 @@ export const phaseOneSlides = [
   },
 
   {
-    key: 'phase-zero-exchange', title: 'When a Zero Artificial Variable Needs a Pivot', referencePages: [60, 61, 62], className: 'l11-ex38-arithmetic',
-    html: String.raw`<div class="l10-stack" data-phase-zero-exchange>
-      <p>Consider original constraints \(x_1+x_2=1,\ -2x_2=0,\ x\ge0\). Add artificial \(a\ge0\) to the second equality: \(-2x_2+a=0\).</p>
-      <section class="l10-box" data-tone="blue"><p><strong>Before:</strong> basic \((x_1,a)\); nonbasic \(x_2=0\).</p><div class="l10-math">\[x_1=1-x_2,\qquad a=2x_2,\qquad w=a=0.\]</div></section>
-      <section class="l10-box" data-tone="green" data-reveal="1"><p><strong>Pivot:</strong> solve \(a=2x_2\) for \(x_2\), then substitute into the other row.</p><div class="l10-math">\[x_2=\tfrac12a,\qquad x_1=1-\tfrac12a.\]</div><p>Set nonbasic \(a=0\): <strong>same point</strong> \((x_1,x_2)=(1,0)\), now both basic. Remove \(a\).</p></section>
-      <p data-reveal="2">The pivot entry is \(-2\) in \(a-2x_2=0\). This <strong>zero-step exchange</strong> changes no value.</p>
-    </div>`, checkpoint: checkpointBasisExchange,
-  },
-  {
-    key: 'phase-fewer-artificials', title: 'Use Existing Unit Columns When Possible', referencePages: [85],
-    html: String.raw`<div class="l10-stack">
-      <p>In Example 3.8, \(x_4\) appears only in the fourth equation, with coefficient one. Its column already supplies the fourth unit column.</p>
-      <section class="l10-box" data-tone="green" data-reveal="1"><p>Start with \((x_5,x_6,x_7,x_4)=(3,2,5,1)\), omit artificial \(x_8\), and skip the first pivot.</p></section>
-      <section class="l10-box" data-tone="blue" data-reveal="2"><p>More generally, an original variable occurring in only one normalized row with coefficient \(\alpha>0\) can be basic there at value \(b_i/\alpha\ge0\). Artificial columns are needed only for the remaining rows.</p></section>
-      <p>Keep the rows and chosen starting columns independent; the initial Phase I objective counts only artificial variables actually introduced.</p>
+    key: 'phase-zero-start', title: 'Phase I Ends, but an Artificial Variable Is Still Basic', referencePages: [60, 61, 62], className: 'l11-ex38-arithmetic l11-phase-exchange',
+    html: String.raw`<div class="l10-stack" data-phase-zero-start>
+      <div class="l11-math-wrap"><span>\(\min f=-x_2\)</span><span>\(x_1+x_2\le2\)</span><span>\(x_1+2x_2\ge2\)</span><span>\(x_1,x_2\ge0.\)</span></div>
+      <section class="l10-box" data-tone="blue"><p>Add slack \(x_3\), surplus \(x_4\), and artificial \(a\), all nonnegative. Minimize \(w=a\).</p>
+        <div class="l10-math" data-zero-initial>\[\begin{aligned}x_3&=2-x_1-x_2,\\a=w&=2-x_1-2x_2+x_4.\end{aligned}\]</div>
+        <p>Start with basic \(x_3=a=2\); nonbasic \(x_1=x_2=x_4=0\).</p></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p><strong>Use Bland’s rule</strong> with order \(x_1,x_2,x_3,x_4,a\): \(x_1\) enters. Both ratios are \(2\); \(x_3\) leaves before \(a\).</p>
+        <div class="l10-math" data-zero-after-pivot>\[\begin{aligned}x_1&=2-x_2-x_3,\\a=w&=-x_2+x_3+x_4.\end{aligned}\]</div></section>
+      <p data-reveal="2">At \(x_2=x_3=x_4=0\): \(x_1=2\), \(a=w=0\). Since \(w\ge0\), <strong>Phase I is optimal, but \(a\) is still basic.</strong></p>
     </div>`,
   },
   {
-    key: 'phase-algorithm-one', title: 'Phase I: Establish Feasibility', referencePages: [86, 87],
-    html: String.raw`<ol class="l10-stack">
-      <li><strong>Normalize:</strong> multiply equality rows by \(-1\) as needed so \(b\ge0\).</li>
-      <li data-reveal="1"><strong>Initialize:</strong> keep suitable original starting columns, introduce any needed artificial variables, and minimize their sum using simplex with an anticycling rule.</li>
-      <li data-reveal="2"><strong>Read the optimum:</strong> if \(w^*>0\), stop: the original LP is infeasible. If \(w^*=0\), all artificial values are zero and an original feasible point has been found.</li>
-    </ol>`,
+    key: 'phase-zero-exchange', title: 'Replace the Artificial Variable Without Moving the Point', referencePages: [60, 61, 62], className: 'l11-ex38-arithmetic l11-phase-exchange',
+    html: String.raw`<div class="l10-stack" data-phase-zero-exchange>
+      <section class="l10-box" data-tone="blue"><p><strong>Before:</strong> basis \((x_1,a)\); \(x_2=x_3=x_4=0\), so the point is \((2,0)\).</p>
+        <div class="l11-math-wrap" data-zero-before><span>\(x_1=2-x_2-x_3\)</span><span>\(a=-x_2+x_3+x_4.\)</span></div></section>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><p><strong>Any of \(x_2,x_3,x_4\) can replace \(a\).</strong> Choose the smallest index, \(x_2\); solve and substitute:</p>
+        <div class="l11-math-wrap" data-zero-substitution><span>\(x_2=x_3+x_4-a\)</span><span>\(x_1=2-2x_3-x_4+a.\)</span></div></section>
+      <section class="l10-box" data-tone="green" data-reveal="2"><p>Set nonbasic \(a=0\) and remove it:</p>
+        <div class="l11-math-wrap" data-zero-final><span>\(x_1=2-2x_3-x_4\)</span><span>\(x_2=x_3+x_4.\)</span></div>
+        <p><strong>After:</strong> basis \((x_1,x_2)\); \(x_3=x_4=0\) gives the <strong>same point \((2,0)\)</strong>. This is a zero-step exchange: either coefficient sign works, with no ratio test.</p></section>
+    </div>`, checkpoint: checkpointBasisExchange,
   },
   {
-    key: 'phase-algorithm-cleanup', title: 'Remove Artificial Variables: Two Possible Cases', referencePages: [88],
+    key: 'phase-algorithm-cleanup', title: 'After Phase I: Two Possible Cases', referencePages: [88], className: 'l11-ex38-arithmetic l11-phase-exchange',
     html: String.raw`<div class="l10-stack">
-      <p>At \(w=0\), fix nonbasic artificial variables at zero. For each <strong>basic</strong> artificial variable, inspect its dictionary equation:</p>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><h3>An original nonbasic variable has a nonzero coefficient</h3><p>Solve for that original variable and substitute into the other rows. It replaces the artificial variable in the basis at the <strong>same point</strong>—as in \(a=2x_2\).</p></section>
-      <section class="l10-box" data-tone="green" data-reveal="2"><h3>No original variable remains in the row</h3><p>Setting the artificial variables to zero leaves \(0=0\). Remove that redundant equation—as with \(x_7=x_5+x_6\) in Example 3.8.</p></section>
-      <p>Repeat until no basic artificial variable remains. Remove artificial columns, then restore the original objective. The appendix gives the matrix justification.</p>
+      <p>At \(w=0\), all artificial values are zero. Set <strong>only artificial variables</strong> to zero; keep the LP variables as symbols.</p>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><h3>A constraint remains: keep it</h3>
+        <div class="l11-math-wrap"><span>\(a=-x_2+x_3+x_4\)</span><span>\(\xrightarrow{a=0}\quad0=-x_2+x_3+x_4.\)</span></div>
+        <p>Solve for a variable that appears, then substitute into the other rows. Here: \(x_2=x_3+x_4\).</p></section>
+      <section class="l10-box" data-tone="green" data-reveal="2"><h3>The equation becomes \(0=0\): remove it</h3>
+        <div class="l11-math-wrap"><span>\(x_7=x_5+x_6\)</span><span>\(\xrightarrow{x_5=x_6=x_7=0}\quad0=0.\)</span></div>
+        <p>This is the artificial row in Example 3.8. It imposes no restriction on the LP variables.</p></section>
+      <p data-reveal="3"><strong>Selection convention:</strong> process basic artificials in index order; choose the smallest-index non-artificial variable that appears. Either coefficient sign works. Repeat until no artificial remains basic.</p>
+    </div>`,
+  },
+  {
+    key: 'phase-fewer-artificials', title: 'Example 3.8: Start with Fewer Artificial Variables', referencePages: [85], className: 'l11-ex38-arithmetic l11-phase-exchange',
+    html: String.raw`<div class="l10-stack">
+      <p>Recall Example 3.8 after reversing the second equality. Minimize \(f=x_1+x_2+x_3\), subject to:</p>
+      <section class="l10-box" data-tone="blue"><div class="l10-math" data-fewer-model>\[\begin{aligned}
+        x_1+2x_2+3x_3&=3,\\
+        -x_1+2x_2+6x_3&=2,\\
+        4x_2+9x_3&=5,\\
+        3x_3+x_4&=1.
+      \end{aligned}\]</div><p>\(x_1,x_2,x_3,x_4\ge0.\)</p></section>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>\(x_4\) appears only in the fourth row: \(x_4=1-3x_3\). At \(x_1=x_2=x_3=0\), <strong>\(x_4=1\) can already be basic.</strong></p></section>
+      <section class="l10-box" data-tone="blue" data-reveal="2"><p>Add artificials only to the first three rows. Omit \(x_8\) and the first pivot:</p>
+        <div class="l11-math-wrap"><span>\((x_5,x_6,x_7,x_4)=(3,2,5,1)\)</span><span>\(w=x_5+x_6+x_7.\)</span></div></section>
+    </div>`,
+  },
+  {
+    key: 'phase-algorithm-one', title: 'Phase I: The Complete Procedure', referencePages: [86, 87, 88], className: 'l11-ex38-arithmetic l11-phase-exchange',
+    html: String.raw`<div class="l10-stack">
+      <section class="l10-box" data-tone="blue"><h3>1. Construct a feasible auxiliary dictionary</h3><p>Multiply rows with negative right-hand sides by \(-1\) so \(b\ge0\). Keep usable basics; add needed artificials and substitute into \(w=\sum_i a_i\).</p></section>
+      <section class="l10-box" data-tone="blue" data-reveal="1"><h3>2. Check the cost, then pivot if needed</h3><p>At \(w=0\), go to step 3: \(w\ge0\) already proves optimality. If \(w>0\) and all reduced costs are nonnegative, the original LP is infeasible.</p><p>Otherwise select an entering variable with negative reduced cost; apply the stated pivot rule and ratio test. Pivot and repeat. Retained artificials are eligible too.</p></section>
+      <section class="l10-box" data-tone="green" data-reveal="2"><h3>3. At zero cost, remove artificials</h3><p>Fix nonbasic artificials at zero. For each basic artificial, use the two cases just shown: a zero-step exchange or deletion of a \(0=0\) row. Then restore the original objective for Phase II.</p></section>
+      <p><strong>Rules in our examples:</strong> Example 3.8 prescribes its pivots; the new example uses Bland. Break ratio ties by smallest basic-variable index.</p>
     </div>`,
   },  {
     key: 'phase-algorithm-two', title: 'Phase II: Restore and Optimize the Original Cost', referencePages: [89],

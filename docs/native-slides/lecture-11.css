@@ -7,6 +7,7 @@
 [data-native-deck="lecture-11"] .l11-ex38-tableau .l10-math { margin-block: .05em; }
 [data-native-deck="lecture-11"] .l11-ex38-tableau mjx-container[display="true"] { margin-block: .1em !important; }
 [data-native-deck="lecture-11"] .l11-math-wrap { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: .3em 1.4em; padding-block: .25em; }
+[data-native-deck="lecture-11"] .l11-phase-exchange .l10-box { padding-block: .28em; margin-block: .1em; }
 [data-native-deck="lecture-11"] .l11-phase-plot-slide .l10-pair { flex: 0 0 auto; }
 [data-native-deck="lecture-11"] .l11-start-figure { padding: .2em .35em .35em; }
 [data-native-deck="lecture-11"] .l11-start-plot { position: relative; }
