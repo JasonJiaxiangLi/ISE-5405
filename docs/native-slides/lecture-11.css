@@ -3,7 +3,27 @@
 
 /* Keep the dictionary-to-Phase-I explanation readable as stacked blocks. */
 [data-native-deck="lecture-11"] .l11-phase-intro .l10-stack { gap: .25em; }
+[data-native-deck="lecture-11"] .l11-phase-plot-slide .l10-pair { flex: 0 0 auto; }
+[data-native-deck="lecture-11"] .l11-start-figure { padding: .2em .35em .35em; }
+[data-native-deck="lecture-11"] .l11-start-plot { position: relative; }
+[data-native-deck="lecture-11"] .l11-start-plot svg { max-height: none; }
+[data-native-deck="lecture-11"] .l11-start-plot svg text { font-size: 23px; stroke: none; fill: #223842; }
+[data-native-deck="lecture-11"] .l11-start-plot .l11-region-label { font-size: 25px; font-weight: 650; }
+[data-native-deck="lecture-11"] .l11-plot-axis { position: absolute; }
+[data-native-deck="lecture-11"] .l11-plot-x { left: 93%; top: 65%; }
+[data-native-deck="lecture-11"] .l11-plot-y { left: 3%; top: 9%; }
+[data-native-deck="lecture-11"] .l11-plot-point { position: absolute; top: 83%; transform: translateX(-50%); text-align: center; line-height: 1.2; }
+[data-native-deck="lecture-11"] .l11-plot-origin { left: 12.037%; color: #8b2047; }
+[data-native-deck="lecture-11"] .l11-plot-feasible { left: 36.111%; color: #21623b; }
+[data-native-deck="lecture-11"] .l11-boundary-key { display: flex; flex-wrap: wrap; justify-content: center; gap: .2em .7em; }
+[data-native-deck="lecture-11"] .l11-boundary-key > span { display: inline-flex; align-items: center; gap: .3em; }
+[data-native-deck="lecture-11"] .l11-boundary-key i { width: 1.1em; border-top: 3px solid; }
+[data-native-deck="lecture-11"] .l11-lower-key { color: #ad510e; }
+[data-native-deck="lecture-11"] .l11-upper-key { color: #2f6d8f; }
 @media (max-width: 760px) {
+  [data-native-deck="lecture-11"] .l11-start-plot { aspect-ratio: 540 / 420; }
+  [data-native-deck="lecture-11"] .l11-plot-point { top: 77%; }
+  [data-native-deck="lecture-11"] .l11-start-figure { padding-bottom: .65em; }
   /* Leave room for the final MathJax line's depth on a narrow screen. */
   [data-native-deck="lecture-11"] .l11-phase-intro [data-phase-normalization] { padding-bottom: .65em; }
 }

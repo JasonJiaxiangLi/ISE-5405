@@ -778,6 +778,44 @@ const checkpointPhaseTwo = {
   autoOpen: true,
 };
 
+function startingDictionaryPlot() {
+  // Equal scale on both axes: x1+x2>=2, x1+2*x2<=6, x>=0.
+  const project = ([x, y]) => [65 + 65 * x, 285 - 65 * y];
+  const point = v => project(v).join(',');
+  const polygon = [[2, 0], [6, 0], [0, 3], [0, 2]];
+  const ticks = [1, 2, 3, 4, 5, 6].map(x => {
+    const [px, py] = project([x, 0]);
+    return `<path d="M${px},${py}v6"/><text x="${px}" y="${py + 28}" text-anchor="middle">${x}</text>`;
+  }).join('') + [1, 2, 3].map(y => {
+    const [px, py] = project([0, y]);
+    return `<path d="M${px},${py}h-6"/><text x="${px - 14}" y="${py + 7}" text-anchor="end">${y}</text>`;
+  }).join('');
+  return String.raw`<figure class="l10-figure l11-start-figure" data-phase-start-figure>
+    <div class="l11-start-plot">
+      <svg viewBox="0 0 540 390" role="img" aria-label="Feasible region in the x1-x2 plane, with vertices (2,0), (6,0), (0,3), and (0,2). The origin is outside; (2,0) is on the feasible boundary.">
+        <polygon data-phase-feasible-region points="${polygon.map(point).join(' ')}" fill="#c6e5f2" stroke="#668c9c" stroke-width="2"/>
+        <g stroke="#334b57" stroke-width="2" fill="none"><path d="M65,55V285H505"/>${ticks}</g>
+        <line data-phase-boundary="lower" x1="65" y1="155" x2="195" y2="285" stroke="#ad510e" stroke-width="4"/>
+        <line data-phase-boundary="upper" x1="65" y1="90" x2="455" y2="285" stroke="#2f6d8f" stroke-width="4"/>
+        <text x="250" y="244" text-anchor="middle" class="l11-region-label">feasible set</text>
+        <g data-reveal="2">
+          <circle data-phase-point="origin" cx="65" cy="285" r="10" fill="white" stroke="#8b2047" stroke-width="3"/>
+          <path d="M60,280l10,10m0,-10l-10,10" stroke="#8b2047" stroke-width="2"/>
+          <circle data-phase-point="feasible" cx="195" cy="285" r="9" fill="#267847" stroke="white" stroke-width="3"/>
+        </g>
+      </svg>
+      <span class="l11-plot-axis l11-plot-x">\(x_1\)</span>
+      <span class="l11-plot-axis l11-plot-y">\(x_2\)</span>
+      <span class="l11-plot-point l11-plot-origin" data-reveal="2">\((0,0)\)<br>infeasible</span>
+      <span class="l11-plot-point l11-plot-feasible" data-reveal="2">\((2,0)\)<br>feasible</span>
+    </div>
+    <figcaption class="l11-boundary-key">
+      <span><i class="l11-lower-key" aria-hidden="true"></i>\(x_1+x_2=2\)</span>
+      <span><i class="l11-upper-key" aria-hidden="true"></i>\(x_1+2x_2=6\)</span>
+    </figcaption>
+  </figure>`;
+}
+
 export const phaseOneSlides = [
   {
     key: 'phase-start', title: 'How Do We Find the First Feasible Basis?', referencePages: [41, 44],
@@ -797,14 +835,18 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-artificial-start', title: 'The Usual Starting Dictionary Can Be Infeasible', referencePages: [44, 46], className: 'l11-phase-intro',
+    key: 'phase-artificial-start', title: 'The Usual Starting Dictionary Can Be Infeasible', referencePages: [44, 46], className: 'l11-phase-intro l11-phase-plot-slide',
     html: String.raw`<div class="l10-stack" data-phase-help-start>
-      <p>The previous slack-basis start does not work for every feasible system:</p>
       <div class="l10-math">\[x_1+x_2\ge2,\qquad x_1+2x_2\le6,\qquad x_1,x_2\ge0.\]</div>
-      <section class="l10-box" data-tone="blue" data-reveal="1"><p>Subtract a <strong>surplus</strong> \(s_1\ge0\) from the first left side; add a <strong>slack</strong> \(s_2\ge0\) to the second. Solve for them:</p>
-        <div class="l10-math">\[\begin{aligned}s_1&=-2+x_1+x_2,\\s_2&=6-x_1-2x_2.\end{aligned}\]</div></section>
-      <section class="l10-box" data-tone="orange" data-reveal="2"><p>Set the nonbasic variables \(x_1=x_2=0\): then \(s_1=-2,\ s_2=6\).<br>This starting dictionary is <strong>infeasible</strong> because \(s_1&lt;0\).</p></section>
-      <p data-reveal="2">Yet \((x_1,x_2)=(2,0)\) satisfies both constraints. How can we find a feasible basis <strong>systematically</strong>?</p>
+      <div class="l10-pair">
+        <div class="l10-stack">
+          <section class="l10-box" data-tone="blue" data-reveal="1"><p>Subtract <strong>surplus</strong> \(s_1\ge0\).<br>Add <strong>slack</strong> \(s_2\ge0\):</p>
+            <div class="l10-math">\[\begin{aligned}s_1&=-2+x_1+x_2,\\s_2&=6-x_1-2x_2.\end{aligned}\]</div></section>
+          <section class="l10-box" data-tone="orange" data-reveal="2"><p>Set \(x_1=x_2=0\): then \(s_1=-2,\ s_2=6\). The starting dictionary is <strong>infeasible</strong>.</p></section>
+          <p data-reveal="2">Yet \((x_1,x_2)=(2,0)\) satisfies both constraints. How can we find a feasible basis <strong>systematically</strong>?</p>
+        </div>
+        ${startingDictionaryPlot()}
+      </div>
     </div>`,
   },
   {
