@@ -18,12 +18,16 @@ export const metadata = {
 // Preserve the full matrix justification in an optional study appendix.
 const phaseIndex = new Map(phaseOneSlides.map((s,i) => [s.key,i]));
 const range = (first,last) => phaseOneSlides.slice(phaseIndex.get(first), phaseIndex.get(last) + 1);
-const phaseAppendix = range('phase-clean-basis', 'phase-cleanup-delete');
+const redundancyKey = 'phase-ex38-redundancy';
+const phaseAppendix = [
+  phaseOneSlides[phaseIndex.get(redundancyKey)],
+  ...range('phase-clean-basis', 'phase-cleanup-delete'),
+];
 const phaseTeachingOrder = [
   ...range('phase-start', 'phase-positive'),
   ...range('phase-ex38-model', 'phase-ex38-tableau-zero'),
   phaseOneSlides[phaseIndex.get('phase-zero-basis')],
-  ...range('phase-ex38-final-dictionary', 'phase-all-outcomes'),
+  ...range('phase-ex38-final-dictionary', 'phase-all-outcomes').filter(s => s.key !== redundancyKey),
 ];
 const allPhaseSlides = [...phaseTeachingOrder, ...phaseAppendix];
 if (allPhaseSlides.length !== phaseOneSlides.length ||
@@ -49,7 +53,7 @@ const sources = {
   html: String.raw`<div class="l10-stack">
     <section class="l10-box" data-tone="blue"><h3>Practice the complete method</h3>
       <p>Construct Phase I, interpret its optimum, remove artificial variables, and restore the original objective. Explain a pivot using both the dictionary and the column picture.</p></section>
-    <p><strong>Optional matrix details:</strong> <a data-l11-appendix-link href="#slide=1">Why artificial variables can be removed</a>. Review the worked dictionaries first.</p>
+    <p><strong>Optional details:</strong> <a data-l11-appendix-link href="#slide=1">Why artificial variables can be removed</a>. Review the worked dictionaries first.</p>
     <p><strong>Textbook:</strong> Bertsimas and Tsitsiklis, <em>Introduction to Linear Optimization</em>, §§3.5–3.7.</p>
     <p><strong>Review:</strong> <a href="../lecture-10/#slide=1">Simplex II: Cycling and Anticycling</a> develops the finite-termination rules used in both phases.</p>
     <p><strong>Further reading:</strong> <a href="https://arxiv.org/abs/1006.2814">Santos: the Hirsch counterexample</a>; <a href="https://www.cs.yale.edu/homes/spielman/simplex/">Spielman and Teng: smoothed analysis</a>; <a href="https://arxiv.org/abs/2502.18019">Disser and Mosis: the pivot-rule complexity question</a>.</p>
@@ -64,7 +68,9 @@ for (const section of sections) {
 }
 assembled.push({...sources, section: 'Simplex III · Study guide'});
 const appendixStart = assembled.length + 1;
-assembled.push(...phaseAppendix.map(s => ({...phaseDetails(s), section: 'Appendix · Removing artificial variables: matrix justification'})));
+assembled.push(...phaseAppendix.map(s => ({...phaseDetails(s),
+  section: s.key === redundancyKey ? 'Appendix · Example 3.8: redundant equality'
+    : 'Appendix · Removing artificial variables: matrix justification'})));
 export const slides = assembled.map((s,i) => ({
   ...s, id: s.id || 'l10-' + s.key, page: i + 1, eyebrow: s.section,
   html: s.html.replace(/data-l11-section-link="(\d+)" href="#slide=1"/g,

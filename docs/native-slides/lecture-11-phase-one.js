@@ -1174,8 +1174,8 @@ export const phaseOneSlides = [
         x_1+2x_2+3x_3&=3,\\
         -x_1+2x_2+6x_3&=2.
       \end{aligned}\]</div></section>
-      <section class="l10-box" data-tone="green" data-reveal="1"><p>Add them. The \(x_1\) terms cancel:</p><div class="l10-math">\[4x_2+9x_3=5.\]</div><p>This is exactly the third equality. Any point satisfying the first two already satisfies it: the third equality is <strong>redundant</strong>.</p></section>
-      <p data-reveal="2">Subtracting the first two equalities from the third gives \(0=0\). Removing this redundant equation loses no original feasible points.</p>
+      <section class="l10-box" data-tone="green" data-reveal="1"><p>Add them. The \(x_1\) terms cancel:</p><div class="l10-math">\[4x_2+9x_3=5.\]</div><p>This is an original constraint in Example 3.8. It follows from the two equalities above, so it is <strong>redundant</strong>.</p></section>
+      <p data-reveal="2">Subtracting those two equalities from \(4x_2+9x_3=5\) gives \(0=0\). Removing this redundant equation loses no original feasible points.</p>
     </div>`,
   },  {
     key: 'phase-ex38-row-removed', title: 'Remove the Redundant Tableau Row', referencePages: [82],
