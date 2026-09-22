@@ -1050,9 +1050,9 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-ex38-pivot-x4', title: 'Pivot 1: x₄ Enters and x₈ Leaves', referencePages: [72, 73],
+    key: 'phase-ex38-pivot-x4', title: 'Pivot 1: x₄ Enters and x₈ Leaves', referencePages: [72, 73], className: 'l11-ex38-arithmetic',
     html: String.raw`<div class="l10-stack">
-      <p>For this example, test nonbasic variables in the order \(x_4,x_3,x_2,x_1\); choose the first negative reduced cost. Break minimum-ratio ties by smaller basic-variable index.</p>
+      <p>We illustrate one valid pivot sequence: choose a nonbasic variable with negative Phase I reduced cost. Other choices may also be valid. Break minimum-ratio ties by smaller basic-variable index.</p>
       <p>Choose \(x_4\), whose reduced cost is \(-1\). Increasing \(x_4=\theta\) changes only \(x_8\):</p>
       <div class="l10-math">\[x_8=1-\theta\ge0\quad\Longrightarrow\quad\theta^*=1.\]</div>
       <section class="l10-box" data-tone="blue" data-reveal="1"><p>Replace basic \(x_8\) by \(x_4\). Their columns are identical, so the basis matrix remains \(I_4\).</p><div class="l10-math">\[w_{\mathrm{new}}=11+(-1)(1)=10.\]</div></section>
@@ -1099,17 +1099,31 @@ export const phaseOneSlides = [
     </div>`,
   },
   {
-    key: 'phase-ex38-tableau-x2', title: 'After Pivot 3: Same Point, Different Basis', referencePages: [78, 79],
+    key: 'phase-ex38-tableau-x2', title: 'After Pivot 3: Same Point, Different Basis', referencePages: [78, 79], className: 'l11-ex38-arithmetic',
     html: String.raw`<div class="l10-stack">
       ${tableau('after-x2')}
       <p>The basis is \((x_5,x_2,x_7,x_3)\), with values \((2,0,2,1/3)\). The objective remains \(w=4\).</p>
-      <p data-reveal="1">Choose \(x_1\), whose reduced cost is \(-4\). Its entering column is \((2,-1/2,2,0)^\top\).</p>
+      <p data-reveal="1">Three nonbasic variables have negative reduced costs: \(x_1,x_4\), and artificial \(x_8\). Compare them before choosing.</p>
     </div>`,
   },
   {
-    key: 'phase-ex38-pivot-x1', title: 'Pivot 4: Remove Another Artificial Variable', referencePages: [78, 79],
+    key: 'phase-ex38-entering-choices', title: 'Before Pivot 4: Compare the Entering Candidates', referencePages: [78, 79], className: 'l11-ex38-arithmetic l10-tableau-slide',
     html: String.raw`<div class="l10-stack">
-      <p>Increase \(x_1\). Only the positive coefficients in its tableau column give upper bounds.</p>
+      <p>The current objective is \(w=4-4x_1-2x_4+4x_6-x_8\).</p>
+      <div class="l10-table-wrap"><table class="l10-table" data-phase-entering-choices><thead><tr><th scope="col">Enter</th><th scope="col">Reduced cost</th><th scope="col">Maximum step</th><th scope="col">New \(w\)</th></tr></thead><tbody>
+        <tr data-entering="1"><th scope="row">\(x_1\)</th><td>\(-4\)</td><td>\(1\)</td><td>\(0\)</td></tr>
+        <tr data-entering="4"><th scope="row">\(x_4\)</th><td>\(-2\)</td><td>\(1\)</td><td>\(2\)</td></tr>
+        <tr data-entering="8"><th scope="row">\(x_8\) (artificial)</th><td>\(-1\)</td><td>\(1\)</td><td>\(3\)</td></tr>
+      </tbody></table></div>
+      <p data-reveal="1">We choose \(x_1\): one pivot reaches \(w=0\). Entering \(x_4\) is also valid.</p>
+      <section class="l10-box" data-tone="blue" data-reveal="2"><p><strong>Retain artificial columns (as here):</strong> \(x_8\) may reenter. Increasing it decreases other artificial variables by more, so their <em>sum</em> falls.</p></section>
+      <section class="l10-box" data-tone="green" data-reveal="3"><p><strong>Optional simplification:</strong> once an artificial variable leaves the basis, fix it at zero and delete its column. It then cannot reenter, even with a negative reduced cost. Every original feasible solution already has all artificial variables zero, so none is lost.</p></section>
+    </div>`,
+  },
+  {
+    key: 'phase-ex38-pivot-x1', title: 'Pivot 4: Remove Another Artificial Variable', referencePages: [78, 79], className: 'l11-ex38-arithmetic',
+    html: String.raw`<div class="l10-stack">
+      <p>Increase \(x_1\), whose reduced cost is \(-4\). Its column is \((2,-1/2,2,0)^\top\), in basic order \((x_5,x_2,x_7,x_3)\).</p>
       <div class="l10-math">\[\theta^*=\min\left\{\frac{x_5}{2},\frac{x_7}{2}\right\}=\min\{1,1\}=1.\]</div>
       <p>The \(-1/2\) coefficient makes basic \(x_2\) increase; the zero coefficient leaves \(x_3\) unchanged.</p>
       <section class="l10-box" data-tone="blue" data-reveal="1"><p>The leaving tie is between \(x_5\) and \(x_7\). Choose \(x_5\), then pivot on the coefficient \(2\).</p></section>
