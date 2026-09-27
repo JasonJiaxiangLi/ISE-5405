@@ -1,0 +1,5 @@
+@import url('./duality.css');
+
+[data-slide-id="l19-inactive-constraint"] .dy-figure svg { max-height: 12em; }
+[data-slide-id="l19-check-dual"] .dy-figure svg,
+[data-slide-id="l19-nonoptimal-dual-check"] .dy-figure svg { max-height: 13em; }

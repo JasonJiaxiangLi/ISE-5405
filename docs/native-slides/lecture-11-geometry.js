@@ -131,7 +131,7 @@ function sceneMarkup(kind, yaw = DEFAULT_CAMERA.yaw, pitch = DEFAULT_CAMERA.pitc
   return result;
 }
 
-function columnFigure(kind = 'hull', { hinge = false, print = false } = {}) {
+export function columnFigure(kind = 'hull', { hinge = false, print = false } = {}) {
   const t = print && hinge ? 1 : 0;
   const description = {
     infeasible: 'The requirement line at the changed target (2.4,2.4) misses the convex hull of lifted points B, C, D, E and F.',
@@ -244,7 +244,7 @@ function columnIntroFigure(kind) {
   </figure>`;
 }
 
-function mountColumnGeometry({ slideElement }) {
+export function mountColumnGeometry({ slideElement }) {
   const root = slideElement.querySelector('[data-column-view]');
   if (!root) return undefined;
   const svg = root.querySelector('svg'), group = root.querySelector('[data-column-scene]');
@@ -321,7 +321,7 @@ function examplePlot(stateIndex = 0, all = false, onlyPoints = false) {
 }
 
 const geometryCheckpoint = {
-  prompt: 'A nonbasic lifted point is below the current dual plane. What does its signed vertical gap tell us?',
+  prompt: 'A nonbasic lifted point is below the plane through the basic points. What does its signed vertical gap tell us?',
   choices: ['It is a negative reduced cost; a feasible positive step lowers the objective.', 'It gives the maximum feasible step.', 'It identifies the leaving basic point without a ratio test.', 'It proves that the original LP is infeasible.'],
   correctIndex: 0,
   explanation: 'The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.',
@@ -338,7 +338,7 @@ const exampleCheckpoint = {
 const slide = (key, title, html, referencePages, options = {}) => ({ key, title, html, referencePages, className: 'l10-column-slide', ...options });
 const visualSlide = (key, title, body, kind, referencePages, options = {}) => slide(key, title, pair(body, columnFigure(kind)), referencePages, { onMount: mountColumnGeometry, ...options });
 
-export const geometrySlides = [
+const geometryLibrary = [
   slide('column-geometry-model', 'A new picture: columns are points, variables are weights',
     p(raw`Previously, a point represented \(x\). Here, each column \(A_j\) is a point and \(x_j\) is its weight.`) +
     math(raw`\[Ax=\sum_jx_jA_j=b.\]`) +
@@ -346,13 +346,23 @@ export const geometrySlides = [
       math(raw`\[\min c^\top x\qquad\text{s.t.}\quad Ax=b,\quad \sum_jx_j=1,\quad x\ge0.\]`)) +
     box(p(raw`Nonnegative weights summing to one make \(b\) a <strong>weighted average</strong> of the columns. Each column lists coefficients in the equations.`), 'green', '1') +
     p(raw`The sum-to-one condition belongs to this model. Adding it to an arbitrary LP can change the feasible set.`) +
-    p('Self-study: reformulate a bounded feasible LP using scaled variables and a slack weight.'), [91, 92]),
+    p('We will use one five-column example to connect this picture to dictionary arithmetic.'), [91, 92]),
 
   slide('column-coordinate-model', 'One five-column LP for the whole picture',
     p(raw`Choose weights \(x_B,x_C,x_D,x_E,x_F\). The labels B–F identify the five columns:`) +
     `<div class="l10-table-wrap"><table class="l10-table l10-column-coordinates" data-column-model-table><thead><tr><th scope="col">Column</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th><th scope="col">E</th><th scope="col">F</th></tr></thead><tbody><tr><th scope="row">${raw`Equation 1: \(A_{1j}\)`}</th><td>${raw`\(1/2\)`}</td><td>3</td><td>0</td><td>2</td><td>0</td></tr><tr><th scope="row">${raw`Equation 2: \(A_{2j}\)`}</th><td>${raw`\(1/2\)`}</td><td>0</td><td>3</td><td>${raw`\(1/2\)`}</td><td>0</td></tr><tr><th scope="row">${raw`Unit cost: \(c_j\)`}</th><td>7</td><td>4</td><td>4</td><td>1</td><td>4</td></tr></tbody></table></div>` +
-    math(raw`\[\begin{aligned}\min\quad z&=7x_B+4x_C+4x_D+x_E+4x_F\\\text{s.t.}\quad \sum_jx_jA_j&=(1,1)^\top,\qquad\sum_jx_j=1,\quad x_j\ge0.\end{aligned}\]`) +
-    box(p(raw`The required weighted average is \(b=(1,1)\). For example, column C contributes \(3\) to equation 1, \(0\) to equation 2, and costs \(4\) per unit weight.`)), [97]),
+    box(p(raw`The target is \(b=(1,1)\). Column C contributes \(3x_C\) to equation 1 and \(0x_C\) to equation 2; its contribution to cost is \(4x_C\).`)), [97]),
+
+  slide('column-explicit-equalities', 'Write the mixture LP one equation at a time',
+    p('The coefficient table gives two coordinate equations. A third equation makes the weights sum to one:') +
+    math(raw`\[\begin{aligned}
+      \min\quad z&=7x_B+4x_C+4x_D+x_E+4x_F\\
+      \text{s.t.}\quad \tfrac12x_B+3x_C+2x_E&=1,\\
+      \tfrac12x_B+3x_D+\tfrac12x_E&=1,\\
+      x_B+x_C+x_D+x_E+x_F&=1,\\
+      x_B,x_C,x_D,x_E,x_F&\ge0.
+    \end{aligned}\]`) +
+    box(p('The first two equalities locate the weighted average on the floor. The sum-to-one equality makes it a convex combination. Cost is separate from these three constraints.'), 'green'), [97]),
 
   slide('lifted-columns', 'Add cost as the height of each column',
     pair(p(raw`Start with column C: \(A_C=(3,0)^\top\). Its two equation coefficients locate it on the floor.`) +
@@ -395,10 +405,10 @@ export const geometrySlides = [
     'triangle', [98]),
 
   visualSlide('tetrahedron-definition', 'Four noncoplanar points give a tetrahedron',
-    p('Four points are either coplanar or affinely independent.') +
-    box(p('In the independent case their convex hull is a 3-simplex: a tetrahedron, with four triangular faces.')) +
+    p('C, D, F form the old triangle. Adding E below that triangle creates a solid with four corners:') +
+    box(p('Its convex hull is a tetrahedron, also called a 3-simplex. It has four triangular faces.')) +
     p('C, D and F lie in one plane. E lies below it, so C, D, E and F are not coplanar.') +
-    box(p('Self-check: three differences from F span three dimensions. Which new direction does E contribute?'), 'orange', '1'),
+    box(p('The basis exchange selects a new boundary triangle of this solid.'), 'green', '1'),
     'tetrahedron', [99]),
 
   visualSlide('basis-columns-and-points', 'A basis selects three lifted points',
@@ -414,12 +424,33 @@ export const geometrySlides = [
     p('Their convex hull is the basic simplex. Our three basic points form the shaded triangle CDF.'),
     'basis', [103]),
 
-  visualSlide('weights-at-h', 'The intersection H determines the basic weights',
-    p('Intersect the requirement line with triangle CDF.') +
-    math(raw`\[H=\tfrac13 C+\tfrac13 D+\tfrac13 F=(1,1,4).\]`) +
-    box(p(raw`Thus \(x_C=x_D=x_F=1/3\), while \(x_B=x_E=0\). These are the entries of the <strong>basic feasible solution</strong>.`), 'blue', '1') +
-    p('The point H is a lifted mixture. Its height 4 is the objective value; its coordinates are not the five decision variables.'),
-    'basis', [104, 105]),
+  visualSlide('weights-at-h', 'Find the three basic weights by substitution',
+    p(raw`Choose C, D, F as basic. Set the two other weights to zero: \(x_B=x_E=0\).`) +
+    math(raw`\[\begin{aligned}3x_C&=1,\\3x_D&=1,\\x_C+x_D+x_F&=1.\end{aligned}\]`) +
+    box(math(raw`\[x_C=x_D=x_F=\tfrac13.\]`) +
+      p(raw`These nonnegative weights give \(H=(1,1,4)\), the same feasible mixture as before.`), 'green', '1') +
+    p('The three basic points form triangle CDF.'),
+    'basis', [100, 101, 102, 104, 105]),
+
+  slide('column-dictionary', 'Keep B and E free; solve for C, D, and F',
+    p('Solve coordinate equation 1 for C and equation 2 for D. Then substitute both into the sum-to-one equation to obtain F:') +
+    box(math(raw`\[\begin{aligned}
+      x_C&=\tfrac13-\tfrac16x_B-\tfrac23x_E,\\
+      x_D&=\tfrac13-\tfrac16x_B-\tfrac16x_E,\\
+      x_F&=1-x_B-x_E-x_C-x_D\\
+         &=\tfrac13-\tfrac23x_B-\tfrac16x_E.
+    \end{aligned}\]`)) +
+    p(raw`At \(x_B=x_E=0\), this returns the basic weights \((1/3,1/3,1/3)\). Increasing either nonbasic weight changes all three basic weights.`), [104, 105, 115]),
+
+  slide('column-objective-dictionary', 'Substitute into the objective to read its slopes',
+    p(raw`The three basic points C, D, F all have cost 4. Use \(x_C+x_D+x_F=1-x_B-x_E\):`) +
+    math(raw`\[\begin{aligned}
+      z&=7x_B+4(x_C+x_D+x_F)+x_E\\
+       &=7x_B+4(1-x_B-x_E)+x_E\\
+       &=4+3x_B-3x_E.
+    \end{aligned}\]`) +
+    box(p(raw`The objective coefficients are the reduced costs: \(\bar c_B=3\) and \(\bar c_E=-3\).`), 'blue', '1') +
+    box(p('For minimization, increasing E improves the objective if a positive feasible step is available. Increasing B makes it worse.'), 'green', '2'), [109, 110, 111]),
 
   visualSlide('h-versus-g', 'A feasible basic mixture need not be optimal',
     p('The same requirement line meets several possible basic triangles.') +
@@ -428,31 +459,45 @@ export const geometrySlides = [
     p('The task is to choose a new basic point and an old basic point to remove.'),
     'hull', [105, 106]),
 
-  visualSlide('enter-b', 'Candidate B: replace F and move upward to I',
-    p('Starting with CDF, let B enter and F leave. The new basic simplex is BCD.') +
-    math(raw`\[I=\tfrac12 B+\tfrac14 C+\tfrac14 D=(1,1,11/2).\]`) +
-    box(p(raw`The weights are feasible, but cost rises from \(4\) to \(11/2\). This is a valid basis exchange with the wrong objective direction for minimization.`), 'orange', '1'),
+  visualSlide('enter-b', 'B gives a feasible move, but raises the cost',
+    p(raw`Keep \(x_E=0\) and increase \(x_B\). The dictionary keeps every basic weight nonnegative until`) +
+    math(raw`\[x_B\le\min\{2,2,1/2\}=1/2.\]`) +
+    p('F reaches zero first. The new triangle is BCD:') +
+    math(raw`\[I=\tfrac12B+\tfrac14C+\tfrac14D=(1,1,11/2).\]`) +
+    box(p(raw`The objective equation predicts \(z=4+3(1/2)=11/2\). This feasible exchange worsens a minimization objective.`), 'orange', '1'),
     'candidate-b', [106, 107]),
 
-  visualSlide('enter-e', 'Candidate E: replace C and move downward to G',
-    p('Instead, let E enter and C leave. The new basic simplex is DEF.') +
-    math(raw`\[G=\tfrac14 D+\tfrac12 E+\tfrac14 F=(1,1,5/2).\]`) +
-    box(p(raw`Cost falls from \(4\) to \(5/2\). The next question is how to predict the better entering point before completing the exchange.`), 'green', '1'),
-    'candidate-e', [108]),
+  visualSlide('enter-e', 'At the maximum step, E replaces C',
+    p(raw`Use the ratio-test step \(x_E=\theta^*=1/2\), with \(x_B=0\). Substitution gives`) +
+    math(raw`\[x_C=0,\qquad x_D=x_F=\tfrac14.\]`) +
+    p('C leaves. The new basic weights use D, E, F:') +
+    math(raw`\[G=\tfrac14D+\tfrac12E+\tfrac14F=(1,1,5/2).\]`) +
+    box(p(raw`The dictionary predicts \(z=4-3(1/2)=5/2\). The new triangle meets the requirement line at exactly that height.`), 'green', '1'),
+    'candidate-e', [108, 115]),
 
-  visualSlide('dual-plane', 'The dual plane predicts the objective slope',
-    p('Extend the plane through the basic points C, D and F. This is the current dual plane.') +
+  visualSlide('dual-plane', 'The basic points lie on the plane z = 4',
+    p('C, D, and F all have cost 4. Extend their triangle to its full plane:') +
     math(raw`\[z=4.\]`) +
-    box(p('E is below this plane; B is above it. Increasing the weight on E can decrease cost, while increasing the weight on B increases cost.'), 'blue', '1') +
-    p('Strict improvement also needs a positive feasible step. A degenerate pivot may change the basis without changing the cost.'),
+    box(p('E has height 1, below the plane. B has height 7, above it.'), 'blue', '1') +
+    p(raw`Compare this with the objective dictionary \(z=4+3x_B-3x_E\). The coefficients match the signed height differences.`) +
+    p('The next page makes that correspondence explicit.'),
     'dual-plane', [109, 110]),
 
   visualSlide('reduced-cost-height', 'Reduced cost is a signed vertical gap',
-    p(raw`Write the dual plane as \(z=\pi^\top a+\alpha\). It agrees with each basic point's cost.`) +
-    math(raw`\[\widetilde B^\top\begin{pmatrix}\pi\\\alpha\end{pmatrix}=c_{\mathcal B}.\]`) +
-    box(math(raw`\[\bar c_j=c_j-(\pi^\top A_j+\alpha).\]`) + p('Subtract plane height from point height. Below the plane means a negative gap.'), 'blue', '1') +
-    p(raw`For CDF, \(\pi=(0,0)\), \(\alpha=4\): \(\bar c_E=-3\), \(\bar c_B=3\).`),
+    p('Subtract the height of the plane through CDF from the height of the entering point:') +
+    math(raw`\[\begin{aligned}\bar c_E&=1-4=-3,\\\bar c_B&=7-4=3.\end{aligned}\]`) +
+    box(math(raw`\[z=4+3x_B-3x_E.\]`) +
+      p('The same numbers are the objective coefficients after substitution.'), 'blue', '1') +
+    p('A negative gap gives an improving slope. Nonnegative basic weights still determine how far we can move.'),
     'gaps', [111], { checkpoint: geometryCheckpoint }),
+
+  visualSlide('column-plane-formula', 'The general plane formula recovers reduced costs',
+    p(raw`Write the plane through the basic points as \(z=\pi^\top a+\alpha\). Matching their costs gives`) +
+    math(raw`\[\widetilde B^\top\begin{pmatrix}\pi\\\alpha\end{pmatrix}=c_{\mathcal B}.\]`) +
+    box(math(raw`\[\bar c_j=c_j-(\pi^\top A_j+\alpha).\]`) +
+      p('Subtract plane height from point height. This equals the coefficient obtained by dictionary substitution.')) +
+    p(raw`For CDF, \(\pi=(0,0)\), \(\alpha=4\). Duality will interpret these plane coefficients as constraint weights.`),
+    'gaps', [109, 110, 111]),
 
   visualSlide('entering-tetrahedron', 'Adding E creates four possible boundary faces',
     p('The current triangle CDF together with E forms the tetrahedron CDEF.') +
@@ -466,10 +511,10 @@ export const geometrySlides = [
     p('A candidate face that does not meet the requirement line cannot give nonnegative weights for this requirement.'),
     'leaving', [114, 115]),
 
-  visualSlide('geometric-ratio-test', 'The same face choice comes from the ratio test',
+  visualSlide('geometric-ratio-test', 'How far can E increase before a basic weight reaches zero?',
     p(raw`Let \(x_E=\theta\), starting from \(x_C=x_D=x_F=1/3\). Preserving all three equalities gives`) +
     math(raw`\[\begin{aligned}x_C&=\tfrac13-\tfrac23\theta,\\x_D&=\tfrac13-\tfrac16\theta,\\x_F&=\tfrac13-\tfrac16\theta.\end{aligned}\]`) +
-    box(math(raw`\[\theta^*=\min\{1/2,2,2\}=1/2.\]`) + p('C reaches zero first, producing the face DEF.'), 'green', '1'),
+    box(math(raw`\[\theta^*=\min\{1/2,2,2\}=1/2.\]`) + p('The three bounds come from C, D, F respectively. C reaches zero first, so C leaves.'), 'green', '1'),
     'leaving', [115]),
 
   slide('physical-hinge', 'Pivot the triangle from CDF to DEF',
@@ -492,10 +537,10 @@ export const geometrySlides = [
     'optimal-plane', [111, 118]),
 
   slide('example310-data', 'Example 3.10: eight points, one horizontal coordinate',
-    p(raw`With \(m=1\), the basic simplex is a line segment. Use this constructed numerical realization of the eight-point picture:`) +
+    p(raw`With \(m=1\), the basic simplex is a line segment. Use the following eight points:`) +
     `<div class="l10-table-wrap"><table class="l10-table l10-column-coordinates"><thead><tr><th>${raw`\(j\)`}</th>${example310.a.map((_, i) => `<th>${i + 1}</th>`).join('')}</tr></thead><tbody><tr><th>${raw`\(A_j\)`}</th>${example310.a.map(value => `<td>${value}</td>`).join('')}</tr><tr><th>${raw`\(c_j\)`}</th>${example310.c.map(value => `<td>${value}</td>`).join('')}</tr></tbody></table></div>` +
     math(raw`\[\min\sum_{j=1}^{8}c_jx_j\quad\text{s.t.}\quad\sum_{j=1}^{8}A_jx_j=0,\quad\sum_{j=1}^{8}x_j=1,\quad x\ge0.\]`) +
-    box(p('We will choose the point with the most negative reduced cost: the largest downward vertical gap from the current dual line.'), 'blue', '1'), [119]),
+    box(p('We will choose the point with the most negative reduced cost: the largest downward vertical gap from the line through the basic points.'), 'blue', '1'), [119]),
 
   slide('example310-initial', 'Initial basis 3, 6: point 5 has the largest downward gap',
     pair(p('The line segment between points 3 and 6 crosses the requirement line.') +
@@ -521,6 +566,31 @@ export const geometrySlides = [
       box(p('Self-study: recover the weights by solving the two equalities for each pair. Then calculate every reduced cost to confirm the entering choices.')) +
       p('The 2D segment rotates at a shared endpoint. The 3D triangle pivots around a shared edge. Both pictures describe the same basis exchange.'), examplePlot(2, true)), [119, 120]),
 ];
+
+const geometryByKey = new Map(geometryLibrary.map(s => [s.key, s]));
+const chooseGeometry = keys => keys.map(key => {
+  const item = geometryByKey.get(key);
+  if (!item) throw new Error(`Unknown column-geometry slide: ${key}`);
+  return item;
+});
+export const geometryMainSlides = chooseGeometry([
+  'column-geometry-model', 'column-coordinate-model', 'column-explicit-equalities',
+  'lifted-columns', 'column-feasible-mixture', 'requirement-line',
+  'empty-requirement-line', 'weights-at-h', 'h-versus-g', 'column-dictionary',
+  'column-objective-dictionary', 'dual-plane', 'reduced-cost-height',
+  'enter-b', 'geometric-ratio-test', 'enter-e', 'tetrahedron-definition',
+  'entering-tetrahedron', 'leaving-face', 'physical-hinge',
+  'supporting-plane-optimality',
+]);
+export const geometryAppendixSlides = chooseGeometry([
+  'affine-independence', 'basis-columns-and-points', 'basic-simplex-independence',
+  'column-plane-formula',
+]);
+export const geometryExampleSlides = chooseGeometry([
+  'example310-data', 'example310-initial', 'example310-next',
+  'example310-optimal', 'example310-sequence',
+]);
+export const geometrySlides = [...geometryMainSlides, ...geometryAppendixSlides, ...geometryExampleSlides];
 
 export const auditData = {
   columnModel, example310,

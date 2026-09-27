@@ -1,0 +1,56 @@
+/* Shared teaching surfaces for the three native duality resources. */
+:is([data-native-deck="lecture-17"], [data-native-deck="lecture-19"], [data-native-deck="lecture-20"]) .ns-slide {
+  font-size: clamp(18px, 1.95cqw, 30px); padding: 2.1cqw 4.4cqw; gap: 0;
+}
+.dy-slide .ns-slide-header { margin-bottom: .35em; padding-bottom: .4em; }
+.dy-slide .ns-slide-header h1 { font-size: 1.55em; line-height: 1.12; }
+.dy-slide .ns-slide-body { gap: .35em; min-height: 0; }
+.dy-slide p { margin: 0 0 .35em; }
+.dy-slide :is(ul,ol) { margin: .2em 0; padding-left: 1.3em; }
+.dy-slide li { margin-bottom: .3em; }
+.dy-stack { display: flex; flex-direction: column; gap: .4em; min-height: 0; }
+.dy-box { background: #eff6fa; border-left: .25em solid #326b8c; padding: .4em .65em; border-radius: .25em; margin: .15em 0; }
+.dy-box[data-tone="green"] { background: #eef8f2; border-color: #177441; }
+.dy-box[data-tone="orange"] { background: #fff4e9; border-color: #b95013; }
+.dy-box[data-tone="maroon"] { background: #f8eef2; border-color: #861f41; }
+.dy-box > :last-child, .dy-stack > :last-child { margin-bottom: 0; }
+.dy-math { margin: .15em 0; }
+.dy-slide mjx-container[display="true"] { margin: .3em 0 !important; }
+.dy-pair { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: .8em; align-items: start; min-height: 0; }
+.dy-pair > * { min-width: 0; }
+.dy-figure { margin: 0; border: 1px solid #d5dce0; border-radius: .35em; padding: .35em; background: #f7fafc; }
+.dy-figure svg { display: block; width: 100%; height: auto; max-height: 17em; }
+.dy-figure svg text { font-family: var(--ns-sans); font-size: 18px; fill: #263943; }
+.dy-figure figcaption { font-size: .92em; margin-top: .3em; color: #465963; line-height: 1.3; }
+.dy-table-wrap { overflow: auto; max-width: 100%; min-height: 0; padding-bottom: .25em; flex-shrink: 0; }
+.dy-table { width: 100%; border-collapse: collapse; font-size: 1em; }
+.dy-table :is(th,td) { text-align: left; padding: .2em .4em; border-bottom: 1px solid #d5dce0; }
+.dy-table th { background: #edf4f8; font-weight: 700; }
+.dy-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .5em; margin: .35em 0; }
+.dy-controls label { display: flex; align-items: center; flex-wrap: wrap; gap: .4em; }
+.dy-controls :is(button,input,select) { min-height: 44px; font: inherit; }
+.dy-controls button { padding: .3em .55em; border: 2px solid #861f41; border-radius: .25em; color: #731b3c; background: white; cursor: pointer; }
+.dy-controls input[type="range"] { width: 8em; min-width: 120px; accent-color: #861f41; }
+.dy-controls :focus-visible, .dy-proof:focus-visible { outline: 3px solid #1874ad; outline-offset: 2px; }
+.dy-contents { display: grid; gap: .35em; }
+.dy-contents a { display: block; min-height: 44px; padding: .3em .55em; border-left: .2em solid #b95013; background: #f5f6f7; color: #731b3c; }
+.dy-proof { overflow: auto; max-height: 100%; min-height: 0; padding: .1em .2em .2em 0; }
+.dy-note, .dy-small { color: #465963; font-size: .94em; line-height: 1.3; }
+.dy-problem { background: #f5f8fa; border-left: .22em solid #326b8c; padding: .3em .6em; }
+.dy-chip { display: inline-block; padding: .15em .4em; border-radius: .25em; background: #edf4f8; }
+.dy-weight-status, .dy-price-status { min-height: 2.6em; }
+@media (max-width: 760px) {
+  :is([data-native-deck="lecture-17"], [data-native-deck="lecture-19"], [data-native-deck="lecture-20"]) .ns-slide { font-size: 18px; padding: 1.1rem; }
+  .dy-pair { grid-template-columns: minmax(0,1fr); }
+  .dy-slide .ns-slide-header h1 { font-size: 1.5em; }
+  .dy-table-wrap { overflow-x: auto; }
+  .dy-proof { max-height: none; overflow: visible; }
+}
+@media print {
+  .dy-controls { display: none !important; }
+  .dy-proof, .dy-table-wrap { overflow: visible; max-height: none; }
+  .dy-figure svg { max-height: 16em; }
+}
+
+.dy-print-only { display: none; }
+.ns-print-slide .dy-print-only { display: block; }

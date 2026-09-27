@@ -34,8 +34,8 @@ through Canvas.
 
 ## Credits
 
-Simplex II, III, and IV adapt Robert Hildebrand’s course materials; the Part 2 reference
-credits Alberto Del Pia. Additional explanations and interactive examples
+Simplex II–IV and Duality I–III adapt Robert Hildebrand’s course materials;
+his Part 2 and Duality reference decks credit Alberto Del Pia. Additional explanations and interactive examples
 are by Jiaxiang Li. The 3D cycling example comes from Marshall–Suurballe,
 as collected in Yang’s [*Cycling problems in linear programming*](https://arxiv.org/abs/2101.01805), Problem 7.
 

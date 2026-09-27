@@ -1,0 +1,3 @@
+@import url('./duality.css');
+[data-slide-id="l17-weights-explore"] .dy-figure svg { max-height: 7em; }
+[data-slide-id="l17-weights-explore"] .dy-controls { align-items: flex-start; }

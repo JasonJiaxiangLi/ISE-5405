@@ -1,0 +1,81 @@
+/* Scoped to the four history/alternative-method pages of Simplex IV. */
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-model {
+  background: #edf5fb;
+  border-left: .25em solid var(--ns-blue);
+  border-radius: .2em;
+  padding: .22em .55em;
+  margin-bottom: .32em;
+}
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-timeline {
+  display: grid;
+  gap: .55em;
+  padding: 0;
+  margin: .28em 0;
+  list-style: none;
+}
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-timeline li {
+  display: grid;
+  grid-template-columns: 3.4em 1fr;
+  gap: .6em;
+  padding: .45em .65em;
+  background: #eff6fa;
+  border-left: .24em solid var(--ns-blue);
+}
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-year {
+  font-size: 1.28em;
+  color: var(--ns-maroon);
+}
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-timeline h3 {
+  font-size: 1.02em;
+  margin: 0 0 .16em;
+}
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-timeline p { margin: 0; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-sources {
+  font-size: .84em;
+  line-height: 1.35;
+  margin: .35em 0 0;
+}
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-sources a { text-underline-offset: .12em; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-ellipsoid { margin: 0; padding: .08em; flex-shrink: 0; display: grid; grid-template-columns: 1fr 1fr; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-ellipsoid svg { display: block; height: 11.8em; max-height: none; }
+[data-native-deck="lecture-12"] .l10-history-slide .l10-figure svg text {
+  font-family: Arial, sans-serif;
+  font-size: 26px;
+  fill: #283e48;
+}
+[data-native-deck="lecture-12"] .l10-history-slide .l10-figure svg .l12-svg-heading { font-size: 26px; font-weight: 700; }
+[data-native-deck="lecture-12"] .l10-history-slide .l10-figure svg .l12-svg-optimum { fill: #8b2047; font-weight: 700; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-method-region { fill: #d9edf5; stroke: #2c6a88; stroke-width: 3; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-ellipse-old { fill: none; stroke: #87969d; stroke-width: 3; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-ellipse-new { fill: none; stroke: #277e46; stroke-width: 4; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-central-cut { stroke: #b74b00; stroke-width: 3; stroke-dasharray: 8 5; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-old-center { fill: #8b2047; stroke: white; stroke-width: 2; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-new-center,
+[data-native-deck="lecture-12"] .l10-history-slide .l12-barrier-sample { fill: #277e46; stroke: white; stroke-width: 2; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-label-line { stroke: #617883; stroke-width: 1.5; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-method-axis { stroke: #405b69; stroke-width: 2; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-simplex-path { fill: none; stroke: #b74b00; stroke-width: 5; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-barrier-path { fill: none; stroke: #277e46; stroke-width: 4; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-method-optimum { fill: #8b2047; stroke: white; stroke-width: 3; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-interior-pair { grid-template-columns: 1fr 1fr; gap: .65em; flex: 0 1 auto; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-interior { margin: 0; padding: .15em; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-interior svg { max-height: 15.5em; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-note { font-size: .82em; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-barrier { font-size: .86em; margin: .15em 0 0; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-comparison th,
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-comparison td { padding: .46em .56em; line-height: 1.3; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-comparison th:first-child { width: 18%; }
+[data-native-deck="lecture-12"] .l10-history-slide .l12-history-comparison th:nth-child(2) { width: 34%; }
+@media (max-width: 760px) {
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-interior-pair { grid-template-columns: 1fr; }
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-timeline li { grid-template-columns: 1fr; gap: .2em; }
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-ellipsoid { grid-template-columns: 1fr; }
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-ellipsoid svg { height: auto; max-height: none; }
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-sources { font-size: .85em; }
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-comparison { font-size: .85em; }
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-comparison th,
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-comparison td { padding: .35em; }
+}
+@media print {
+  [data-native-deck="lecture-12"] .l10-history-slide .l12-history-ellipsoid { overflow: visible; }
+}

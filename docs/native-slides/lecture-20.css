@@ -1,0 +1,10 @@
+@import url('./duality.css');
+/* Reuse the exact column-geometry scene, with controls sized for this deck. */
+@import url('./lecture-11-geometry.css');
+[data-native-deck="lecture-20"] .l10-column-figure { margin: 0; border: 1px solid #d5dce0; padding: .3em; border-radius: .35em; background: #f7fafc; }
+[data-native-deck="lecture-20"] .l10-column-svg { width: 100%; height: auto; max-height: 16em; touch-action: none; }
+[data-native-deck="lecture-20"] .l10-column-svg text { font-size: 19px; font-family: var(--ns-sans); }
+[data-native-deck="lecture-20"] .l10-column-controls { display: flex; align-items: center; flex-wrap: wrap; gap: .4em; }
+[data-native-deck="lecture-20"] .l10-column-controls button { min-height: 44px; padding: .3em .6em; font: inherit; color: #861f41; background: white; border: 2px solid #861f41; border-radius: .25em; }
+[data-native-deck="lecture-20"] .l10-column-svg:focus-visible { outline: 3px solid #1874ad; }
+[data-native-deck="lecture-20"] .l10-column-instruction { font-size: .92em; }

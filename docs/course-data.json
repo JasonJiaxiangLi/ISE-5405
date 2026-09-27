@@ -797,6 +797,19 @@
         {
           "auto_open": true,
           "choices": [
+            "Every pivoting rule needs exponentially many pivots",
+            "Some pivoting rule can follow an exponentially long improving path",
+            "Simplex can never solve a cube quickly",
+            "Avoiding cycling guarantees a short path"
+          ],
+          "correct_index": 1,
+          "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
+          "page": 14,
+          "question": "What does the perturbed-cube example establish?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
             "It is a negative reduced cost; a feasible positive step lowers the objective.",
             "It gives the maximum feasible step.",
             "It identifies the leaving basic point without a ratio test.",
@@ -804,8 +817,8 @@
           ],
           "correct_index": 0,
           "explanation": "The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.",
-          "page": 17,
-          "question": "A nonbasic lifted point is below the current dual plane. What does its signed vertical gap tell us?"
+          "page": 33,
+          "question": "A nonbasic lifted point is below the plane through the basic points. What does its signed vertical gap tell us?"
         },
         {
           "auto_open": true,
@@ -817,21 +830,8 @@
           ],
           "correct_index": 2,
           "explanation": "A supporting line bounds the cost of every convex combination from below. At the required horizontal coordinate, the mixture of points 5 and 8 attains the bound. Other optimal mixtures could exist in a different example.",
-          "page": 26,
+          "page": 47,
           "question": "In the final basis 5, 8, every lifted point is on or above the line through 5 and 8. Why is the current feasible mixture optimal?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
-            "Every pivoting rule needs exponentially many pivots",
-            "Some pivoting rule can follow an exponentially long improving path",
-            "Simplex can never solve a cube quickly",
-            "Avoiding cycling guarantees a short path"
-          ],
-          "correct_index": 1,
-          "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
-          "page": 41,
-          "question": "What does the perturbed-cube example establish?"
         },
         {
           "auto_open": true,
@@ -843,30 +843,224 @@
           ],
           "correct_index": 1,
           "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
-          "page": 49,
+          "page": 65,
           "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         }
       ],
       "date": null,
       "demos": [],
-      "description": "Interpret simplex pivots through column geometry, connect reduced costs to objective heights, and study work per pivot, long paths, and practical performance.",
+      "description": "See simplex pivots through column geometry, compare long paths with shortcuts, and explore the Hirsch counterexample and the history of ellipsoid and interior-point methods.",
       "display_number": 8,
       "id": "lecture-12",
       "number": 12,
-      "pdf_hash": "63cbd3531a6100c741f685e98d3778a91617d9875141243d6fb7b621204201f4",
-      "pdf_size": 1125573,
+      "pdf_hash": "68d5fd1023f5f1e59809c636aded9e3c0703768b9bdb2853ae1b38f79e103d55",
+      "pdf_size": 1395681,
       "pdf_url": "materials/lecture_12.pdf",
-      "pdf_url_versioned": "materials/lecture_12.pdf?v=63cbd3531a61",
+      "pdf_url_versioned": "materials/lecture_12.pdf?v=68d5fd1023f5",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
       "tags": [
         "simplex",
         "column geometry",
-        "computational efficiency"
+        "computational efficiency",
+        "LP algorithms"
       ],
       "title": "Simplex IV: Column Geometry and Efficiency",
       "viewer_url": "lectures/lecture-12",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "To keep every weighted inequality pointing ≥ when we add them.",
+            "Because all dual variables in every LP are nonnegative.",
+            "Because the primal variables are nonnegative.",
+            "Because negative numbers cannot appear in an objective."
+          ],
+          "correct_index": 0,
+          "explanation": "A negative multiplier reverses an inequality. Here the primal variables are unrestricted; the weights are nonnegative because they multiply ≥ constraints in a minimization problem.",
+          "page": 6,
+          "question": "For this ≥-constraint warmup, why must every weight be nonnegative?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The corresponding dual variable must be zero.",
+            "The corresponding coefficient constraint must be an equality.",
+            "The corresponding coefficient constraint is always ≤.",
+            "The primal must first be feasible."
+          ],
+          "correct_index": 1,
+          "explanation": "The difference between objective and weighted-row coefficients must vanish: otherwise one sign of the unrestricted primal variable makes the remaining term negative.",
+          "page": 15,
+          "question": "If a primal variable is unrestricted, which dual condition corresponds to it?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The primal point is optimal, but nothing is known about the dual point.",
+            "Both points are optimal.",
+            "Both problems have unique solutions.",
+            "The primal and dual variables must be identical."
+          ],
+          "correct_index": 1,
+          "explanation": "Weak duality puts every feasible primal value above every feasible dual value. Equal feasible values leave no room to improve either side; uniqueness is not implied.",
+          "page": 24,
+          "question": "Suppose a primal feasible point costs 12 and a dual feasible point gives a bound 12. What is established?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Build objective bounds from weighted constraints, form LP duals, and use weak duality to verify optimality certificates.",
+      "display_number": 9,
+      "id": "lecture-17",
+      "number": 17,
+      "pdf_hash": "737d33746833d0e158a7704b3710d2f1a43d06a18718e2c9da15f463c1fa7fdf",
+      "pdf_size": 440404,
+      "pdf_url": "materials/lecture_17.pdf",
+      "pdf_url_versioned": "materials/lecture_17.pdf?v=737d33746833",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "duality",
+        "objective bounds",
+        "weak duality"
+      ],
+      "title": "Duality I: Bounds and the Dual Problem",
+      "viewer_url": "lectures/lecture-17",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Only that their objective values are equal.",
+            "Primal feasibility, dual feasibility, and equal objective values.",
+            "Only that both solutions are basic.",
+            "Only that the primal solution has positive components."
+          ],
+          "correct_index": 1,
+          "explanation": "Weak duality compares feasible solutions. Equal objective values certify optimality only after both feasibility checks pass.",
+          "page": 8,
+          "question": "Which facts are needed to certify both solutions as optimal?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Yes: zero variables always correspond to positive dual slack.",
+            "No: that dual slack may be zero or positive.",
+            "No: it must be negative.",
+            "Yes, unless the primal has equality constraints."
+          ],
+          "correct_index": 1,
+          "explanation": "The product is already zero when the primal variable is zero. Dual feasibility requires nonnegative slack, but complementary slackness does not force it to be strictly positive.",
+          "page": 14,
+          "question": "At an optimal feasible pair, the second primal variable is zero. Must its dual inequality have positive slack?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The weights are not both nonnegative.",
+            "The first dual inequality fails; matching objective values alone is insufficient.",
+            "The primal point is not feasible.",
+            "Complementary slackness applies only to maximization."
+          ],
+          "correct_index": 1,
+          "explanation": "Equality constraints allow unrestricted weights. The first dual left-hand side is 34, exceeding its allowed value 13. The proposed weights are infeasible, so weak duality does not certify 40 as a lower bound.",
+          "page": 20,
+          "question": "The tight equations give p=(2,8), and its weighted RHS equals the primal cost 40. Why is this not an optimality certificate?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Connect strong duality, complementary slackness, and simplex reduced costs through complete numerical optimality certificates.",
+      "display_number": 10,
+      "id": "lecture-19",
+      "number": 19,
+      "pdf_hash": "48ea00d3f19175d2626a24e2e8c6e320f8aef0c69f90a10735429be6caf7e184",
+      "pdf_size": 409457,
+      "pdf_url": "materials/lecture_19.pdf",
+      "pdf_url_versioned": "materials/lecture_19.pdf?v=48ea00d3f191",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "strong duality",
+        "complementary slackness",
+        "optimality certificates"
+      ],
+      "title": "Duality II: Optimality and Complementary Slackness",
+      "viewer_url": "lectures/lecture-19",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "The old quantities are still optimal.",
+            "The old dual weights still give a lower bound, but their predicted value need not be attainable.",
+            "All original dual constraints must change.",
+            "The new LP must be infeasible."
+          ],
+          "correct_index": 1,
+          "explanation": "Right-hand-side changes do not change A or c. Thus the old dual point remains feasible; the old primal basis may no longer attain its bound.",
+          "page": 8,
+          "question": "After a requirement change makes the old basic solution negative, what remains valid?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Every available column lies on or above it.",
+            "Only the basic columns lie on it.",
+            "The current mixture has positive cost.",
+            "The nonbasic variables are zero."
+          ],
+          "correct_index": 0,
+          "explanation": "All column inequalities must hold to bound every nonnegative mixture. Matching the basic columns alone does not establish dual feasibility.",
+          "page": 15,
+          "question": "What turns a plane through the current basic columns into a valid lower bound?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Aᵀq≥0 and bᵀq<0.",
+            "Aᵀq≥0 and bᵀq>0.",
+            "Only q≠0.",
+            "One attempted solution has a negative component."
+          ],
+          "correct_index": 0,
+          "explanation": "The row combination has a nonnegative left side for every x≥0 but a strictly negative right side. A failed attempted solution alone is not a certificate.",
+          "page": 21,
+          "question": "Which calculation certifies that Ax=b, x≥0 is infeasible?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Interpret dual prices, connect reduced costs to column geometry, and use row combinations to certify infeasibility.",
+      "display_number": 11,
+      "id": "lecture-20",
+      "number": 20,
+      "pdf_hash": "045c34ba1b6c7573a44e791ad91c70f35d5af00195821140bc22def8a08c7498",
+      "pdf_size": 398562,
+      "pdf_url": "materials/lecture_20.pdf",
+      "pdf_url_versioned": "materials/lecture_20.pdf?v=045c34ba1b6c",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "duality",
+        "marginal costs",
+        "column geometry",
+        "Farkas lemma"
+      ],
+      "title": "Duality III: Prices and Certificates",
+      "viewer_url": "lectures/lecture-20",
       "whiteboards": 3
     }
   ],

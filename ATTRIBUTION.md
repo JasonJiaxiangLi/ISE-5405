@@ -17,7 +17,7 @@ Please link to the public course repository and to
 
 ## Robert Hildebrand material
 
-Lectures 0--7 contain selected instructional structure, examples, and visuals
+Lectures 0–11 contain selected instructional structure, examples, and visuals
 adapted with permission from Robert Hildebrand's Fall 2025 ISE 5405 materials
 and faculty-authorized reference decks. Copyright in Robert Hildebrand's
 contributions remains with him.
@@ -32,6 +32,12 @@ and follows Bertsimas and Tsitsiklis, *Introduction to Linear Optimization*,
 §§3.4–3.7. The native adaptation retains the theorem numbers and most example numbers and
 credits that source lineage. These third-party contributions are likewise
 excluded from this repository's reuse licenses.
+
+The three Duality resources adapt the same faculty-authorized Lecture 10
+reference, which credits Alberto Del Pia, for BT §§4.1–4.4 and 4.6. They
+preserve its numerical examples, theorem statements, and geometric meaning;
+new arithmetic explanations and exact interactions are by Jiaxiang Li. The
+reference material is excluded from the repository’s reuse licenses.
 
 ## GILP and other instructional references
 
@@ -62,6 +68,15 @@ LP. Its pivot paths are computed for the stated entering/leaving rules; the
 Bland’s exponential worst case cites Avis and Chvátal, *Notes on Bland’s
 pivoting rule* (1978), <https://doi.org/10.1007/BFb0121192>. The third-party
 example is excluded from the repository’s reuse licenses.
+
+## LP algorithm history and method illustrations
+
+Simplex IV cites Dantzig’s account of the simplex method, the contemporary
+announcement of Khachiyan’s 1979 result, Karmarkar’s 1984 paper, Stanford
+ellipsoid/barrier notes, and Santos’s [bounded Hirsch counterexample](https://arxiv.org/abs/1006.2814).
+The rectangle LP, exact ellipse update, barrier-minimizer samples, and diagrams
+are newly constructed course explanations; no historical paper figure is reproduced.
+Study links appear on the relevant slides.
 
 ## Virginia Tech material
 
