@@ -81,7 +81,7 @@ const slide = (key, title, html, sourceNames) => ({ key, id: `l10-${key}`, title
 
 export const historySlides = [
   slide('history-milestones', 'Three milestones in solving linear programs', raw`
-    <p>The long simplex path raises a broader question: can another kind of algorithm have a polynomial-time guarantee?</p>
+    <p>Can algorithms that do not follow polytope edges offer polynomial-time guarantees? The key breakthroughs came before the Hirsch counterexample.</p>
     <ol class="l12-history-timeline">
       <li><strong class="l12-history-year">1947</strong><div><h3>Dantzig: simplex</h3><p>Change one basis at a time. This becomes a major practical method for solving LPs.</p></div></li>
       <li data-reveal="1"><strong class="l12-history-year">1979</strong><div><h3>Khachiyan: ellipsoid method</h3><p>LP can be solved in time polynomial in the <strong>binary input length</strong>, including the bits used to encode rational coefficients.</p></div></li>

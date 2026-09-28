@@ -64,19 +64,22 @@ export const overrides = {
       `<figure class="l10-figure">${squareSvg(.2,3,true)}<figcaption>Orange: 3 pivots; green dashed: 1.</figcaption></figure>`),
   },
   diameter: {
-    title: 'A short available path is different from the path we choose',
-    html: pair(raw`<p>Join vertices that share an edge. The <strong>graph diameter</strong> is the largest shortest-path distance between two vertices.</p>
-      ${box('<p>For this octagon, the farthest pair is four edges apart. Its graph diameter is 4.</p>')}
-      ${box('<p>These shortest paths need not improve the objective. A pivot rule may follow a longer route.</p>', 'orange')}
-      <p>How large can this diameter be in higher dimensions?</p>`, `<figure class="l10-figure">${diameterSvg()}</figure>`),
+    title: 'Graph diameter and the Hirsch conjecture',
+    className: 'l12-hirsch-intro',
+    sourceRefs: [{ title: 'Santos (2012), statement and counterexample to the Hirsch conjecture', url: 'https://doi.org/10.4007/annals.2012.176.1.7' }],
+    html: raw`<p>Dantzig can take a long route. How short could an edge path be?</p>` + pair(
+      box('<p><strong>Graph diameter:</strong> for each pair of vertices, find the fewest edges connecting them. Take the largest of these distances.</p>') +
+      raw`<p>Let \(d\) be the dimension and \(F\) the number of <strong>facets</strong>: boundary faces of dimension \(d-1\) (edges in 2D, faces in 3D).</p>` +
+      box(raw`<p><strong>Hirsch conjecture:</strong> in a bounded polytope, any two vertices can be connected by at most \(F-d\) edges.</p><div class="l10-math">\[\operatorname{diameter}\le F-d.\]</div>`, 'green'),
+      `<figure class="l10-figure">${diameterSvg().replace('cycle: D = 4 = floor(m / 2) · m = 8', '2D octagon: 8 facets')}<figcaption>` + raw`\[\underbrace{4}_{\text{actual diameter}}\le\underbrace{8-2=6}_{\text{proposed bound}}.\]` + '</figcaption></figure>'),
   },
   hirsch: {
-    title: 'The Hirsch conjecture is false—even for bounded polytopes',
-    html: raw`<p>For a bounded polytope of dimension \(d\) with \(F\) facets, the conjecture proposed</p>
-      ${box(raw`<div class="l10-math">\[\text{graph diameter}\le F-d.\]</div><p>A facet is a boundary face of dimension \(d-1\).</p>`)}
-      ${box(raw`<h3>Santos’s counterexample</h3><p>Announced in 2010; published in 2012. A <strong>43-dimensional polytope with 86 facets</strong> has diameter greater than</p><div class="l10-math">\[86-43=43.\]</div>`, 'orange')}
-      ${box('<p>This disproves the proposed linear bound. It does not rule out polynomial-time LP algorithms or say which path simplex will follow.</p>', 'green')}
-      <p class="l10-note"><a href="https://arxiv.org/abs/1006.2814">Santos, <em>A counterexample to the Hirsch conjecture</em></a>. This later result updates the textbook discussion.</p>`,
+    title: 'A counterexample to the Hirsch conjecture',
+    html: box(raw`<p><strong>The proposed bound:</strong> \(\operatorname{diameter}\le F-d\) for a bounded polytope.</p>`) +
+      box(raw`<h3>Santos’s counterexample</h3><p>A bounded <strong>43-dimensional polytope with 86 facets</strong> has</p><div class="l10-math">\[\operatorname{diameter}>43=86-43=F-d.\]</div><p>Some pair of vertices needs more than 43 edges, even along a shortest path.</p>`, 'orange') +
+      box('<p><strong>Conclusion:</strong> the proposed linear bound is false. This does not establish exponential diameter or rule out polynomial-time LP algorithms.</p>', 'green') +
+      '<p>Graph diameter concerns the <strong>shortest available paths</strong>. A pivot rule may choose a longer route.</p>' +
+      '<p class="l10-note">Announced in 2010; published in 2012. <a href="https://arxiv.org/abs/1006.2814">Santos, <em>A counterexample to the Hirsch conjecture</em></a>.</p>',
     sourceRefs: [{ title: 'Santos (2012), A counterexample to the Hirsch conjecture', url: 'https://doi.org/10.4007/annals.2012.176.1.7' }],
   },
   'complete-story': {

@@ -22,3 +22,21 @@
     grid-template-columns: 1fr;
   }
 }
+
+[data-native-deck="lecture-12"] .l12-hirsch-intro .l10-pair {
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
+}
+[data-native-deck="lecture-12"] .l12-hirsch-intro .l10-figure svg {
+  max-height: 16em;
+}
+[data-native-deck="lecture-12"] .l12-hirsch-intro figcaption mjx-container[display="true"] {
+  margin-block: 0 !important;
+}
+@media (max-width: 760px) {
+  [data-native-deck="lecture-12"] .l12-hirsch-intro .l10-figure svg {
+    max-height: none;
+  }
+  [data-native-deck="lecture-12"] .l12-hirsch-intro .l10-pair {
+    grid-template-columns: 1fr;
+  }
+}
