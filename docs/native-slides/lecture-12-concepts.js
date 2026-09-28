@@ -1,6 +1,6 @@
 /** Short conceptual classroom route; complete calculations remain in the appendix. */
 import { columnFigure, mountColumnGeometry } from './lecture-11-geometry.js';
-import { diameterSvg } from './lecture-11-efficiency.js';
+import { diameterSvg, squareSvg } from './lecture-11-efficiency.js';
 const raw = String.raw;
 const box = (body, tone = 'blue') => `<section class="l10-box" data-tone="${tone}">${body}</section>`;
 const pair = (body, figure) => `<div class="l10-pair"><div>${body}</div>${figure}</div>`;
@@ -21,6 +21,15 @@ export const perspective = {
 };
 
 export const overrides = {
+  'geometric-ratio-test': {
+    title: 'Increase E until the first basic weight reaches zero',
+    html: pair(raw`<p>Start at H: \(x_C=x_D=x_F=1/3\). Keep \(x_B=0\), set \(x_E=\theta\), and preserve the three equalities:</p>
+      <div class="l10-math">\[\begin{aligned}x_C&=\tfrac13-\tfrac23\theta,\\x_D&=\tfrac13-\tfrac16\theta,\\x_F&=\tfrac13-\tfrac16\theta.\end{aligned}\]</div>
+      <p>The other weights total \(1-\theta\), so \(z=4(1-\theta)+\theta=4-3\theta\).</p>
+      ${box(raw`<div class="l10-math">\[\theta^*=\min\{1/2,2,2\}=1/2.\]</div><p>C reaches zero first. E enters and C leaves.</p>`, 'green')}`,
+      columnFigure('leaving')),
+    onMount: mountColumnGeometry,
+  },
   'physical-hinge': {
     title: 'One pivot lowers the attainable cost: H to G',
     html: pair(hingeBody, columnFigure('hinge', { hinge: true })),
@@ -35,7 +44,25 @@ export const overrides = {
       ${box('<h3>The whole run</h3><p>Even inexpensive steps can add up. We need to understand how many steps the chosen rule takes.</p>', 'orange')}
       <p>Next: a tilted cube with a long improving path—and a short alternative.</p>`,
   },
-  'perturbed-cube': { title: 'Can an improving path visit every corner?' },
+  'perturbed-cube': {
+    title: 'Textbook example: an improving path can visit every vertex',
+    className: 'l12-textbook-cube',
+    html: pair(raw`<p>Choose \(0<\epsilon<1/2\). In \(n\) dimensions:</p>
+      <div class="l10-math">\[\begin{aligned}\min\quad&-x_n\\\text{s.t.}\quad&\epsilon\le x_1\le1,\\&\epsilon x_{i-1}\le x_i\le1-\epsilon x_{i-1}.\end{aligned}\]</div>
+      <p>The last bounds apply for \(i=2,\ldots,n\).</p>
+      ${box(raw`<p><strong>Two dimensions:</strong> \(\epsilon=0.2\), objective \(-x_2\). Along the orange path, the objective decreases at every step.</p>`, 'green')}
+      <p>Start at \((0.2,0.04)\); finish at \((0.2,0.96)\).</p>`,
+      `<figure class="l10-figure">${squareSvg(.2)}</figure>`),
+  },
+  'pivot-shortcut': {
+    title: 'A long available path does not force a rule to follow it',
+    className: 'l12-textbook-cube',
+    html: pair(raw`<p><strong>For the textbook construction:</strong> all \(2^n\) vertices can be visited in strictly improving order.</p>
+      ${box(raw`<p>A rule that follows this order takes</p><div class="l10-math">\[2^n-1\text{ pivots}.\]</div>`)}
+      ${box(raw`<p><strong>A shortcut also exists.</strong> From the initial vertex, Dantzig’s most-negative-reduced-cost rule increases only \(x_n\) and reaches the optimum in one pivot.</p>`, 'green')}
+      <p>Next: Klee–Minty makes <em>Dantzig’s rule itself</em> take the long path.</p>`,
+      `<figure class="l10-figure">${squareSvg(.2,3,true)}<figcaption>Orange: 3 pivots; green dashed: 1.</figcaption></figure>`),
+  },
   diameter: {
     title: 'A short available path is different from the path we choose',
     html: pair(raw`<p>Join vertices that share an edge. The <strong>graph diameter</strong> is the largest shortest-path distance between two vertices.</p>
@@ -57,7 +84,7 @@ export const overrides = {
     html: raw`<div class="l10-stack">
       ${box('<h3>A pivot changes a basis</h3><p>In the column picture, a positive improving step lowers the attainable cost above the same target. Degeneracy can leave that cost unchanged.</p>')}
       ${box('<h3>Termination and speed are different questions</h3><p>Work per pivot, number of pivots, and the shortest available path measure different things.</p>', 'orange')}
-      ${box('<h3>A bound can certify the answer</h3><p>Our final supporting plane proved that no feasible mixture could cost less. Duality will turn this bounding idea into another LP.</p>', 'green')}
+      ${box('<h3>A new question: how can we certify the answer?</h3><p>Duality will construct bounds on every feasible objective value. Matching a bound with a feasible solution will certify optimality.</p>', 'green')}
       <p>Simplex and interior-point methods take different routes to an optimal solution. We will return to interior-point methods later in the course.</p>
     </div>`,
   },

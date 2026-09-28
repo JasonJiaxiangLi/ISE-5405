@@ -83,15 +83,16 @@ export const normalizationSlides = [
     <p data-reveal="2">The bound need not be tight. If all \(U_j=0\), choose any positive \(M\).</p>`),
 
   slide('general', 'The complete normalized LP', raw`
-    <p>Let \(s=M-\mathbf1^\top x\), \(\lambda=x/M\), and \(\lambda_0=s/M\). Here \(\mathbf1\) is the vector of ones.</p>
+    <p>Suppose \(P=\{x:Ax=b,\ x\ge0\}\) is nonempty and bounded. Choose \(M>0\) with \(\sum_jx_j\le M\) for every \(x\in P\).</p>
+    <p>Set \(s=M-\sum_jx_j\), \(\lambda=x/M\), \(\lambda_0=s/M\). The vector \(\mathbf1\) contains ones.</p>
     ${box(math(raw`\begin{aligned}
       \min\quad &M c^\top\lambda\\
       \text{s.t.}\quad &A\lambda=b/M,\\
       &\mathbf1^\top\lambda+\lambda_0=1,\\
       &\lambda\ge0,\quad\lambda_0\ge0.
     \end{aligned}`))}
-    <p>The extra variable has zero coefficients in \(A\lambda=b/M\) and zero objective coefficient.</p>
-    ${box(raw`<p>We must check both directions: original feasible points give feasible weights, and feasible weights recover original feasible points.</p>`, 'green', '1')}`),
+    ${box(raw`<p>Recover \(x=M\lambda\): then \(Ax=b\), \(x\ge0\), and \(c^\top x=M c^\top\lambda\). Both models have the same feasible choices and costs.</p>`, 'green', '1')}
+    <p>Simplex needs no sum-to-one condition. Boundedness justifies this picture; a finite optimum alone does not. The appendix verifies both directions.</p>`),
 
   slide('forward', 'From an original feasible point to feasible weights', raw`
     <p>Take any \(x\in P\). Define \(\lambda=x/M\), \(\lambda_0=(M-\mathbf1^\top x)/M\).</p>

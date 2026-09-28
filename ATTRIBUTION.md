@@ -62,9 +62,13 @@ repository’s reuse licenses.
 
 ## Klee–Minty efficiency example
 
-Simplex II’s termination-to-efficiency bridge uses the classical Klee–Minty
-LP. Its pivot paths are computed for the stated entering/leaving rules; the
-3D rendering and comparison are new course explanations. The discussion of
+Simplex II’s termination-to-efficiency bridge and Simplex IV use the classical
+Klee–Minty LP. Simplex IV develops the n-dimensional family and Dantzig’s
+exponential pivot path, using the formulation in Y. Yang,
+[*A double-pivot simplex algorithm and its upper bounds of the iteration numbers*, §4.1](https://arxiv.org/html/1910.10097#S4.SS1).
+Its pivot paths and dictionaries are computed for the stated rules; the
+3D rendering, comparison, and step-by-step explanations are new course
+contributions. The discussion of
 Bland’s exponential worst case cites Avis and Chvátal, *Notes on Bland’s
 pivoting rule* (1978), <https://doi.org/10.1007/BFb0121192>. The third-party
 example is excluded from the repository’s reuse licenses.

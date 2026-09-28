@@ -1,0 +1,42 @@
+/* Isolated Klee–Minty teaching surfaces for Simplex IV. */
+[data-native-deck="lecture-12"] .l12-km-slide .ns-slide-body { gap: .22em; }
+[data-native-deck="lecture-12"] .l12-km-model .l10-box { padding-block: .3em; }
+[data-native-deck="lecture-12"] .l12-km-dictionary { font-size: 1.06em; }
+[data-native-deck="lecture-12"] .l12-km-first .l10-math { margin-block: .1em; }
+[data-native-deck="lecture-12"] .l12-km-path-pair { grid-template-columns: minmax(0,.88fr) minmax(0,1.12fr); gap: .85em; }
+[data-native-deck="lecture-12"] .l12-km-path-table { line-height: 1.15; }
+[data-native-deck="lecture-12"] .l12-km-path-table :is(th,td) { padding-block: .1em; }
+[data-native-deck="lecture-12"] .l12-km-path-table tr[data-current] > * { background: #fff0dc; }
+[data-native-deck="lecture-12"] .l12-km-figure { padding: .2em .4em; }
+[data-native-deck="lecture-12"] .l12-km-figure .l12-km-svg { max-height: 12.8em; }
+[data-native-deck="lecture-12"] .l12-km-figure .l12-km-svg text { font-size: 28px; }
+[data-native-deck="lecture-12"] .l12-km-figure .l10-caption { font-size: .88em; }
+[data-native-deck="lecture-12"] .l12-km-controls { font-size: .86em; gap: .25em; }
+[data-native-deck="lecture-12"] .l12-km-controls label { flex: 1 1 auto; }
+[data-native-deck="lecture-12"] .l12-km-controls input[type="range"] { width: 6em; min-width: 90px; }
+[data-native-deck="lecture-12"] .l12-km-controls button { padding-inline: .36em; }
+[data-native-deck="lecture-12"] .l12-km-status { position: relative; margin-top: .1em; min-height: 1.8em; font-size: 1em; }
+[data-native-deck="lecture-12"] .l12-km-status > div { position: absolute; inset: 0; }
+[data-native-deck="lecture-12"] .l12-km-status [hidden] { display: none !important; }
+[data-native-deck="lecture-12"] .l12-km-status p { margin-bottom: .1em; }
+[data-native-deck="lecture-12"] .l12-km-shortcut-toggle { min-height: 44px; }
+[data-native-deck="lecture-12"] .l12-km-shortcut-toggle input { width: 1.2em; min-width: 1.2em; accent-color: #237c4b; }
+[data-native-deck="lecture-12"] .l12-km-shortcut-note { min-height: 1.4em; }
+[data-native-deck="lecture-12"] .l12-km-family .l10-box { padding-block: .25em; }
+[data-native-deck="lecture-12"] .l12-km-family .l10-math { margin-block: .1em; }
+[data-native-deck="lecture-12"] .l12-km-appendix-dictionary .l12-km-dictionary { font-size: 1.18em; }
+[data-native-deck="lecture-12"] .l12-km-proof .l10-box { padding-block: .3em; }
+@media (max-width: 760px) {
+  [data-native-deck="lecture-12"] .l12-km-path-pair { grid-template-columns: 1fr; }
+  [data-native-deck="lecture-12"] .l12-km-figure .l12-km-svg { max-height: none; }
+  [data-native-deck="lecture-12"] .l12-km-controls { font-size: 1em; }
+  [data-native-deck="lecture-12"] .l12-km-controls label { flex-basis: 100%; }
+  [data-native-deck="lecture-12"] .l12-km-status { min-height: 3.6em; }
+  [data-native-deck="lecture-12"] .l12-km-slide .ns-slide-body { padding-bottom: .65em; }
+  [data-native-deck="lecture-12"] .l12-km-slide .l10-math { overflow-x: auto; padding-block: .1em .5em; }
+}
+@media print {
+  [data-native-deck="lecture-12"] .l12-km-status { min-height: 1.8em; }
+  [data-native-deck="lecture-12"] .l12-km-status > div { position: static; }
+  [data-native-deck="lecture-12"] .l12-km-path-table tr[data-current] > * { background: inherit; }
+}

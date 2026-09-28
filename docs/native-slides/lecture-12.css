@@ -2,3 +2,23 @@
 @import url("./simplex.css");
 @import url("./lecture-12-history.css");
 @import url("./lecture-12-normalization.css");
+@import url("./lecture-12-klee-minty.css");
+
+[data-native-deck="lecture-12"] .l12-textbook-cube .l10-pair {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+[data-native-deck="lecture-12"] .l12-textbook-cube .l10-figure svg {
+  max-height: 16em;
+}
+[data-native-deck="lecture-12"] .l12-textbook-cube .l10-figure figcaption {
+  line-height: 1.2;
+  margin-top: .25em;
+}
+@media (max-width: 760px) {
+  [data-native-deck="lecture-12"] .l12-textbook-cube .l10-figure svg {
+    max-height: none;
+  }
+  [data-native-deck="lecture-12"] .l12-textbook-cube .l10-pair {
+    grid-template-columns: 1fr;
+  }
+}

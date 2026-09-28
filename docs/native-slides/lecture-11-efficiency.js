@@ -20,7 +20,7 @@ export function cubeVertex(bits, epsilon = 0) {
 const fmt = n => Number(n.toFixed(4)).toString();
 const path2 = grayPath(2);
 const path3 = grayPath(3);
-function squareSvg(epsilon = 0, step = 3, shortcut = false) {
+export function squareSvg(epsilon = 0, step = 3, shortcut = false) {
   const points = path2.map(v => cubeVertex(v, epsilon));
   const project = ([x,y]) => [65 + 310*x, 340 - 280*y];
   const p = points.map(project);

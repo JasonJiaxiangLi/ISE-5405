@@ -797,19 +797,6 @@
         {
           "auto_open": true,
           "choices": [
-            "Because the optimal objective value is finite.",
-            "Because the feasible set is bounded, so the sum of the nonnegative variables is bounded for every feasible point.",
-            "Because every simplex dictionary has nonnegative right-hand sides.",
-            "Because adding a sum-to-one equation never changes an LP."
-          ],
-          "correct_index": 1,
-          "explanation": "We need one M that works for all feasible points. A finite optimal value alone does not provide that bound. The slack and scaling preserve feasibility; simply adding a sum-to-one equation need not.",
-          "page": 13,
-          "question": "Why can we use a common positive bound M in the normalization construction?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
             "Every pivoting rule needs exponentially many pivots",
             "Some pivoting rule can follow an exponentially long improving path",
             "Simplex can never solve a cube quickly",
@@ -817,8 +804,21 @@
           ],
           "correct_index": 1,
           "explanation": "The construction supplies a long improving path and a rule that follows it. The same starting and optimal vertices are adjacent, allowing another rule to finish in one pivot.",
-          "page": 30,
+          "page": 16,
           "question": "What does the perturbed-cube example establish?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Because the optimal objective value is finite.",
+            "Because the feasible set is bounded, so the sum of the nonnegative variables is bounded for every feasible point.",
+            "Because every simplex dictionary has nonnegative right-hand sides.",
+            "Because adding a sum-to-one equation never changes an LP."
+          ],
+          "correct_index": 1,
+          "explanation": "We need one M that works for all feasible points. A finite optimal value alone does not provide that bound. The slack and scaling preserve feasibility; simply adding a sum-to-one equation need not.",
+          "page": 38,
+          "question": "Why can we use a common positive bound M in the normalization construction?"
         },
         {
           "auto_open": true,
@@ -830,7 +830,7 @@
           ],
           "correct_index": 0,
           "explanation": "The signed height difference is the reduced cost. It gives the objective slope. Feasibility and the ratio test still decide whether a positive step is possible and which variable leaves.",
-          "page": 46,
+          "page": 47,
           "question": "A nonbasic lifted point is below the plane through the basic points. What does its signed vertical gap tell us?"
         },
         {
@@ -843,7 +843,7 @@
           ],
           "correct_index": 2,
           "explanation": "A supporting line bounds the cost of every convex combination from below. At the required horizontal coordinate, the mixture of points 5 and 8 attains the bound. Other optimal mixtures could exist in a different example.",
-          "page": 59,
+          "page": 60,
           "question": "In the final basis 5, 8, every lifted point is on or above the line through 5 and 8. Why is the current feasible mixture optimal?"
         },
         {
@@ -856,20 +856,20 @@
           ],
           "correct_index": 1,
           "explanation": "Diameter bounds the shortest unrestricted edge paths. A chosen simplex rule follows improving feasible pivots, and may also take degenerate zero steps; neither behavior is bounded by diameter alone.",
-          "page": 77,
+          "page": 91,
           "question": "Why would a polynomial diameter bound alone be insufficient to prove simplex runs in polynomial time?"
         }
       ],
       "date": null,
       "demos": [],
-      "description": "Column geometry with a complete bounded-LP normalization, a worked geometric pivot, simplex efficiency, the Hirsch counterexample, and an introduction to ellipsoid and interior-point methods.",
+      "description": "Column geometry and a geometric pivot, the textbook long-path example, Dantzig’s rule on the n-dimensional Klee–Minty family, the Hirsch counterexample, and an introduction to ellipsoid and interior-point methods.",
       "display_number": 8,
       "id": "lecture-12",
       "number": 12,
-      "pdf_hash": "485ce75a1878eb71fd99da76509a2abab0a1fb57ecf39b006f53370ac9f2a9d7",
-      "pdf_size": 1514052,
+      "pdf_hash": "1c46468ff2543807a78804662a7cab2def976eeb256c1fbd1ec9a82b378e9f67",
+      "pdf_size": 1697632,
       "pdf_url": "materials/lecture_12.pdf",
-      "pdf_url_versioned": "materials/lecture_12.pdf?v=485ce75a1878",
+      "pdf_url_versioned": "materials/lecture_12.pdf?v=1c46468ff254",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
