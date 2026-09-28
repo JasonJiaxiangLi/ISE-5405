@@ -1,0 +1,77 @@
+/* Normalization argument: full-size equations and one exact segment figure. */
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-model {
+  background: #edf5fb;
+  border-left: .25em solid var(--ns-blue);
+  border-radius: .2em;
+  padding: .15em .5em;
+  margin-bottom: .35em;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-pair {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-segment {
+  position: relative;
+  padding: .25em .25em .35em;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-segment svg {
+  max-height: none;
+  width: 100%;
+  height: auto;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-segment svg text {
+  font-size: 26px;
+  fill: #223842;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-segment figcaption {
+  padding: 0 .3em;
+  text-align: center;
+  line-height: 1.25;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-axis {
+  stroke: #506671;
+  stroke-width: 2;
+  fill: none;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-line {
+  stroke: #2c6a88;
+  stroke-width: 6;
+  fill: none;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-point {
+  fill: #8b2047;
+  stroke: #fff;
+  stroke-width: 2;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide :is(.l12-normalization-axis-x, .l12-normalization-axis-y) {
+  position: absolute;
+  line-height: 1;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-axis-x {
+  left: 92%;
+  top: 73%;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-axis-y {
+  left: 9%;
+  top: 6%;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-table :is(th, td) {
+  padding: .45em .35em;
+  line-height: 1.35;
+}
+[data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-table tbody tr:first-child {
+  border-bottom: 1px solid #d7dfe4;
+}
+@media (max-width: 760px) {
+  [data-native-deck="lecture-12"] .l12-normalization-slide .ns-slide-body {
+    padding-bottom: .65em;
+  }
+  [data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-pair {
+    grid-template-columns: 1fr;
+  }
+  [data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-table {
+    min-width: 34em;
+  }
+  [data-native-deck="lecture-12"] .l12-normalization-slide .l12-normalization-table :is(th, td) {
+    padding: .4em .25em;
+  }
+}
