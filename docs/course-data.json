@@ -908,7 +908,7 @@
           ],
           "correct_index": 1,
           "explanation": "The difference between objective and weighted-row coefficients must vanish: otherwise one sign of the unrestricted primal variable makes the remaining term negative.",
-          "page": 15,
+          "page": 19,
           "question": "If a primal variable is unrestricted, which dual condition corresponds to it?"
         },
         {
@@ -921,7 +921,7 @@
           ],
           "correct_index": 1,
           "explanation": "Weak duality puts every feasible primal value above every feasible dual value. Equal feasible values leave no room to improve either side; uniqueness is not implied.",
-          "page": 24,
+          "page": 28,
           "question": "Suppose a primal feasible point costs 12 and a dual feasible point gives a bound 12. What is established?"
         }
       ],
@@ -931,10 +931,10 @@
       "display_number": 9,
       "id": "lecture-17",
       "number": 17,
-      "pdf_hash": "737d33746833d0e158a7704b3710d2f1a43d06a18718e2c9da15f463c1fa7fdf",
-      "pdf_size": 440404,
+      "pdf_hash": "01bdc06394d6561aaf01197c73a5ca1fdb037beb975c451928c3465e8e909e6c",
+      "pdf_size": 507559,
       "pdf_url": "materials/lecture_17.pdf",
-      "pdf_url_versioned": "materials/lecture_17.pdf?v=737d33746833",
+      "pdf_url_versioned": "materials/lecture_17.pdf?v=01bdc06394d6",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

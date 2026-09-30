@@ -1,3 +1,21 @@
 @import url('./duality.css');
 [data-slide-id="l17-weights-explore"] .dy-figure svg { max-height: 7em; }
 [data-slide-id="l17-weights-explore"] .dy-controls { align-items: flex-start; }
+
+/* The three bars form one comparison figure, in the same dollar scale. */
+.dy-nutrition-figure svg { max-height: none; }
+.dy-nutrition-figure svg text { font-size: 24px; }
+.dy-nutrition-controls { justify-content: space-between; gap: .25em .6em; }
+.dy-nutrition-controls label { gap: .15em; }
+.dy-nutrition-controls input[type="range"] { width: 6em; }
+.dy-nutrition-controls output { display: inline-block; min-width: 2.2em; }
+.dy-nutrition-status { min-height: 2.6em; padding: .25em .5em; background: #eff6fa; }
+@media (max-width: 760px) {
+  .dy-nutrition-figure { overflow-x: auto; }
+  .dy-nutrition-figure svg { min-width: 760px; }
+  .dy-nutrition-controls { flex-direction: column; align-items: stretch; }
+  .dy-nutrition-controls label { justify-content: space-between; }
+}
+@media print {
+  .dy-nutrition-figure svg { min-width: 0; max-height: none; }
+}

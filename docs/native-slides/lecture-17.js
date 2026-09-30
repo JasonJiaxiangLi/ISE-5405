@@ -11,6 +11,70 @@ const dual46 = () => math(raw`\begin{aligned}\max\quad &8p_1+3p_2\\\text{s.t.}\q
 const warmup = () => math(raw`\begin{aligned}\min\quad &x_1+3x_2\\\text{s.t.}\quad &x_1+x_2\ge2,\quad x_2\ge1,\quad x_1-x_2\ge3.\end{aligned}`) + p(raw`Here \(x_1,x_2\) are unrestricted variables: no additional sign restrictions are imposed.`);
 const mixedPrimal = () => math(raw`\begin{aligned}\min\quad &x_1+2x_2+3x_3\\\text{s.t.}\quad &-x_1+3x_2=5,\\&2x_1-x_2+3x_3\ge6,\quad x_3\le4,\\&x_1\ge0,\quad x_2\le0,\quad x_3\text{ unrestricted}.\end{aligned}`);
 
+export const nutritionModel = { A: [[2, 1, 1], [1, 2, 1]], b: [4, 5], c: [4, 5, 4], primal: [1, 2, 0], dual: [1, 2], value: 14 };
+export function nutritionState(protein, carbs) {
+  const values = nutritionModel.c.map((_, j) => protein * nutritionModel.A[0][j] + carbs * nutritionModel.A[1][j]);
+  return { protein, carbs, values, bound: 4 * protein + 5 * carbs,
+    valid: protein >= 0 && carbs >= 0 && values.every((v, j) => v <= nutritionModel.c[j] + 1e-9) };
+}
+function nutritionGraphic() {
+  const names = ['Lentil dish', 'Grain dish', 'Snack'];
+  return `<figure class="dy-figure dy-nutrition-figure" tabindex="0" aria-label="Nutrient values compared with food prices; scroll horizontally on a narrow screen"><svg viewBox="0 0 960 205" role="img" data-nutrition-graphic aria-label="Assigned nutrient values are 4, 5 and 3 dollars; food prices are 4, 5 and 4 dollars. Every assigned value is within its food price.">
+    <g font-family="system-ui,sans-serif" font-size="24">
+    ${names.map((name, j) => {
+      const x = 20 + j * 315, a = nutritionModel.A[0][j], b = nutritionModel.A[1][j] * 2;
+      return `<text x="${x}" y="30" font-weight="700">${name}</text>
+        <rect x="${x}" y="72" width="243" height="27" fill="#e7edf0"/>
+        <rect data-nutrient-protein="${j}" x="${x}" y="72" width="${27 * a}" height="27" fill="#326b8c"/>
+        <rect data-nutrient-carbs="${j}" x="${x + 27 * a}" y="72" width="${27 * b}" height="27" fill="#b95013"/>
+        <line x1="${x + 27 * nutritionModel.c[j]}" x2="${x + 27 * nutritionModel.c[j]}" y1="64" y2="104" stroke="#263943" stroke-width="4"/>
+        <text x="${x}" y="58">Price $${nutritionModel.c[j]}</text>
+        <text data-nutrient-food-value="${j}" x="${x}" y="129">Nutrient value $${a + b}</text>
+        <text data-nutrient-food-status="${j}" x="${x}" y="157">Within price</text>`;
+    }).join('')}
+    <rect x="20" y="183" width="18" height="18" fill="#326b8c"/><text x="45" y="201">Protein value</text>
+    <rect x="335" y="183" width="18" height="18" fill="#b95013"/><text x="360" y="201">Carb value</text>
+    <line x1="652" y1="179" x2="652" y2="204" stroke="#263943" stroke-width="4"/><text x="670" y="201">Food price</text>
+    </g></svg></figure>`;
+}
+function nutritionWidget() {
+  return `<div data-nutrition-widget>${nutritionGraphic()}
+    <div class="dy-controls dy-nutrition-controls" data-screen-only>
+      <label>Protein value: $<output data-nutrition-protein-output>1</output><input data-nutrition-protein aria-label="Dollars per protein unit" type="range" min="0" max="3" step=".25" value="1"/></label>
+      <label>Carb value: $<output data-nutrition-carbs-output>2</output><input data-nutrition-carbs aria-label="Dollars per carbohydrate unit" type="range" min="0" max="3" step=".25" value="2"/></label>
+      <button type="button" data-nutrition-reset>Reset to $1 and $2</button>
+    </div>
+    <p class="dy-nutrition-status" data-nutrition-status role="status">Valid weights: every food is within its price. Lower bound: $14.</p></div>`;
+}
+function mountNutrition({ slideElement }) {
+  const root = slideElement.querySelector('[data-nutrition-widget]');
+  const protein = root.querySelector('[data-nutrition-protein]'), carbs = root.querySelector('[data-nutrition-carbs]');
+  const reset = root.querySelector('[data-nutrition-reset]');
+  const number = x => Number(x.toFixed(2)).toString();
+  const update = () => {
+    const state = nutritionState(Number(protein.value), Number(carbs.value));
+    root.dataset.state = JSON.stringify(state);
+    root.querySelector('[data-nutrition-protein-output]').textContent = number(state.protein);
+    root.querySelector('[data-nutrition-carbs-output]').textContent = number(state.carbs);
+    [protein, carbs].forEach((input, i) => input.setAttribute('aria-valuetext', `$${number(i ? state.carbs : state.protein)} per ${i ? 'carbohydrate' : 'protein'} unit`));
+    state.values.forEach((value, j) => {
+      const width = 27 * state.protein * nutritionModel.A[0][j];
+      root.querySelector(`[data-nutrient-protein="${j}"]`).setAttribute('width', String(width));
+      const bar = root.querySelector(`[data-nutrient-carbs="${j}"]`);
+      bar.setAttribute('x', String(20 + j * 315 + width));
+      bar.setAttribute('width', String(27 * state.carbs * nutritionModel.A[1][j]));
+      root.querySelector(`[data-nutrient-food-value="${j}"]`).textContent = `Nutrient value $${number(value)}`;
+      root.querySelector(`[data-nutrient-food-status="${j}"]`).textContent = value <= nutritionModel.c[j] + 1e-9 ? 'Within price' : 'Exceeds price';
+    });
+    const status = state.valid ? `Valid weights: every food is within its price. Lower bound: $${number(state.bound)}.` : `Invalid weights: a food’s nutrient value exceeds its price. $${number(state.bound)} is not a certified bound.`;
+    root.querySelector('[data-nutrition-status]').textContent = status;
+    root.querySelector('[data-nutrition-graphic]').setAttribute('aria-label', `Nutrient values ${state.values.map(number).join(', ')} dollars; food prices 4, 5, 4 dollars. ${status}`);
+  };
+  const resetValues = () => { protein.value = '1'; carbs.value = '2'; update(); };
+  protein.addEventListener('input', update); carbs.addEventListener('input', update); reset.addEventListener('click', resetValues); update();
+  return () => { protein.removeEventListener('input', update); carbs.removeEventListener('input', update); reset.removeEventListener('click', resetValues); };
+}
+
 function boundGraphic(bound = 4, feasible = true) {
   const location = value => 65 + 46 * value;
   return `<figure class="dy-figure"><svg viewBox="0 0 520 170" role="img" aria-label="Objective-value line. The feasible point (4,1) has cost 7. Current weighted value ${bound}; ${feasible ? 'the weights certify a lower bound' : 'the weights do not certify a bound'}." data-weight-graphic>
@@ -97,7 +161,7 @@ const main = [
     p('A feasible solution tells us what we can achieve. A dual solution tells us what no feasible solution can beat.') +
     box(p('<strong>Our route:</strong> combine constraints → choose the best weights → write the dual → prove weak duality.')) +
     p('Minimization and its lower bounds · Bertsimas and Tsitsiklis §§4.1–4.3.') +
-    '<nav class="dy-contents" aria-label="Duality I sections"><a href="#slide=3">Start with arithmetic</a><a href="#slide=7">Build the continuing example</a><a href="#slide=12">Signs and dual constraints</a><a href="#slide=17">Weak duality</a><a href="#slide=26">Optional derivations</a></nav>', [3, 20, 46], { kind: 'title' }),
+    '<nav class="dy-contents" aria-label="Duality I sections"><a href="#slide=3">Start with arithmetic</a><a href="#slide=7">Nutrition: what the weights mean</a><a href="#slide=16">Signs and dual constraints</a><a href="#slide=21">Weak duality</a><a href="#slide=30">Optional derivations</a></nav>', [3, 20, 46], { kind: 'title' }),
 
   slide('two-sides', 'A good solution and a good bound answer different questions',
     p(raw`For a minimization problem, a feasible point \(x\) gives an <strong>upper bound</strong> on the optimal value \(v^*\).`) +
@@ -141,10 +205,52 @@ const main = [
       checkpoint: checkpoint('For this ≥-constraint warmup, why must every weight be nonnegative?', ['To keep every weighted inequality pointing ≥ when we add them.', 'Because all dual variables in every LP are nonnegative.', 'Because the primal variables are nonnegative.', 'Because negative numbers cannot appear in an objective.'], 0, 'A negative multiplier reverses an inequality. Here the primal variables are unrestricted; the weights are nonnegative because they multiply ≥ constraints in a minimization problem.'),
     }),
 
+  slide('nutrition-meal', 'Can we meet the requirements for less than $14?',
+    p('Recall HW1’s nutrition problem. Here we use simplified nutrient units and illustrative prices.') +
+    table(['Per serving', 'Protein units', 'Carb units', 'Cost'], [
+      [raw`Lentil dish \(x_L\)`, '2', '1', '$4'], [raw`Grain dish \(x_G\)`, '1', '2', '$5'],
+      [raw`Snack \(x_S\)`, '1', '1', '$4'], ['Minimum required', '4', '5', ''],
+    ]) +
+    p(raw`Choose servings \(x_L,x_G,x_S\ge0\) to minimize \(4x_L+5x_G+4x_S\), meeting both minimums. Fractional servings are allowed.`) +
+    box(p('<strong>One feasible meal:</strong> 1 lentil dish + 2 grain dishes + no snack.') +
+      p(raw`Protein: \(2+2=4\). Carbs: \(1+4=5\). Cost: \(4+10=14\).`), 'blue', '1') +
+    box(p(raw`We know \(v^*\le14\). How can we prove that no cheaper meal works?`), 'green', '2'), []),
+
+  slide('nutrition-values', 'Assign dollar values to the nutrients',
+    p(raw`Let \(p\ge0\) be dollars per protein unit and \(q\ge0\) dollars per carb unit. Try \(p=1,\ q=2\).`) +
+    box(p('<strong>Check every food:</strong> its assigned nutrient value must not exceed its price.')) +
+    nutritionWidget(), [], { onMount: mountNutrition,
+      printHtml: p(raw`Value protein at \(p=1\) dollar/unit and carbs at \(q=2\) dollars/unit.`) +
+        nutritionGraphic() + table(['Food', 'Assigned nutrient value', 'Food price'], [
+          ['Lentil dish', raw`\(2(1)+1(2)=4\)`, '$4'], ['Grain dish', raw`\(1(1)+2(2)=5\)`, '$5'], ['Snack', raw`\(1(1)+1(2)=3\)`, '$4'],
+        ]) + p('All three foods cost at least their assigned nutrient value.'),
+    }),
+
+  slide('nutrition-bound', 'Every acceptable meal costs at least $14',
+    p(raw`Keep \(p=1,\ q=2\). For any servings \(x_L,x_G,x_S\ge0\):`) +
+    box(math(raw`\underbrace{4x_L+5x_G+4x_S}_{\text{meal cost}}\ \ge\ \underbrace{4x_L+5x_G+3x_S}_{\text{assigned nutrient value}}.`) +
+      p('Each food’s price covers its nutrient value; buying more servings preserves this inequality.')) +
+    box(math(raw`\begin{aligned}4x_L+5x_G+3x_S
+      &=(2x_L+x_G+x_S)+2(x_L+2x_G+x_S)\\
+      &\ge4+2(5)=14.\end{aligned}`) +
+      p('The two parentheses are total protein and total carbs. Both must meet their minimums.'), 'blue', '1') +
+    box(p('<strong>Every feasible meal costs at least $14, and our meal costs $14. It is optimal.</strong>'), 'green', '2'), []),
+
+  slide('nutrition-dual', 'Choose the strongest nutrient valuation',
+    p(raw`Choose nonnegative nutrient values \(p,q\) to make the required nutrients worth as much as possible, while respecting every food price.`) +
+    math(raw`\begin{aligned}\max\quad &4p+5q &&\text{value of the minimum requirements}\\
+      \text{s.t.}\quad &2p+q\le4 &&\text{lentil dish},\\
+      &p+2q\le5 &&\text{grain dish},\\
+      &p+q\le4 &&\text{snack},\\
+      &p,q\ge0.\end{aligned}`) +
+    box(p(raw`The feasible weights \((p,q)=(1,1)\) give a $9 bound. The better weights \((1,2)\) give $14, matching our meal.`), 'green', '1') +
+    p('<strong>Primal:</strong> choose food quantities. <strong>Dual:</strong> choose nutrient values that certify a lower bound.') +
+    p('These are the same constraint weights as in the warmup, now with a practical meaning.'), []),
+
   slide('continuing-model', 'Our continuing example has equality constraints',
     primal46() +
     box(p('We will use this same problem to study bounds, optimality certificates, complementary slackness, and prices.')) +
-    p('An equality can be multiplied by a positive or negative number without losing equality. Its weight can therefore be unrestricted.'), [14, 15, 75]),
+    p('The nutrition minimums used nonnegative weights. An equality can be multiplied by either sign without losing equality, so its weight can be unrestricted.'), [14, 15, 75]),
 
   slide('certificate-arithmetic', 'Two weighted equalities nearly reproduce the objective',
     p(raw`Our equalities are \(5x_1+x_2+3x_3=8\) and \(3x_1+x_2=3\), with \(x\ge0\).`) +
@@ -363,6 +469,7 @@ export const slides = [...main.map(s => ({ ...s, section: 'Duality I · Bounds a
 export const referenceMap = slides.map(({ id, page, title, section, referencePages }) => ({ id, page, title, section, referencePages }));
 export const auditData = {
   mainPageCount: main.length,
+  nutrition: nutritionModel,
   warmup: { variableSigns: ['free', 'free'], weights: 't,4-2t,1-t', interval: [0, 1], bound: '7-3t', optimum: [4, 1], value: 7 },
   example46: { A: [[5, 1, 3], [3, 1, 0]], b: [8, 3], c: [13, 10, 6], primal: [1, 0, 1], dual: [2, 1], reducedCosts: [0, 7, 0], value: 19 },
   practice: { A: [[1, 1], [1, 2]], b: [3, 6], c: [2, 1], rowSigns: ['>=', '<='], variableSigns: ['nonnegative', 'free'], primal: [0, 3], dual: [1, 0], value: 3 },
