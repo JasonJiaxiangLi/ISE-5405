@@ -2,19 +2,19 @@
 [data-slide-id="l17-weights-explore"] .dy-figure svg { max-height: 7em; }
 [data-slide-id="l17-weights-explore"] .dy-controls { align-items: flex-start; }
 
-/* The three bars form one comparison figure, in the same dollar scale. */
+/* Compare weighted constraint coefficients with the objective coefficients. */
 .dy-nutrition-figure svg { max-height: none; }
 .dy-nutrition-figure svg text { font-size: 24px; }
-.dy-nutrition-controls { justify-content: space-between; gap: .25em .6em; }
-.dy-nutrition-controls label { gap: .15em; }
+.dy-nutrition-controls { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr) auto; gap: .25em .6em; }
+.dy-nutrition-controls label { flex-direction: column; align-items: flex-start; gap: 0; }
 .dy-nutrition-controls input[type="range"] { width: 6em; }
-.dy-nutrition-controls output { display: inline-block; min-width: 2.2em; }
-.dy-nutrition-status { min-height: 2.6em; padding: .25em .5em; background: #eff6fa; }
+.dy-nutrition-controls output { display: inline-block; min-width: 1.4em; }
+.dy-nutrition-status { min-height: 2em; padding: .2em .5em; background: #eff6fa; }
 @media (max-width: 760px) {
   .dy-nutrition-figure { overflow-x: auto; }
   .dy-nutrition-figure svg { min-width: 760px; }
-  .dy-nutrition-controls { flex-direction: column; align-items: stretch; }
-  .dy-nutrition-controls label { justify-content: space-between; }
+  .dy-nutrition-controls { grid-template-columns: 1fr; align-items: stretch; }
+  .dy-nutrition-controls label { align-items: stretch; }
 }
 @media print {
   .dy-nutrition-figure svg { min-width: 0; max-height: none; }
