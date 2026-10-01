@@ -12,73 +12,6 @@ const warmup = () => math(raw`\begin{aligned}\min\quad &x_1+3x_2\\\text{s.t.}\qu
 const mixedPrimal = () => math(raw`\begin{aligned}\min\quad &x_1+2x_2+3x_3\\\text{s.t.}\quad &-x_1+3x_2=5,\\&2x_1-x_2+3x_3\ge6,\quad x_3\le4,\\&x_1\ge0,\quad x_2\le0,\quad x_3\text{ unrestricted}.\end{aligned}`);
 
 export const nutritionModel = { A: [[2, 1, 1], [1, 2, 1]], b: [4, 5], c: [4, 5, 4], primal: [1, 2, 0], dual: [1, 2], value: 14 };
-export function nutritionState(protein, carbs) {
-  const values = nutritionModel.c.map((_, j) => protein * nutritionModel.A[0][j] + carbs * nutritionModel.A[1][j]);
-  return { protein, carbs, values, bound: 4 * protein + 5 * carbs,
-    valid: protein >= 0 && carbs >= 0 && values.every((v, j) => v <= nutritionModel.c[j] + 1e-9) };
-}
-function nutritionGraphic() {
-  const names = ['Lentil dish', 'Grain dish', 'Snack'];
-  return `<figure class="dy-figure dy-nutrition-figure" tabindex="0" aria-label="Weighted constraint coefficients compared with food costs; scroll horizontally on a narrow screen"><svg viewBox="0 0 960 154" role="img" data-nutrition-graphic aria-label="Weighted coefficients are 4, 5 and 3; food costs are 4, 5 and 4. Every weighted coefficient is at most the corresponding cost.">
-    <g font-family="system-ui,sans-serif" font-size="24">
-    ${names.map((name, j) => {
-      const x = 20 + j * 315, a = nutritionModel.A[0][j], b = nutritionModel.A[1][j] * 2;
-      return `<text x="${x}" y="26" font-weight="700">${name}</text>
-        <rect x="${x}" y="37" width="243" height="22" fill="#e7edf0"/>
-        <rect data-nutrient-protein="${j}" x="${x}" y="37" width="${27 * a}" height="22" fill="#326b8c"/>
-        <rect data-nutrient-carbs="${j}" x="${x + 27 * a}" y="37" width="${27 * b}" height="22" fill="#b95013"/>
-        <line x1="${x + 27 * nutritionModel.c[j]}" x2="${x + 27 * nutritionModel.c[j]}" y1="31" y2="65" stroke="#263943" stroke-width="4"/>
-        <text x="${x + 280}" y="26" text-anchor="end">Cost $${nutritionModel.c[j]}</text>
-        <text data-nutrient-food-value="${j}" x="${x}" y="86">Weighted coefficient: ${a + b}</text>
-        <text data-nutrient-food-status="${j}" x="${x}" y="112">At most the food cost</text>`;
-    }).join('')}
-    <rect x="20" y="130" width="18" height="18" fill="#326b8c"/><text x="45" y="148">Protein row</text>
-    <rect x="335" y="130" width="18" height="18" fill="#b95013"/><text x="360" y="148">Carb row</text>
-    <line x1="652" y1="126" x2="652" y2="151" stroke="#263943" stroke-width="4"/><text x="670" y="148">Food cost</text>
-    </g></svg></figure>`;
-}
-function nutritionWidget() {
-  return `<div data-nutrition-widget>${nutritionGraphic()}
-    <div class="dy-controls dy-nutrition-controls" data-screen-only>
-      <label><span>Protein-constraint weight: <output data-nutrition-protein-output>1</output></span><input data-nutrition-protein aria-label="Protein-constraint weight" type="range" min="0" max="3" step=".25" value="1"/></label>
-      <label><span>Carbohydrate-constraint weight: <output data-nutrition-carbs-output>2</output></span><input data-nutrition-carbs aria-label="Carbohydrate-constraint weight" type="range" min="0" max="3" step=".25" value="2"/></label>
-      <button type="button" data-nutrition-reset>Reset weights</button>
-    </div>
-    <p class="dy-nutrition-status" data-nutrition-status role="status">All weighted coefficients fit beneath the food costs. Lower bound: $14.</p></div>`;
-}
-function nutritionCostProof(explore = false) {
-  return box(math(raw`\underbrace{4x_L+5x_G+4x_S}_{\text{actual meal cost}}=\underbrace{4x_L+5x_G+3x_S}_{\text{at least }14}+\underbrace{x_S}_{\ge0}.`)) +
-    p('<strong>Weights 1 and 2 prove our $14 meal is optimal.</strong>' + (explore ? ' Try other weights below.' : ' Every acceptable meal costs at least $14.'));
-}
-function mountNutrition({ slideElement }) {
-  const root = slideElement.querySelector('[data-nutrition-widget]');
-  const protein = root.querySelector('[data-nutrition-protein]'), carbs = root.querySelector('[data-nutrition-carbs]');
-  const reset = root.querySelector('[data-nutrition-reset]');
-  const number = x => Number(x.toFixed(2)).toString();
-  const update = () => {
-    const state = nutritionState(Number(protein.value), Number(carbs.value));
-    root.dataset.state = JSON.stringify(state);
-    root.querySelector('[data-nutrition-protein-output]').textContent = number(state.protein);
-    root.querySelector('[data-nutrition-carbs-output]').textContent = number(state.carbs);
-    [protein, carbs].forEach((input, i) => input.setAttribute('aria-valuetext', `${number(i ? state.carbs : state.protein)} times the ${i ? 'carbohydrate' : 'protein'} constraint`));
-    state.values.forEach((value, j) => {
-      const width = 27 * state.protein * nutritionModel.A[0][j];
-      root.querySelector(`[data-nutrient-protein="${j}"]`).setAttribute('width', String(width));
-      const bar = root.querySelector(`[data-nutrient-carbs="${j}"]`);
-      bar.setAttribute('x', String(20 + j * 315 + width));
-      bar.setAttribute('width', String(27 * state.carbs * nutritionModel.A[1][j]));
-      root.querySelector(`[data-nutrient-food-value="${j}"]`).textContent = `Weighted coefficient: ${number(value)}`;
-      root.querySelector(`[data-nutrient-food-status="${j}"]`).textContent = value <= nutritionModel.c[j] + 1e-9 ? 'At most the food cost' : 'Exceeds the food cost';
-    });
-    const status = state.valid ? `All weighted coefficients fit beneath the food costs. Lower bound: $${number(state.bound)}.` : `A weighted coefficient exceeds its food cost. $${number(state.bound)} is not a certified bound.`;
-    root.querySelector('[data-nutrition-status]').textContent = status;
-    root.querySelector('[data-nutrition-graphic]').setAttribute('aria-label', `Weighted constraint coefficients ${state.values.map(number).join(', ')}; food costs 4, 5, 4. ${status}`);
-  };
-  const resetValues = () => { protein.value = '1'; carbs.value = '2'; update(); };
-  protein.addEventListener('input', update); carbs.addEventListener('input', update); reset.addEventListener('click', resetValues); update();
-  return () => { protein.removeEventListener('input', update); carbs.removeEventListener('input', update); reset.removeEventListener('click', resetValues); };
-}
-
 function boundGraphic(bound = 4, feasible = true) {
   const location = value => 65 + 46 * value;
   return `<figure class="dy-figure"><svg viewBox="0 0 520 170" role="img" aria-label="Objective-value line. The feasible point (4,1) has cost 7. Current weighted value ${bound}; ${feasible ? 'the weights certify a lower bound' : 'the weights do not certify a bound'}." data-weight-graphic>
@@ -165,7 +98,7 @@ const main = [
     p('A feasible solution tells us what we can achieve. A dual solution tells us what no feasible solution can beat.') +
     box(p('<strong>Our route:</strong> combine constraints → choose the best weights → write the dual → prove weak duality.')) +
     p('Minimization and its lower bounds · Bertsimas and Tsitsiklis §§4.1–4.3.') +
-    '<nav class="dy-contents" aria-label="Duality I sections"><a href="#slide=3">Start with arithmetic</a><a href="#slide=7">Nutrition: what the weights mean</a><a href="#slide=16">Signs and dual constraints</a><a href="#slide=21">Weak duality</a><a href="#slide=30">Optional derivations</a></nav>', [3, 20, 46], { kind: 'title' }),
+    '<nav class="dy-contents" aria-label="Duality I sections"><a href="#slide=3">Start with arithmetic</a><a href="#slide=7">Nutrition: prove the minimum cost</a><a href="#slide=15">Signs and dual constraints</a><a href="#slide=20">Weak duality</a><a href="#slide=29">Optional derivations</a></nav>', [3, 20, 46], { kind: 'title' }),
 
   slide('two-sides', 'A good solution and a good bound answer different questions',
     p(raw`For a minimization problem, a feasible point \(x\) gives an <strong>upper bound</strong> on the optimal value \(v^*\).`) +
@@ -225,14 +158,9 @@ const main = [
     box(math(raw`\begin{aligned}2x_L+x_G+x_S&\ge4 &&\text{(protein)},\\x_L+2x_G+x_S&\ge5 &&\text{(carbohydrates)}.\end{aligned}`)) +
     p('<strong>Try this combination:</strong> the protein constraint plus twice the carbohydrate constraint.') +
     math(raw`(2x_L+x_G+x_S)+2(x_L+2x_G+x_S)\ge4+2(5).`) +
-    box(math(raw`4x_L+5x_G+3x_S\ge14.`), 'green') +
-    p('This holds for every acceptable meal. Next, compare the left side with the actual bill.'), []),
-
-  slide('nutrition-bound', 'Every acceptable meal costs at least $14',
-    nutritionCostProof(true) + nutritionWidget(), [], { onMount: mountNutrition,
-      printHtml: nutritionCostProof() + nutritionGraphic() +
-        p('The bars use protein-constraint weight 1 and carbohydrate-constraint weight 2. Each combined coefficient is at most its food cost.'),
-    }),
+    box(p(raw`Since \(x_S\ge0\), the actual meal cost satisfies`) +
+      math(raw`\underbrace{4x_L+5x_G+4x_S}_{\text{meal cost}}\ge4x_L+5x_G+3x_S\ge14.`) +
+      p('<strong>Our feasible meal costs $14, so it is optimal.</strong>'), 'green'), []),
 
   slide('nutrition-dual', 'Find the strongest cost guarantee',
     p(raw`Let \(p,q\ge0\) weight the protein and carbohydrate constraints, respectively.`) +
