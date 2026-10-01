@@ -48,13 +48,13 @@ export const mainSlides = [
 
   slide('retrieve-dual','Recall the dual: feasible weights give a lower bound',
     dual46()+
-    box(p(raw`For every feasible primal \(x\) and feasible dual \(p\), weak duality gives`) + math(raw`8p_1+3p_2\le13x_1+10x_2+6x_3.`),'blue','1')+
+    box(p(raw`For every feasible primal \(x\) and feasible dual \(p\), weak duality gives`) + math(raw`8p_1+3p_2\le13x_1+10x_2+6x_3.`), 'blue')+
     p('The weights are unrestricted because the primal constraints are equalities. The three dual inequalities correspond to the three nonnegative primal variables.'),[47,51,75]),
 
   slide('strong-duality','Strong duality: the best bound reaches the best cost',
     equalityPair()+
     box(p('<strong>Theorem 4.4 — assumption:</strong> the primal LP is feasible and has a finite optimal value.'),'blue')+
-    box(p('<strong>Conclusion:</strong> both primal and dual attain optimal solutions, and their optimal objective values are equal.')+math(raw`c^\top x^*=b^\top p^*.`),'green','1')+
+    box(p('<strong>Conclusion:</strong> both primal and dual attain optimal solutions, and their optimal objective values are equal.')+math(raw`c^\top x^*=b^\top p^*.`), 'green')+
     p('The same statement holds starting from a finite dual optimum. Strong duality does not require nondegeneracy.'),[52,53]),
 
   slide('possible-outcomes','What can happen to a primal–dual pair?',
@@ -69,19 +69,19 @@ export const mainSlides = [
   slide('strong-duality-intuition','Why simplex can produce the matching bound',
     box(p('<strong>At a final simplex dictionary:</strong> every nonbasic reduced cost is nonnegative.'))+
     p('The row combinations used to form the objective row also give weights on the original equalities.')+
-    box(p('Nonnegative reduced costs say that these weights are dual feasible. At the current basic solution, the weighted right-hand sides equal the current objective.'),'green','1')+
+    box(p('Nonnegative reduced costs say that these weights are dual feasible. At the current basic solution, the weighted right-hand sides equal the current objective.'), 'green')+
     p('Weak duality checks a proposed certificate; strong duality guarantees that a matching certificate exists. The full proof is in the appendix.'),[54,55,56]),
 
   slide('check-primal','Check the proposed primal solution explicitly',
     p(raw`For the primal \(\min13x_1+10x_2+6x_3\), use \(x^*=(1,0,1)\).`) +
     math(raw`\begin{aligned}5(1)+0+3(1)&=8,\\3(1)+0&=3,\\x^*&\ge0.\end{aligned}`)+
-    box(math(raw`c^\top x^*=13(1)+10(0)+6(1)=19.`),'green','1')+
+    box(math(raw`c^\top x^*=13(1)+10(0)+6(1)=19.`), 'green')+
     p('This verifies primal feasibility and an upper bound of 19. Now check the lower-bound certificate.'),[75,76]),
 
   slide('check-dual','Check the proposed dual solution explicitly',
     pair(p(raw`Try \(p^*=(2,1)\). The dual maximizes \(8p_1+3p_2\), with unrestricted weights.`)+
       math(raw`\begin{aligned}5(2)+3(1)&=13\le13,\\2+1&=3\le10,\\3(2)&=6\le6.\end{aligned}`)+
-      box(math(raw`b^\top p^*=8(2)+3(1)=19.`),'green','1')+
+      box(math(raw`b^\top p^*=8(2)+3(1)=19.`), 'green')+
       p('The point lies in the dual feasible region. Its lower bound matches the primal cost.'),figure46({point:[2,1],invalid:false})),[77,78],{
       checkpoint:checkpoint('Which facts are needed to certify both solutions as optimal?',[
         'Only that their objective values are equal.',
@@ -96,7 +96,7 @@ export const mainSlides = [
     math(raw`\begin{aligned}13x_1+10x_2+6x_3
       &=2(5x_1+x_2+3x_3)+(3x_1+x_2)+7x_2\\
       &=19+7x_2\ge19.\end{aligned}`)+
-    box(p(raw`Our feasible point has \(x_2=0\), so it attains the lower bound. Thus the primal and dual optimum is \(19\).`),'green','1')+
+    box(p(raw`Our feasible point has \(x_2=0\), so it attains the lower bound. Thus the primal and dual optimum is \(19\).`), 'green')+
     p('The unused amount 7 in the second dual inequality explains the extra term in this identity.'),[75,76,77,78]),
 
   slide('gap-equality','The objective gap is the sum of variable–slack products',
@@ -105,7 +105,7 @@ export const mainSlides = [
       &=c^\top x-p^\top Ax\\
       &=(c-A^\top p)^\top x\\
       &=\sum_j r_jx_j\ge0.\end{aligned}`)+
-    box(p(raw`The gap is zero exactly when \(r_jx_j=0\) for every variable \(j\). Each summand is nonnegative.`),'green','1')+
+    box(p(raw`The gap is zero exactly when \(r_jx_j=0\) for every variable \(j\). Each summand is nonnegative.`), 'green')+
     p('Next we also allow slack in the primal constraints.'),[67,68]),
 
   slide('inequality-pair','With inequalities, both sides have slack',
@@ -120,12 +120,12 @@ export const mainSlides = [
       &=(c-A^\top p)^\top x+p^\top(Ax-b)\\
       &=\sum_jr_jx_j+\sum_ip_is_i.
     \end{aligned}`)+
-    box(p('Every term is nonnegative. The total gap is zero exactly when every one of these products is zero.'),'green','1'),[67,68,69]),
+    box(p('Every term is nonnegative. The total gap is zero exactly when every one of these products is zero.'), 'green'),[67,68,69]),
 
   slide('complementary-slackness','Complementary slackness: two feasible solutions are optimal',
     p(raw`Use the pair \(\min\{c^\top x:Ax\ge b,x\ge0\}\) and \(\max\{b^\top p:A^\top p\le c,p\ge0\}\).`)+
     box(p('<strong>Theorem 4.5 — assumption:</strong> x and p are feasible for their respective problems.'))+
-    box(p('<strong>Conclusion:</strong> they are both optimal if and only if')+math(raw`\begin{aligned}p_i(a_i^\top x-b_i)&=0&&\text{for every row }i,\\x_j(c_j-A_j^\top p)&=0&&\text{for every variable }j.\end{aligned}`),'green','1')+
+    box(p('<strong>Conclusion:</strong> they are both optimal if and only if')+math(raw`\begin{aligned}p_i(a_i^\top x-b_i)&=0&&\text{for every row }i,\\x_j(c_j-A_j^\top p)&=0&&\text{for every variable }j.\end{aligned}`), 'green')+
     p('At optimality the total gap is zero; since every product is nonnegative, each must vanish.'),[67,68,69]),
 
   slide('complementary-pairs','Read each zero product carefully',
@@ -133,7 +133,7 @@ export const mainSlides = [
       [raw`\(p_i s_i=0\)`,raw`\(p_i>0\Rightarrow s_i=0\): the primal row is tight.`,raw`\(s_i>0\Rightarrow p_i=0\): its weight is zero.`],
       [raw`\(x_j r_j=0\)`,raw`\(x_j>0\Rightarrow r_j=0\): the dual row is tight.`,raw`\(r_j>0\Rightarrow x_j=0\): that variable is unused.`],
     ])+
-    box(p('A zero first factor does not force positive slack. Both factors may be zero.'),'orange','1'),[69,70,71],{
+    box(p('A zero first factor does not force positive slack. Both factors may be zero.'), 'orange'),[69,70,71],{
       checkpoint:checkpoint('At an optimal feasible pair, the second primal variable is zero. Must its dual inequality have positive slack?',[
         'Yes: zero variables always correspond to positive dual slack.',
         'No: that dual slack may be zero or positive.',
@@ -147,39 +147,39 @@ export const mainSlides = [
     table(['Variable',raw`\(x_j\)`,raw`\(r_j=c_j-A_j^\top p\)`,raw`\(x_jr_j\)`],[
       [raw`\(x_1\)`,'1','0','0'],[raw`\(x_2\)`,'0','7','0'],[raw`\(x_3\)`,'1','0','0'],
     ])+
-    box(p(raw`All primal rows are equalities: \(Ax-b=0\). Thus \(p_i(a_i^\top x-b_i)=0\) automatically, even though \(p_i\) can have either sign.`),'green','1')+
+    box(p(raw`All primal rows are equalities: \(Ax-b=0\). Thus \(p_i(a_i^\top x-b_i)=0\) automatically, even though \(p_i\) can have either sign.`), 'green')+
     p('The positive variables 1 and 3 identify the dual constraints that must be tight.'),[68,76,77]),
 
   slide('recover-weights','Recover the weights from the positive variables',
     p(raw`Suppose we know the optimal primal point \(x^*=(1,0,1)\). Complementary slackness gives`) +
     box(math(raw`\begin{aligned}x_1^*>0&\quad\Rightarrow\quad5p_1+3p_2=13,\\x_3^*>0&\quad\Rightarrow\quad3p_1=6.\end{aligned}`))+
-    box(math(raw`p_1=2,\qquad p_2=1.`),'green','1')+
+    box(math(raw`p_1=2,\qquad p_2=1.`), 'green')+
     p(raw`Finally check the remaining dual inequality: \(p_1+p_2=3\le10\). Solving the tight equations proposes a candidate; this last feasibility check completes the certificate.`),[77,78]),
 
   slide('basis-matrix-reminder','The matrix equation packages the same two equalities',
     p(raw`The basic variables are \(x_1,x_3\), so their columns and costs are`) +
     math(raw`B=\begin{pmatrix}5&3\\3&0\end{pmatrix},\qquad c_{\mathcal B}=\begin{pmatrix}13\\6\end{pmatrix}.`)+
-    box(math(raw`B^\top p=c_{\mathcal B}\quad\Longleftrightarrow\quad\begin{cases}5p_1+3p_2=13,\\3p_1=6.\end{cases}`),'blue','1')+
+    box(math(raw`B^\top p=c_{\mathcal B}\quad\Longleftrightarrow\quad\begin{cases}5p_1+3p_2=13,\\3p_1=6.\end{cases}`), 'blue')+
     p(raw`This is the equation we just solved. Equivalently, \(p^\top=c_{\mathcal B}^\top B^{-1}\). No explicit inverse is needed here.`)+
     p('When all basic variables are positive, their tight constraints determine these weights uniquely.'),[79,80]),
 
   slide('reduced-costs-and-dual-feasibility','The simplex sign test is a dual-feasibility test',
     p(raw`For basis \(B\), compute \(p\) from \(B^\top p=c_{\mathcal B}\). Then`) +
     math(raw`\bar c_j=c_j-c_{\mathcal B}^\top B^{-1}A_j=c_j-p^\top A_j.`)+
-    box(p(raw`Thus \(\bar c\ge0\) is exactly \(A^\top p\le c\): dual feasibility.`),'blue','1')+
-    box(p('If the current basic solution is also primal feasible, its cost equals the weighted right-hand sides. The feasible pair with equal values is an optimality certificate.'),'green','2')+
+    box(p(raw`Thus \(\bar c\ge0\) is exactly \(A^\top p\le c\): dual feasibility.`), 'blue')+
+    box(p('If the current basic solution is also primal feasible, its cost equals the weighted right-hand sides. The feasible pair with equal values is an optimality certificate.'), 'green')+
     p('An optimal point may be degenerate. We need a basis whose reduced costs pass the sign test; an arbitrary basis representing that point need not do so.'),[80,81]),
 
   slide('nonoptimal-basis','Tight equations alone can propose the wrong weights',
     p(raw`Return to the same primal equations. Another feasible basic solution is \(x=(0,3,5/3)\), with cost \(40\).`) +
     math(raw`5(0)+3+3(5/3)=8,\qquad3(0)+3=3.`)+
-    box(p('Its positive variables are 2 and 3. Making their dual inequalities tight gives')+math(raw`p_1+p_2=10,\qquad3p_1=6\quad\Rightarrow\quad p=(2,8).`),'blue','1')+
+    box(p('Its positive variables are 2 and 3. Making their dual inequalities tight gives')+math(raw`p_1+p_2=10,\qquad3p_1=6\quad\Rightarrow\quad p=(2,8).`), 'blue')+
     p('Does this candidate satisfy every dual inequality?'),[80,81]),
 
   slide('nonoptimal-dual-check','The missing dual inequality rejects that candidate',
     pair(p(raw`At \(p=(2,8)\), the first dual inequality fails:`)+
       math(raw`5p_1+3p_2=34>13.`)+
-      box(p(raw`Its dual slack, and the reduced cost of \(x_1\), is \(13-34=-21\).`),'orange','1')+
+      box(p(raw`Its dual slack, and the reduced cost of \(x_1\), is \(13-34=-21\).`), 'orange')+
       p(raw`Although \(b^\top p=40=c^\top x\), this is not a valid lower bound: \(p\) is infeasible.`)+
       p('Equal values and complementary products cannot replace the feasibility checks.'),figure46({point:[2,8],invalid:true})),[81],{
       checkpoint:checkpoint('The tight equations give p=(2,8), and its weighted RHS equals the primal cost 40. Why is this not an optimality certificate?',[
@@ -199,7 +199,7 @@ export const mainSlides = [
   slide('certificate-practice-answer','Practice answer: one weight certifies a cost of 8',
     math(raw`\max\ 4p\qquad\text{s.t.}\quad p\le2,\quad p\le3,\quad p\ge0.`)+
     box(p(raw`Since \(x_1=4>0\), its dual constraint is tight: \(p=2\). This satisfies every dual constraint.`))+
-    box(math(raw`2(4)+3(0)=8=4(2).`)+p('Both points are feasible and their values match, so both are optimal.'),'green','1')+
+    box(math(raw`2(4)+3(0)=8=4(2).`)+p('Both points are feasible and their values match, so both are optimal.'), 'green')+
     math(raw`p\,s=2(4-4)=0,\qquad x_1r_1=4(2-2)=0,\qquad x_2r_2=0(3-2)=0.`),[67,69,77]),
 
   slide('study-guide','Use three checks before claiming optimality',
@@ -224,8 +224,8 @@ export const appendixSlides = [
 
   slide('proof-dual-feasibility','Strong duality proof: the final basis gives feasible weights',
     p(raw`Define \(p\) by \(B^\top p=c_{\mathcal B}\), or equivalently \(p^\top=c_{\mathcal B}^\top B^{-1}\).`)+
-    box(math(raw`c^\top-p^\top A=c^\top-c_{\mathcal B}^\top B^{-1}A\ge0.`),'blue','1')+
-    box(math(raw`A^\top p\le c.`)+p('These are exactly the dual constraints. Equality rows impose no sign restriction on p.'),'green','2')+
+    box(math(raw`c^\top-p^\top A=c^\top-c_{\mathcal B}^\top B^{-1}A\ge0.`), 'blue')+
+    box(math(raw`A^\top p\le c.`)+p('These are exactly the dual constraints. Equality rows impose no sign restriction on p.'), 'green')+
     p('Every basic dual inequality is tight. The nonbasic inequalities hold because the final reduced costs are nonnegative.'),[54]),
 
   slide('proof-equal-values','Strong duality proof: the objective values agree',
@@ -234,18 +234,18 @@ export const appendixSlides = [
       &=c_{\mathcal B}^\top B^{-1}b\\
       &=c_{\mathcal B}^\top x_{\mathcal B}\\
       &=c^\top x.\end{aligned}`)+
-    box(p('We have primal feasibility, dual feasibility, and matching values. Weak duality proves that both solutions are optimal.'),'green','1')+
+    box(p('We have primal feasibility, dual feasibility, and matching values. Weak duality proves that both solutions are optimal.'), 'green')+
     p('This proves strong duality for full-row-rank standard form, including degenerate optima.'),[55]),
 
   slide('proof-general-rows','Extend the proof: row signs and dependent equalities',
     box(p(raw`Replace \(a_i^\top x\ge b_i\) by \(a_i^\top x-s_i=b_i\), \(s_i\ge0\). Its zero-cost slack column gives \(-p_i\le0\), hence \(p_i\ge0\).`))+
-    box(p(raw`Replace \(a_i^\top x\le b_i\) by \(a_i^\top x+s_i=b_i\). Its slack column gives \(p_i\le0\). Equality rows keep \(p_i\) unrestricted.`),'blue','1')+
-    box(p('For a feasible equality system, discard dependent rows until the remaining rows are independent. Extend any weights for the retained rows by zero on the discarded rows.'),'green','2')+
+    box(p(raw`Replace \(a_i^\top x\le b_i\) by \(a_i^\top x+s_i=b_i\). Its slack column gives \(p_i\le0\). Equality rows keep \(p_i\) unrestricted.`), 'blue')+
+    box(p('For a feasible equality system, discard dependent rows until the remaining rows are independent. Extend any weights for the retained rows by zero on the discarded rows.'), 'green')+
     p(raw`Both \(A^\top p\) and \(b^\top p\) are unchanged by that extension, so the same certificate works for the original system.`),[56]),
 
   slide('proof-general-variables','Extend the proof: variable signs and the objective convention',
     box(p(raw`For a free variable, write \(x_j=u_j-v_j\), with \(u_j,v_j\ge0\). The two dual inequalities are`) +math(raw`A_j^\top p\le c_j,\qquad -A_j^\top p\le-c_j,`)+p(raw`which together say \(A_j^\top p=c_j\).`))+
-    box(p(raw`For \(x_j\le0\), substitute \(x_j=-u_j\). The dual inequality becomes \(A_j^\top p\ge c_j\).`),'blue','1')+
+    box(p(raw`For \(x_j\le0\), substitute \(x_j=-u_j\). The dual inequality becomes \(A_j^\top p\ge c_j\).`), 'blue')+
     p('These substitutions preserve feasible solutions and objective values. They recover the general dual sign rules from standard form.')+
     p('For a maximization primal, negate the objective to use the minimization proof, then undo that sign change. Dualizing the dual recovers the original problem, giving the symmetric theorem.'),[28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,56]),
 
@@ -253,15 +253,15 @@ export const appendixSlides = [
     p('In this example, the primal variables and the equality weights are unrestricted.')+
     math(raw`\begin{aligned}(P)\quad\min\ &x_1+2x_2&\quad\text{s.t. }&x_1+x_2=1,\quad2x_1+2x_2=3,\\(D)\quad\max\ &p_1+3p_2&\quad\text{s.t. }&p_1+2p_2=1,\quad p_1+2p_2=2.\end{aligned}`)+
     box(p('The primal equations disagree: twice the first left-hand side would have to equal both 2 and 3.'))+
-    box(p('The dual equations also disagree: their identical left-hand sides would have to equal both 1 and 2.'),'orange','1')+
+    box(p('The dual equations also disagree: their identical left-hand sides would have to equal both 1 and 2.'), 'orange')+
     p('Thus primal infeasibility alone does not imply dual unboundedness.'),[63]),
 
   slide('cs-proof','Complementary slackness proof: both directions',
     p(raw`For feasible \(x,p\) in the inequality form, set \(s=Ax-b\ge0\), \(r=c-A^\top p\ge0\).`) +
     math(raw`c^\top x-b^\top p=\sum_jx_jr_j+\sum_ip_is_i.`)+
     '<div class="dy-proof" tabindex="0" role="region" aria-label="Complementary slackness proof">'+
-    box(p('<strong>Necessity.</strong> If both points are optimal, strong duality says the gap is zero. Every summand is nonnegative, so each product must be zero.'),'blue','1')+
-    box(p('<strong>Sufficiency.</strong> If every product is zero, the gap is zero. The two feasible objective values agree; weak duality makes both points optimal.'),'green','2')+
+    box(p('<strong>Necessity.</strong> If both points are optimal, strong duality says the gap is zero. Every summand is nonnegative, so each product must be zero.'), 'blue')+
+    box(p('<strong>Sufficiency.</strong> If every product is zero, the gap is zero. The two feasible objective values agree; weak duality makes both points optimal.'), 'green')+
     p('For equality rows the primal slack is identically zero; their unrestricted multipliers cause no extra condition. The variable–dual-slack terms give the same conclusion.')+'</div>',[67,68,69]),
 
   slide('degenerate-example','A zero basic variable need not make its dual constraint tight',
@@ -269,7 +269,7 @@ export const appendixSlides = [
     p(raw`The only basic solution is \(x_1=0\): it is optimal and degenerate. Its dual is`) +
     math(raw`\max\ 0p\quad\text{s.t. }p\le1,\quad p\text{ unrestricted}.`)+
     box(p(raw`Complementary slackness says \(0(1-p)=0\), which holds for every dual feasible \(p\). It does not determine a unique multiplier.`))+
-    box(p(raw`The basis equation \(B^\top p=c_{\mathcal B}\) chooses \(p=1\), one valid optimal certificate. Strong duality still holds.`),'green','1')+
+    box(p(raw`The basis equation \(B^\top p=c_{\mathcal B}\) chooses \(p=1\), one valid optimal certificate. Strong duality still holds.`), 'green')+
     p('In a nondegenerate optimum, every basic variable is positive, so its dual constraint must be tight; that is why the recovery argument is stronger there.'),[79,80]),
 
   slide('inactive-constraint','An inactive constraint can have zero weight at optimum',
@@ -279,15 +279,15 @@ export const appendixSlides = [
 
   slide('inactive-constraint-argument','Why removing one inactive inequality preserves this optimum',
     p(raw`Let \(x^*\) be optimal and suppose one inequality is strict at \(x^*\). Remove that inequality.`)+
-    box(p(raw`If a newly allowed point \(y\) had lower cost, then \(x(t)=(1-t)x^*+ty\) would also have lower cost for every \(t>0\).`),'blue','1')+
-    box(p(raw`For sufficiently small \(t>0\), the removed inequality would still hold because it had positive slack at \(x^*\). All other constraints hold along the segment by convexity.`),'blue','2')+
-    box(p('That would give a cheaper point in the original feasible set, contradicting optimality.'),'green','3')+
+    box(p(raw`If a newly allowed point \(y\) had lower cost, then \(x(t)=(1-t)x^*+ty\) would also have lower cost for every \(t>0\).`), 'blue')+
+    box(p(raw`For sufficiently small \(t>0\), the removed inequality would still hold because it had positive slack at \(x^*\). All other constraints hold along the segment by convexity.`), 'blue')+
+    box(p('That would give a cheaper point in the original feasible set, contradicting optimality.'), 'green')+
     p('This explains the zero multiplier: the inactive inequality is unnecessary for a tight lower-bound certificate.'),[70,71]),
 
   slide('clark','An unbounded feasible set is not an unbounded objective',
     box(p('<strong>Clark’s theorem:</strong> unless both members of a primal–dual LP pair are infeasible, at least one has an unbounded feasible set. See textbook Exercise 4.21.'))+
     p(raw`For example, \(\min\{x:x\ge0\}\) has an unbounded feasible ray but a finite optimum \(0\).`)+
-    box(p('“Unbounded feasible set” concerns where feasible points can go. “Unbounded minimization problem” means feasible objective values decrease without limit. These statements are different.'),'orange','1')+
+    box(p('“Unbounded feasible set” concerns where feasible points can go. “Unbounded minimization problem” means feasible objective values decrease without limit. These statements are different.'), 'orange')+
     p('This result is additional theory; the optimality certificate still uses the same three checks.'),[64]),
 ];
 const assembled = [...mainSlides.map(s=>({...s,section:'Duality II · Optimality and complementary slackness'})),

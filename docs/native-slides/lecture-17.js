@@ -166,22 +166,22 @@ const main = [
   slide('two-sides', 'A good solution and a good bound answer different questions',
     p(raw`For a minimization problem, a feasible point \(x\) gives an <strong>upper bound</strong> on the optimal value \(v^*\).`) +
     math(raw`v^*\le c^\top x.`) +
-    box(p(raw`A <strong>lower bound</strong> \(L\) proves that every feasible solution costs at least \(L\).`), 'blue', '1') +
+    box(p(raw`A <strong>lower bound</strong> \(L\) proves that every feasible solution costs at least \(L\).`), 'blue') +
     math(raw`L\le v^*\le c^\top x.`) +
-    box(p(raw`For example, if the objective is \(x_1+3x_2\) and a constraint says \(x_1+3x_2\ge2\), the lower bound \(L=2\) is immediate.`), 'green', '2') +
+    box(p(raw`For example, if the objective is \(x_1+3x_2\) and a constraint says \(x_1+3x_2\ge2\), the lower bound \(L=2\) is immediate.`), 'green') +
     p('When no constraint directly matches the objective, combine several constraints.'), [4, 5, 47, 51]),
 
   slide('add-constraints', 'Start by adding inequalities',
     math(raw`\min\ x_1+3x_2\quad\text{s.t.}\quad x_1+x_2\ge2,\quad x_2\ge1.`) +
     p(raw`The variables are unrestricted. Multiply the second inequality by \(2\), then add:`) +
-    box(math(raw`(x_1+x_2)+2x_2\ge2+2\cdot1.`), 'blue', '1') +
-    box(math(raw`x_1+3x_2\ge4.`) + p('Every feasible solution costs at least 4. We obtained a bound without running simplex.'), 'green', '2') +
+    box(math(raw`(x_1+x_2)+2x_2\ge2+2\cdot1.`), 'blue') +
+    box(math(raw`x_1+3x_2\ge4.`) + p('Every feasible solution costs at least 4. We obtained a bound without running simplex.'), 'green') +
     p(raw`The point \((1,1)\) is feasible and has cost 4, so it attains this bound.`), [4, 5, 6, 7]),
 
   slide('stronger-bound', 'Another constraint can give a stronger bound',
     warmup() +
-    box(math(raw`0(x_1+x_2)+4x_2+(x_1-x_2)\ge0\cdot2+4\cdot1+3.`), 'blue', '1') +
-    box(math(raw`x_1+3x_2\ge7.`) + p(raw`Weights \((0,4,1)\) improve the previous bound 4 to 7. The feasible point \((4,1)\) attains 7.`), 'green', '2'), [8, 9]),
+    box(math(raw`0(x_1+x_2)+4x_2+(x_1-x_2)\ge0\cdot2+4\cdot1+3.`), 'blue') +
+    box(math(raw`x_1+3x_2\ge7.`) + p(raw`Weights \((0,4,1)\) improve the previous bound 4 to 7. The feasible point \((4,1)\) attains 7.`), 'green'), [8, 9]),
 
   slide('weights-explore', 'Which constraint weights give a valid bound?',
     '<div class="dy-pair"><div class="dy-stack">' +
@@ -200,7 +200,7 @@ const main = [
   slide('warmup-dual', 'The best bound is itself a linear program',
     p(raw`Adding the weighted inequalities gives coefficients \(p_1+p_3\) on \(x_1\) and \(p_1+p_2-p_3\) on \(x_2\). Match them to \(1,3\):`) +
     math(raw`\begin{aligned}\max\quad &2p_1+p_2+3p_3\\\text{s.t.}\quad &p_1+p_3=1,\\&p_1+p_2-p_3=3,\\&p_1,p_2,p_3\ge0.\end{aligned}`) +
-    box(p('The original problem is the <strong>primal</strong>. This problem of finding the strongest weighted bound is its <strong>dual</strong>.'), 'green', '1') +
+    box(p('The original problem is the <strong>primal</strong>. This problem of finding the strongest weighted bound is its <strong>dual</strong>.'), 'green') +
     p('Exact coefficient matching is needed here because the primal variables are unrestricted.'), [10, 11, 12, 13], {
       checkpoint: checkpoint('For this ≥-constraint warmup, why must every weight be nonnegative?', ['To keep every weighted inequality pointing ≥ when we add them.', 'Because all dual variables in every LP are nonnegative.', 'Because the primal variables are nonnegative.', 'Because negative numbers cannot appear in an objective.'], 0, 'A negative multiplier reverses an inequality. Here the primal variables are unrestricted; the weights are nonnegative because they multiply ≥ constraints in a minimization problem.'),
     }),
@@ -213,8 +213,8 @@ const main = [
     ]) +
     p(raw`Choose servings \(x_L,x_G,x_S\ge0\) to minimize \(4x_L+5x_G+4x_S\), meeting both minimums. Fractional servings are allowed.`) +
     box(p('<strong>One feasible meal:</strong> 1 lentil dish + 2 grain dishes + no snack.') +
-      p(raw`Protein: \(2+2=4\). Carbs: \(1+4=5\). Cost: \(4+10=14\).`), 'blue', '1') +
-    box(p(raw`We know \(v^*\le14\). How can we prove that no cheaper meal works?`), 'green', '2'), []),
+      p(raw`Protein: \(2+2=4\). Carbs: \(1+4=5\). Cost: \(4+10=14\).`), 'blue') +
+    box(p(raw`We know \(v^*\le14\). How can we prove that no cheaper meal works?`), 'green'), []),
 
   slide('nutrition-values', 'Assign dollar values to the nutrients',
     p(raw`Let \(p\ge0\) be dollars per protein unit and \(q\ge0\) dollars per carb unit. Try \(p=1,\ q=2\).`) +
@@ -233,8 +233,8 @@ const main = [
     box(math(raw`\begin{aligned}4x_L+5x_G+3x_S
       &=(2x_L+x_G+x_S)+2(x_L+2x_G+x_S)\\
       &\ge4+2(5)=14.\end{aligned}`) +
-      p('The two parentheses are total protein and total carbs. Both must meet their minimums.'), 'blue', '1') +
-    box(p('<strong>Every feasible meal costs at least $14, and our meal costs $14. It is optimal.</strong>'), 'green', '2'), []),
+      p('The two parentheses are total protein and total carbs. Both must meet their minimums.'), 'blue') +
+    box(p('<strong>Every feasible meal costs at least $14, and our meal costs $14. It is optimal.</strong>'), 'green'), []),
 
   slide('nutrition-dual', 'Choose the strongest nutrient valuation',
     p(raw`Choose nonnegative nutrient values \(p,q\) to make the required nutrients worth as much as possible, while respecting every food price.`) +
@@ -243,7 +243,7 @@ const main = [
       &p+2q\le5 &&\text{grain dish},\\
       &p+q\le4 &&\text{snack},\\
       &p,q\ge0.\end{aligned}`) +
-    box(p(raw`The feasible weights \((p,q)=(1,1)\) give a $9 bound. The better weights \((1,2)\) give $14, matching our meal.`), 'green', '1') +
+    box(p(raw`The feasible weights \((p,q)=(1,1)\) give a $9 bound. The better weights \((1,2)\) give $14, matching our meal.`), 'green') +
     p('<strong>Primal:</strong> choose food quantities. <strong>Dual:</strong> choose nutrient values that certify a lower bound.') +
     p('These are the same constraint weights as in the warmup, now with a practical meaning.'), []),
 
@@ -255,26 +255,26 @@ const main = [
   slide('certificate-arithmetic', 'Two weighted equalities nearly reproduce the objective',
     p(raw`Our equalities are \(5x_1+x_2+3x_3=8\) and \(3x_1+x_2=3\), with \(x\ge0\).`) +
     box(math(raw`2(5x_1+x_2+3x_3)+(3x_1+x_2)=19.`)) +
-    box(math(raw`13x_1+10x_2+6x_3=19+7x_2\ge19.`), 'green', '1') +
+    box(math(raw`13x_1+10x_2+6x_3=19+7x_2\ge19.`), 'green') +
     p(raw`The difference is \(7x_2\), which is nonnegative. The weighted equalities give a lower bound even though the \(x_2\) coefficient is not matched exactly.`), [14, 15, 75]),
 
   slide('unknown-weights', 'Choose weights so the remaining terms are nonnegative',
     p(raw`Multiply the two equalities by unknown weights \(p_1,p_2\):`) +
     math(raw`(5p_1+3p_2)x_1+(p_1+p_2)x_2+3p_1x_3=8p_1+3p_2.`) +
     box(p(raw`Because \(x_1,x_2,x_3\ge0\), a lower bound follows whenever`) +
-      math(raw`5p_1+3p_2\le13,\qquad p_1+p_2\le10,\qquad3p_1\le6.`), 'blue', '1') +
-    box(math(raw`8p_1+3p_2\le13x_1+10x_2+6x_3.`), 'green', '2') +
+      math(raw`5p_1+3p_2\le13,\qquad p_1+p_2\le10,\qquad3p_1\le6.`), 'blue') +
+    box(math(raw`8p_1+3p_2\le13x_1+10x_2+6x_3.`), 'green') +
     p('Each nonnegative primal variable supplies one coefficient inequality.'), [14, 15, 75]),
 
   slide('continuing-dual', 'Maximize the bound subject to those coefficient tests',
     dual46() +
-    box(p(raw`Check \(p=(2,1)\): the three left sides are \(13,3,6\), all at most \(13,10,6\). Its bound is \(8(2)+3(1)=19\).`), 'green', '1') +
+    box(p(raw`Check \(p=(2,1)\): the three left sides are \(13,3,6\), all at most \(13,10,6\). Its bound is \(8(2)+3(1)=19\).`), 'green') +
     p('Two primal equations give two dual variables. Three primal variables give three dual constraints.'), [15, 75]),
 
   slide('standard-pair', 'Write the same argument in matrix notation',
     box(math(raw`\text{Primal:}\quad\min c^\top x\quad\text{s.t.}\quad Ax=b,\quad x\ge0.`)) +
     p(raw`Let \(p\) contain one unrestricted weight per equality. The coefficient of \(x_j\) in their combination is \(p^\top A_j\), where \(A_j\) is column \(j\) of \(A\).`) +
-    box(math(raw`\text{Dual:}\quad\max b^\top p\quad\text{s.t.}\quad A^\top p\le c,\quad p\text{ unrestricted}.`), 'green', '1') +
+    box(math(raw`\text{Dual:}\quad\max b^\top p\quad\text{s.t.}\quad A^\top p\le c,\quad p\text{ unrestricted}.`), 'green') +
     p(raw`The vector inequality means \(p^\top A_j\le c_j\) for every column. It is the coefficient test we just performed.`), [14, 15, 16]),
 
   slide('constraint-signs', 'The primal constraint determines the sign of its weight',
@@ -283,7 +283,7 @@ const main = [
       [raw`\(a_i^\top x\ge b_i\)`, raw`\(p_i\ge0\)`, 'Keep the ≥ direction.'],
       [raw`\(a_i^\top x\le b_i\)`, raw`\(p_i\le0\)`, 'Reverse ≤ into ≥.'],
       [raw`\(a_i^\top x=b_i\)`, raw`\(p_i\) unrestricted`, 'Either sign preserves equality.'],
-    ]) + box(p('An unrestricted weight is allowed to be positive, zero, or negative. Its value must still satisfy the dual constraints.'), 'green', '1'), [21, 22, 23, 24]),
+    ]) + box(p('An unrestricted weight is allowed to be positive, zero, or negative. Its value must still satisfy the dual constraints.'), 'green'), [21, 22, 23, 24]),
 
   slide('variable-signs', 'The primal variable determines the coefficient test',
     p(raw`The remaining objective term is \((c_j-p^\top A_j)x_j\). We require it to be nonnegative for every allowed value of \(x_j\).`) +
@@ -291,7 +291,7 @@ const main = [
       [raw`\(x_j\ge0\)`, raw`\(p^\top A_j\le c_j\)`, 'The remaining coefficient must be nonnegative.'],
       [raw`\(x_j\le0\)`, raw`\(p^\top A_j\ge c_j\)`, 'The remaining coefficient must be nonpositive.'],
       [raw`\(x_j\) unrestricted`, raw`\(p^\top A_j=c_j\)`, 'Only a zero coefficient works for both signs.'],
-    ]) + box(p('The direction of a dual constraint comes from the sign of its corresponding primal variable.'), 'green', '1'), [22, 23, 24]),
+    ]) + box(p('The direction of a dual constraint comes from the sign of its corresponding primal variable.'), 'green'), [22, 23, 24]),
 
   slide('mixed-question', 'Practice: a primal with mixed signs',
     mixedPrimal() +
@@ -305,13 +305,13 @@ const main = [
       [raw`\(x_2\le0\)`, raw`\(3p_1-p_2\ge2\)`],
       [raw`\(x_3\text{ unrestricted}\)`, raw`\(3p_2+p_3=3\)`],
     ]) +
-    box(math(raw`\max\quad5p_1+6p_2+4p_3.`) + p('Use the three dual constraints and the weight restrictions listed above.'), 'green', '1'), [27], {
+    box(math(raw`\max\quad5p_1+6p_2+4p_3.`) + p('Use the three dual constraints and the weight restrictions listed above.'), 'green'), [27], {
       checkpoint: checkpoint('If a primal variable is unrestricted, which dual condition corresponds to it?', ['The corresponding dual variable must be zero.', 'The corresponding coefficient constraint must be an equality.', 'The corresponding coefficient constraint is always ≤.', 'The primal must first be feasible.'], 1, 'The difference between objective and weighted-row coefficients must vanish: otherwise one sign of the unrestricted primal variable makes the remaining term negative.'),
     }),
 
   slide('max-convention', 'If the primal maximizes, its dual gives an upper bound',
     box(math(raw`\text{Primal:}\quad\max c^\top x\quad\text{s.t.}\quad Ax\le b,\quad x\ge0.`)) +
-    box(math(raw`\text{Dual:}\quad\min b^\top p\quad\text{s.t.}\quad A^\top p\ge c,\quad p\ge0.`), 'green', '1') +
+    box(math(raw`\text{Dual:}\quad\min b^\top p\quad\text{s.t.}\quad A^\top p\ge c,\quad p\ge0.`), 'green') +
     math(raw`c^\top x\le p^\top Ax\le p^\top b.`) +
     p(raw`You can instead convert the objective to \(\min(-c^\top x)\), then use the minimization rules. Track the sign of the final objective value.`) +
     p('<strong>From the next page onward, our primal is again a minimization problem.</strong>'), [18, 25]),
@@ -319,12 +319,12 @@ const main = [
   slide('weak-statement', 'Weak duality compares any feasible pair',
     box(p('<strong>Theorem 4.3 — Weak duality.</strong>') + p(raw`If \(x\) is primal feasible and \(p\) is dual feasible, then`) + math(raw`b^\top p\le c^\top x.`), 'blue') +
     p('Neither solution needs to be optimal. Every dual feasible solution gives a lower bound on every primal feasible objective value.') +
-    box(p('Feasibility of both points is essential. A vector that violates a dual constraint does not provide this certificate.'), 'orange', '1'), [47, 48]),
+    box(p('Feasibility of both points is essential. A vector that violates a dual constraint does not provide this certificate.'), 'orange'), [47, 48]),
 
   slide('weak-proof', 'The standard-form proof is one inequality',
     p(raw`Assume \(Ax=b,\ x\ge0\), and \(A^\top p\le c\).`) +
     box(math(raw`b^\top p=(Ax)^\top p=x^\top A^\top p.`) + p('Use primal feasibility, then regroup the same scalar product.')) +
-    box(math(raw`x^\top A^\top p\le x^\top c=c^\top x.`) + p(raw`Multiply each coefficient inequality by the corresponding nonnegative \(x_j\), then add.`), 'green', '1') +
+    box(math(raw`x^\top A^\top p\le x^\top c=c^\top x.`) + p(raw`Multiply each coefficient inequality by the corresponding nonnegative \(x_j\), then add.`), 'green') +
     p('The proof compares the weighted constraints with the original objective. No simplex pivot is needed.'), [47]),
 
   slide('weak-gap', 'A lower bound lies below every feasible objective value',
@@ -344,17 +344,17 @@ const main = [
       [raw`\((2,0)\)`, '16', raw`\((0,3,5/3)\)`, '40'],
       [raw`\((2,1)\)`, '19', raw`\((1,0,1)\)`, '19'],
     ]) +
-    box(p('The final pair attains the same value 19, so both points are optimal. Strong duality will explain why matching certificates exist whenever an LP has an optimum.'), 'green', '1'), [51, 75]),
+    box(p('The final pair attains the same value 19, so both points are optimal. Strong duality will explain why matching certificates exist whenever an LP has an optimum.'), 'green'), [51, 75]),
 
   slide('unbounded-implications', 'Unboundedness on one side rules out feasibility on the other',
     box(p(raw`If the primal objective decreases without bound, the dual is infeasible. A finite dual lower bound would block that decrease.`)) +
-    box(p(raw`If the dual objective increases without bound, the primal is infeasible. A finite primal value would block that increase.`), 'green', '1') +
+    box(p(raw`If the dual objective increases without bound, the primal is infeasible. A finite primal value would block that increase.`), 'green') +
     p('These statements follow from weak duality. Their converses do not follow: infeasibility alone does not tell us that the other problem is unbounded.'), [49]),
 
   slide('unbounded-example', 'A one-variable example makes the contradiction visible',
     box(math(raw`\text{Primal:}\quad\min x_1\quad\text{s.t.}\quad x_1\le1,\quad x_1\text{ unrestricted}.`)) +
     p(raw`Choose \(x_1=-M\) and let \(M\) grow. The objective decreases without bound.`) +
-    box(math(raw`\text{Dual:}\quad\max p_1\quad\text{s.t.}\quad p_1\le0,\quad p_1=1.`), 'orange', '1') +
+    box(math(raw`\text{Dual:}\quad\max p_1\quad\text{s.t.}\quad p_1\le0,\quad p_1=1.`), 'orange') +
     p('The row requires a nonpositive weight; the unrestricted variable requires exact coefficient matching. Those two requirements cannot both hold.'), [50]),
 
   slide('practice-question', 'Practice: write the dual and try a certificate',
@@ -364,8 +364,8 @@ const main = [
 
   slide('practice-answer', 'Practice solution: both sides attain 3',
     math(raw`\begin{aligned}\max\quad &3p_1+6p_2\\\text{s.t.}\quad &p_1+p_2\le2,\quad p_1+2p_2=1,\\&p_1\ge0,\quad p_2\le0.\end{aligned}`) +
-    box(p(raw`For \(p=(1,0)\), the coefficient tests are \(1\le2\) and \(1=1\); the lower bound is 3.`), 'blue', '1') +
-    box(p(raw`For \(x=(0,3)\), the primal rows give \(3\ge3\) and \(6\le6\); the cost is 3. Weak duality therefore proves both points optimal.`), 'green', '2'), [47, 51], {
+    box(p(raw`For \(p=(1,0)\), the coefficient tests are \(1\le2\) and \(1=1\); the lower bound is 3.`), 'blue') +
+    box(p(raw`For \(x=(0,3)\), the primal rows give \(3\ge3\) and \(6\le6\); the cost is 3. Weak duality therefore proves both points optimal.`), 'green'), [47, 51], {
       checkpoint: checkpoint('Suppose a primal feasible point costs 12 and a dual feasible point gives a bound 12. What is established?', ['The primal point is optimal, but nothing is known about the dual point.', 'Both points are optimal.', 'Both problems have unique solutions.', 'The primal and dual variables must be identical.'], 1, 'Weak duality puts every feasible primal value above every feasible dual value. Equal feasible values leave no room to improve either side; uniqueness is not implied.'),
     }),
 
@@ -387,65 +387,65 @@ const appendix = [
     p(raw`Start with \(\min c^\top x\), subject to \(Ax=b,\ x\ge0\). Use unrestricted equality weights \(p\) and nonnegative sign-constraint weights \(s\).`) +
     box(math(raw`L(x,p,s)=c^\top x+p^\top(b-Ax)-s^\top x.`)) +
     math(raw`L(x,p,s)=p^\top b+(c-A^\top p-s)^\top x.`) +
-    box(p(raw`For a feasible \(x\), the equality term vanishes and \(-s^\top x\le0\). Hence \(L(x,p,s)\le c^\top x\).`), 'green', '1'), [17]),
+    box(p(raw`For a feasible \(x\), the equality term vanishes and \(-s^\top x\le0\). Hence \(L(x,p,s)\le c^\top x\).`), 'green'), [17]),
 
   slide('lagrangian-infimum', 'A finite lower bound requires the remaining coefficient to vanish',
     p(raw`Minimize the Lagrangian over <strong>unrestricted</strong> \(x\). Here the sign constraints have already been included using \(s\ge0\).`) +
     math(raw`g(p,s)=\inf_{x\in\mathbb R^n}L(x,p,s)=\begin{cases}p^\top b,&c-A^\top p-s=0,\\-\infty,&\text{otherwise}.\end{cases}`) +
     p(raw`If a coefficient is nonzero, choose the sign of that \(x_j\) and make its magnitude arbitrarily large to drive \(L\) downward.`) +
     box(math(raw`\max p^\top b\quad\text{s.t.}\quad A^\top p+s=c,\quad s\ge0.`) +
-      p(raw`Eliminating \(s\) gives \(A^\top p\le c\), our standard-form dual.`), 'green', '1'), [17]),
+      p(raw`Eliminating \(s\) gives \(A^\top p\le c\), our standard-form dual.`), 'green'), [17]),
 
   slide('lagrangian-max', 'For a maximization primal, construct an upper bound',
     p(raw`Consider \(\max c^\top x\), subject to \(Ax\le b,\ x\ge0\). Choose \(p\ge0\).`) +
     math(raw`L(x,p)=c^\top x+p^\top(b-Ax)=p^\top b+(c-A^\top p)^\top x.`) +
     p(raw`For a primal feasible point, \(L(x,p)\ge c^\top x\). Maximize \(L\) over \(x\ge0\):`) +
     math(raw`\sup_{x\ge0}L(x,p)=\begin{cases}p^\top b,&A^\top p\ge c,\\+\infty,&\text{otherwise}.\end{cases}`) +
-    box(p(raw`The best finite upper bound is \(\min b^\top p\) subject to \(A^\top p\ge c,\ p\ge0\).`), 'green', '1'), [18, 19]),
+    box(p(raw`The best finite upper bound is \(\min b^\top p\) subject to \(A^\top p\ge c,\ p\ge0\).`), 'green'), [18, 19]),
 
   slide('dual-of-dual', 'The dual of the dual returns the primal',
     box(math(raw`\text{P:}\quad\min c^\top x\quad\text{s.t.}\quad Ax=b,\quad x\ge0.`)) +
-    box(math(raw`\text{D:}\quad\max b^\top p\quad\text{s.t.}\quad A^\top p\le c,\quad p\text{ unrestricted}.`), 'blue', '1') +
-    box(p(raw`Dualizing this maximization problem: its ≤ rows give \(x\ge0\); its unrestricted variables give \(Ax=b\); its objective becomes \(\min c^\top x\).`), 'green', '2') +
+    box(math(raw`\text{D:}\quad\max b^\top p\quad\text{s.t.}\quad A^\top p\le c,\quad p\text{ unrestricted}.`), 'blue') +
+    box(p(raw`Dualizing this maximization problem: its ≤ rows give \(x\ge0\); its unrestricted variables give \(Ax=b\); its objective becomes \(\min c^\top x\).`), 'green') +
     p('<strong>Theorem 4.1.</strong> The dual of the dual is equivalent to the original primal. Converting a maximization to minimization must include the objective-sign change.'), [28, 29, 30, 31, 32, 33]),
 
   slide('mixed-double-dual', 'Mixed-form example: convert its dual carefully',
     p('The mixed-form exercise had a maximization dual. Negate its objective and multiply its coefficient rows by −1:') +
     math(raw`\begin{aligned}\min\quad&-5p_1-6p_2-4p_3\\\text{s.t.}\quad&p_1-2p_2\ge-1,\\&-3p_1+p_2\le-2,\quad-3p_2-p_3=-3,\\&p_1\text{ unrestricted},\ p_2\ge0,\ p_3\le0.\end{aligned}`) +
-    box(p('This minimization has the negative of the original dual objective value. Track that minus sign when interpreting the next dual.'), 'orange', '1'), [28, 29]),
+    box(p('This minimization has the negative of the original dual objective value. Track that minus sign when interpreting the next dual.'), 'orange'), [28, 29]),
 
   slide('mixed-double-dual-answer', 'Dualizing again recovers the original mixed problem',
     p('The dual of the minimization on the previous page is') +
     math(raw`\begin{aligned}\max\quad&-x_1-2x_2-3x_3\\\text{s.t.}\quad&x_1-3x_2=-5,\\&-2x_1+x_2-3x_3\le-6,\quad-x_3\ge-4,\\&x_1\ge0,\ x_2\le0,\ x_3\text{ unrestricted}.\end{aligned}`) +
-    box(p('Negating the objective to return to minimization, and reversing the displayed row signs, gives precisely the original mixed-form primal.'), 'green', '1') +
+    box(p('Negating the objective to return to minimization, and reversing the displayed row signs, gives precisely the original mixed-form primal.'), 'green') +
     p(raw`Its objective is \(\min x_1+2x_2+3x_3\); its rows are \(-x_1+3x_2=5\), \(2x_1-x_2+3x_3\ge6\), and \(x_3\le4\).`), [30, 31, 32, 33]),
 
   slide('surplus-equivalence', 'Adding a surplus variable preserves the dual',
     p(raw`Start with \(\min c^\top x\), subject to \(Ax\ge b\), with \(x\) unrestricted. Its dual is \(\max p^\top b\), subject to \(A^\top p=c,\ p\ge0\).`) +
     box(math(raw`Ax-s=b,\qquad s\ge0,\qquad\text{objective }c^\top x+0^\top s.`)) +
     box(p('Dualizing the equality formulation gives:') +
-      math(raw`A^\top p=c,\qquad -p\le0,\qquad p\text{ initially unrestricted}.`), 'blue', '1') +
+      math(raw`A^\top p=c,\qquad -p\le0,\qquad p\text{ initially unrestricted}.`), 'blue') +
     p(raw`The surplus columns enforce \(p\ge0\). We recover the same dual constraints and objective.`), [34, 35, 37]),
 
   slide('free-split-equivalence', 'Splitting a free variable preserves its dual equality',
     p(raw`Write an unrestricted vector as \(x=x^+-x^-\), with \(x^+,x^-\ge0\). The primal becomes`) +
     math(raw`\min c^\top x^+-c^\top x^-\quad\text{s.t.}\quad Ax^+-Ax^-\ge b.`) +
     box(p('The two sets of nonnegative variables give two sets of dual coefficient inequalities:') +
-      math(raw`A^\top p\le c,\qquad -A^\top p\le-c,\qquad p\ge0.`), 'blue', '1') +
-    box(p(raw`Together they say \(A^\top p=c\). The dual is unchanged.`), 'green', '2'), [34, 36, 37, 38]),
+      math(raw`A^\top p\le c,\qquad -A^\top p\le-c,\qquad p\ge0.`), 'blue') +
+    box(p(raw`Together they say \(A^\top p=c\). The dual is unchanged.`), 'green'), [34, 36, 37, 38]),
 
   slide('redundant-row', 'A redundant equality only redistributes dual weights',
     p(raw`Suppose row \(m\) is an exact combination of the first \(m-1\) rows, including its RHS:`) +
     math(raw`a_m=\sum_{i=1}^{m-1}\gamma_i a_i,\qquad b_m=\sum_{i=1}^{m-1}\gamma_i b_i.`) +
     box(p(raw`For weights \(p_1,\ldots,p_m\), absorb the last weight into the others:`) +
-      math(raw`q_i=p_i+\gamma_i p_m\qquad(i=1,\ldots,m-1).`), 'blue', '1') +
+      math(raw`q_i=p_i+\gamma_i p_m\qquad(i=1,\ldots,m-1).`), 'blue') +
     p('The weights are unrestricted because all primal rows are equalities. The next page checks both the bound and the coefficient tests.'), [39, 40, 41]),
 
   slide('redundant-row-proof', 'The new weights give exactly the same bound and coefficients',
     box(math(raw`p^\top b=\sum_{i=1}^{m-1}(p_i+\gamma_i p_m)b_i=\sum_{i=1}^{m-1}q_i b_i.`)) +
-    box(math(raw`p^\top A=\sum_{i=1}^{m-1}(p_i+\gamma_i p_m)a_i^\top=\sum_{i=1}^{m-1}q_i a_i^\top.`), 'blue', '1') +
+    box(math(raw`p^\top A=\sum_{i=1}^{m-1}(p_i+\gamma_i p_m)a_i^\top=\sum_{i=1}^{m-1}q_i a_i^\top.`), 'blue') +
     p('Thus a feasible dual weight vector before removal gives one after removal with the same value.') +
-    box(p(raw`Conversely, given \(q\), choose \(p_i=q_i\) for \(i\lt m\) and \(p_m=0\). This recovers every feasible dual vector of the smaller system.`), 'green', '2'), [40, 41, 42, 43, 44]),
+    box(p(raw`Conversely, given \(q\), choose \(p_i=q_i\) for \(i\lt m\) and \(p_m=0\). This recovers every feasible dual vector of the smaller system.`), 'green'), [40, 41, 42, 43, 44]),
 
   slide('equivalent-forms', 'Equivalent formulations give equivalent duals',
     box(p('<strong>Theorem 4.2.</strong> The following transformations preserve the dual optimization problem up to equivalent variables and constraints:') +
@@ -455,12 +455,12 @@ const appendix = [
   slide('weak-general-proof', 'Weak duality also holds with mixed row and variable signs',
     p(raw`Let \(x,p\) satisfy the minimization primal and its dual. For each row, the sign rule gives \(p_i(a_i^\top x-b_i)\ge0\). For each variable, the coefficient rule gives \((c_j-p^\top A_j)x_j\ge0\).`) +
     box(math(raw`c^\top x-p^\top b=\sum_j(c_j-p^\top A_j)x_j+\sum_i p_i(a_i^\top x-b_i).`)) +
-    box(p('Every term is nonnegative. Hence the whole difference is nonnegative, which is weak duality.'), 'green', '1') +
+    box(p('Every term is nonnegative. Hence the whole difference is nonnegative, which is weak duality.'), 'green') +
     p('Equality rows contribute zero. Unrestricted primal variables have zero coefficient differences. The remaining cases follow their stated signs.'), [23, 24, 47]),
 
   slide('unbounded-proof', 'Why weak duality rules out the unbounded–feasible combinations',
     box(p(raw`Suppose the dual has a feasible \(p\). Its finite value \(b^\top p\) is a lower bound on every primal feasible cost. The primal therefore cannot decrease without bound.`)) +
-    box(p(raw`Suppose the primal has a feasible \(x\). Its finite value \(c^\top x\) is an upper bound on every dual feasible value. The dual therefore cannot increase without bound.`), 'green', '1') +
+    box(p(raw`Suppose the primal has a feasible \(x\). Its finite value \(c^\top x\) is an upper bound on every dual feasible value. The dual therefore cannot increase without bound.`), 'green') +
     p('These are the contrapositives of the two unboundedness implications. Neither argument says that infeasibility forces the other side to be unbounded.'), [49]),
 ];
 
