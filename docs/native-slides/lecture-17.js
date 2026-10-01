@@ -165,7 +165,7 @@ const main = [
   slide('nutrition-dual', 'Find the strongest cost guarantee',
     p(raw`Let \(p,q\ge0\) weight the protein and carbohydrate constraints, respectively.`) +
     math(raw`(2p+q)x_L+(p+2q)x_G+(p+q)x_S\ge4p+5q.`) +
-    p('Each weighted coefficient must be at most its food cost, since servings are nonnegative:') +
+    p('Choose coefficients no larger than the food unit costs. Multiplying by nonnegative servings preserves these inequalities, so the weighted sum cannot exceed the meal cost.') +
     math(raw`\begin{aligned}\max\quad &4p+5q &&\text{lower bound on meal cost}\\
       \text{s.t.}\quad &2p+q\le4 &&\text{lentil dish},\\
       &p+2q\le5 &&\text{grain dish},\\
