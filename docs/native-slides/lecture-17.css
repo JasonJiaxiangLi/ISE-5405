@@ -1,3 +1,11 @@
 @import url('./duality.css');
+.dy-slide .dy-form-reminder { background: #f4f5f6; padding: .2em .4em; border-left: .2em solid #727b82; }
+[data-slide-id="l17-nutrition-dual"] .ns-slide-body { gap: .2em; }
+[data-slide-id="l17-weights-explore"] .ns-slide-body { gap: .1em; }
 [data-slide-id="l17-weights-explore"] .dy-figure svg { max-height: 7em; }
 [data-slide-id="l17-weights-explore"] .dy-controls { align-items: flex-start; }
+.dy-table-scroll-hint { display: none; }
+[data-slide-id="l17-compare-forms"] .dy-table-wrap:focus-visible { outline: 3px solid #1874ad; outline-offset: -3px; }
+@media (max-width: 760px) {
+  .dy-table-scroll-hint { display: block; }
+}

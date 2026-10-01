@@ -3,9 +3,27 @@ const raw = String.raw;
 const p = text => `<p>${text}</p>`;
 const math = tex => `<div class="dy-math">\\[${tex}\\]</div>`;
 const box = (body, tone = 'blue', reveal = '') => `<section class="dy-box" data-tone="${tone}"${reveal ? ` data-reveal="${reveal}"` : ''}>${body}</section>`;
-const table = (heads, rows) => `<div class="dy-table-wrap"><table class="dy-table"><thead><tr>${heads.map(h => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map((cell, i) => `<${i ? 'td' : 'th scope="row"'}>${cell}</${i ? 'td' : 'th'}>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const table = (heads, rows, scrollLabel = '') => `<div class="dy-table-wrap"${scrollLabel ? ` tabindex="0" role="region" aria-label="${scrollLabel}"` : ''}><table class="dy-table"><thead><tr>${heads.map(h => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map((cell, i) => `<${i ? 'td' : 'th scope="row"'}>${cell}</${i ? 'td' : 'th'}>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 const slide = (key, title, html, referencePages, options = {}) => ({ key, id: `l17-${key}`, title, html, referencePages, className: 'dy-slide', ...options });
 const checkpoint = (prompt, choices, correctIndex, explanation) => ({ prompt, choices, correctIndex, explanation, autoOpen: true });
+const formNotes = {
+  warmup: raw`<strong>Primal minimization:</strong> \(\ge\) constraints; variables unrestricted.`,
+  nutrition: raw`<strong>Primal minimization:</strong> \(\ge\) constraints; servings nonnegative.`,
+  equality: raw`<strong>Primal minimization:</strong> equality constraints; variables nonnegative.`,
+};
+const formReminder = kind => `<p class="dy-form-reminder" data-form-case="${kind}">${formNotes[kind]}</p>`;
+function mountFormComparison({ slideElement }) {
+  const region = slideElement.querySelector('.dy-table-wrap[tabindex]');
+  if (!region) return undefined;
+  const onKeydown = event => {
+    if (!['ArrowLeft', 'ArrowRight'].includes(event.key) || region.scrollWidth <= region.clientWidth) return;
+    event.preventDefault();
+    event.stopPropagation();
+    region.scrollBy({ left: event.key === 'ArrowRight' ? 100 : -100, behavior: 'auto' });
+  };
+  region.addEventListener('keydown', onKeydown);
+  return () => region.removeEventListener('keydown', onKeydown);
+}
 const primal46 = () => math(raw`\begin{aligned}\min\quad &13x_1+10x_2+6x_3\\\text{s.t.}\quad &5x_1+x_2+3x_3=8,\\&3x_1+x_2=3,\qquad x_1,x_2,x_3\ge0.\end{aligned}`);
 const dual46 = () => math(raw`\begin{aligned}\max\quad &8p_1+3p_2\\\text{s.t.}\quad &5p_1+3p_2\le13,\\&p_1+p_2\le10,\qquad3p_1\le6,\\&p_1,p_2\text{ unrestricted}.\end{aligned}`);
 const warmup = () => math(raw`\begin{aligned}\min\quad &x_1+3x_2\\\text{s.t.}\quad &x_1+x_2\ge2,\quad x_2\ge1,\quad x_1-x_2\ge3.\end{aligned}`) + p(raw`Here \(x_1,x_2\) are unrestricted variables: no additional sign restrictions are imposed.`);
@@ -98,7 +116,7 @@ const main = [
     p('A feasible solution tells us what we can achieve. A dual solution tells us what no feasible solution can beat.') +
     box(p('<strong>Our route:</strong> combine constraints → choose the best weights → write the dual → prove weak duality.')) +
     p('Minimization and its lower bounds · Bertsimas and Tsitsiklis §§4.1–4.3.') +
-    '<nav class="dy-contents" aria-label="Duality I sections"><a href="#slide=3">Start with arithmetic</a><a href="#slide=7">Nutrition: prove the minimum cost</a><a href="#slide=15">Signs and dual constraints</a><a href="#slide=20">Weak duality</a><a href="#slide=29">Optional derivations</a></nav>', [3, 20, 46], { kind: 'title' }),
+    '<nav class="dy-contents" aria-label="Duality I sections"><a href="#slide=3">Start with arithmetic</a><a href="#slide=7">Nutrition: prove the minimum cost</a><a href="#slide=14">Compare the forms and explain the signs</a><a href="#slide=21">Weak duality</a><a href="#slide=30">Optional derivations</a></nav>', [3, 20, 46], { kind: 'title' }),
 
   slide('two-sides', 'A good solution and a good bound answer different questions',
     p(raw`For a minimization problem, a feasible point \(x\) gives an <strong>upper bound</strong> on the optimal value \(v^*\).`) +
@@ -109,25 +127,29 @@ const main = [
     p('When no constraint directly matches the objective, combine several constraints.'), [4, 5, 47, 51]),
 
   slide('add-constraints', 'Start by adding inequalities',
+    formReminder('warmup') +
     math(raw`\min\ x_1+3x_2\quad\text{s.t.}\quad x_1+x_2\ge2,\quad x_2\ge1.`) +
-    p(raw`The variables are unrestricted. Multiply the second inequality by \(2\), then add:`) +
+    p('Unrestricted means no separate variable-sign restrictions; the listed constraints still apply.') +
+    p(raw`Multiply the second inequality by \(2\), then add:`) +
     box(math(raw`(x_1+x_2)+2x_2\ge2+2\cdot1.`), 'blue') +
     box(math(raw`x_1+3x_2\ge4.`) + p('Every feasible solution costs at least 4. We obtained a bound without running simplex.'), 'green') +
     p(raw`The point \((1,1)\) is feasible and has cost 4, so it attains this bound.`), [4, 5, 6, 7]),
 
   slide('stronger-bound', 'Another constraint can give a stronger bound',
+    formReminder('warmup') +
     warmup() +
     box(math(raw`0(x_1+x_2)+4x_2+(x_1-x_2)\ge0\cdot2+4\cdot1+3.`), 'blue') +
     box(math(raw`x_1+3x_2\ge7.`) + p(raw`Weights \((0,4,1)\) improve the previous bound 4 to 7. The feasible point \((4,1)\) attains 7.`), 'green'), [8, 9]),
 
   slide('weights-explore', 'Which constraint weights give a valid bound?',
+    formReminder('warmup') +
     '<div class="dy-pair"><div class="dy-stack">' +
     p(raw`For \(x_1+x_2\ge2,\ x_2\ge1,\ x_1-x_2\ge3\), choose`) +
     math(raw`(p_1,p_2,p_3)=(t,\ 4-2t,\ 1-t).`) +
     p(raw`These weights always produce the objective coefficients \((1,3)\). They are all nonnegative exactly when \(0\le t\le1\).`) +
     '</div>'+weightsWidget()+'</div>', [9, 10], {
       onMount: mountWeights,
-      printHtml: p(raw`For unrestricted \(x_1,x_2\), matching coefficients gives \((p_1,p_2,p_3)=(t,4-2t,1-t)\).`) +
+      printHtml: formReminder('warmup') + p(raw`Matching coefficients gives \((p_1,p_2,p_3)=(t,4-2t,1-t)\).`) +
         table([raw`\(t\)`, 'Weights', 'Weighted RHS', 'Certificate?'], [
           ['1', raw`\((1,2,0)\)`, '4', 'Yes'], ['0', raw`\((0,4,1)\)`, '7', 'Yes'],
           [raw`\(-1/2\)`, raw`\((-1/2,5,3/2)\)`, raw`\(17/2\)`, 'No: a negative weight'],
@@ -135,26 +157,28 @@ const main = [
     }),
 
   slide('warmup-dual', 'The best bound is itself a linear program',
-    p(raw`Adding the weighted inequalities gives coefficients \(p_1+p_3\) on \(x_1\) and \(p_1+p_2-p_3\) on \(x_2\). Match them to \(1,3\):`) +
+    formReminder('warmup') +
+    p(raw`<strong>Weight signs:</strong> the \(\ge\) constraints need nonnegative weights to keep the weighted sum \(\ge\) its right-hand side.`) +
+    p(raw`<strong>Coefficient conditions:</strong> unrestricted variables require exact matching to objective coefficients \(1,3\).`) +
     math(raw`\begin{aligned}\max\quad &2p_1+p_2+3p_3\\\text{s.t.}\quad &p_1+p_3=1,\\&p_1+p_2-p_3=3,\\&p_1,p_2,p_3\ge0.\end{aligned}`) +
-    box(p('The original problem is the <strong>primal</strong>. This problem of finding the strongest weighted bound is its <strong>dual</strong>.'), 'green') +
-    p('Exact coefficient matching is needed here because the primal variables are unrestricted.'), [10, 11, 12, 13], {
+    box(p('The original problem is the <strong>primal</strong>. This problem of finding the strongest weighted bound is its <strong>dual</strong>.'), 'green'), [10, 11, 12, 13], {
       checkpoint: checkpoint('For this ≥-constraint warmup, why must every weight be nonnegative?', ['To keep every weighted inequality pointing ≥ when we add them.', 'Because all dual variables in every LP are nonnegative.', 'Because the primal variables are nonnegative.', 'Because negative numbers cannot appear in an objective.'], 0, 'A negative multiplier reverses an inequality. Here the primal variables are unrestricted; the weights are nonnegative because they multiply ≥ constraints in a minimization problem.'),
     }),
 
   slide('nutrition-meal', 'Can we meet the requirements for less than $14?',
-    p('Plan a school meal meeting two nutritional requirements. Units and prices are illustrative.') +
+    formReminder('nutrition') +
+    p('Nutrient requirements are still minimums; now servings are nonnegative. Data are illustrative.') +
     table(['Per serving', 'Protein units', 'Carb units', 'Cost'], [
       [raw`Lentil dish \(x_L\)`, '2', '1', '$4'], [raw`Grain dish \(x_G\)`, '1', '2', '$5'],
       [raw`Snack \(x_S\)`, '1', '1', '$4'], ['Minimum required', '4', '5', ''],
     ]) +
-    p(raw`Choose servings \(x_L,x_G,x_S\ge0\) to minimize \(4x_L+5x_G+4x_S\), meeting both minimums. Fractional servings are allowed.`) +
+    p(raw`Minimize \(4x_L+5x_G+4x_S\) while meeting both minimums. Fractional servings are allowed.`) +
     box(p('<strong>One feasible meal:</strong> 1 lentil dish + 2 grain dishes + no snack.') +
       p(raw`Protein: \(2+2=4\). Carbs: \(1+4=5\). Cost: \(4+10=14\).`), 'blue') +
-    box(p(raw`We know \(v^*\le14\). Can any other combination cost less?`), 'green'), []),
+    p(raw`We know \(v^*\le14\). Can any other combination cost less?`), []),
 
   slide('nutrition-values', 'Combine the nutritional requirements',
-    p('Every acceptable meal must satisfy both inequalities:') +
+    formReminder('nutrition') +
     box(math(raw`\begin{aligned}2x_L+x_G+x_S&\ge4 &&\text{(protein)},\\x_L+2x_G+x_S&\ge5 &&\text{(carbohydrates)}.\end{aligned}`)) +
     p('<strong>Try this combination:</strong> the protein constraint plus twice the carbohydrate constraint.') +
     math(raw`(2x_L+x_G+x_S)+2(x_L+2x_G+x_S)\ge4+2(5).`) +
@@ -163,30 +187,33 @@ const main = [
       p('<strong>Our feasible meal costs $14, so it is optimal.</strong>'), 'green'), []),
 
   slide('nutrition-dual', 'Find the strongest cost guarantee',
-    p(raw`Let \(p,q\ge0\) weight the protein and carbohydrate constraints, respectively.`) +
+    formReminder('nutrition') +
+    p(raw`<strong>Weight signs:</strong> the protein and carbohydrate \(\ge\) constraints give \(p,q\ge0\).`) +
     math(raw`(2p+q)x_L+(p+2q)x_G+(p+q)x_S\ge4p+5q.`) +
-    p('Choose coefficients no larger than the food unit costs. Multiplying by nonnegative servings preserves these inequalities, so the weighted sum cannot exceed the meal cost.') +
+    p(raw`<strong>Coefficient conditions:</strong> choose coefficients \(\le\) food costs. Multiplication by nonnegative servings preserves these inequalities.`) +
     math(raw`\begin{aligned}\max\quad &4p+5q &&\text{lower bound on meal cost}\\
       \text{s.t.}\quad &2p+q\le4 &&\text{lentil dish},\\
       &p+2q\le5 &&\text{grain dish},\\
       &p+q\le4 &&\text{snack},\\
       &p,q\ge0.\end{aligned}`) +
-    box(p(raw`Weights \((1,1)\) give a $9 bound; \((1,2)\) give $14, matching our meal.`), 'green') +
-    p('<strong>Primal:</strong> find the cheapest acceptable meal. <strong>Dual:</strong> prove the strongest cost bound.'), []),
+    p(raw`Weights \((1,1)\) give a $9 bound; \((1,2)\) give $14, matching our meal.`), []),
 
   slide('continuing-model', 'Our continuing example has equality constraints',
+    formReminder('equality') +
     primal46() +
-    box(p('We will use this same problem to study bounds, optimality certificates, complementary slackness, and prices.')) +
-    p('The nutrition minimums used nonnegative weights. An equality can be multiplied by either sign without losing equality, so its weight can be unrestricted.'), [14, 15, 75]),
+    box(p('<strong>What changed?</strong> The variables remain nonnegative. The constraints are now equalities, so their weights may have either sign.')) +
+    p(raw`The coefficient conditions will still be \(\le\), because the primal variables remain nonnegative.`), [14, 15, 75]),
 
   slide('certificate-arithmetic', 'Two weighted equalities nearly reproduce the objective',
-    p(raw`Our equalities are \(5x_1+x_2+3x_3=8\) and \(3x_1+x_2=3\), with \(x\ge0\).`) +
+    formReminder('equality') +
+    p(raw`Our equalities are \(5x_1+x_2+3x_3=8\) and \(3x_1+x_2=3\).`) +
     box(math(raw`2(5x_1+x_2+3x_3)+(3x_1+x_2)=19.`)) +
     box(math(raw`13x_1+10x_2+6x_3=19+7x_2\ge19.`), 'green') +
     p(raw`The difference is \(7x_2\), which is nonnegative. The weighted equalities give a lower bound even though the \(x_2\) coefficient is not matched exactly.`), [14, 15, 75]),
 
   slide('unknown-weights', 'Choose weights so the remaining terms are nonnegative',
-    p(raw`Multiply the two equalities by unknown weights \(p_1,p_2\):`) +
+    formReminder('equality') +
+    p(raw`Multiply the equalities by unrestricted weights \(p_1,p_2\):`) +
     math(raw`(5p_1+3p_2)x_1+(p_1+p_2)x_2+3p_1x_3=8p_1+3p_2.`) +
     box(p(raw`Because \(x_1,x_2,x_3\ge0\), a lower bound follows whenever`) +
       math(raw`5p_1+3p_2\le13,\qquad p_1+p_2\le10,\qquad3p_1\le6.`), 'blue') +
@@ -194,40 +221,68 @@ const main = [
     p('Each nonnegative primal variable supplies one coefficient inequality.'), [14, 15, 75]),
 
   slide('continuing-dual', 'Maximize the bound subject to those coefficient tests',
+    formReminder('equality') +
+    p('<strong>Weight signs:</strong> equalities allow unrestricted weights.') +
+    p(raw`<strong>Coefficient conditions:</strong> nonnegative variables allow weighted coefficients \(\le\) objective coefficients.`) +
     dual46() +
     box(p(raw`Check \(p=(2,1)\): the three left sides are \(13,3,6\), all at most \(13,10,6\). Its bound is \(8(2)+3(1)=19\).`), 'green') +
     p('Two primal equations give two dual variables. Three primal variables give three dual constraints.'), [15, 75]),
 
+  slide('compare-forms', 'Three examples, two separate decisions',
+    p('<strong>All three:</strong> primal minimization → dual maximization.') +
+    box(p('<strong>Primal constraint → dual variable:</strong> choose the weight’s sign.') +
+      p('<strong>Primal variable → dual constraint:</strong> compare its coefficients.')) +
+    table(['Example', 'Primal constraints', 'Primal variables', 'Dual variables', 'Dual constraints'], [
+      ['Opening', raw`\(\ge\)`, 'Unrestricted', 'Nonnegative', raw`\(=\)`],
+      ['Nutrition', raw`\(\ge\)`, 'Nonnegative', 'Nonnegative', raw`\(\le\)`],
+      ['Equality', raw`\(=\)`, 'Nonnegative', 'Unrestricted', raw`\(\le\)`],
+    ], 'Comparison of three primal–dual forms; scroll horizontally to read all five columns') +
+    '<p class="dy-table-scroll-hint">Scroll the table horizontally to read all five columns.</p>' +
+    p('<strong>Opening → nutrition:</strong> changing variable signs changes the coefficient conditions.') +
+    p('<strong>Nutrition → equality:</strong> changing constraint types changes the weight signs.'), [10, 13, 16, 21, 22, 23, 24], { onMount: mountFormComparison }),
+
+  slide('constraint-signs', 'First: choose the sign of each constraint weight',
+    p('<strong>For a minimization primal:</strong> after weighting, we want') +
+    math(raw`\text{weighted expression}\ \ge\ \text{weighted right-hand side}.`) +
+    table(['Original constraint', 'Allowed weight', 'Example after multiplication'], [
+      [raw`\(x\ge2\)`, raw`\(p\ge0\)`, raw`\(p=2:\quad 2x\ge4\)`],
+      [raw`\(x\le2\)`, raw`\(p\le0\)`, raw`\(p=-1:\quad -x\ge-2\)`],
+      [raw`\(x=2\)`, raw`\(p\) unrestricted`, raw`\(p=-1:\quad -x=-2\)`],
+    ]) +
+    box(p(raw`Both weighted inequalities now point \(\ge\), so we can add them. An equality also satisfies \(\ge\). These are three separate illustrations.`), 'green') +
+    p('<strong>Next:</strong> ensure that the weighted expression does not exceed the original objective.'), [21, 22, 23, 24]),
+
+  slide('variable-signs', 'Second: compare each variable’s coefficients',
+    p('<strong>Still minimizing:</strong> the weighted expression must not exceed the objective.') +
+    p(raw`For lentils, the weighted coefficient is \(2p+q\), and the unit cost is \(4\):`) +
+    math(raw`2p+q\le4,\quad x_L\ge0\quad\Longrightarrow\quad(2p+q)x_L\le4x_L.`) +
+    table(['Primal variable', 'Weighted coefficient vs. objective coefficient'], [
+      [raw`\(x_j\ge0\)`, raw`\(\le\): nonnegative multiplication preserves the comparison.`],
+      [raw`\(x_j\le0\)`, raw`\(\ge\): nonpositive multiplication reverses the comparison.`],
+      [raw`\(x_j\) unrestricted`, raw`\(=\): exact matching works for either sign.`],
+    ]) +
+    box(math(raw`\text{weighted RHS}\le\text{weighted expression}\le\text{objective}.`) +
+      p('<strong>First comparison:</strong> constraint types and weight signs.') +
+      p('<strong>Second comparison:</strong> variable signs and coefficient conditions.'), 'green'), [22, 23, 24]),
+
   slide('standard-pair', 'Write the same argument in matrix notation',
+    formReminder('equality') +
     box(math(raw`\text{Primal:}\quad\min c^\top x\quad\text{s.t.}\quad Ax=b,\quad x\ge0.`)) +
-    p(raw`Let \(p\) contain one unrestricted weight per equality. The coefficient of \(x_j\) in their combination is \(p^\top A_j\), where \(A_j\) is column \(j\) of \(A\).`) +
+    p(raw`Each equality supplies an unrestricted weight. The weighted coefficient of \(x_j\) is \(p^\top A_j\), where \(A_j\) is column \(j\) of \(A\).`) +
     box(math(raw`\text{Dual:}\quad\max b^\top p\quad\text{s.t.}\quad A^\top p\le c,\quad p\text{ unrestricted}.`), 'green') +
-    p(raw`The vector inequality means \(p^\top A_j\le c_j\) for every column. It is the coefficient test we just performed.`), [14, 15, 16]),
-
-  slide('constraint-signs', 'The primal constraint determines the sign of its weight',
-    p('<strong>For a minimization primal:</strong> build lower bounds by combining its rows.') +
-    table(['Primal row', 'Dual weight', 'Reason'], [
-      [raw`\(a_i^\top x\ge b_i\)`, raw`\(p_i\ge0\)`, 'Keep the ≥ direction.'],
-      [raw`\(a_i^\top x\le b_i\)`, raw`\(p_i\le0\)`, 'Reverse ≤ into ≥.'],
-      [raw`\(a_i^\top x=b_i\)`, raw`\(p_i\) unrestricted`, 'Either sign preserves equality.'],
-    ]) + box(p('An unrestricted weight is allowed to be positive, zero, or negative. Its value must still satisfy the dual constraints.'), 'green'), [21, 22, 23, 24]),
-
-  slide('variable-signs', 'The primal variable determines the coefficient test',
-    p(raw`The remaining objective term is \((c_j-p^\top A_j)x_j\). We require it to be nonnegative for every allowed value of \(x_j\).`) +
-    table(['Primal variable', 'Dual constraint', 'Reason'], [
-      [raw`\(x_j\ge0\)`, raw`\(p^\top A_j\le c_j\)`, 'The remaining coefficient must be nonnegative.'],
-      [raw`\(x_j\le0\)`, raw`\(p^\top A_j\ge c_j\)`, 'The remaining coefficient must be nonpositive.'],
-      [raw`\(x_j\) unrestricted`, raw`\(p^\top A_j=c_j\)`, 'Only a zero coefficient works for both signs.'],
-    ]) + box(p('The direction of a dual constraint comes from the sign of its corresponding primal variable.'), 'green'), [22, 23, 24]),
+    p(raw`Nonnegative \(x_j\) requires \(p^\top A_j\le c_j\). Collecting these coefficient conditions gives \(A^\top p\le c\).`), [14, 15, 16]),
 
   slide('mixed-question', 'Practice: a primal with mixed signs',
     mixedPrimal() +
-    box(p('Write its dual. First assign one weight to each of the three rows. Then read the coefficient of each primal variable.')) +
-    p('This is a formulation exercise; no feasibility or optimality assumption is needed to write a dual.'), [26]),
+    box(p('<strong>1. Constraint types:</strong> choose the sign of each weight.') +
+      p('<strong>2. Variable signs:</strong> write one coefficient condition per variable.') +
+      p('<strong>3. Objective:</strong> maximize the weighted right-hand side.')) +
+    p('Use minimization rules. Constructing a dual does not assume feasibility or optimality.'), [26]),
 
   slide('mixed-answer', 'Mixed signs: read one column at a time',
-    table(['Primal item', 'Corresponding dual item'], [
-      ['Equality; ≥ row; ≤ row', raw`\(p_1\text{ unrestricted},\ p_2\ge0,\ p_3\le0\)`],
+    p('<strong>Primal minimization → dual maximization.</strong> Read constraint types and variable signs separately.') +
+    box(p(raw`<strong>Weight signs from the three constraints:</strong> equality → \(p_1\) unrestricted; \(\ge\) → \(p_2\ge0\); \(\le\) → \(p_3\le0\).`)) +
+    table(['Primal variable sign', 'Corresponding dual coefficient condition'], [
       [raw`\(x_1\ge0\)`, raw`\(-p_1+2p_2\le1\)`],
       [raw`\(x_2\le0\)`, raw`\(3p_1-p_2\ge2\)`],
       [raw`\(x_3\text{ unrestricted}\)`, raw`\(3p_2+p_3=3\)`],
@@ -237,6 +292,7 @@ const main = [
     }),
 
   slide('max-convention', 'If the primal maximizes, its dual gives an upper bound',
+    p('<strong>This page changes convention:</strong> primal maximization → dual minimization.') +
     box(math(raw`\text{Primal:}\quad\max c^\top x\quad\text{s.t.}\quad Ax\le b,\quad x\ge0.`)) +
     box(math(raw`\text{Dual:}\quad\min b^\top p\quad\text{s.t.}\quad A^\top p\ge c,\quad p\ge0.`), 'green') +
     math(raw`c^\top x\le p^\top Ax\le p^\top b.`) +
@@ -280,9 +336,13 @@ const main = [
 
   slide('unbounded-example', 'A one-variable example makes the contradiction visible',
     box(math(raw`\text{Primal:}\quad\min x_1\quad\text{s.t.}\quad x_1\le1,\quad x_1\text{ unrestricted}.`)) +
-    p(raw`Choose \(x_1=-M\) and let \(M\) grow. The objective decreases without bound.`) +
+    table(['Feature of this minimization primal', 'Consequence for its dual'], [
+      [raw`Constraint \(x_1\le1\)`, raw`Nonpositive weight: \(p_1\le0\).`],
+      [raw`Unrestricted \(x_1\); objective coefficient \(1\)`, raw`Exact coefficient matching: \(p_1=1\).`],
+      [raw`Right-hand side \(1\)`, raw`Maximize \(1\cdot p_1\).`],
+    ]) +
     box(math(raw`\text{Dual:}\quad\max p_1\quad\text{s.t.}\quad p_1\le0,\quad p_1=1.`), 'orange') +
-    p('The row requires a nonpositive weight; the unrestricted variable requires exact coefficient matching. Those two requirements cannot both hold.'), [50]),
+    p(raw`The dual conditions contradict each other. The primal is unbounded below: choose \(x_1=-M\) and let \(M\to\infty\).`), [50]),
 
   slide('practice-question', 'Practice: write the dual and try a certificate',
     math(raw`\begin{aligned}\min\quad &2x_1+x_2\\\text{s.t.}\quad &x_1+x_2\ge3,\\&x_1+2x_2\le6,\quad x_1\ge0,\quad x_2\text{ unrestricted}.\end{aligned}`) +
@@ -290,6 +350,7 @@ const main = [
     p('Check feasibility before comparing objective values.'), [21, 24, 47, 51]),
 
   slide('practice-answer', 'Practice solution: both sides attain 3',
+    p(raw`<strong>Constraint types:</strong> \(\ge,\le\) give \(p_1\ge0,p_2\le0\). <strong>Variable signs:</strong> \(x_1\ge0\) gives \(\le\); unrestricted \(x_2\) gives \(=\).`) +
     math(raw`\begin{aligned}\max\quad &3p_1+6p_2\\\text{s.t.}\quad &p_1+p_2\le2,\quad p_1+2p_2=1,\\&p_1\ge0,\quad p_2\le0.\end{aligned}`) +
     box(p(raw`For \(p=(1,0)\), the coefficient tests are \(1\le2\) and \(1=1\); the lower bound is 3.`), 'blue') +
     box(p(raw`For \(x=(0,3)\), the primal rows give \(3\ge3\) and \(6\le6\); the cost is 3. Weak duality therefore proves both points optimal.`), 'green'), [47, 51], {
