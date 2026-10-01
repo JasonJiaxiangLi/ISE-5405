@@ -332,7 +332,7 @@ const main = [
   slide('unbounded-implications', 'Unboundedness on one side rules out feasibility on the other',
     box(p(raw`If the primal objective decreases without bound, the dual is infeasible. A finite dual lower bound would block that decrease.`)) +
     box(p(raw`If the dual objective increases without bound, the primal is infeasible. A finite primal value would block that increase.`), 'green') +
-    p('These statements follow from weak duality. Their converses do not follow: infeasibility alone does not tell us that the other problem is unbounded.'), [49]),
+    p('These statements follow from weak duality. However, infeasibility of one problem does not imply unboundedness of the other: <strong>both problems may be infeasible.</strong>'), [49]),
 
   slide('unbounded-example', 'A one-variable example makes the contradiction visible',
     box(math(raw`\text{Primal:}\quad\min x_1\quad\text{s.t.}\quad x_1\le1,\quad x_1\text{ unrestricted}.`)) +
