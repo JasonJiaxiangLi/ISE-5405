@@ -264,14 +264,14 @@ const main = [
 
   slide('equal-values', 'Matching feasible values certify optimality',
     box(p('<strong>Corollary 4.2.</strong> If a primal feasible point and a dual feasible point have the same objective value, both are optimal.')) +
-    math(raw`b^\top p\le v^*\le c^\top x.`) +
-    p('For the continuing three-variable example, compare these feasible pairs:') +
-    table(['Dual vector', 'Lower bound', 'Primal vector', 'Upper bound'], [
-      [raw`\((0,0)\)`, '0', raw`\((0,3,5/3)\)`, '40'],
-      [raw`\((2,0)\)`, '16', raw`\((0,3,5/3)\)`, '40'],
-      [raw`\((2,1)\)`, '19', raw`\((1,0,1)\)`, '19'],
-    ]) +
-    box(p('The final pair attains the same value 19, so both points are optimal. Strong duality will explain why matching certificates exist whenever an LP has an optimum.'), 'green'), [51, 75]),
+    p(raw`Call these feasible points \(\hat x,\hat p\), with common value \(c^\top\hat x=b^\top\hat p=v\).`) +
+    box(p(raw`<strong>Primal minimum.</strong> For every primal feasible \(x\), weak duality gives`) +
+      math(raw`c^\top x\ge b^\top\hat p=v.`) +
+      p(raw`Our point \(\hat x\) attains this lower bound, so it is optimal.`)) +
+    box(p(raw`<strong>Dual maximum.</strong> For every dual feasible \(p\), weak duality gives`) +
+      math(raw`b^\top p\le c^\top\hat x=v.`) +
+      p(raw`Our point \(\hat p\) attains this upper bound, so it is optimal.`), 'green') +
+    p('A feasible meal costs $14; dual weights prove no acceptable meal costs less. Both are optimal.'), [51]),
 
   slide('unbounded-implications', 'Unboundedness on one side rules out feasibility on the other',
     box(p(raw`If the primal objective decreases without bound, the dual is infeasible. A finite dual lower bound would block that decrease.`)) +
