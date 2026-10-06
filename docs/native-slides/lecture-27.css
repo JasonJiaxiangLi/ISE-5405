@@ -1,0 +1,20 @@
+@import url('./duality.css');
+[data-native-deck="lecture-27"] .ns-slide { font-size: clamp(18px,1.95cqw,30px); padding:2.1cqw 4.4cqw; gap:0; }
+.ap-slide .ns-slide-header h1 { font-size:1.5em; }
+.ap-slide .dy-table :is(th,td) { padding:.18em .35em; }
+.ap-slide .dy-figure svg { max-height:15.4em; }
+.ap-slide .dy-pair { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+.ap-slide [data-ap-status] { min-height:1.5em; }
+.ap-slide .dy-table-wrap:focus-visible { outline:3px solid #1874ad; outline-offset:2px; }
+.ap-equation-flow { display:flex; flex-wrap:wrap; justify-content:center; column-gap:1em; row-gap:.1em; }
+.ap-equation-flow > .dy-math { flex:0 0 auto; }
+.ap-model-comparison { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.6em; }
+@media(max-width:760px){
+ .ap-equation-flow {column-gap:.6em;}
+ .ap-model-comparison {grid-template-columns:minmax(0,1fr); gap:.1em;}
+ [data-native-deck="lecture-27"] .ns-slide {font-size:18px;padding:1.1rem;}
+ .ap-slide .dy-pair {grid-template-columns:minmax(0,1fr);}
+ .ap-slide .dy-table {min-width:28em;}
+ .ap-slide mjx-container {padding-bottom:.12em;}
+}
+@media print { .ap-slide .dy-figure svg {max-height:15em;} }

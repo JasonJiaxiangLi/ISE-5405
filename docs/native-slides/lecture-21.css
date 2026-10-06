@@ -1,0 +1,6 @@
+@import url('./duality.css');
+[data-native-deck="lecture-21"] .ns-slide {font-size:clamp(18px,1.95cqw,30px);padding:2.1cqw 4.4cqw;gap:0;}
+.d4-slide .dy-figure svg {max-height:15em;}
+.d4-slide .dy-table-wrap:focus-visible {outline:3px solid #1874ad;outline-offset:2px;}
+@media(max-width:760px){[data-native-deck="lecture-21"] .ns-slide{font-size:18px;padding:1.1rem;}.d4-slide .dy-table {min-width:28em;}}
+@media(max-width:760px){.d4-slide .dy-pair{padding-bottom:.45em;}}

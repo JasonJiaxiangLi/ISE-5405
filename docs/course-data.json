@@ -1017,7 +1017,7 @@
           "auto_open": true,
           "choices": [
             "The old quantities are still optimal.",
-            "The old dual weights still give a lower bound, but their predicted value need not be attainable.",
+            "The old dual variables still give a lower bound, but their predicted value need not be attainable.",
             "All original dual constraints must change.",
             "The new LP must be infeasible."
           ],
@@ -1042,38 +1042,185 @@
         {
           "auto_open": true,
           "choices": [
-            "Aᵀq≥0 and bᵀq<0.",
-            "Aᵀq≥0 and bᵀq>0.",
-            "Only q≠0.",
-            "One attempted solution has a negative component."
+            "Nonnegative basic values.",
+            "Nonnegative reduced costs.",
+            "The original objective value.",
+            "The original basis."
           ],
-          "correct_index": 0,
-          "explanation": "The row combination has a nonnegative left side for every x≥0 but a strictly negative right side. A failed attempted solution alone is not a certificate.",
-          "page": 21,
-          "question": "Which calculation certifies that Ax=b, x≥0 is infeasible?"
+          "correct_index": 1,
+          "explanation": "The basic solution may still be primal infeasible. Nonnegative reduced costs keep the associated dual solution feasible.",
+          "page": 30,
+          "question": "What does a dual-simplex pivot preserve for a minimization problem?"
         }
       ],
       "date": null,
       "demos": [],
-      "description": "Interpret dual prices, connect reduced costs to column geometry, and use row combinations to certify infeasibility.",
+      "description": "Interpret optimal dual variables as marginal costs, track valid ranges, and use the dual simplex method to restore primal feasibility while preserving dual feasibility.",
       "display_number": 11,
       "id": "lecture-20",
       "number": 20,
-      "pdf_hash": "045c34ba1b6c7573a44e791ad91c70f35d5af00195821140bc22def8a08c7498",
-      "pdf_size": 398562,
+      "pdf_hash": "dd0d5df2df5c5f61d3b0faeadc4ee0dc9c74fba5498fe2d60155ff6aa5cd0e87",
+      "pdf_size": 709006,
       "pdf_url": "materials/lecture_20.pdf",
-      "pdf_url_versioned": "materials/lecture_20.pdf?v=045c34ba1b6c",
+      "pdf_url_versioned": "materials/lecture_20.pdf?v=dd0d5df2df5c",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
       "tags": [
         "duality",
         "marginal costs",
-        "column geometry",
-        "Farkas lemma"
+        "dual simplex"
       ],
-      "title": "Duality III: Prices and Certificates",
+      "title": "Duality III: Marginal Costs and Dual Simplex",
       "viewer_url": "lectures/lecture-20",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "That trial vector does not certify infeasibility.",
+            "The system is infeasible.",
+            "The system must be feasible."
+          ],
+          "correct_index": 0,
+          "explanation": "The certificate needs a strictly negative right-hand-side product. Failure of one trial vector proves neither feasibility nor infeasibility.",
+          "page": 9,
+          "question": "If a trial vector gives \\(A^\\top q\\ge0\\) but \\(b^\\top q=0\\), what have we proved?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Its value per resource equals the capacity dual variable.",
+            "Its upper-bound dual variable must be positive.",
+            "Every other item must also be partly used."
+          ],
+          "correct_index": 0,
+          "explanation": "The upper-bound slack is positive, so its dual variable is zero. The item itself is positive, so its dual constraint is active: beta times resource equals value.",
+          "page": 20,
+          "question": "A fractional-knapsack item is used strictly between 0 and 1 at optimum. What does complementary slackness imply?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Use Farkas’ lemma to certify infeasibility, collect LP optimality conditions, and apply duality to fractional knapsack and finite-state arbitrage.",
+      "display_number": 12,
+      "id": "lecture-21",
+      "number": 21,
+      "pdf_hash": "f5d2350844d7d4651489c860f340437e16f3fa8fc4c9884a3e87f351024607a0",
+      "pdf_size": 535957,
+      "pdf_url": "materials/lecture_21.pdf",
+      "pdf_url_versioned": "materials/lecture_21.pdf?v=f5d2350844d7",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "Farkas lemma",
+        "KKT",
+        "fractional knapsack",
+        "arbitrage"
+      ],
+      "title": "Duality IV: Farkas’ Lemma and LP Optimality Conditions",
+      "viewer_url": "lectures/lecture-21",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "The changed LP is infeasible.",
+            "This basis no longer supplies a feasible solution; another basis may work.",
+            "The objective coefficients must have changed."
+          ],
+          "correct_index": 1,
+          "explanation": "A same-basis interval describes the basis, not the existence of all feasible plans. The diagram shows a new optimum outside that interval.",
+          "page": 9,
+          "question": "The old basic solution becomes negative after a resource change. What does that establish?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Phase I must restart.",
+            "Primal simplex from the still-feasible basis.",
+            "Dual simplex because the objective changed."
+          ],
+          "correct_index": 1,
+          "explanation": "The old quantities remain feasible. Primal simplex repairs the lost reduced-cost sign condition.",
+          "page": 32,
+          "question": "The RHS is unchanged, but a new profit coefficient gives a positive nonbasic objective coefficient in a maximizing dictionary. Which method is the natural continuation?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Compute valid ranges for right-hand sides and objective coefficients, handle simultaneous and model changes, and interpret solver sensitivity reports.",
+      "display_number": 13,
+      "id": "lecture-22",
+      "number": 22,
+      "pdf_hash": "eacf8ad77249062a9c6b74fcfb3147ed22f0105dfabef70ef90dd5b23917fbc2",
+      "pdf_size": 728509,
+      "pdf_url": "materials/lecture_22.pdf",
+      "pdf_url_versioned": "materials/lecture_22.pdf?v=eacf8ad77249",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "sensitivity analysis",
+        "reoptimization",
+        "parametric LP"
+      ],
+      "title": "Sensitivity Analysis: Ranges and Reoptimization",
+      "viewer_url": "lectures/lecture-22",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Accept because $390 exceeds each individual leg price.",
+            "Reject because $390 is below their sum, $400.",
+            "Accept because every connection uses two legs."
+          ],
+          "correct_index": 1,
+          "explanation": "The request consumes both resources, so their opportunity costs add. The relevant comparison is $390 versus $170+$230.",
+          "page": 12,
+          "question": "A new connection earns $390 and uses legs priced at $170 and $230. What does the current marginal rule say?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The production plan x is fixed; the uncertain scenario is optimized.",
+            "The uncertain scenario is fixed; the production plan is optimized.",
+            "Both are fixed, so no optimization remains."
+          ],
+          "correct_index": 0,
+          "explanation": "To test one proposed plan, keep x fixed and search over the allowed uncertain data for the largest consumption.",
+          "page": 21,
+          "question": "In the inner worst-case LP, which quantities are fixed?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Use duality for airline revenue management and robust linear optimization with uncertain coefficients, right-hand sides, and uncertainty budgets.",
+      "display_number": 14,
+      "id": "lecture-27",
+      "number": 27,
+      "pdf_hash": "97235cf20e313699513be2c74a9c19e54506c38dc97a4f1464beee464d70b31f",
+      "pdf_size": 608238,
+      "pdf_url": "materials/lecture_27.pdf",
+      "pdf_url_versioned": "materials/lecture_27.pdf?v=97235cf20e31",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "duality",
+        "revenue management",
+        "robust optimization"
+      ],
+      "title": "Applications of Duality: Revenue Management and Robust Optimization",
+      "viewer_url": "lectures/lecture-27",
       "whiteboards": 3
     }
   ],

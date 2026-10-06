@@ -8,3 +8,22 @@
 [data-native-deck="lecture-20"] .l10-column-controls button { min-height: 44px; padding: .3em .6em; font: inherit; color: #861f41; background: white; border: 2px solid #861f41; border-radius: .25em; }
 [data-native-deck="lecture-20"] .l10-column-svg:focus-visible { outline: 3px solid #1874ad; }
 [data-native-deck="lecture-20"] .l10-column-instruction { font-size: .92em; }
+/* One coherent paired geometry figure: labels remain readable on projection. */
+[data-native-deck="lecture-20"] .d20-dual-geometry { padding: .2em .35em; }
+[data-native-deck="lecture-20"] .d20-dual-geometry svg { width: 100%; max-height: 15.2em; }
+[data-native-deck="lecture-20"] .d20-dual-geometry svg text { font-size: 23px; }
+[data-native-deck="lecture-20"] .d20-dual-geometry .d20-plot-title { font-size: 25px; font-weight: 700; }
+[data-native-deck="lecture-20"] .d20-dual-geometry figcaption { font-size: 1em; }
+@media (max-width: 760px) {
+  [data-native-deck="lecture-20"] .d20-dual-geometry { overflow-x: auto; }
+  [data-native-deck="lecture-20"] .d20-dual-geometry svg { width: 900px; max-width: none; max-height: none; }
+}
+@media print {
+  [data-native-deck="lecture-20"] .d20-dual-geometry svg { max-height: 15.2em; }
+}
+
+[data-native-deck="lecture-20"] [data-d20-scroll]:focus-visible { outline: 3px solid #1874ad; outline-offset: 2px; }
+@media (max-width: 760px) {
+  /* Reserve the inline MathJax descent after the final marginal-cost sentence. */
+  [data-native-deck="lecture-20"] [data-slide-id="l20-used-columns"] .ns-slide-body { padding-bottom: .6em; }
+}

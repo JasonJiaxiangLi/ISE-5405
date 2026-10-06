@@ -1,0 +1,20 @@
+@import url('./duality.css');
+[data-native-deck="lecture-22"] .ns-slide {font-size:clamp(18px,1.95cqw,30px);padding:2.1cqw 4.4cqw;gap:0;}
+.se-slide .dy-figure svg{max-height:15.6em;}
+.se-slide .dy-pair{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);}
+.se-slide .dy-table-wrap:focus-visible{outline:3px solid #1874ad;outline-offset:2px;}
+.se-slide .se-code{font-size:.88em;line-height:1.38;white-space:pre;overflow:auto;background:#f3f6fa;border-left:.24em solid #326b8c;padding:.6em .8em;margin:.3em 0;border-radius:.25em;color:#172e43;}
+.se-slide .se-code code{font-family:var(--ns-mono,monospace);}
+.se-key{color:#6d2494;font-weight:600;}.se-str{color:#176236;}.se-comment{color:#526879;}
+.se-slide .dy-controls{font-size:.91em;}
+@media(max-width:760px){[data-native-deck="lecture-22"] .ns-slide{font-size:18px;padding:1.1rem;}.se-slide .dy-pair{grid-template-columns:minmax(0,1fr);}.se-slide .se-code{font-size:.8em;} .se-slide .dy-figure svg{max-height:none;}}
+@media print{.se-slide .se-code{overflow:visible;}.se-slide .dy-figure svg{max-height:15.6em;}}
+
+/* Place the controls beside their figure so its height stays within the stage. */
+.se-rhs-explore .dy-stack{gap:.15em;}
+.se-rhs-explore .dy-controls{margin:0;}
+.se-rhs-explore .se-rhs-controls{display:flex;flex-direction:column;gap:.1em;}
+.se-rhs-explore .se-rhs-status{font-size:.94em;line-height:1.25;min-height:3.75em;margin:.1em 0 0;}
+.se-rhs-explore .se-rhs-figure svg{max-height:14em;}
+.se-rhs-explore .se-rhs-figure figcaption{font-size:.92em;}
+@media(max-width:760px){.se-rhs-explore .se-rhs-figure svg{max-height:none;}}

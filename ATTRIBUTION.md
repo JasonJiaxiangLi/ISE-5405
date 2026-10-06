@@ -17,7 +17,7 @@ Please link to the public course repository and to
 
 ## Robert Hildebrand material
 
-Lectures 0–11 contain selected instructional structure, examples, and visuals
+Lectures 0–14 contain selected instructional structure, examples, and visuals
 adapted with permission from Robert Hildebrand's Fall 2025 ISE 5405 materials
 and faculty-authorized reference decks. Copyright in Robert Hildebrand's
 contributions remains with him.
@@ -33,11 +33,17 @@ and follows Bertsimas and Tsitsiklis, *Introduction to Linear Optimization*,
 credits that source lineage. These third-party contributions are likewise
 excluded from this repository's reuse licenses.
 
-The three Duality resources adapt the same faculty-authorized Lecture 10
-reference, which credits Alberto Del Pia, for BT §§4.1–4.4 and 4.6. They
+The four Duality resources adapt the same faculty-authorized Lecture 10
+reference, which credits Alberto Del Pia, for BT §§4.1–4.6. They
 preserve its numerical examples, theorem statements, and geometric meaning;
 new arithmetic explanations and exact interactions are by Jiaxiang Li. The
 reference material is excluded from the repository’s reuse licenses.
+
+Sensitivity Analysis and Applications of Duality also adapt Robert’s Lecture 11,
+Lecture 13, and authorized sensitivity, solver, fractional-knapsack, and
+arbitrage supplements. Numerical corrections, worked arithmetic, and interactive
+plots are new course contributions; the underlying reference material remains
+excluded from the repository’s reuse licenses.
 
 ## GILP and other instructional references
 
