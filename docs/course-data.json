@@ -965,15 +965,15 @@
         {
           "auto_open": true,
           "choices": [
-            "The weights are not both nonnegative.",
+            "The dual variables are not both nonnegative.",
             "The first dual inequality fails; matching objective values alone is insufficient.",
             "The primal point is not feasible.",
             "Complementary slackness applies only to maximization."
           ],
           "correct_index": 1,
-          "explanation": "Equality constraints allow unrestricted weights. The first dual left-hand side is 34, exceeding its allowed value 13. The proposed weights are infeasible, so weak duality does not certify 40 as a lower bound.",
+          "explanation": "Equality constraints allow unrestricted dual variables. The first dual left-hand side is 34, exceeding its allowed value 13. The proposed dual solution is infeasible, so weak duality does not certify 40 as a lower bound.",
           "page": 22,
-          "question": "The tight equations give p=(2,8), and its weighted RHS equals the primal cost 40. Why is this not an optimality certificate?"
+          "question": "Dual constraints 2 and 3 give p=(2,8), whose objective value equals the primal cost 40. Why is this not an optimality certificate?"
         },
         {
           "auto_open": true,
@@ -995,10 +995,10 @@
       "display_number": 10,
       "id": "lecture-19",
       "number": 19,
-      "pdf_hash": "acaeaf6329bb810745e8631f571e770104e26ec06f206023d8d91b62d0eb2d06",
-      "pdf_size": 511302,
+      "pdf_hash": "6f7f3d871e78c5ba5300c1e9e00eff5437601ebf382a98ee09e13d3cdaa7b820",
+      "pdf_size": 527940,
       "pdf_url": "materials/lecture_19.pdf",
-      "pdf_url_versioned": "materials/lecture_19.pdf?v=acaeaf6329bb",
+      "pdf_url_versioned": "materials/lecture_19.pdf?v=6f7f3d871e78",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

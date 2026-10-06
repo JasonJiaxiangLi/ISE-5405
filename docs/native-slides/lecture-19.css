@@ -43,3 +43,16 @@
 @media (max-width: 760px) {
   .dy-optimal-dual-summary .ns-slide-body { flex: none; padding-bottom: .7em; }
 }
+
+/* Numerical reminders and slack tables retain normal-sized teaching text. */
+:is(.dy-slack-calculation, .dy-complementary-table, .dy-example-revisit) .ns-slide-body { gap: .14em; }
+:is(.dy-slack-calculation, .dy-complementary-table, .dy-example-revisit) p { margin-bottom: .12em; }
+:is(.dy-slack-calculation, .dy-complementary-table, .dy-example-revisit) .dy-box { margin: .06em 0; padding: .3em .65em; }
+:is(.dy-slack-calculation, .dy-complementary-table, .dy-example-revisit) mjx-container[display="true"] { margin: .16em 0 !important; }
+:is(.dy-slack-calculation, .dy-complementary-table, .dy-example-revisit) .dy-table :is(th,td) { padding: .12em .4em; }
+.dy-example-models { background: #f5f8fa; border-left: .22em solid #326b8c; padding: .25em .6em; }
+.dy-example-models p:nth-child(3) { margin-top: .15em; }
+:is(.dy-slack-calculation, .dy-complementary-table, .dy-example-revisit) .dy-table-wrap:focus-visible { outline: 3px solid #1874ad; outline-offset: 2px; }
+@media (max-width: 760px) {
+  :is(.dy-slack-calculation, .dy-complementary-table, .dy-example-revisit) .ns-slide-body { flex: none; padding-bottom: .7em; }
+}
