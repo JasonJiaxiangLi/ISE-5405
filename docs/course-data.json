@@ -952,19 +952,6 @@
         {
           "auto_open": true,
           "choices": [
-            "Only that their objective values are equal.",
-            "Primal feasibility, dual feasibility, and equal objective values.",
-            "Only that both solutions are basic.",
-            "Only that the primal solution has positive components."
-          ],
-          "correct_index": 1,
-          "explanation": "Weak duality compares feasible solutions. Equal objective values certify optimality only after both feasibility checks pass.",
-          "page": 11,
-          "question": "Which facts are needed to certify both solutions as optimal?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
             "Yes: zero variables always correspond to positive dual slack.",
             "No: that dual slack may be zero or positive.",
             "No: it must be negative.",
@@ -972,7 +959,7 @@
           ],
           "correct_index": 1,
           "explanation": "The product is already zero when the primal variable is zero. Dual feasibility requires nonnegative slack, but complementary slackness does not force it to be strictly positive.",
-          "page": 18,
+          "page": 16,
           "question": "At an optimal feasible pair, the second primal variable is zero. Must its dual inequality have positive slack?"
         },
         {
@@ -985,8 +972,21 @@
           ],
           "correct_index": 1,
           "explanation": "Equality constraints allow unrestricted weights. The first dual left-hand side is 34, exceeding its allowed value 13. The proposed weights are infeasible, so weak duality does not certify 40 as a lower bound.",
-          "page": 24,
+          "page": 22,
           "question": "The tight equations give p=(2,8), and its weighted RHS equals the primal cost 40. Why is this not an optimality certificate?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Only that their objective values are equal.",
+            "Primal feasibility, dual feasibility, and equal objective values.",
+            "Only that both solutions are basic.",
+            "Only that the primal solution has positive components."
+          ],
+          "correct_index": 1,
+          "explanation": "Weak duality compares feasible solutions. Equal objective values certify optimality only after both feasibility checks pass.",
+          "page": 28,
+          "question": "Which facts are needed to certify both solutions as optimal?"
         }
       ],
       "date": null,
@@ -995,10 +995,10 @@
       "display_number": 10,
       "id": "lecture-19",
       "number": 19,
-      "pdf_hash": "a0c2989f179f289455cfb5968b66a28b45159e458a20b554eb3f5092dd98cd57",
-      "pdf_size": 531247,
+      "pdf_hash": "51192f64c0c089b37eff8dc25a31bb573b98395f3d0cdf5e92bfe4feddcca0cc",
+      "pdf_size": 511299,
       "pdf_url": "materials/lecture_19.pdf",
-      "pdf_url_versioned": "materials/lecture_19.pdf?v=a0c2989f179f",
+      "pdf_url_versioned": "materials/lecture_19.pdf?v=51192f64c0c0",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

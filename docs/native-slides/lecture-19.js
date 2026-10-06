@@ -48,7 +48,7 @@ export const metadata = {
 export const mainSlides = [
   slide('01',metadata.title,
     p('A feasible solution and a feasible dual bound can meet. When they do, we have a complete optimality certificate.')+
-    box(p('<strong>Our route:</strong> strong duality and its proof → complementary slackness → the simplex connection.'))+
+    box(p('<strong>Our route:</strong> strong duality → complementary slackness → the simplex connection.'))+
     p('We continue with minimization problems; their duals maximize lower bounds.')+
     '<nav class="dy-contents" aria-label="Duality II sections">'+link('retrieve-primal','Practice writing duals')+link('strong-duality','Strong duality')+link('complementary-introduction','Complementary slackness')+link('recover-weights','Recover the dual weights')+link('appendix-guide','Optional proofs and extensions')+'</nav>',[52,66],{kind:'title'}),
 
@@ -109,43 +109,22 @@ export const mainSlides = [
     box(p('A finite optimum on one side gives a finite optimum on the other. If one problem is unbounded, the other must be infeasible.'))+
     p('An infeasible primal does not by itself prove that the dual is unbounded. '+link('both-infeasible','See an example in which both are infeasible.') ),[58,59,60,61,62,63]),
 
-  slide('strong-duality-intuition','Start with the final primal dictionary',
-    proofPair()+
-    p('<strong>Assume:</strong> the primal is feasible with a finite optimum; redundant equalities have been removed.')+
-    box(p('Phase I finds a feasible basis. Phase II with an anticycling rule terminates at a feasible dictionary with nonnegative reduced costs.'))+
-    math(raw`f=v+\sum_{j\in\mathcal N}\bar c_jx_j,\qquad\bar c_j\ge0.`)+
-    p(raw`Here \(\mathcal N\) lists the nonbasic variables and \(v\) is the current cost. Setting \(x_{\mathcal N}=0\) gives the current feasible point.`)+
-    box(p('<strong>Goal:</strong> find dual feasible weights whose bound equals this cost.'),'green'),[53,54],{className:'dy-slide dy-proof-step',section:'Duality II · Strong duality proof · 1 of 3'}),
-
-  slide('objective-row-weights','The objective-row operations give the dual weights',
-    p(raw`Row \(i\) is \(\sum_j a_{ij}x_j=b_i\). Subtract \(p_i\) times each row from the objective equation \(f=\sum_jc_jx_j\).`)+
-    box(math(raw`f-\sum_i p_i b_i=\sum_j\left(c_j-\sum_i p_i a_{ij}\right)x_j.`))+
-    p('<strong>Eliminate the basic variables:</strong> choose weights that make their objective coefficients zero.')+
-    math(raw`\sum_i p_i a_{ij}=c_j\quad(j\text{ basic}),\qquad B^\top p=c_{\mathcal B}.`)+
-    p(raw`The basis matrix \(B\) is invertible, so these weights exist and are unique.`)+
-    box(math(raw`\boxed{\bar c_j=c_j-\sum_i p_i a_{ij}},\qquad v=\sum_i p_i b_i=b^\top p.`),'green'),[54,55],{className:'dy-slide dy-proof-step',section:'Duality II · Strong duality proof · 2 of 3'}),
-
-  slide('final-dictionary-certificate','The final dictionary proves both solutions are optimal',
-    box(p('<strong>1. Dual feasibility.</strong> Basic reduced costs are zero; nonbasic reduced costs are nonnegative at termination.')+
-      math(raw`\bar c_j=c_j-\sum_i p_i a_{ij}\ge0\quad\Longrightarrow\quad A^\top p\le c.`)+
-      p('Equality constraints allow unrestricted weights.'))+
-    box(p('<strong>2. Equal objective values.</strong> At the current primal basic solution,')+
-      math(raw`c^\top x=b^\top p+\sum_j\bar c_jx_j=b^\top p.`)+
-      p(raw`For basic \(j\), \(\bar c_j=0\). For nonbasic \(j\), \(x_j=0\). Every product vanishes, even if a basic variable is zero.`),'green')+
-    p('<strong>Strong duality proved:</strong> both solutions are feasible with equal values, so weak duality proves optimality.'),[54,55,56],{
-      className:'dy-slide dy-proof-step',section:'Duality II · Strong duality proof · 3 of 3',
-      checkpoint:checkpoint('Which facts are needed to certify both solutions as optimal?',[
-        'Only that their objective values are equal.',
-        'Primal feasibility, dual feasibility, and equal objective values.',
-        'Only that both solutions are basic.',
-        'Only that the primal solution has positive components.',
-      ],1,'Weak duality compares feasible solutions. Equal objective values certify optimality only after both feasibility checks pass.'),
-    }),
+  slide('strong-duality-intuition','Optimal primal and dual dictionaries',
+    p(raw`For \(Ax=b,\ x\ge0\), let \(\bar b,\bar A,\bar c_{\mathcal N}\) denote the dictionary constants and coefficients.`)+
+    box(p(raw`<strong>Primal dictionary — minimize</strong> \(\qquad\bar b\ge0,\quad\bar c_{\mathcal N}\ge0\).`)+
+      math(raw`\begin{aligned}x_{\mathcal B}&=\bar b-\bar A x_{\mathcal N},\\f=c^\top x&=v+\bar c_{\mathcal N}^{\top}x_{\mathcal N}.\end{aligned}`))+
+    p(raw`Use <strong>dual slack variables</strong> \(r=c-A^\top p\ge0\).`)+
+    box(p('<strong>Dual dictionary — maximize</strong>')+
+      math(raw`\begin{aligned}r_{\mathcal N}&=\bar c_{\mathcal N}+\bar A^\top r_{\mathcal B},\\g=b^\top p&=v-\bar b^\top r_{\mathcal B}.\end{aligned}`),'green')+
+    p('<strong>Transpose the coefficient block</strong> and exchange the basic/nonbasic roles, with the signs shown above.')+
+    p(raw`At \(x_{\mathcal N}=0\) and \(r_{\mathcal B}=0\), both objective values are \(v\). `+
+      link('paired-dictionaries','This dual dictionary is feasible and optimal; see the appendix for verification.')),
+    [54,55,80],{className:'dy-slide dy-dictionary-summary',section:'Duality II · Strong duality'}),
 
   slide('complementary-introduction','Complementary slackness: when are two feasible solutions optimal?',
     box(p('<strong>Strong duality:</strong> when a finite optimum exists, an optimal primal–dual pair with equal values exists.'))+
     box(p(raw`<strong>Our new question:</strong> given any primal feasible \(x\) and dual feasible \(p\), what conditions tell us that both are optimal?`),'maroon')+
-    p('In the final dictionary, each variable–reduced-cost product vanished because one factor was zero.')+
+    p('In the paired basic solutions, each variable has either value zero or corresponding dual slack zero.')+
     box(p('<strong>Complementary slackness:</strong> for a feasible pair to be optimal, each variable and its corresponding dual slack must have product zero. Inequality constraints add a second pairing.'),'green')+
     p('A dual slack is the right-hand side minus the left-hand side of a dual inequality. First see the pairing in our earlier example.'),[66,67,68],{section:'Duality II · Complementary slackness'}),
 
@@ -220,7 +199,7 @@ export const mainSlides = [
     p('When all basic variables are positive, their tight constraints determine these weights uniquely.'),[79,80]),
 
   slide('reduced-costs-and-dual-feasibility','The simplex sign test checks the proposed dual weights',
-    p(raw`The strong-duality proof used the same equation \(B^\top p=c_{\mathcal B}\). For any chosen basis, it gives candidate weights.`)+
+    p(raw`The appendix proof uses the same equation \(B^\top p=c_{\mathcal B}\). For any chosen basis, it gives candidate weights.`)+
     box(math(raw`\bar c_j=c_j-p^\top A_j.`)+p('Check every reduced cost: all must be nonnegative for these weights to be dual feasible.'))+
     box(p('<strong>A basis determines a candidate, not necessarily a certificate.</strong> Even at an optimal degenerate point, a different basis may fail this sign check.'),'orange')+
     p('The next example shows why matching values alone is insufficient.')+
@@ -282,7 +261,14 @@ export const appendixSlides = [
     pair(p(raw`Try \(p^*=(2,1)\). The dual maximizes \(8p_1+3p_2\), with unrestricted weights.`)+
       math(raw`\begin{aligned}5(2)+3(1)&=13\le13,\\2+1&=3\le10,\\3(2)&=6\le6.\end{aligned}`)+
       box(math(raw`b^\top p^*=8(2)+3(1)=19.`), 'green')+
-      p('The point lies in the dual feasible region. Its lower bound matches the primal cost.'),figure46({point:[2,1],invalid:false})),[77,78]),
+      p('The point lies in the dual feasible region. Its lower bound matches the primal cost.'),figure46({point:[2,1],invalid:false})),[77,78],{
+      checkpoint:checkpoint('Which facts are needed to certify both solutions as optimal?',[
+        'Only that their objective values are equal.',
+        'Primal feasibility, dual feasibility, and equal objective values.',
+        'Only that both solutions are basic.',
+        'Only that the primal solution has positive components.',
+      ],1,'Weak duality compares feasible solutions. Equal objective values certify optimality only after both feasibility checks pass.'),
+    }),
 
   slide('proof-setup','Strong duality proof: start with a terminating simplex run',
     equalityPair()+
@@ -324,7 +310,7 @@ export const appendixSlides = [
     box(p('<strong>Primal dictionary</strong>')+math(raw`x_{\mathcal B}=\beta-Hx_{\mathcal N},\qquad f=v+\rho^\top x_{\mathcal N}.`))+
     p(raw`Use dual slacks \(r=c-A^\top p\ge0\). Substitute \(B^\top p=c_{\mathcal B}-r_{\mathcal B}\) into the remaining constraints:`)+
     box(p('<strong>Dual dictionary</strong>')+math(raw`r_{\mathcal N}=\rho+H^\top r_{\mathcal B},\qquad g=b^\top p=v-\beta^\top r_{\mathcal B}.`),'green')+
-    p(raw`Primal basic variables: \(x_{\mathcal B}\). Dual basic slack variables: \(r_{\mathcal N}\). Setting \(r_{\mathcal B}=0\) is dual feasible exactly when \(\rho\ge0\).`),[54,55,80],{className:'dy-slide dy-paired-dict'}),
+    p(raw`For an optimal primal dictionary, \(\beta,\rho\ge0\). At \(r_{\mathcal B}=0\), \(r_{\mathcal N}=\rho\ge0\) and \(g=v\). Every feasible \(r_{\mathcal B}\ge0\) gives \(g=v-\beta^\top r_{\mathcal B}\le v\), so this dual dictionary is optimal.`),[54,55,80],{className:'dy-slide dy-paired-dict'}),
 
   slide('paired-pivot','A primal pivot exchanges the corresponding dual slacks',
     p(raw`Suppose \(x_j\) enters and \(x_i\) leaves. Write \(h=H_{ij}\ne0\).`)+

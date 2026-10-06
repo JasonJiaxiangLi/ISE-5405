@@ -34,3 +34,12 @@
 @media (max-width: 760px) {
   :is(.dy-proof-step, .dy-gap-example, .dy-paired-dict) .ns-slide-body { flex: none; padding-bottom: .7em; }
 }
+
+/* A single paired-dictionary summary, using the normal lecture type size. */
+.dy-dictionary-summary .ns-slide-body { gap: .12em; }
+.dy-dictionary-summary p { margin-bottom: .12em; }
+.dy-dictionary-summary .dy-box { margin: .06em 0; padding: .3em .65em; }
+.dy-dictionary-summary mjx-container[display="true"] { margin: .2em 0 !important; }
+@media (max-width: 760px) {
+  .dy-dictionary-summary .ns-slide-body { flex: none; padding-bottom: .7em; }
+}
