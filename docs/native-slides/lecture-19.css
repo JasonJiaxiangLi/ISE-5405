@@ -26,3 +26,11 @@
 @media (max-width: 760px) {
   .dy-dual-answer .ns-slide-body { flex: none; padding-bottom: .7em; }
 }
+
+/* Proof pages retain the standard type size; compact only vertical spacing. */
+.dy-proof-step .ns-slide-body, .dy-gap-example .ns-slide-body, .dy-paired-dict .ns-slide-body { gap: .18em; }
+.dy-proof-step p, .dy-gap-example p, .dy-paired-dict p { margin-bottom: .18em; }
+.dy-proof-step .dy-box, .dy-gap-example .dy-box, .dy-paired-dict .dy-box { margin: .08em 0; }
+@media (max-width: 760px) {
+  :is(.dy-proof-step, .dy-gap-example, .dy-paired-dict) .ns-slide-body { flex: none; padding-bottom: .7em; }
+}
