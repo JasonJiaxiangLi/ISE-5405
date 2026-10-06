@@ -3,12 +3,18 @@ import { problem46, dual46, box, math, figure46 } from './duality-common.js';
 const raw = String.raw;
 const p = s => `<p>${s}</p>`;
 const pair = (text, figure) => `<div class="dy-pair"><div class="dy-stack">${text}</div>${figure}</div>`;
-const table = (headers, rows) => `<div class="dy-table-wrap"><table class="dy-table"><thead><tr>${headers.map(s => `<th scope="col">${s}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map((s,i) => `<${i ? 'td' : 'th scope="row"'}>${s}</${i ? 'td' : 'th'}>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const table = (headers, rows, label='') => `<div class="dy-table-wrap"${label ? ` tabindex="0" role="region" aria-label="${label}"` : ''}><table class="dy-table"><thead><tr>${headers.map(s => `<th scope="col">${s}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map((s,i) => `<${i ? 'td' : 'th scope="row"'}>${s}</${i ? 'td' : 'th'}>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 const slide = (key,title,html,referencePages,options={}) => ({ key,id:`l19-${key}`,title,html,referencePages,className:'dy-slide',...options });
 const checkpoint = (prompt,choices,correctIndex,explanation) => ({ prompt,choices,correctIndex,explanation,autoOpen:true });
 const link = (key,label) => `<a data-d19-link="${key}" href="#slide=1">${label}</a>`;
 const equalityPair = () => math(raw`\begin{aligned}(P)\quad&\min c^\top x &&\text{s.t. }Ax=b,\ x\ge0,\\(D)\quad&\max b^\top p &&\text{s.t. }A^\top p\le c,\ p\text{ unrestricted}.\end{aligned}`);
 const inequalityPair = () => math(raw`\begin{aligned}(P)\quad&\min c^\top x &&\text{s.t. }Ax\ge b,\ x\ge0,\\(D)\quad&\max b^\top p &&\text{s.t. }A^\top p\le c,\ p\ge0.\end{aligned}`);
+
+// Reuse each practice primal verbatim on its answer page.
+const practiceA = () => math(raw`\begin{aligned}\min\quad&2x_1+3x_2\\\text{s.t.}\quad&x_1+x_2\ge4,\quad x_1+2x_2\ge6,\quad x_1,x_2\ge0.\end{aligned}`);
+const practiceB = () => math(raw`\begin{aligned}\min\quad&x_1+2x_2\\\text{s.t.}\quad&x_1-x_2\le3,\quad 2x_1+x_2\ge2,\\&x_1\text{ unrestricted},\quad x_2\ge0.\end{aligned}`);
+const practiceC = () => math(raw`\begin{aligned}\min\quad&13x_1+10x_2+6x_3\\\text{s.t.}\quad&5x_1+x_2+3x_3=8,\quad3x_1+x_2=3,\quad x_1,x_2,x_3\ge0.\end{aligned}`);
+const practiceBlock = (label, body) => `<section class="dy-practice-primal" data-practice-case="${label}"><p class="dy-practice-label"><strong>Problem ${label}</strong></p>${body}</section>`;
 
 function inactiveFigure() {
   const plot = (offset, remove) => {
@@ -35,21 +41,47 @@ export const metadata = {
   homeUrl:'../../',pdfUrl:'../../materials/lecture_19.pdf',whiteboards:3,
 };
 export const mainSlides = [
-  slide('01',metadata.title,
-    p('A feasible solution and a feasible dual bound can meet. When they do, we have a complete optimality certificate.')+
-    box(p('<strong>Our route:</strong> strong duality → a numerical certificate → complementary slackness → the simplex connection.'))+
-    p('We continue with minimization problems; their duals maximize lower bounds.')+
-    '<nav class="dy-contents" aria-label="Duality II sections">'+link('retrieve-primal','Retrieve the example')+link('strong-duality','Strong duality')+link('complementary-slackness','Complementary slackness')+link('recover-weights','Recover the dual weights')+link('appendix-guide','Optional proofs and extensions')+'</nav>',[52,66],{kind:'title'}),
+  slide('01','How to construct the dual',
+    p(raw`<strong>1. Objective:</strong> a minimization primal \(\min c^\top x\) gives a maximization dual \(\max b^\top p\).`)+
+    p(raw`<strong>2. One weight per row.</strong> Row \(i\) of \(A\) is \(a_i^\top\); its constraint sets the sign of \(p_i\).`)+
+    table(['Primal constraint','Dual-variable restriction'],[
+      [raw`\(a_i^\top x\ge b_i\)`,raw`\(p_i\ge0\)`],
+      [raw`\(a_i^\top x\le b_i\)`,raw`\(p_i\le0\)`],
+      [raw`\(a_i^\top x=b_i\)`,raw`\(p_i\) unrestricted`],
+    ],'Primal rows and dual-variable signs for minimization')+
+    p(raw`<strong>3. One dual constraint per variable.</strong> \((A^\top p)_j\) is the weighted coefficient of \(x_j\).`)+
+    table(['Primal-variable restriction','Dual constraint'],[
+      [raw`\(x_j\ge0\)`,raw`\((A^\top p)_j\le c_j\)`],
+      [raw`\(x_j\le0\)`,raw`\((A^\top p)_j\ge c_j\)`],
+      [raw`\(x_j\) unrestricted`,raw`\((A^\top p)_j=c_j\)`],
+    ],'Primal variables and dual constraints for minimization')+
+    p('<strong>4. Check:</strong> include the objective, every constraint, and every variable restriction.'),[28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],{className:'dy-slide dy-dual-guide'}),
 
-  slide('retrieve-primal','Recall the primal: a feasible point gives an upper bound',
-    problem46()+
-    box(p(raw`For example, \(x=(1,0,1)\) satisfies both equations and has cost \(19\). Therefore the minimum is at most \(19\).`))+
-    p('Feasibility alone does not yet rule out a cheaper point.'),[75,76]),
+  slide('retrieve-primal','Practice: write the complete dual',
+    p('<strong>8–10 minutes.</strong> Work individually or with a partner. Include the objective, constraints, and variable restrictions. You do not need to solve the problems.')+
+    practiceBlock('A',practiceA())+
+    practiceBlock('B',practiceB())+
+    practiceBlock('C',practiceC())+
+    p('All three primals minimize. Use the sign guide on the previous page; answers follow.'),[28,45,75],{className:'dy-slide dy-dual-practice'}),
 
-  slide('retrieve-dual','Recall the dual: feasible weights give a lower bound',
-    dual46()+
-    box(p(raw`For every feasible primal \(x\) and feasible dual \(p\), weak duality gives`) + math(raw`8p_1+3p_2\le13x_1+10x_2+6x_3.`), 'blue')+
-    p('The weights are unrestricted because the primal constraints are equalities. The three dual inequalities correspond to the three nonnegative primal variables.'),[47,51,75]),
+  slide('practice-a-answer','Problem A: nonnegative variables and ≥ rows',
+    practiceBlock('A',practiceA())+
+    box(p('<strong>Dual</strong>')+math(raw`\begin{aligned}\max\quad&4p_1+6p_2\\\text{s.t.}\quad&p_1+p_2\le2,\\&p_1+2p_2\le3,\qquad p_1,p_2\ge0.\end{aligned}`),'green')+
+    p(raw`<strong>Weight signs:</strong> both primal rows are \(\ge\), so \(p_1,p_2\ge0\).`)+
+    p(raw`<strong>Dual constraints:</strong> both primal variables are nonnegative, so both weighted coefficients must be \(\le\) their cost coefficients.`),[28,45],{className:'dy-slide dy-dual-answer'}),
+
+  slide('practice-b-answer','Problem B: mixed rows and a free variable',
+    practiceBlock('B',practiceB())+
+    box(p('<strong>Dual</strong>')+math(raw`\begin{aligned}\max\quad&3p_1+2p_2\\\text{s.t.}\quad&p_1+2p_2=1,\\&-p_1+p_2\le2,\qquad p_1\le0,\quad p_2\ge0.\end{aligned}`),'green')+
+    p(raw`<strong>Weight signs:</strong> row 1 is \(\le\), so \(p_1\le0\); row 2 is \(\ge\), so \(p_2\ge0\).`)+
+    p(raw`<strong>Dual constraints:</strong> unrestricted \(x_1\) requires equality; \(x_2\ge0\) gives a \(\le\) comparison.`),[28,45],{className:'dy-slide dy-dual-answer'}),
+
+  slide('retrieve-dual','Problem C: equality rows and a matching bound',
+    practiceBlock('C',practiceC())+
+    box(p('<strong>Dual</strong>')+math(raw`\begin{aligned}\max\quad&8p_1+3p_2\\\text{s.t.}\quad&5p_1+3p_2\le13,\quad p_1+p_2\le10,\quad3p_1\le6,\\&p_1,p_2\text{ unrestricted}.\end{aligned}`),'green')+
+    p(raw`<strong>Weight signs:</strong> equality rows allow unrestricted weights. <strong>Dual constraints:</strong> all \(x_j\ge0\), so all three comparisons are \(\le\).`)+
+    p(raw`The feasible points \(x=(1,0,1)\) and \(p=(2,1)\) both have value \(19\). Weak duality certifies optimality; we will check the arithmetic shortly.`)+
+    box(p('<strong>Next question:</strong> if a primal has a finite optimum, must a matching dual solution always exist?'),'maroon'),[47,51,75,76,77,78],{className:'dy-slide dy-dual-answer dy-dual-answer-c'}),
 
   slide('strong-duality','Strong duality: the best bound reaches the best cost',
     equalityPair()+
@@ -300,7 +332,7 @@ export const slides = assembled.map((s,i)=>({...s,page:i+1,eyebrow:s.section,
   }),
 }));
 export const referenceMap = slides.map(({id,page,title,section,referencePages})=>({id,page,title,section,referencePages}));
-export const auditData={A:[[5,1,3],[3,1,0]],b:[8,3],c:[13,10,6],primal:[1,0,1],dual:[2,1],value:19,dualSlacks:[0,7,0],badPrimal:[0,3,5/3],badDual:[2,8],badDualSlacks:[-21,0,0],practice:{primal:[4,0],dual:2,value:8}};
+export const auditData={openingPractice:[{A:[[1,1],[1,2]],b:[4,6],c:[2,3],rows:['>=','>='],variables:['>=0','>=0'],dualSigns:['>=0','>=0'],dualRows:['<=','<='],x:[2,2],p:[1,1],value:10},{A:[[1,-1],[2,1]],b:[3,2],c:[1,2],rows:['<=','>='],variables:['free','>=0'],dualSigns:['<=0','>=0'],dualRows:['=','<='],x:[1,0],p:[0,.5],value:1}],A:[[5,1,3],[3,1,0]],b:[8,3],c:[13,10,6],primal:[1,0,1],dual:[2,1],value:19,dualSlacks:[0,7,0],badPrimal:[0,3,5/3],badDual:[2,8],badDualSlacks:[-21,0,0],practice:{primal:[4,0],dual:2,value:8}};
 export const deck={schemaVersion:1,id:metadata.id,number:metadata.number,title:metadata.title,metadata,
   styles:new URL('./lecture-19.css',import.meta.url).href,slides};
 export default deck;
