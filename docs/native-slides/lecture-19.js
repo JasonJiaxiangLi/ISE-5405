@@ -109,22 +109,21 @@ export const mainSlides = [
     box(p('A finite optimum on one side gives a finite optimum on the other. If one problem is unbounded, the other must be infeasible.'))+
     p('An infeasible primal does not by itself prove that the dual is unbounded. '+link('both-infeasible','See an example in which both are infeasible.') ),[58,59,60,61,62,63]),
 
-  slide('strong-duality-intuition','Optimal primal and dual dictionaries',
-    p(raw`For \(Ax=b,\ x\ge0\), let \(\bar b,\bar A,\bar c_{\mathcal N}\) denote the dictionary constants and coefficients.`)+
-    box(p(raw`<strong>Primal dictionary — minimize</strong> \(\qquad\bar b\ge0,\quad\bar c_{\mathcal N}\ge0\).`)+
-      math(raw`\begin{aligned}x_{\mathcal B}&=\bar b-\bar A x_{\mathcal N},\\f=c^\top x&=v+\bar c_{\mathcal N}^{\top}x_{\mathcal N}.\end{aligned}`))+
-    p(raw`Use <strong>dual slack variables</strong> \(r=c-A^\top p\ge0\).`)+
-    box(p('<strong>Dual dictionary — maximize</strong>')+
-      math(raw`\begin{aligned}r_{\mathcal N}&=\bar c_{\mathcal N}+\bar A^\top r_{\mathcal B},\\g=b^\top p&=v-\bar b^\top r_{\mathcal B}.\end{aligned}`),'green')+
-    p('<strong>Transpose the coefficient block</strong> and exchange the basic/nonbasic roles, with the signs shown above.')+
-    p(raw`At \(x_{\mathcal N}=0\) and \(r_{\mathcal B}=0\), both objective values are \(v\). `+
-      link('paired-dictionaries','This dual dictionary is feasible and optimal; see the appendix for verification.')),
-    [54,55,80],{className:'dy-slide dy-dictionary-summary',section:'Duality II · Strong duality'}),
+  slide('strong-duality-intuition','The final primal basis gives an optimal dual solution',
+    proofPair()+
+    p(raw`\(p_i\) is the <strong>dual variable for primal equality \(i\)</strong>; it can have either sign.`)+
+    p(raw`At simplex termination, let \(x^*\) be the primal basic solution. \(B\) contains its basic columns; \(c_{\mathcal B}\) contains their objective coefficients.`)+
+    box(p('<strong>Find the dual solution:</strong> solve')+
+      math(raw`\boxed{B^\top p^*=c_{\mathcal B}.}`))+
+    box(math(raw`A^\top p^*\le c,\qquad b^\top p^*=c^\top x^*.`)+
+      p('These weights satisfy every dual constraint and give the same objective value as the primal solution.'),'green')+
+    p('<strong>Both solutions are optimal.</strong> '+link('proof-dual-feasibility','See the appendix for verification.')),
+    [54,55,80],{className:'dy-slide dy-optimal-dual-summary',section:'Duality II · Strong duality'}),
 
   slide('complementary-introduction','Complementary slackness: when are two feasible solutions optimal?',
     box(p('<strong>Strong duality:</strong> when a finite optimum exists, an optimal primal–dual pair with equal values exists.'))+
     box(p(raw`<strong>Our new question:</strong> given any primal feasible \(x\) and dual feasible \(p\), what conditions tell us that both are optimal?`),'maroon')+
-    p('In the paired basic solutions, each variable has either value zero or corresponding dual slack zero.')+
+    p('The goal is to recognize optimality directly from variables and constraint slacks.')+
     box(p('<strong>Complementary slackness:</strong> for a feasible pair to be optimal, each variable and its corresponding dual slack must have product zero. Inequality constraints add a second pairing.'),'green')+
     p('A dual slack is the right-hand side minus the left-hand side of a dual inequality. First see the pairing in our earlier example.'),[66,67,68],{section:'Duality II · Complementary slackness'}),
 
