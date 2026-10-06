@@ -41,7 +41,13 @@ export const metadata = {
   homeUrl:'../../',pdfUrl:'../../materials/lecture_19.pdf',whiteboards:3,
 };
 export const mainSlides = [
-  slide('01','How to construct the dual',
+  slide('01',metadata.title,
+    p('A feasible solution and a feasible dual bound can meet. When they do, we have a complete optimality certificate.')+
+    box(p('<strong>Our route:</strong> strong duality → a numerical certificate → complementary slackness → the simplex connection.'))+
+    p('We continue with minimization problems; their duals maximize lower bounds.')+
+    '<nav class="dy-contents" aria-label="Duality II sections">'+link('retrieve-primal','Practice writing duals')+link('strong-duality','Strong duality')+link('complementary-slackness','Complementary slackness')+link('recover-weights','Recover the dual weights')+link('appendix-guide','Optional proofs and extensions')+'</nav>',[52,66],{kind:'title'}),
+
+  slide('construction-guide','How to construct the dual',
     p(raw`<strong>1. Objective:</strong> a minimization primal \(\min c^\top x\) gives a maximization dual \(\max b^\top p\).`)+
     p(raw`<strong>2. One weight per row.</strong> Row \(i\) of \(A\) is \(a_i^\top\); its constraint sets the sign of \(p_i\).`)+
     table(['Primal constraint','Dual-variable restriction'],[

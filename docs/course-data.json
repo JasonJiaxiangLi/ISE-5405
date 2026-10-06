@@ -959,7 +959,7 @@
           ],
           "correct_index": 1,
           "explanation": "Weak duality compares feasible solutions. Equal objective values certify optimality only after both feasibility checks pass.",
-          "page": 10,
+          "page": 11,
           "question": "Which facts are needed to certify both solutions as optimal?"
         },
         {
@@ -972,7 +972,7 @@
           ],
           "correct_index": 1,
           "explanation": "The product is already zero when the primal variable is zero. Dual feasibility requires nonnegative slack, but complementary slackness does not force it to be strictly positive.",
-          "page": 16,
+          "page": 17,
           "question": "At an optimal feasible pair, the second primal variable is zero. Must its dual inequality have positive slack?"
         },
         {
@@ -985,7 +985,7 @@
           ],
           "correct_index": 1,
           "explanation": "Equality constraints allow unrestricted weights. The first dual left-hand side is 34, exceeding its allowed value 13. The proposed weights are infeasible, so weak duality does not certify 40 as a lower bound.",
-          "page": 22,
+          "page": 23,
           "question": "The tight equations give p=(2,8), and its weighted RHS equals the primal cost 40. Why is this not an optimality certificate?"
         }
       ],
@@ -995,10 +995,10 @@
       "display_number": 10,
       "id": "lecture-19",
       "number": 19,
-      "pdf_hash": "fad050ed97b8c55ab2c6928396d3cc9d02d4732b3ec6c61791f111ef94e6022d",
-      "pdf_size": 431152,
+      "pdf_hash": "caad30a86e8a8e1f773dc21ab7ade8f60bf137a073e6dbddb8a3649e8bb93ea9",
+      "pdf_size": 445819,
       "pdf_url": "materials/lecture_19.pdf",
-      "pdf_url_versioned": "materials/lecture_19.pdf?v=fad050ed97b8",
+      "pdf_url_versioned": "materials/lecture_19.pdf?v=caad30a86e8a",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
