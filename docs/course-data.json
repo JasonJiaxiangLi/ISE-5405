@@ -1222,6 +1222,67 @@
       "title": "Applications of Duality: Revenue Management and Robust Optimization",
       "viewer_url": "lectures/lecture-27",
       "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Its reduced cost is \\(-0.4\\); the current full-dual certificate fails.",
+            "The current solution is infeasible.",
+            "The full LP optimum must immediately decrease by exactly 0.4."
+          ],
+          "correct_index": 0,
+          "explanation": "The missing dual inequality is \\(p^\\top a\\le1\\). Its violation gives reduced cost \\(1-1.4=-0.4\\). Reoptimization determines the actual change.",
+          "page": 9,
+          "question": "For the minimization cutting-stock LP, a new pattern has cost 1 and \\(p^\\top a=1.4\\). What does this show?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "We must add every zero-reduced-cost pattern.",
+            "The restricted solution is optimal for the full continuous pattern LP.",
+            "The fractional roll quantities already define a whole-roll schedule."
+          ],
+          "correct_index": 1,
+          "explanation": "The restricted solution is feasible for the full primal, and \\(p\\) is now feasible for the full dual. Their equal values prove optimality for the LP.",
+          "page": 17,
+          "question": "Pricing finds that every feasible pattern satisfies \\(p^\\top a\\le1\\). The restricted primal and dual have the same objective value. What follows?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "It is feasible for the full LP and attains an upper bound on its optimum.",
+            "It must satisfy every constraint at equality.",
+            "Its restricted objective value is always a lower bound."
+          ],
+          "correct_index": 0,
+          "explanation": "Removing constraints can only increase the maximum. A solution that attains that restricted maximum and satisfies all original rows proves equality of the two optima.",
+          "page": 29,
+          "question": "The optimum of a maximization LP with a subset of the original constraints satisfies every omitted constraint. Why can we stop?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Use dual prices to add useful variables, solve a cutting-stock LP through column generation, and add violated constraints through separation.",
+      "display_number": 15,
+      "id": "lecture-29",
+      "number": 29,
+      "pdf_hash": "6657e9368aaf72bbabf9e0733b60d1433e1bda99834336782ff6b0d0aaaee836",
+      "pdf_size": 482677,
+      "pdf_url": "materials/lecture_29.pdf",
+      "pdf_url_versioned": "materials/lecture_29.pdf?v=6657e9368aaf",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "column generation",
+        "cutting stock",
+        "constraint generation"
+      ],
+      "title": "Column Generation and Constraint Generation",
+      "viewer_url": "lectures/lecture-29",
+      "whiteboards": 3
     }
   ],
   "pdfjs_version": "6.2.108",

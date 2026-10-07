@@ -17,7 +17,7 @@ Please link to the public course repository and to
 
 ## Robert Hildebrand material
 
-Lectures 0–14 contain selected instructional structure, examples, and visuals
+Lectures 0–15 contain selected instructional structure, examples, and visuals
 adapted with permission from Robert Hildebrand's Fall 2025 ISE 5405 materials
 and faculty-authorized reference decks. Copyright in Robert Hildebrand's
 contributions remains with him.
@@ -44,6 +44,13 @@ Lecture 13, and authorized sensitivity, solver, fractional-knapsack, and
 arbitrage supplements. Numerical corrections, worked arithmetic, and interactive
 plots are new course contributions; the underlying reference material remains
 excluded from the repository’s reuse licenses.
+
+Column Generation and Constraint Generation follows the practical large-scale
+LP topics in Robert’s Lecture 13, homework, and study guidance, and BT
+§§6.1–6.3. The small cutting-stock and constraint-generation examples,
+arithmetic walkthroughs, and diagrams are new course contributions. Optional
+decomposition connections draw on the faculty-authorized reference material;
+that underlying material remains excluded from the repository’s reuse licenses.
 
 ## GILP and other instructional references
 

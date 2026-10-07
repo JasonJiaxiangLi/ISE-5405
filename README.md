@@ -34,7 +34,7 @@ through Canvas.
 
 ## Credits
 
-Simplex II–IV, Duality I–IV, Sensitivity Analysis, and Applications of Duality adapt Robert Hildebrand’s course materials;
+Simplex II–IV, Duality I–IV, Sensitivity Analysis, Applications of Duality, and Column Generation and Constraint Generation adapt Robert Hildebrand’s course materials;
 his Part 2 and Duality reference decks credit Alberto Del Pia. Additional explanations and interactive examples
 are by Jiaxiang Li. The 3D cycling example comes from Marshall–Suurballe,
 as collected in Yang’s [*Cycling problems in linear programming*](https://arxiv.org/abs/2101.01805), Problem 7.
