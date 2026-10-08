@@ -1022,7 +1022,7 @@
           ],
           "correct_index": 1,
           "explanation": "The dual constraints depend on the constraint columns and objective coefficients, which did not change. The old primal basic quantities can become negative.",
-          "page": 8,
+          "page": 7,
           "question": "After changing only the requirements, which property survives?"
         },
         {
@@ -1034,7 +1034,7 @@
           ],
           "correct_index": 1,
           "explanation": "Dual feasibility is preserved. Primal basic values may still be negative, and a zero selected ratio can leave the dual objective unchanged.",
-          "page": 17,
+          "page": 16,
           "question": "What must remain true after each dual-simplex pivot?"
         },
         {
@@ -1056,10 +1056,10 @@
       "display_number": 11,
       "id": "lecture-20",
       "number": 20,
-      "pdf_hash": "7bbfdd8fc165529d8ab38c23bddcda49912d47895cd546c3eb43543a59d8a808",
-      "pdf_size": 875004,
+      "pdf_hash": "65f921b0262d1839db426fd5cbe0416ce72547f9ed21670bab43bb0e80cdddbb",
+      "pdf_size": 875713,
       "pdf_url": "materials/lecture_20.pdf",
-      "pdf_url_versioned": "materials/lecture_20.pdf?v=7bbfdd8fc165",
+      "pdf_url_versioned": "materials/lecture_20.pdf?v=65f921b0262d",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

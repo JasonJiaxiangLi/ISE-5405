@@ -62,6 +62,10 @@
 }
 
 [data-native-deck="lecture-20"] [data-d20-scroll]:focus-visible { outline: 3px solid #1874ad; outline-offset: 2px; }
+/* Keep the five-line dual and tableau together without reducing type. */
+[data-native-deck="lecture-20"] :is([data-slide-id="l20-dictionary-tableau"], [data-slide-id="l20-tableau-row-operations"]) .dy-table :is(th,td) { padding-block: .12em; }
+[data-native-deck="lecture-20"] [data-slide-id="l20-tableau-row-operations"] .ns-slide-body > .dy-math { margin-block: 0; }
+[data-native-deck="lecture-20"] [data-slide-id="l20-tableau-row-operations"] .ns-slide-body > .dy-math > mjx-container[display="true"] { margin-block: 0 !important; }
 @media (max-width: 760px) {
   /* Reserve the inline MathJax descent after the final marginal-cost sentence. */
   [data-native-deck="lecture-20"] [data-slide-id="l20-used-columns"] .ns-slide-body { padding-bottom: .6em; }
