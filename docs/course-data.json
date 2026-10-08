@@ -1016,41 +1016,38 @@
         {
           "auto_open": true,
           "choices": [
-            "The old quantities are still optimal.",
-            "The old dual variables still give a lower bound, but their predicted value need not be attainable.",
-            "All original dual constraints must change.",
-            "The new LP must be infeasible."
+            "The old basic quantities must remain nonnegative.",
+            "The old dual point remains feasible; its bound may no longer be attainable.",
+            "The changed primal must be infeasible."
           ],
           "correct_index": 1,
-          "explanation": "Right-hand-side changes do not change A or c. Thus the old dual point remains feasible; the old primal basis may no longer attain its bound.",
+          "explanation": "The dual constraints depend on the constraint columns and objective coefficients, which did not change. The old primal basic quantities can become negative.",
           "page": 8,
-          "question": "After a requirement change makes the old basic solution negative, what remains valid?"
+          "question": "After changing only the requirements, which property survives?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Every primal basic quantity is nonnegative.",
+            "Every reduced cost is nonnegative.",
+            "The dual objective strictly increases."
+          ],
+          "correct_index": 1,
+          "explanation": "Dual feasibility is preserved. Primal basic values may still be negative, and a zero selected ratio can leave the dual objective unchanged.",
+          "page": 17,
+          "question": "What must remain true after each dual-simplex pivot?"
         },
         {
           "auto_open": true,
           "choices": [
             "Every available column lies on or above it.",
-            "Only the basic columns lie on it.",
-            "The current mixture has positive cost.",
-            "The nonbasic variables are zero."
+            "It passes through the basic columns.",
+            "The nonbasic mixture weights are zero."
           ],
           "correct_index": 0,
-          "explanation": "All column inequalities must hold to bound every nonnegative mixture. Matching the basic columns alone does not establish dual feasibility.",
-          "page": 15,
-          "question": "What turns a plane through the current basic columns into a valid lower bound?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
-            "Nonnegative basic values.",
-            "Nonnegative reduced costs.",
-            "The original objective value.",
-            "The original basis."
-          ],
-          "correct_index": 1,
-          "explanation": "The basic solution may still be primal infeasible. Nonnegative reduced costs keep the associated dual solution feasible.",
-          "page": 30,
-          "question": "What does a dual-simplex pivot preserve for a minimization problem?"
+          "explanation": "Every column inequality must hold to bound every nonnegative mixture. Matching only the basic columns is insufficient.",
+          "page": 46,
+          "question": "What makes a plane through basic columns a valid lower bound?"
         }
       ],
       "date": null,
@@ -1059,10 +1056,10 @@
       "display_number": 11,
       "id": "lecture-20",
       "number": 20,
-      "pdf_hash": "dd0d5df2df5c5f61d3b0faeadc4ee0dc9c74fba5498fe2d60155ff6aa5cd0e87",
-      "pdf_size": 709006,
+      "pdf_hash": "7bbfdd8fc165529d8ab38c23bddcda49912d47895cd546c3eb43543a59d8a808",
+      "pdf_size": 875004,
       "pdf_url": "materials/lecture_20.pdf",
-      "pdf_url_versioned": "materials/lecture_20.pdf?v=dd0d5df2df5c",
+      "pdf_url_versioned": "materials/lecture_20.pdf?v=7bbfdd8fc165",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
