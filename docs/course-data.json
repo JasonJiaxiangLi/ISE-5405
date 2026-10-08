@@ -1034,7 +1034,7 @@
           ],
           "correct_index": 1,
           "explanation": "Dual feasibility is preserved. Primal basic values may still be negative, and a zero selected ratio can leave the dual objective unchanged.",
-          "page": 16,
+          "page": 18,
           "question": "What must remain true after each dual-simplex pivot?"
         },
         {
@@ -1046,7 +1046,7 @@
           ],
           "correct_index": 0,
           "explanation": "Every column inequality must hold to bound every nonnegative mixture. Matching only the basic columns is insufficient.",
-          "page": 46,
+          "page": 48,
           "question": "What makes a plane through basic columns a valid lower bound?"
         }
       ],
@@ -1056,10 +1056,10 @@
       "display_number": 11,
       "id": "lecture-20",
       "number": 20,
-      "pdf_hash": "89f6619d342f9b8d41bcae92a3fac84f36c35d17edf0276bd9f40fb8dfc02b68",
-      "pdf_size": 885627,
+      "pdf_hash": "185d1d6243be1f34d113d6765c13371419f3ff4a99d5805c5b3a0f2c8222a05e",
+      "pdf_size": 915231,
       "pdf_url": "materials/lecture_20.pdf",
-      "pdf_url_versioned": "materials/lecture_20.pdf?v=89f6619d342f",
+      "pdf_url_versioned": "materials/lecture_20.pdf?v=185d1d6243be",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
