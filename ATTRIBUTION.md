@@ -17,7 +17,7 @@ Please link to the public course repository and to
 
 ## Robert Hildebrand material
 
-Lectures 0–15 contain selected instructional structure, examples, and visuals
+Lectures 0–17 contain selected instructional structure, examples, and visuals
 adapted with permission from Robert Hildebrand's Fall 2025 ISE 5405 materials
 and faculty-authorized reference decks. Copyright in Robert Hildebrand's
 contributions remains with him.
@@ -51,6 +51,12 @@ LP topics in Robert’s Lecture 13, homework, and study guidance, and BT
 arithmetic walkthroughs, and diagrams are new course contributions. Optional
 decomposition connections draw on the faculty-authorized reference material;
 that underlying material remains excluded from the repository’s reuse licenses.
+
+Network Models and Maximum Flow, and Shortest Paths and Spanning Trees, adapt
+Robert’s Lectures 14, 15, and 17 and final-exam topic guidance. Complete
+algorithm traces, new practice examples, and numerical corrections are new
+course contributions; the adapted graphs and instructional material remain
+excluded from the repository’s reuse licenses.
 
 ## GILP and other instructional references
 

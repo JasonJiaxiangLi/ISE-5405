@@ -1046,7 +1046,7 @@
           ],
           "correct_index": 0,
           "explanation": "Every column inequality must hold to bound every nonnegative mixture. Matching only the basic columns is insufficient.",
-          "page": 48,
+          "page": 49,
           "question": "What makes a plane through basic columns a valid lower bound?"
         }
       ],
@@ -1056,10 +1056,10 @@
       "display_number": 11,
       "id": "lecture-20",
       "number": 20,
-      "pdf_hash": "22f4f09b64bf20f1d0579496dc607ceb16a47dc7b9eed629416af3c9d63e4137",
-      "pdf_size": 916615,
+      "pdf_hash": "ea976ec58e7422d35dbfe502830bff32b1ad9634c3afcd01383c03b5cd3a26e2",
+      "pdf_size": 931603,
       "pdf_url": "materials/lecture_20.pdf",
-      "pdf_url_versioned": "materials/lecture_20.pdf?v=22f4f09b64bf",
+      "pdf_url_versioned": "materials/lecture_20.pdf?v=ea976ec58e74",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -1105,10 +1105,10 @@
       "display_number": 12,
       "id": "lecture-21",
       "number": 21,
-      "pdf_hash": "f5d2350844d7d4651489c860f340437e16f3fa8fc4c9884a3e87f351024607a0",
-      "pdf_size": 535957,
+      "pdf_hash": "934945a9512ed37def2fbf890bddfc772ae5716c2cb8f3b5f13809e6ffb34776",
+      "pdf_size": 536227,
       "pdf_url": "materials/lecture_21.pdf",
-      "pdf_url_versioned": "materials/lecture_21.pdf?v=f5d2350844d7",
+      "pdf_url_versioned": "materials/lecture_21.pdf?v=934945a9512e",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -1155,10 +1155,10 @@
       "display_number": 13,
       "id": "lecture-22",
       "number": 22,
-      "pdf_hash": "eacf8ad77249062a9c6b74fcfb3147ed22f0105dfabef70ef90dd5b23917fbc2",
-      "pdf_size": 728509,
+      "pdf_hash": "97b750fdec3709ed66d9fae4b9add8f0d48d657e4b2943740ed0bf621f7acde6",
+      "pdf_size": 729149,
       "pdf_url": "materials/lecture_22.pdf",
-      "pdf_url_versioned": "materials/lecture_22.pdf?v=eacf8ad77249",
+      "pdf_url_versioned": "materials/lecture_22.pdf?v=97b750fdec37",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -1204,10 +1204,10 @@
       "display_number": 14,
       "id": "lecture-27",
       "number": 27,
-      "pdf_hash": "97235cf20e313699513be2c74a9c19e54506c38dc97a4f1464beee464d70b31f",
+      "pdf_hash": "c8e75afa467b25d0b0b3606639e441dff756a1f6cf5eca17a618698d9ee24a2c",
       "pdf_size": 608238,
       "pdf_url": "materials/lecture_27.pdf",
-      "pdf_url_versioned": "materials/lecture_27.pdf?v=97235cf20e31",
+      "pdf_url_versioned": "materials/lecture_27.pdf?v=c8e75afa467b",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -1265,10 +1265,10 @@
       "display_number": 15,
       "id": "lecture-29",
       "number": 29,
-      "pdf_hash": "6657e9368aaf72bbabf9e0733b60d1433e1bda99834336782ff6b0d0aaaee836",
-      "pdf_size": 482677,
+      "pdf_hash": "659667df651bfb5f3e05c10c15fffebcbad1652a1de038289cdd37fa33508237",
+      "pdf_size": 483673,
       "pdf_url": "materials/lecture_29.pdf",
-      "pdf_url_versioned": "materials/lecture_29.pdf?v=6657e9368aaf",
+      "pdf_url_versioned": "materials/lecture_29.pdf?v=659667df651b",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -1279,6 +1279,117 @@
       ],
       "title": "Column Generation and Constraint Generation",
       "viewer_url": "lectures/lecture-29",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "\\(x^1_{ij}+x^2_{ij}\\le5\\)",
+            "\\(x^1_{ij}\\le5\\) and \\(x^2_{ij}\\le5\\), with no bound on their sum",
+            "\\(x^1_{ij}=x^2_{ij}\\)"
+          ],
+          "correct_index": 0,
+          "explanation": "The capacity limits the total amount on the arc. Separate bounds would allow as many as 10 units.",
+          "page": 16,
+          "question": "For two commodities sharing an arc of capacity 5, which inequality represents the physical capacity?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "It allows cancellation of positive flow currently sent on a → b.",
+            "It means we may build a new physical link at no cost.",
+            "It ignores the original capacity constraints."
+          ],
+          "correct_index": 0,
+          "explanation": "A residual arc represents an allowed change to the current original flows. Its capacity is the amount that can be canceled without making the original flow negative.",
+          "page": 28,
+          "question": "Why may a reverse residual arc b → a be available when there is no original arc b → a?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Model shipments and shared capacities as continuous network LPs, find augmenting paths including reverse residual arcs, and certify maximum flow using a minimum cut.",
+      "display_number": 16,
+      "id": "lecture-30",
+      "number": 30,
+      "pdf_hash": "59e0101187964484fe1c23389d1055b34bae4b0ad9b6add2764acf738e06c405",
+      "pdf_size": 737978,
+      "pdf_url": "materials/lecture_30.pdf",
+      "pdf_url_versioned": "materials/lecture_30.pdf?v=59e010118796",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "network models",
+        "maximum flow",
+        "minimum cut"
+      ],
+      "title": "Network Models and Maximum Flow",
+      "viewer_url": "lectures/lecture-30",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "The name t comes first.",
+            "Its temporary label was 8, smaller than 9 at d.",
+            "A destination is always finalized immediately when first reached."
+          ],
+          "correct_index": 1,
+          "explanation": "Dijkstra selects the smallest temporary label. Here t had label 8 and d had label 9.",
+          "page": 13,
+          "question": "Why was t finalized before d?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Dijkstra is guaranteed to work.",
+            "Bellman–Ford finds finite shortest distances to the reachable nodes.",
+            "Every destination has distance minus infinity."
+          ],
+          "correct_index": 1,
+          "explanation": "A negative arc is different from a negative cycle. Bellman–Ford allows negative arcs, whereas Dijkstra’s finalization proof requires nonnegative costs.",
+          "page": 22,
+          "question": "A graph has one negative arc but no directed cycle. Which statement is correct?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "Prim compares only edges that cross from reached to unreached nodes.",
+            "Prim must use edges in decreasing cost order.",
+            "An MST must minimize distance from its starting node."
+          ],
+          "correct_index": 0,
+          "explanation": "At Prim step 3, D and E were both unreached. The cost-2 edge D–E did not cross the current cut.",
+          "page": 36,
+          "question": "Why can Prim select an edge of cost 4 before an edge of cost 2?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Trace Dijkstra and Bellman–Ford for shortest routes, then compare Prim and Kruskal for minimum spanning trees, with complete graph states and practice answers.",
+      "display_number": 17,
+      "id": "lecture-31",
+      "number": 31,
+      "pdf_hash": "6ff700183090cbf0a48df2b01c14c1e353a925e75ad5fd2cef7a03bd3a7a8ac5",
+      "pdf_size": 740757,
+      "pdf_url": "materials/lecture_31.pdf",
+      "pdf_url_versioned": "materials/lecture_31.pdf?v=6ff700183090",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "shortest paths",
+        "Dijkstra",
+        "Bellman–Ford",
+        "spanning trees"
+      ],
+      "title": "Shortest Paths and Spanning Trees",
+      "viewer_url": "lectures/lecture-31",
       "whiteboards": 3
     }
   ],

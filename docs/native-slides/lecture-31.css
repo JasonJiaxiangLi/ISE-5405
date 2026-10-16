@@ -1,0 +1,27 @@
+@import url('./duality.css');
+[data-native-deck="lecture-31"] .ns-slide {font-size:clamp(18px,1.95cqw,30px);padding:2.1cqw 4.4cqw;gap:0;}
+.na-slide .ns-slide-header h1 {font-size:1.48em;}
+.na-slide .ns-slide-body {padding-bottom:.6em;}
+.na-slide .dy-pair {grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.75em;}
+.na-slide .dy-table :is(th,td) {padding:.17em .32em;}
+.na-slide .dy-table-wrap:focus-visible {outline:3px solid #1874ad;outline-offset:2px;}
+.na-slide .na-graph svg {max-height:14em;}
+.na-slide .na-graph svg text {font-size:23px;}
+.na-slide .na-graph svg .na-cost {font-size:24px;font-weight:650;paint-order:stroke;stroke:#f7fafc;stroke-width:9px;stroke-linejoin:round;}
+.na-slide .na-graph svg .na-node-name {font-size:25px;font-weight:700;}
+.na-slide .na-graph svg .na-distance {font-size:22px;font-weight:650;}
+.na-slide .na-trace .dy-table :is(th,td) {padding:.13em .27em;}
+.na-slide .na-state {margin-top:.15em;}
+.na-slide .na-state strong {color:#731b3c;}
+.na-slide .na-list {margin:.15em 0;}
+.na-slide .na-list li {margin-bottom:.25em;}
+@media(max-width:760px){
+ [data-native-deck="lecture-31"] .ns-slide {font-size:18px;padding:1.1rem;}
+ .na-slide .ns-slide-body {flex:0 0 auto;}
+ .na-slide .ns-slide-body > * {flex-shrink:0;}
+ .na-slide .dy-pair {grid-template-columns:minmax(0,1fr);}
+ .na-slide .na-trace .dy-table {min-width:28em;}
+ .na-slide .na-graph svg {max-height:none;}
+ .na-slide mjx-container {padding-bottom:.12em;}
+}
+@media print {.na-slide .ns-slide-body {flex:1 1 auto;}.na-slide .na-graph svg {max-height:14em;}}

@@ -1,0 +1,23 @@
+@import url('./duality.css');
+[data-native-deck="lecture-30"] .ns-slide {font-size:clamp(18px,1.95cqw,30px);padding:2.1cqw 4.4cqw;gap:0;}
+.net-slide .ns-slide-header h1 {font-size:1.46em;}
+.net-slide .ns-slide-body {padding-bottom:.6em;}
+.net-slide .dy-pair {grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);}
+.net-slide .dy-table :is(th,td) {padding:.17em .32em;}
+.net-slide .dy-table-wrap:focus-visible {outline:3px solid #1874ad;outline-offset:2px;}
+.net-slide .net-graph svg {max-height:13.9em;}
+.net-slide .net-graph svg text {font-size:25px;}
+.net-slide .net-graph .net-node-label {font-weight:700;}
+.net-slide .net-graph .net-edge-label {paint-order:stroke;stroke:#f7fafc;stroke-width:7px;stroke-linejoin:round;}
+.net-slide .ns-slide-body > .net-graph {max-width:23em;margin:0 auto;}
+.net-slide .ns-slide-body > .net-graph svg {max-height:10em;}
+@media(max-width:760px){
+ [data-native-deck="lecture-30"] .ns-slide {font-size:18px;padding:1.1rem;}
+ .net-slide .ns-slide-body {flex:0 0 auto;}
+ .net-slide .ns-slide-body > * {flex-shrink:0;}
+ .net-slide .dy-pair {grid-template-columns:minmax(0,1fr);}
+ .net-slide .dy-table {min-width:24em;}
+ .net-slide .net-graph svg,.net-slide .ns-slide-body > .net-graph svg {max-height:none;}
+ .net-slide mjx-container {padding-bottom:.12em;}
+}
+@media print {.net-slide .ns-slide-body {flex:1 1 auto;}.net-slide .net-graph svg {max-height:13.9em;}.net-slide .ns-slide-body > .net-graph svg {max-height:10em;}}
