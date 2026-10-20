@@ -1095,7 +1095,7 @@
           ],
           "correct_index": 0,
           "explanation": "The upper-bound slack is positive, so its dual variable is zero. The item itself is positive, so its dual constraint is active: beta times resource equals value.",
-          "page": 21,
+          "page": 22,
           "question": "A fractional-knapsack item is used strictly between 0 and 1 at optimum. What does complementary slackness imply?"
         }
       ],
@@ -1105,10 +1105,10 @@
       "display_number": 12,
       "id": "lecture-21",
       "number": 21,
-      "pdf_hash": "4b70992b3260bdabfab69f42d9db6f96260adfb78513ba2e07f3d1b0a74220ab",
-      "pdf_size": 562000,
+      "pdf_hash": "377cb877f94858a3d49db18f5a892708af43eff98c771df94ce6eb4688dda213",
+      "pdf_size": 570567,
       "pdf_url": "materials/lecture_21.pdf",
-      "pdf_url_versioned": "materials/lecture_21.pdf?v=4b70992b3260",
+      "pdf_url_versioned": "materials/lecture_21.pdf?v=377cb877f948",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
