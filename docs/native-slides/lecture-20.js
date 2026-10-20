@@ -82,6 +82,79 @@ const dualDict48=(stage=0)=>math([
  raw`\begin{aligned}p_1&=\tfrac12-\tfrac12s_2,\\s_1&=\tfrac12-p_2+\tfrac12s_2,\\g&=1+p_2-s_2.\end{aligned}`,
  raw`\begin{aligned}p_1&=\tfrac12-\tfrac12s_2,\\p_2&=\tfrac12-s_1+\tfrac12s_2,\\g&=\tfrac32-s_1-\tfrac12s_2.\end{aligned}`][stage]);
 const dictionaryPair48=stage=>`<div class="d20-dictionary-pair" data-d20-dictionaries="${stage}"><section><h3>Primal dictionary · minimize f</h3>${dict48(stage)}</section><section><h3>Dual dictionary · maximize g</h3>${dualDict48(stage)}</section></div>`;
+// Each row stores its constant followed by coefficients in natural variable order.
+// These exact half-integer data also drive the independent arithmetic audit.
+const basisChoices49=[
+ {basis:[3,4],dualBasis:[3,4],label:'A',point:[0,0],
+  primal:[[-2,1,1,0,0],[0,2,-1,0,0],[0,3,1,0,0]],
+  dual:[[3,-1,-2,0,0],[1,-1,1,0,0],[0,2,0,0,0]],
+  conclusion:raw`Dual feasible. Reduced costs \(3,1\ge0\): dual simplex can start here.`},
+ {basis:[1,3],dualBasis:[2,4],label:'A′',point:[0,1.5],
+  primal:[[0,0,.5,0,.5],[-2,0,1.5,0,.5],[0,0,2.5,0,1.5]],
+  dual:[[1.5,-.5,0,-.5,0],[2.5,-1.5,0,-.5,0],[0,2,0,0,0]],
+  conclusion:raw`Dual feasible. Reduced costs \(5/2,3/2\ge0\): dual simplex can start here.`},
+ {basis:[2,3],dualBasis:[2,3],label:'A″',point:[0,-1],
+  primal:[[0,2,0,0,-1],[-2,3,0,0,-1],[0,5,0,0,-1]],
+  dual:[[-1,1,0,0,1],[5,-3,0,0,-2],[0,2,0,0,0]],
+  conclusion:raw`Dual infeasible: \(p_2=-1\). Reduced cost of \(x_4\) is \(-1\): dual simplex cannot start here.`},
+];
+const primalNames49=['x_1','x_2','x_3','x_4'],dualNames49=['p_1','p_2','s_1','s_2'];
+const fraction49=n=>Number.isInteger(n)?String(n):raw`\tfrac{${2*n}}{2}`;
+function affine49(row,names){
+ let result='';
+ row.forEach((value,i)=>{if(!value)return;const magnitude=Math.abs(value),symbol=i?names[i-1]:'';
+  result+=(value<0?'-':result?'+':'')+(symbol&&magnitude===1?'':fraction49(magnitude))+symbol;});
+ return result||'0';
+}
+function dictionary49(state,dual=false){
+ const names=dual?dualNames49:primalNames49,indices=dual?state.dualBasis:state.basis;
+ const labels=[...indices.map(i=>names[i-1]),dual?'g':'f'];
+ return math(raw`\begin{aligned}${state[dual?'dual':'primal'].map((row,i)=>`${labels[i]}&=${affine49(row,names)}`).join(raw`\\`)}\end{aligned}`);
+}
+const basisModel49=()=>modelPair(
+ math(raw`\begin{aligned}\min\quad& f=3x_1+x_2\\&x_1+x_2-x_3=2,\\&2x_1-x_2-x_4=0,\quad x\ge0.\end{aligned}`),
+ math(raw`\begin{aligned}\max\quad& g=2p_1\\&p_1+2p_2+s_1=3,\\&p_1-p_2+s_2=1,\quad p,s\ge0.\end{aligned}`),'49','Example 4.9');
+const basisDefinitions49=()=>p(raw`\(x_3,x_4\) are primal surplus variables; \(s_1,s_2\) are dual slack variables.`);
+function basisPanel49(state,i){
+ const nonbasic=(names,basis)=>names.filter((_,j)=>!basis.includes(j+1)).join('=')+'=0';
+ return `<section class="d20-basis-panel" data-basis-panel="${i}" ${i?'inert aria-hidden="true"':''}>
+  <div class="d20-dictionary-pair"><section><h3>Primal dictionary · minimize f</h3>${dictionary49(state)}${p(raw`Set \(${nonbasic(primalNames49,state.basis)}\).`)}</section>
+  <section><h3>Dual dictionary · maximize g</h3>${dictionary49(state,true)}${p(raw`\(${nonbasic(dualNames49,state.dualBasis)}\) gives ${state.label}: \(p=(0,${fraction49(state.point[1])})\).`)}</section></div>
+  ${box(p(state.conclusion),i===2?'orange':'green')}
+ </section>`;
+}
+function basisWidget49(){return raw`<div class="d20-basis-widget" data-basis-widget>
+ <div class="d20-basis-controls" role="group" aria-label="Choose primal basic variables"><strong>Primal basis:</strong>
+ ${basisChoices49.map((s,i)=>raw`<button type="button" data-basis-choice="${i}" aria-pressed="${i===0}">\(${s.basis.map(j=>`x_${j}`).join(',\ ')}\)</button>`).join('')}<span>Same \(x=(0,0,-2,0)\).</span></div>
+ <div class="d20-basis-panels">${basisChoices49.map(basisPanel49).join('')}</div>
+ </div>`;}
+function mountBasis49({slideElement,announce}){
+ const root=slideElement.querySelector('[data-basis-widget]');if(!root)return;
+ const storageKey='ise5405:lecture-20:ex49-basis',buttons=[...root.querySelectorAll('[data-basis-choice]')],panels=[...root.querySelectorAll('[data-basis-panel]')];
+ const select=(index,notify=false)=>{
+  if(!Number.isInteger(index)||index<0||index>=basisChoices49.length)index=0;
+  root.dataset.selectedBasis=String(index);
+  buttons.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+  panels.forEach((panel,i)=>{panel.inert=i!==index;panel.setAttribute('aria-hidden',String(i!==index));});
+  try{sessionStorage.setItem(storageKey,String(index));}catch{/* Local storage may be disabled. */}
+  if(notify){const s=basisChoices49[index];announce(`Basic variables x${s.basis.join(' and x')}. Primal point unchanged and infeasible. Dual point (${s.point.join(', ')}), ${index===2?'infeasible':'feasible'}.`);}
+ };
+ let saved=0;try{saved=Number(sessionStorage.getItem(storageKey)||0);}catch{}
+ select(saved);
+ const handlers=buttons.map((button,i)=>{
+  const click=()=>select(i,true);
+  const keydown=event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();select(i,true);}};
+  button.addEventListener('click',click);button.addEventListener('keydown',keydown);
+  return()=>{button.removeEventListener('click',click);button.removeEventListener('keydown',keydown);};
+ });
+ return()=>handlers.forEach(cleanup=>cleanup());
+}
+function basisPrint49(){return modelPair(
+ math(raw`\begin{gathered}\min\ f=3x_1+x_2,\quad x\ge0;\\x_1+x_2-x_3=2,\quad2x_1-x_2-x_4=0.\end{gathered}`),
+ math(raw`\begin{gathered}\max\ g=2p_1,\quad p,s\ge0;\\p_1+2p_2+s_1=3,\quad p_1-p_2+s_2=1.\end{gathered}`),'49','Example 4.9')+
+ p(raw`\(x_3,x_4\): surplus; \(s_1,s_2\): dual slacks. Set nonbasic variables to zero: \(x=(0,0,-2,0)\).`)+
+ `<div class="d20-basis-print">${table(['Basis / dual point','Primal dictionary · min f','Dual dictionary · max g'],basisChoices49.map(s=>[
+ p(raw`\((${s.basis.map(j=>`x_${j}`).join(',')})\)`)+p(raw`${s.label}: \(p=(0,${fraction49(s.point[1])})\)`)+p(s.point[1]<0?'Dual infeasible':'Dual feasible'),dictionary49(s),dictionary49(s,true)]))}</div>`;}
 const mixtureModel=()=>`<div class="d20-mixture-model" data-d20-model="mixture">${math(raw`\begin{aligned}\min\quad&7x_B+4x_C+4x_D+x_E+4x_F\\\text{s.t.}\quad&\tfrac12x_B+3x_C+2x_E=1,\quad\tfrac12x_B+3x_D+\tfrac12x_E=1,\\&x_B+x_C+x_D+x_E+x_F=1,\qquad x_B,x_C,x_D,x_E,x_F\ge0.\end{aligned}`)}</div>`;
 const tieTable=()=>tableau([1,2,3,4,5],[['R_0','0','2','6','9','0','0'],['x_4','2','-2','4','1','1','0'],['x_5','-1','4','-2','-3','0','1']]);
 
@@ -122,8 +195,8 @@ export const mainSlides=[
  slide('dual-lex-tie-model','Example: breaking a tie with the lexicographic rule',pair47('9','Lexicographic example')+tieTable()+p(raw`Choose the negative \(x_5\) row. The ordinary ratios tie: \(6/2=9/3=3\). Here \(R_0\) is the objective row.`)+box(p('Compare the normalized columns <strong>from top to bottom</strong>: objective row, first constraint row, second constraint row. Stop at the first unequal entry.')),[107,117,118]),
  slide('dual-lex-example','The next entry breaks the tie: variable 3 enters',pair47('9','Lexicographic example')+table(['Compare from top to bottom',raw`\(x_2\) column ÷ \(2\)`,raw`\(x_3\) column ÷ \(3\)`],[[raw`Objective row \(R_0\)`,'3','3'],[raw`First constraint row (\(x_4\))`,'2',raw`\(1/3\)`],[raw`Second constraint row (\(x_5\))`,raw`\(-1\)`,raw`\(-1\)`]])+box(p(raw`Ratios tie at \(3\). In the next row, \(1/3<2\): <strong>\(x_3\) enters, \(x_5\) leaves.</strong> Stop comparing here.`),'green')+p(link('dual-lex-tie-result','Complete pivot and the final dictionary.')),[117,118]),
  slide('dual-lex-condition','Lexicographic positivity is the termination hypothesis',p('A column is lexicographically positive when its first nonzero entry is positive. In the tied example, the first three columns start with positive costs; the two slack columns first have a positive unit entry.')+box(p('<strong>Finite-termination statement:</strong> if every initial variable column is lexicographically positive, the dual lexicographic rule preserves this property and terminates after finitely many pivots.'),'green')+p('This condition is not another entering-variable test. Eligibility still comes from a negative coefficient in the selected tableau row.')+p(link('dual-lex-proof-setup','Complete proof: column positivity and strict lexicographic progress.')),[117,118]),
- slide('ex49-problem','Example 4.9: a different issue, several bases at one primal point',pair49()+p(raw`Add surplus variables: \(x_1+x_2-x_3=2\), \(2x_1-x_2-x_4=0\).`)+math(raw`(x_1,x_2,x_3,x_4)=(0,0,-2,0).`)+box(p('This primal basic solution is infeasible, and it has a basic zero. Three different bases represent this same point; their associated dual points need not coincide.')),[149,150,151,152]),
- slide('ex49-bases','Compute the dual point from the chosen basic columns',pair49()+table(['Basic variables','Active dual equalities','Associated dual point'],[[raw`\((x_3,x_4)\)`,raw`\(-p_1=0,\ -p_2=0\)`,raw`A: \((0,0)\), feasible`],[raw`\((x_1,x_3)\)`,raw`\(p_1+2p_2=3,\ -p_1=0\)`,raw`A′: \((0,3/2)\), feasible`],[raw`\((x_2,x_3)\)`,raw`\(p_1-p_2=1,\ -p_1=0\)`,raw`A″: \((0,-1)\), infeasible`]])+p('The primal point alone does not determine its associated dual solution. The basis matters.'),[153,154,155,156,157]),
+ slide('ex49-problem','Example 4.9: a different issue, several bases at one primal point',pair49()+p(raw`Add surplus variables: \(x_1+x_2-x_3=2\), \(2x_1-x_2-x_4=0\).`)+math(raw`(x_1,x_2,x_3,x_4)=(0,0,-2,0).`)+box(p('This primal basic solution is infeasible, and it has a basic zero. Three different bases represent this same point; their associated dual points need not coincide. Compare alternative bases, not successive pivots.')),[149,150,151,152]),
+ slide('ex49-bases','Choose a basis: compare the primal and dual dictionaries',basisModel49()+basisDefinitions49()+basisWidget49(),[153,154,155,156,157],{onMount:mountBasis49,printHtml:basisPrint49()}),
  slide('ex49-geometry','One primal point A corresponds to three different dual points',pair49()+stateFigure(49,2)+p('A, A′, A″ come from the three bases just calculated. A″ fails the dual sign restriction; the other two are feasible but not optimal.'),[151,152,153,154,155,156,157]),
  slide('next-steps','Dual simplex either repairs feasibility or proves it impossible',box(p('Successful stop: basic values and reduced costs are nonnegative. The associated primal and dual solutions attain equal objective values.'))+box(p('Failed repair: a negative basic row has no eligible entering column. Its equation certifies primal infeasibility.'),'orange')+p('Farkas’ lemma develops the general theory of such infeasibility certificates in the next lecture.'),[113,159,160]),
  slide('study-guide','Study guide: prices, pivots, and two kinds of degeneracy',table(['Be able to do','Core connection'],[['Interpret a dual variable and check the range','Marginal cost and a feasible basis'],['Choose and perform a dual-simplex pivot','Preserve nonnegative reduced costs'],['Explain both stopping cases','Matching bounds or an impossible row'],['Follow primal and dual points in the same run','Example 4.8'],['Distinguish the degeneracy phenomena','Zero reduced cost versus zero basic primal value']])+p('The appendix retains the complete proofs, detailed range exploration, supporting-plane visualization, tableaux, and full basis tables.'),[82,91,113,118,158]),
@@ -172,7 +245,7 @@ const pages=new Map(assembled.map((s,i)=>[s.key,i+1]));
 export const slides=assembled.map((s,i)=>({...s,page:i+1,eyebrow:s.section,onMount:context=>{const scrollCleanup=mountScrollRegions(context),authoredCleanup=s.onMount?.(context);return()=>{scrollCleanup();if(typeof authoredCleanup==='function')authoredCleanup();};},html:s.html.replace(/data-d20-link="([^"]+)" href="#slide=1"/g,(_,key)=>{if(!pages.has(key))throw new Error(`Unknown Duality III link: ${key}`);return `data-d20-link="${key}" href="#slide=${pages.get(key)}"`;})}));
 export const referenceMap=slides.map(({id,page,title,section,referencePages})=>({id,page,title,section,referencePages}));
 export const auditData={
- prices:[2,1],priceRange:[-3,9/5],
+ prices:[2,1],priceRange:[-3,9/5],basisChoices49,
  example47:{A:[[-2,4,1,1,0],[4,-2,-3,0,1]],b:[2,-1],c:[2,6,10,0,0],basis:[[4,5],[4,2]],x:[[0,0,0,2,-1],[0,.5,0,0,0]],p:[[0,0],[0,-3]],value:[0,3],ratios:[3,10/3]},
  example48:{A:[[1,2,-1,0],[1,0,0,-1]],b:[2,1],c:[1,1,0,0],basis:[[3,4],[2,4],[2,1]],x:[[0,0,-2,-1],[0,1,0,-1],[1,.5,0,0]],p:[[0,0],[.5,0],[.5,.5]],value:[0,1,1.5]},
  practice:{A:[[-1,2,1,0],[-1,-4,0,1]],b:[4,-2],c:[3,2,0,0],basis:[[3,4],[3,2]],x:[[0,0,4,-2],[0,.5,3,0]],p:[[0,0],[0,-.5]],value:[0,1]},
