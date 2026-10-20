@@ -74,3 +74,20 @@
   /* Reserve the inline MathJax descent after the final marginal-cost sentence. */
   [data-native-deck="lecture-20"] [data-slide-id="l20-used-columns"] .ns-slide-body { padding-bottom: .6em; }
 }
+
+/* Paired dictionaries are one mathematical comparison, aligned with the LPs above. */
+[data-native-deck="lecture-20"] .d20-dictionary-pair {
+  display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: .7em;
+}
+[data-native-deck="lecture-20"] .d20-dictionary-pair section {
+  min-width: 0; border-left: .12em solid #326b8c; padding: .15em .5em;
+}
+[data-native-deck="lecture-20"] .d20-dictionary-pair section:nth-child(2) { border-color: #861f41; }
+[data-native-deck="lecture-20"] .d20-dictionary-pair h3 {
+  font: 700 1em/1.15 var(--ns-sans); margin: 0; color: #731b3c;
+}
+[data-native-deck="lecture-20"] .d20-dictionary-pair .dy-math { margin: 0; }
+[data-native-deck="lecture-20"] .d20-dictionary-pair mjx-container[display="true"] { margin: .15em 0 !important; }
+@media (max-width: 760px) {
+  [data-native-deck="lecture-20"] .d20-dictionary-pair { grid-template-columns: minmax(0,1fr); }
+}

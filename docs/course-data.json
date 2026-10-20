@@ -1046,7 +1046,7 @@
           ],
           "correct_index": 0,
           "explanation": "Every column inequality must hold to bound every nonnegative mixture. Matching only the basic columns is insufficient.",
-          "page": 49,
+          "page": 48,
           "question": "What makes a plane through basic columns a valid lower bound?"
         }
       ],
@@ -1056,10 +1056,10 @@
       "display_number": 11,
       "id": "lecture-20",
       "number": 20,
-      "pdf_hash": "ea976ec58e7422d35dbfe502830bff32b1ad9634c3afcd01383c03b5cd3a26e2",
-      "pdf_size": 931603,
+      "pdf_hash": "d7a4ea3cb67abfdf4518b31a171335578c666a9f36c878f23696744bc9dfafc2",
+      "pdf_size": 944367,
       "pdf_url": "materials/lecture_20.pdf",
-      "pdf_url_versioned": "materials/lecture_20.pdf?v=ea976ec58e74",
+      "pdf_url_versioned": "materials/lecture_20.pdf?v=d7a4ea3cb67a",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
