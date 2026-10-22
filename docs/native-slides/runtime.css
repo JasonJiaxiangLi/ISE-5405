@@ -282,12 +282,21 @@
 .ns-stage.is-erasing .ns-annotation-canvas { cursor: cell; }
 
 /* Scoped to the explicit writing mode; ordinary reading stays selectable. */
+.native-deck.is-pencil-mode,
+.native-deck.is-pencil-mode .ns-presentation,
+.native-deck.is-pencil-mode .ns-stage-area,
 .ns-stage.is-pencil-mode,
 .ns-stage.is-pencil-mode *,
 .native-deck.is-pencil-mode .ns-controls {
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+}
+.native-deck.is-pencil-mode .ns-dialog,
+.native-deck.is-pencil-mode .ns-dialog * {
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-touch-callout: default;
 }
 .native-deck.is-pencil-mode .ns-controls button { touch-action: manipulation; }
 
@@ -664,8 +673,11 @@
   align-items: center;
   gap: 0.4rem;
   overflow-x: auto;
+  /* A classic scrollbar must not add a third of a button's height on desktop. */
+  scrollbar-width: none;
 }
 
+.ns-tool-group::-webkit-scrollbar { display: none; }
 .ns-tool-group :focus-visible { outline-offset: -3px; }
 
 .ns-control[aria-pressed="true"] {

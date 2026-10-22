@@ -18,10 +18,46 @@ export class PencilInputGuard {
     listen('pointermove', e => this.move(e));
     for (const type of ['pointerup', 'pointercancel', 'lostpointercapture']) listen(type, e => this.end(e));
     listen('click', e => this.click(e));
+    // iPad Safari can start its native selection/callout through the TouchEvent
+    // or compatibility-mouse path, even when pointerdown was canceled. Keep
+    // canceling these defaults BETWEEN strokes too; pointer events still ink.
+    for (const type of ['touchstart', 'touchmove', 'touchend', 'mousedown', 'mouseup', 'dblclick']) {
+      listen(type, e => {
+        if (!this.enabled() || !this.stage.contains(e.target)) return;
+        if (e.cancelable) e.preventDefault();
+        this.clearSelection();
+      });
+    }
+    // Some iOS selections bypass selectstart/contextmenu entirely, including
+    // selection of the canvas as an object. Remove the actual selection, not
+    // merely its blue highlight, so it cannot keep the edit menu open.
+    listen('selectionchange', () => this.clearSelection());
     for (const type of ['selectstart', 'contextmenu', 'dragstart']) {
       listen(type, e => {
-        if (this.enabled() && this.stage.contains(e.target)) this.stop(e);
+        if (this.enabled() && this.root.contains(e.target) && !this.editable(e.target)) {
+          this.stop(e);
+          this.clearSelection();
+        }
       });
+    }
+  }
+
+  editable(node) {
+    const element = node?.nodeType === 1 ? node : node?.parentElement;
+    return element?.closest('input,textarea,[contenteditable]:not([contenteditable="false"]),.ns-dialog');
+  }
+
+  clearSelection() {
+    if (!this.enabled()) return;
+    const selection = window.getSelection();
+    if (!selection || selection.isCollapsed || !selection.rangeCount) return;
+    const editable = this.editable(selection.anchorNode);
+    if (editable && editable === this.editable(selection.focusNode)) return;
+    for (let i = 0; i < selection.rangeCount; i++) {
+      if (selection.getRangeAt(i).intersectsNode(this.root)) {
+        selection.removeAllRanges();
+        return;
+      }
     }
   }
 
@@ -35,6 +71,7 @@ export class PencilInputGuard {
 
   down(event) {
     if (!this.enabled() || !this.root.contains(event.target)) return;
+    this.clearSelection();
     const ink = event.target === this.canvas;
     const pen = event.pointerType === 'pen';
     if (pen && ink) {
@@ -52,6 +89,7 @@ export class PencilInputGuard {
   }
 
   end(event) {
+    this.clearSelection();
     const contact = this.contacts.get(event.pointerId);
     if (!contact) return;
     this.contacts.delete(event.pointerId);
