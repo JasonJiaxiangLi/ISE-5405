@@ -228,17 +228,21 @@ export class AnnotationController {
     this.widthPx = 4;
     this.activePointer = null;
     this.currentStroke = null;
+    this.strokePageKey = null;
+    this.penOnly = false;
     this.resizeObserver = new ResizeObserver(() => this.resize());
     this.resizeObserver.observe(stage);
     this.installEvents();
   }
 
   setStore(store) {
+    this.finishStroke();
     this.store = store;
     this.redraw();
   }
 
   setMode(mode) {
+    if (this.mode !== mode) this.finishStroke();
     this.mode = mode;
     this.stage.classList.toggle('is-drawing', mode === 'pen');
     this.stage.classList.toggle('is-erasing', mode === 'eraser');
@@ -247,6 +251,20 @@ export class AnnotationController {
 
   setColor(color) { this.color = color; }
   setWidth(width) { this.widthPx = Number(width) || 4; }
+  setPenOnly(value) {
+    this.finishStroke();
+    this.penOnly = Boolean(value);
+  }
+
+  finishStroke() {
+    const pointer = this.activePointer;
+    if (this.currentStroke && this.store) this.store.addStroke(this.strokePageKey, this.currentStroke);
+    this.currentStroke = null;
+    this.strokePageKey = null;
+    this.activePointer = null;
+    if (pointer !== null && this.canvas.hasPointerCapture?.(pointer)) this.canvas.releasePointerCapture(pointer);
+    this.redraw();
+  }
 
   resize() {
     const rect = this.stage.getBoundingClientRect();
@@ -273,10 +291,13 @@ export class AnnotationController {
     this.canvas.addEventListener('pointerdown', (event) => {
       if (!this.store || !['pen', 'eraser'].includes(this.mode)) return;
       event.preventDefault();
+      // A second contact must never replace the pointer drawing this stroke.
+      if (this.activePointer !== null || (this.penOnly && event.pointerType !== 'pen')) return;
       const rect = this.canvas.getBoundingClientRect();
       const point = pointerPoint(event, rect);
       this.canvas.setPointerCapture(event.pointerId);
       this.activePointer = event.pointerId;
+      this.strokePageKey = this.getPageKey();
 
       if (this.mode === 'eraser') {
         this.eraseAt(point);
@@ -306,13 +327,11 @@ export class AnnotationController {
 
     const finish = (event) => {
       if (this.activePointer !== event.pointerId) return;
-      if (this.currentStroke) this.store.addStroke(this.getPageKey(), this.currentStroke);
-      this.currentStroke = null;
-      this.activePointer = null;
-      this.redraw();
+      this.finishStroke();
     };
     this.canvas.addEventListener('pointerup', finish);
     this.canvas.addEventListener('pointercancel', finish);
+    this.canvas.addEventListener('lostpointercapture', finish);
   }
 
   eraseAt(point) {

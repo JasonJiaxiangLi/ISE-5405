@@ -281,6 +281,16 @@
 .ns-stage.is-drawing .ns-annotation-canvas { cursor: crosshair; }
 .ns-stage.is-erasing .ns-annotation-canvas { cursor: cell; }
 
+/* Scoped to the explicit writing mode; ordinary reading stays selectable. */
+.ns-stage.is-pencil-mode,
+.ns-stage.is-pencil-mode *,
+.native-deck.is-pencil-mode .ns-controls {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.native-deck.is-pencil-mode .ns-controls button { touch-action: manipulation; }
+
 .ns-slide {
   position: relative;
   display: flex;
@@ -628,6 +638,7 @@
 
 .ns-controls {
   display: flex;
+  min-width: 0;
   min-height: 60px;
   align-items: center;
   gap: 0.4rem;
@@ -636,15 +647,26 @@
   background: #f7f5f1;
 }
 
+.ns-controls > .ns-control,
+.ns-tool-group > .ns-control {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .ns-control-spacer {
   flex: 1 1 auto;
 }
 
 .ns-tool-group {
   display: flex;
+  flex: 0 1 auto;
+  min-width: 0;
   align-items: center;
   gap: 0.4rem;
+  overflow-x: auto;
 }
+
+.ns-tool-group :focus-visible { outline-offset: -3px; }
 
 .ns-control[aria-pressed="true"] {
   border-color: var(--ns-maroon);
@@ -1110,6 +1132,11 @@
 
   .ns-control-spacer {
     display: none;
+  }
+
+  .ns-tool-group {
+    flex: 1 1 160px;
+    min-width: 160px;
   }
 }
 

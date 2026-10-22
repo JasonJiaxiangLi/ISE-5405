@@ -3,6 +3,7 @@ import {
   AnnotationStore,
   drawStrokesOnCanvas,
 } from "../assets/js/annotations.js";
+import { PencilInputGuard } from "./pencil-input.js";
 
 /**
  * Original presentation runtime for ISE 5405 native HTML decks.
@@ -358,6 +359,7 @@ export class NativeDeckController {
     this.annotationMode = "none";
     this.annotationStore = null;
     this.annotationController = null;
+    this.pencilMode = false;
     this.handoutMode = false;
     this.laserActive = false;
     this.destroyed = false;
@@ -382,6 +384,11 @@ export class NativeDeckController {
     }
 
     this.render({ announce: false, writeHash: true });
+    try {
+      if (options.persistAnnotations !== false && localStorage.getItem("ise5405:pencil-mode") === "true") {
+        this.setPencilMode(true, false);
+      }
+    } catch { /* Storage is optional; the visible control still works. */ }
     this.printReady = this.preparePrintDeck();
   }
 
@@ -429,6 +436,7 @@ export class NativeDeckController {
           <button class="ns-control" type="button" data-action-shell="checkpoint" aria-keyshortcuts="K" hidden>Checkpoint</button>
           <button class="ns-control" type="button" data-action-shell="explore" aria-keyshortcuts="X" hidden>Explore</button>
           <div class="ns-tool-group" role="group" aria-label="Presentation ink tools">
+            <button class="ns-control" type="button" data-action-shell="pencil-mode" aria-pressed="false" title="Write with Pencil; use your finger on Previous and Next. Turn off to select text or use slide activities.">Pencil mode</button>
             <button class="ns-control" type="button" data-action-shell="pen" aria-keyshortcuts="P" aria-pressed="false">Pen</button>
             <button class="ns-control" type="button" data-action-shell="eraser" aria-keyshortcuts="E" aria-pressed="false">Eraser</button>
             <button class="ns-control" type="button" data-action-shell="laser" aria-keyshortcuts="L" aria-pressed="false">Laser</button>
@@ -491,6 +499,7 @@ export class NativeDeckController {
       explore: this.root.querySelector("[data-action-shell='explore']"),
       checkpoint: this.root.querySelector("[data-action-shell='checkpoint']"),
       pen: this.root.querySelector("[data-action-shell='pen']"),
+      pencilMode: this.root.querySelector("[data-action-shell='pencil-mode']"),
       eraser: this.root.querySelector("[data-action-shell='eraser']"),
       laser: this.root.querySelector("[data-action-shell='laser']"),
       whiteboard: this.root.querySelector("[data-action-shell='whiteboard']"),
@@ -536,6 +545,10 @@ export class NativeDeckController {
         this.updateAnnotationControls();
       },
     });
+    this.pencilGuard = new PencilInputGuard({
+      root: this.root, stage: this.elements.stage, canvas: this.elements.annotationCanvas,
+      enabled: () => this.pencilMode,
+    });
     this.elements.annotationCanvas.addEventListener("pointerup", () => {
       window.requestAnimationFrame(() => this.updateAnnotationControls());
     });
@@ -546,6 +559,7 @@ export class NativeDeckController {
   }
 
   bindShell() {
+    this.elements.pencilMode.addEventListener("click", () => this.setPencilMode(!this.pencilMode));
     this.root
       .querySelector("[data-action-shell='previous']")
       .addEventListener("click", () => this.previous());
@@ -619,6 +633,7 @@ export class NativeDeckController {
   }
 
   render({ announce = true, writeHash = true } = {}) {
+    this.annotationController?.finishStroke();
     this.runMountCleanup();
     clearMath([this.currentElement]);
 
@@ -890,6 +905,7 @@ export class NativeDeckController {
   setAnnotationMode(mode) {
     if (!["pen", "eraser", "none"].includes(mode)) return false;
     const next = mode !== "none" && this.annotationMode === mode ? "none" : mode;
+    if (next === "none" && this.pencilMode) this.configurePencilMode(false);
     if (next !== "none" && this.laserActive) this.toggleLaser(false);
     this.annotationMode = next;
     this.annotationController?.setMode(next);
@@ -899,11 +915,37 @@ export class NativeDeckController {
     return true;
   }
 
+  configurePencilMode(enabled) {
+    this.pencilMode = Boolean(enabled);
+    this.annotationController?.setPenOnly(this.pencilMode);
+    this.pencilGuard?.reset();
+    this.root.classList.toggle("is-pencil-mode", this.pencilMode);
+    this.elements.stage.classList.toggle("is-pencil-mode", this.pencilMode);
+    this.elements.pencilMode.setAttribute("aria-pressed", String(this.pencilMode));
+    try {
+      if (this.options.persistAnnotations !== false) localStorage.setItem("ise5405:pencil-mode", String(this.pencilMode));
+    } catch { /* Keep presentation usable without browser storage. */ }
+  }
+
+  setPencilMode(enabled, announce = true) {
+    this.configurePencilMode(enabled);
+    if (enabled) {
+      window.getSelection()?.removeAllRanges();
+      if (this.annotationMode === "none") this.setAnnotationMode("pen");
+    } else {
+      this.setAnnotationMode("none");
+    }
+    if (announce) this.announce(enabled
+      ? "Pencil mode on. Write with Pencil. Lift it, then use your finger on Previous or Next. Turn this mode off to select text or use slide activities."
+      : "Pencil mode off. Text selection and slide activities are available.");
+  }
+
   toggleWhiteboard() {
     if (this.whiteboardCount === 0) {
       this.announce("No whiteboards are configured for this lecture.");
       return false;
     }
+    this.annotationController?.finishStroke();
     this.viewMode = this.viewMode === "whiteboard" ? "slide" : "whiteboard";
     const whiteboard = this.viewMode === "whiteboard";
     this.elements.stage.dataset.view = this.viewMode;
@@ -937,6 +979,7 @@ export class NativeDeckController {
   }
 
   clearCurrentAnnotations() {
+    this.annotationController?.finishStroke();
     const key = this.currentAnnotationKey();
     if (!this.annotationStore?.hasPageInk(key)) {
       this.announce("There is no ink on the current surface.");
@@ -986,6 +1029,7 @@ export class NativeDeckController {
   toggleLaser(force = null) {
     const active = force === null ? !this.laserActive : Boolean(force);
     if (active === this.laserActive) return active;
+    if (active && this.pencilMode) this.configurePencilMode(false);
     if (active && this.annotationMode !== "none") {
       this.annotationMode = "none";
       this.annotationController?.setMode("none");
@@ -1639,6 +1683,7 @@ export class NativeDeckController {
           <div><dt>Turn ink or laser off</dt><dd><kbd>Esc</kbd></dd></div>
         </dl>
         <p>All functions are also available through the visible controls. A normal click on slide content does not advance.</p>
+        <p><strong>On iPad:</strong> turn on <em>Pencil mode</em>. Write with Apple Pencil; lift it before tapping Previous or Next with your finger. Finger contacts on the slide are ignored. Toolbar touches are briefly ignored during and after writing. Choose Eraser to erase with Pencil. Turn Pencil mode off (or press Escape) to select text or operate slide activities. This preference is saved in this browser.</p>
         <p><strong>Save an annotated PDF:</strong> open <em>Handout</em>, then choose <em>Print / Save PDF</em>. Every reveal and saved slide annotation is included. On iPad, use Share → Print → Save to Files. Use <em>Ink backup</em> to export or import annotations between browsers or devices.</p>
       `;
     });
@@ -1912,10 +1957,12 @@ export class NativeDeckController {
     document.removeEventListener("pointermove", this.handlePointerMove);
     this.elements.inkImport.removeEventListener("change", this.handleImportChange);
     this.annotationController?.resizeObserver?.disconnect();
+    this.annotationController?.finishStroke();
+    this.pencilGuard?.destroy();
     clearMath([this.currentElement, this.elements.dialogBody, this.elements.printDeck]);
     this.closeDialog();
     this.root.replaceChildren();
-    this.root.classList.remove("native-deck", "is-handout", "is-laser-active");
+    this.root.classList.remove("native-deck", "is-handout", "is-laser-active", "is-pencil-mode");
     delete this.root.dataset.nativeDeck;
   }
 }
