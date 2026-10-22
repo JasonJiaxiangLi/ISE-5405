@@ -10,14 +10,31 @@
 @media(max-width:760px){[data-native-deck="lecture-22"] .ns-slide{font-size:18px;padding:1.1rem;}.se-slide .dy-pair{grid-template-columns:minmax(0,1fr);}.se-slide .se-code{font-size:.8em;} .se-slide .dy-figure svg{max-height:none;}}
 @media print{.se-slide .se-code{overflow:visible;}.se-slide .dy-figure svg{max-height:15.6em;}}
 
-/* Place the controls beside their figure so its height stays within the stage. */
-.se-rhs-explore .dy-stack{gap:.15em;}
-.se-rhs-explore .dy-controls{margin:0;}
-.se-rhs-explore .se-rhs-controls{display:flex;flex-direction:column;gap:.1em;}
-.se-rhs-explore .se-rhs-status{font-size:.94em;line-height:1.25;min-height:3.75em;margin:.1em 0 0;}
-.se-rhs-explore .se-rhs-figure svg{max-height:14em;}
-.se-rhs-explore .se-rhs-figure figcaption{font-size:.92em;}
-@media(max-width:760px){.se-rhs-explore .se-rhs-figure svg{max-height:none;}}
-
 /* Let tall equation pages grow naturally on phones. */
 @media(max-width:760px){.se-slide .ns-slide-body{flex:0 0 auto;padding-bottom:.7em;}.se-slide .ns-slide-body > *{flex-shrink:0;}}
+
+/* The baseline and changed dictionaries stay beside the exact resource plot. */
+.se-dictionary h3{font:700 1em var(--ns-sans);color:#861f41;margin:0 0 .05em;}
+.se-dictionary .dy-math{margin:0;}
+.se-dictionary mjx-container[display="true"]{margin:.12em 0 !important;}
+.se-rhs-page .ns-slide-body{gap:.2em;}
+.se-rhs-page .dy-pair{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:.7em;}
+.se-rhs-page .dy-stack{gap:.2em;}
+.se-rhs-page .dy-box{padding:.3em .5em;margin:0;}
+.se-rhs-page .dy-box p{margin:0;}
+.se-plot svg text{font-size:23px;}
+.se-plot svg{max-height:none;}
+.se-plot figcaption{font-size:.94em;line-height:1.2;}
+.se-rhs-panel .dy-controls{display:flex;gap:.35em;flex-wrap:nowrap;margin:.2em 0;}
+.se-rhs-panel label{display:flex;flex-wrap:nowrap;gap:.35em;flex:1;white-space:nowrap;}
+.se-rhs-panel input[type="range"]{width:100%;min-width:70px;height:44px;}
+.se-rhs-panel button{font-size:1em;min-height:44px;}
+.se-rhs-status{font-size:1em;line-height:1.22;min-height:0;margin:0;}
+.se-print-rhs{display:none;}
+.ns-print-slide .se-screen-rhs{display:none;}
+.ns-print-slide .se-print-rhs{display:block;}
+@media(max-width:760px){.se-rhs-page .dy-pair{grid-template-columns:minmax(0,1fr);}.se-rhs-status{min-height:0;}}
+@media print{.se-screen-rhs{display:none;}.se-print-rhs{display:block;}}
+
+.se-rhs-panel label > :not(input){flex-shrink:0;}
+.se-rhs-panel input[type="range"]{flex:1; width:0;}

@@ -1132,7 +1132,7 @@
             "The objective coefficients must have changed."
           ],
           "correct_index": 1,
-          "explanation": "A same-basis interval describes the basis, not the existence of all feasible plans. The diagram shows a new optimum outside that interval.",
+          "explanation": "A same-basis interval describes the basis, not the existence of all feasible plans. The next pivot gives a feasible optimum for the changed LP.",
           "page": 9,
           "question": "The old basic solution becomes negative after a resource change. What does that establish?"
         },
@@ -1145,7 +1145,7 @@
           ],
           "correct_index": 1,
           "explanation": "The old quantities remain feasible. Primal simplex repairs the lost reduced-cost sign condition.",
-          "page": 32,
+          "page": 33,
           "question": "The RHS is unchanged, but a new profit coefficient gives a positive nonbasic objective coefficient in a maximizing dictionary. Which method is the natural continuation?"
         }
       ],
@@ -1155,10 +1155,10 @@
       "display_number": 13,
       "id": "lecture-22",
       "number": 22,
-      "pdf_hash": "97b750fdec3709ed66d9fae4b9add8f0d48d657e4b2943740ed0bf621f7acde6",
-      "pdf_size": 729149,
+      "pdf_hash": "76d9f583896e07e3ed9018e0a519f9c3b1cd5101b4b28dcedcba0d6471a1f0ed",
+      "pdf_size": 817514,
       "pdf_url": "materials/lecture_22.pdf",
-      "pdf_url_versioned": "materials/lecture_22.pdf?v=97b750fdec37",
+      "pdf_url_versioned": "materials/lecture_22.pdf?v=76d9f583896e",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
