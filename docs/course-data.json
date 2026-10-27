@@ -1145,7 +1145,7 @@
           ],
           "correct_index": 1,
           "explanation": "The old quantities remain feasible. Primal simplex repairs the lost reduced-cost sign condition.",
-          "page": 34,
+          "page": 36,
           "question": "The RHS is unchanged, but a new profit coefficient gives a positive nonbasic objective coefficient in a maximizing dictionary. Which method is the natural continuation?"
         }
       ],
@@ -1155,10 +1155,10 @@
       "display_number": 13,
       "id": "lecture-22",
       "number": 22,
-      "pdf_hash": "a3a95d315443e8ec4c7703e881ee0d564c4008369ce7b0b0b467283fa3b5d709",
-      "pdf_size": 874079,
+      "pdf_hash": "b014949c8ac75fb2be1ad9e1f969c02a3e09df4b1bb8b7efb1ff6a2deaba598f",
+      "pdf_size": 916259,
       "pdf_url": "materials/lecture_22.pdf",
-      "pdf_url_versioned": "materials/lecture_22.pdf?v=a3a95d315443",
+      "pdf_url_versioned": "materials/lecture_22.pdf?v=b014949c8ac7",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

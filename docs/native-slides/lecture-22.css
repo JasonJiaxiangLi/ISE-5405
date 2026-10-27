@@ -57,3 +57,14 @@
 .se-combined-rhs mjx-container[display="true"],.se-hundred-percent mjx-container[display="true"],.se-hundred-counterexample mjx-container[display="true"]{margin:.15em 0 !important;}
 .se-hundred-counterexample .ns-slide-body{gap:.18em;}
 .se-combined-rhs .ns-slide-body>p,.se-hundred-percent .ns-slide-body>p,.se-hundred-counterexample .ns-slide-body>p{margin-bottom:.1em;}
+
+/* Algebra is fully visible; reclaim box spacing rather than shrinking equations. */
+.se-algebra-page .ns-slide-body{gap:.14em;}
+.se-algebra-page .ns-slide-body>p{margin-bottom:.12em;}
+.se-algebra-page .dy-box{padding:.3em .55em;margin:0;}
+.se-algebra-page .dy-box p{margin-bottom:.1em;}
+.se-algebra-page .dy-problem p{margin-bottom:.1em;}
+.se-algebra-page .dy-math{margin:.1em 0;}
+.se-algebra-page mjx-container[display="true"]{margin:.12em 0 !important;}
+.se-algebra-page .dy-table :is(th,td){padding:.18em .35em;}
+.se-algebra-page .ns-slide-body>p:last-child{margin-bottom:0;}
