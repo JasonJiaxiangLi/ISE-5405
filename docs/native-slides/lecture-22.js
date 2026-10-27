@@ -171,30 +171,45 @@ export const mainSlides=[
   +box(p('<strong>This is the new optimum if the updated basic values are nonnegative:</strong>')
    +math(raw`x=4+2\delta_1-\delta_3\ge0,\quad y=5-\delta_1+\delta_3\ge0,\quad s_2=3-3\delta_1+\delta_2+\delta_3\ge0.`)
    +p(raw`Reduced costs stay \(-1,-1\). A negative basic value requires reoptimization.`),'green'),[2],matrixLessonOptions),
- slide('new-product','Derive the dictionary for a new pastry',pastryModel()
-  +p(raw`\(t\) counts pastry batches; each earns 4 and uses \((1,2,1)\) resources. Write the inequalities as equalities using slacks \(s_1,s_2,s_3\ge0\). Keep basis \((x,y,s_2)\).`)
-  +box(p('<strong>Subtract hours from sugar, then substitute into hours and flour:</strong>')
-   +math(raw`\begin{aligned}(x+2y+t+s_3)-(x+y+t+s_1)&=14-9,\\y&=5+s_1-s_3,\\x=9-y-t-s_1&=4-2s_1+s_3-t,\\s_2=16-2x-y-2t&=3+3s_1-s_3.\end{aligned}`))
-  +math(raw`\begin{aligned}z&=2(4-2s_1+s_3-t)+3(5+s_1-s_3)+4t\\&=23-s_1-s_3+2t.\end{aligned}`)
-  +p(raw`<strong>No pivot yet:</strong> \(s_1,s_3,t\) are nonbasic. Setting them to zero gives the feasible plan \((x,y,t)=(4,5,0)\).`),[6],algebraOptions),
- slide('new-product-test','The matrix calculation gives the same new column',pastryModel()
-  +dictionaryBlock('Dictionary before any pastry pivot',raw`\begin{aligned}x&=4-2s_1+s_3-t,&\quad y&=5+s_1-s_3,\\s_2&=3+3s_1-s_3,& z&=23-s_1-s_3+2t.\end{aligned}`)
-  +p(raw`For basis \((x,y,s_2)\) and pastry column \(A_t=(1,2,1)^\top\), the new coefficients are \(-B^{-1}A_t\):`)
-  +math(raw`B^{-1}A_t=\begin{pmatrix}2&0&-1\\-1&0&1\\-3&1&1\end{pmatrix}\begin{pmatrix}1\\2\\1\end{pmatrix}=\begin{pmatrix}1\\0\\0\end{pmatrix}.`)
-  +box(math(raw`\bar c_t=4-c_{\mathcal B}^{\top}B^{-1}A_t=4-p^\top A_t=4-(1+0+1)=2.`)
-   +p(raw`One pastry replaces one bread: \(4-2=2\) more profit. `+link('new-product-full','Use primal simplex: two pivots')),'green'),[],algebraOptions),
- slide('recipe-change','What if the pastry needs more hours?',pastryModel(true)
-  +p(raw`<strong>Before any pivot:</strong> keep basis \((x,y,s_2)\) and \(p=(1,0,1)\). Only pastry hours rise, by \(\delta\ge0\).`)
-  +box(math(raw`\bar c_t^{\rm new}=4-\bigl[1(1+\delta)+0(2)+1(1)\bigr]=2-\delta.`))
-  +table([raw`Extra hours \(\delta\)`,raw`Reduced cost \(2-\delta\)`,'Effect of increasing '+raw`\(t\)`],[['0','2','Profit increases.'],['2','0','Profit stays constant.'],['3','−1','Profit decreases.']])
-  +box(p(raw`At \(t=0\), plan \((4,5,0)\) stays feasible. The other reduced costs stay \(-1,-1\). For \(\delta\ge2\), all are nonpositive: this plan is optimal.`),'green'),[],algebraOptions),
- slide('changed-column','Derive the reduced-cost change',pastryModel(true)
-  +p(raw`Generalize the pastry calculation: \(a_{ij}\) is the coefficient of variable \(x_j\) in constraint \(i\). Below, sum over all constraint rows \(k\).`)
-  +box(p(raw`Change only \(a_{ij}\) to \(a_{ij}+\delta\), with \(x_j\) <strong>nonbasic</strong>. Then \(B,c_{\mathcal B}\) stay fixed, so \(p^\top=c_{\mathcal B}^{\top}B^{-1}\) stays fixed.`))
-  +math(raw`\begin{aligned}\bar c_j^{\rm new}&=c_j-\left(\textstyle\sum_k p_k a_{kj}+p_i\delta\right)\\&=\left(c_j-\textstyle\sum_k p_k a_{kj}\right)-\delta p_i.\end{aligned}`)
-  +box(math(raw`\bar c_j^{\rm new}=\bar c_j-\delta p_i.`)
-   +p(raw`Feasibility is unchanged: \(x_j=0\), so the changed coefficient multiplies zero. For maximization, check all nonbasic reduced costs are nonpositive.`),'green')
-  +p(raw`If \(x_j\) is <strong>basic</strong>, \(B\) changes: recompute basic values and reduced costs. `+link('basic-column','Worked basic-column example')),[6],algebraOptions),
+ slide('new-product','Add a variable: solve for the existing basic variables',
+  p(raw`Let \(t\ge0\) count pastry batches. <strong>Maximize</strong> \(z=2x+3y+4t\), with nonnegative slacks for unused resources:`)
+  +math(raw`\begin{aligned}H\ \text{(hours)}:\quad x+y+s_1+t&=9,\\F\ \text{(flour)}:\quad 2x+y+s_2+2t&=16,\\S\ \text{(sugar)}:\quad x+2y+s_3+t&=14,\qquad x,y,s_1,s_2,s_3\ge0.\end{aligned}`)
+  +p(raw`Keep \((x,y,s_2)\) basic. <strong>Solve for these variables</strong> in terms of \((s_1,s_3,t)\), using elimination:`)
+  +table(['Isolate','Combine original rows','Constraint dictionary'],[
+   [raw`\(x\)`,raw`\(2H-S\)`,raw`\(x=4-2s_1+s_3-t\)`],
+   [raw`\(y\)`,raw`\(S-H\)`,raw`\(y=5+s_1-s_3\)`],
+   [raw`\(s_2\)`,raw`\(F-3H+S\)`,raw`\(s_2=3+3s_1-s_3\)`]])
+  +box(p(raw`<strong>No pivot yet:</strong> \(s_1=s_3=t=0\) gives the feasible plan \((x,y,t)=(4,5,0)\). Next, connect these row operations to \(B^{-1}\) and substitute into the objective.`)),[6],matrixLessonOptions),
+ slide('new-product-test','The inverse records the same row operations',pastryModel()
+  +p(raw`Keep \(x_{\mathcal B}=(x,y,s_2)^\top\), \(x_{\mathcal N}=(s_1,s_3)^\top\). The columns of \(A_{\mathcal N}\) belong to \(s_1,s_3\); \(A_t=(1,2,1)^\top\).`)
+  +math(raw`\begin{aligned}Bx_{\mathcal B}+A_{\mathcal N}x_{\mathcal N}+A_tt&=b,\\x_{\mathcal B}&=\underbrace{B^{-1}b-B^{-1}A_{\mathcal N}x_{\mathcal N}}_{\text{old constraint dictionary}}-B^{-1}A_tt.\end{aligned}`)
+  +p(raw`Rows of \(B^{-1}\) combine the original hours \(H\), flour \(F\), sugar \(S\) rows as \(2H-S\), \(S-H\), \(F-3H+S\):`)
+  +math(raw`-B^{-1}A_t=-\begin{pmatrix}2&0&-1\\-1&0&1\\-3&1&1\end{pmatrix}\begin{pmatrix}1\\2\\1\end{pmatrix}=\begin{pmatrix}-1\\0\\0\end{pmatrix}.`)
+  +math(raw`z=2(4-2s_1+s_3-t)+3(5+s_1-s_3)+4t=23-s_1-s_3+2t.`)
+  +p(raw`<strong>Maximize:</strong> \(\bar c_t=2>0\): \(t\) may enter; apply the ratio test. `+link('new-product-full','Two pivots')),[],matrixLessonOptions),
+ slide('recipe-change','Extra pastry hours: when is the old plan optimal?',pastryModel(true)
+  +p(raw`<strong>Before any pivot:</strong> keep basis \((x,y,s_2)\). Only pastry hours rise, by \(\delta\ge0\). Add the hours and sugar equalities, including their slacks:`)
+  +math(raw`2x+3y+(2+\delta)t+s_1+s_3=9+14=23.`)
+  +box(math(raw`z=2x+3y+4t=23-s_1-s_3+(2-\delta)t.`))
+  +p(raw`At \(t=0\), the changed coefficient multiplies zero: \((4,5,0)\) stays feasible. For <strong>maximization</strong>, require all nonbasic objective coefficients to be nonpositive:`)
+  +box(math(raw`-1\le0,\quad -1\le0,\quad 2-\delta\le0\quad\Longleftrightarrow\quad\delta\ge2.`)
+   +p(raw`Thus the plan \((4,5,0)\) is optimal for \(\delta\ge2\). For \(0\le\delta<2\), continue primal simplex with \(t\) entering.`),'green'),[],matrixLessonOptions),
+ slide('changed-column','Derive the reduced-cost change',
+  p(raw`Change the coefficient of a <strong>nonbasic</strong> variable \(x_j\) in constraint \(i\) by \(\delta\). Keep all other data fixed.`)
+  +box(p(raw`The basis \(B\), its costs \(c_{\mathcal B}\), and \(p=(B^{-1})^\top c_{\mathcal B}\) stay fixed. Let \(A_j^{\rm new}\) denote the changed column.`))
+  +p(raw`Recall \(\bar c_j=c_j-p^\top A_j\). Subtract the old reduced cost from the new one:`)
+  +math(raw`\begin{aligned}\bar c_j^{\rm new}-\bar c_j&=(c_j-p^\top A_j^{\rm new})-(c_j-p^\top A_j)\\&=-p^\top(A_j^{\rm new}-A_j)=-p_i\delta.\end{aligned}`)
+  +p(raw`Only entry \(i\) changes, so the change in the dot product is \(p_i\delta\).`)
+  +box(math(raw`\boxed{\bar c_j^{\rm new}=\bar c_j-\delta p_i.}`),'green'),[6],algebraOptions),
+ slide('reduced-cost-test','Use the objective sense to decide: stop or pivot',
+  p(raw`For a <strong>feasible dictionary</strong>, nonbasic variables start at zero and must remain nonnegative. Write the objective as`)
+  +math(raw`z=z_0+\sum_{j\in\mathcal N}\bar c_jx_j,\qquad x_j\ge0.`)
+  +table(['Objective','Stop when every nonbasic coefficient satisfies','Entering candidates'],[
+   ['Maximize',raw`\(\bar c_j\le0\)`,raw`\(\bar c_j>0\)`],
+   ['Minimize',raw`\(\bar c_j\ge0\)`,raw`\(\bar c_j<0\)`]])
+  +p('A positive coefficient increases the objective; a negative coefficient decreases it. The ratio test determines an admissible step for an entering candidate.')
+  +box(p(raw`Change only the coefficient of a <strong>nonbasic</strong> variable \(x_j\) in row \(i\) by \(\delta\). Since \(x_j=0\), the basic values stay feasible. Test \(\bar c_j^{\rm new}=\bar c_j-\delta p_i\); the other reduced costs are unchanged.`),'green')
+  +p('If a basic column changes: '+link('basic-column','recompute the basis and reduced costs')),[6],algebraOptions),
  slide('new-row','Start again with two products: add a bread limit',compact()+compactOriginal()
   +p(raw`<strong>Separate variation: no pastry or recipe change.</strong> Add \(x\le3\). The original plan has \(x=4\), so it violates the new constraint.`)
   +math(raw`x+s_4=3,\quad s_4\ge0;\qquad s_4=3-(4-2s_1+s_3)=-1+2s_1-s_3.`)
