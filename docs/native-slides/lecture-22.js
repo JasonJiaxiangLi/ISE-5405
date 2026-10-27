@@ -77,6 +77,7 @@ const originalRows=[raw`4-2s_1+s_3`,raw`5+s_1-s_3`,raw`3+3s_1-s_3`,raw`23-s_1-s_
 const compactOriginal=()=>dictionaryBlock('Original optimal dictionary',raw`\begin{aligned}x&=4-2s_1+s_3,&\quad y&=5+s_1-s_3,\\s_2&=3+3s_1-s_3,& z&=23-s_1-s_3.\end{aligned}`);
 const pastryModel=(changed=false)=>`<div class="dy-problem">${p(raw`<strong>With pastry \(t\):</strong> maximize \(z=2x+3y+4t\).`)+p(raw`\(x+y+${changed?'(1+\\delta)':''}t\le9\) (hours), \(2x+y+2t\le16\) (flour), \(x+2y+t\le14\) (sugar); \(x,y,t\ge0\).`)}</div>`;
 const algebraOptions={className:'dy-slide se-slide se-algebra-page'};
+const matrixLessonOptions={className:'dy-slide se-slide se-algebra-page se-matrix-lesson'};
 const originalReset=()=>p(raw`<strong>Start again from the original bakery:</strong> hours 9, flour 16, sugar 14; maximize \(2x+3y\).`);
 function valueGraphic(kind){
  const rhs=kind==='rhs',points=rhs?[[0,0],[7,-21],[10,-24],[12,-24]]:[[0,-21],[1.5,-21],[3,-27],[6,-48],[7,-56]],xmin=0,xmax=rhs?12:7,ymin=rhs?-27:-60,ymax=rhs?2:-15;
@@ -135,21 +136,41 @@ export const mainSlides=[
  slide('basic-cost','Change bread profit using the original dictionary',originalReset()+p(raw`Change bread profit from \(2\) to \(2+\theta\): <strong>\(z_{\rm new}=z_{\rm old}+\theta x\)</strong>. Substitute the original row for \(x\).`)+compareDictionaries(originalRows,[...originalRows.slice(0,3),raw`\begin{aligned}&23+4\theta+(-1-2\theta)s_1\\&+(-1+\theta)s_3\end{aligned}`])+box(p(raw`The three constraint rows are unchanged. For maximization, require \(-1-2\theta\le0\) and \(-1+\theta\le0\): <strong>\(-\tfrac12\le\theta\le1\)</strong>, or \(1.5\le c_x\le3\).`),'green')+p(raw`Within this interval, quantities stay \((4,5)\) and profit becomes \(23+4\theta\).`),[17,18]),
  slide('nonbasic-cost','Selling unused hours changes one objective coefficient',originalReset()+p(raw`Suppose unused hours \(s_1\) can be sold for \(\kappa\) per unit. Then \(z_{\rm new}=z_{\rm old}+\kappa s_1\).`)+compareDictionaries(originalRows,[...originalRows.slice(0,3),raw`23+(\kappa-1)s_1-s_3`])+box(p(raw`The original basis remains optimal exactly when \(\kappa\le1\). Its profit stays 23 because \(s_1=0\). For \(\kappa>1\), <strong>primal simplex</strong> can improve the still-feasible plan.`),'green'),[17,18]),
  slide('two-costs','Change both profits using the same original rows',originalReset()+p(raw`Set profits to \(2+\theta_1\) and \(3+\theta_2\). Use \(z_{\rm new}=z_{\rm old}+\theta_1x+\theta_2y\).`)+compareDictionaries(originalRows,[...originalRows.slice(0,3),raw`\begin{aligned}&23+4\theta_1+5\theta_2\\&+(-1-2\theta_1+\theta_2)s_1\\&+(-1+\theta_1-\theta_2)s_3\end{aligned}`])+box(p(raw`Both objective coefficients must be nonpositive: <strong>\(\theta_1-1\le\theta_2\le1+2\theta_1\)</strong>. If only cake profit changes, \(-1\le\theta_2\le1\), so \(2\le c_y\le4\).`),'green'),[17]),
- slide('matrix','The bakery dictionary in matrix form',compact()
-  +p(raw`Add slacks \(s_1,s_2,s_3\ge0\) for hours, flour, sugar. Keep basis \((x,y,s_2)\); its columns form \(B\).`)
-  +math(raw`B=\begin{pmatrix}1&1&0\\2&1&1\\1&2&0\end{pmatrix},\qquad B^{-1}=\begin{pmatrix}2&0&-1\\-1&0&1\\-3&1&1\end{pmatrix}.`)
-  +table(['Original dictionary rows','After multiplying the equalities by '+raw`\(B^{-1}\)`],[[
-   math(raw`\begin{aligned}x&=4-2s_1+s_3,\\y&=5+s_1-s_3,\\s_2&=3+3s_1-s_3,\end{aligned}`),
-   math(raw`\begin{pmatrix}x\\y\\s_2\end{pmatrix}=\begin{pmatrix}4\\5\\3\end{pmatrix}-\begin{pmatrix}2&-1\\-1&1\\-3&1\end{pmatrix}\begin{pmatrix}s_1\\s_3\end{pmatrix}.`)]] )
-  +p(raw`The constant vector is \(B^{-1}(9,16,14)^\top\). The two coefficient columns are \(B^{-1}A_{s_1}\) and \(B^{-1}A_{s_3}\), subtracted from it.`)
-  +math(raw`z=2x+3y=23-s_1-s_3.`),[2,6],algebraOptions),
- slide('matrix-dual','Dual variables and reduced costs have different roles',compact()+compactOriginal()
-  +p(raw`Basis: \((x,y,s_2)\), with costs \(c_{\mathcal B}=(2,3,0)^\top\).`)
-  +math(raw`p^\top=c_{\mathcal B}^{\top}B^{-1}=(2,3,0)B^{-1}=(1,0,1)\quad\text{(hours, flour, sugar)}.`)
-  +p(raw`Let \(\Delta b=(\delta_1,\delta_2,\delta_3)^\top\) change those limits. Write \(x_{\mathcal B}=(x,y,s_2)^\top\).`)
-  +box(math(raw`\begin{aligned}x_{\mathcal B}^{\rm new}&=(4,5,3)^\top+B^{-1}\Delta b,\\z_{\rm opt}^{\rm new}&=23+p^\top\Delta b=23+\delta_1+\delta_3.\end{aligned}`)
-   +p('<strong>Nonbasic variables are zero. This basis stays optimal if its basic values stay nonnegative.</strong>'),'green')
-  +p(raw`<strong>Reduced costs are the coefficients in \(z\):</strong> \(\bar c_{s_1}=0-p_1=-1\), \(\bar c_{s_3}=0-p_3=-1\).`),[2,6],algebraOptions),
+ slide('matrix','Write the bakery equations in matrix form',compact()
+  +p(raw`Slacks \(s_1,s_2,s_3\ge0\) are unused hours, flour, sugar. In \(A\mathbf{x}=b\), order \(\mathbf{x}=(x,y,s_1,s_2,s_3)^\top\):`)
+  +math(raw`A=\begin{pmatrix}1&1&1&0&0\\2&1&0&1&0\\1&2&0&0&1\end{pmatrix},\qquad b=\begin{pmatrix}9\\16\\14\end{pmatrix}.`)
+  +p(raw`Use the basis already found by simplex: \((x,y,s_2)\). Let \(A_{\mathcal N}\) contain the remaining columns, for \((s_1,s_3)\).`)
+  +math(raw`B=\begin{pmatrix}1&1&0\\2&1&1\\1&2&0\end{pmatrix},\qquad A_{\mathcal N}=\begin{pmatrix}1&0\\0&0\\0&1\end{pmatrix}.`)
+  +box(math(raw`B(x,y,s_2)^\top+A_{\mathcal N}(s_1,s_3)^\top=b.`)
+   +p(raw`Solve for \((x,y,s_2)\): subtract the nonbasic terms, then multiply by \(B^{-1}\).`)),[2],matrixLessonOptions),
+ slide('matrix-calculate','Compute the same dictionary using the inverse',compact()
+  +math(raw`(x,y,s_2)^\top=B^{-1}b-B^{-1}A_{\mathcal N}(s_1,s_3)^\top.`)
+  +math(raw`B^{-1}b=\begin{pmatrix}2&0&-1\\-1&0&1\\-3&1&1\end{pmatrix}\begin{pmatrix}9\\16\\14\end{pmatrix}=\begin{pmatrix}4\\5\\3\end{pmatrix}.`)
+  +math(raw`B^{-1}A_{\mathcal N}=\begin{pmatrix}2&0&-1\\-1&0&1\\-3&1&1\end{pmatrix}\begin{pmatrix}1&0\\0&0\\0&1\end{pmatrix}=\begin{pmatrix}2&-1\\-1&1\\-3&1\end{pmatrix}.`)
+  +box(math(raw`x=4-2s_1+s_3,\qquad y=5+s_1-s_3,\qquad s_2=3+3s_1-s_3.`))
+  +p(raw`For the objective, substitute these expressions for \(x,y\):`)
+  +math(raw`z=2(4-2s_1+s_3)+3(5+s_1-s_3)=23-s_1-s_3.`),[2],matrixLessonOptions),
+ slide('objective-multipliers','Build the objective row from the constraints',compact()
+  +math(raw`\begin{aligned}x+y+s_1&=9&&\text{(hours)},\\2x+y+s_2&=16&&\text{(flour)},\\x+2y+s_3&=14&&\text{(sugar)}.\end{aligned}`)
+  +p(raw`Goal: write \(z\) using only \(s_1,s_3\). Multiply the equalities by \(p_1,p_2,p_3\), then add. Match the coefficients of \((x,y,s_2)\) to \((2,3,0)\), as in \(z=2x+3y\).`)
+  +math(raw`\begin{aligned}p_1+2p_2+p_3&=2&&\text{(coefficient of }x\text{)},\\p_1+p_2+2p_3&=3&&\text{(coefficient of }y\text{)},\\p_2&=0&&\text{(coefficient of }s_2\text{)}.\end{aligned}`)
+  +box(p(raw`Thus \(p=(1,0,1)^\top\): <strong>add the hours and sugar equations</strong>.`)
+   +math(raw`2x+3y+s_1+s_3=9+14\quad\Longrightarrow\quad z=23-s_1-s_3.`),'green'),[2],matrixLessonOptions),
+ slide('matrix-dual','The same multipliers are the dual variables',compact()
+  +p(raw`The dual variables \(p_1,p_2,p_3\) correspond to hours, flour, sugar. The dual is`)
+  +math(raw`\begin{aligned}\min\quad &9p_1+16p_2+14p_3\\\text{s.t.}\quad &p_1+2p_2+p_3\ge2,\quad p_1+p_2+2p_3\ge3,\quad p\ge0.\end{aligned}`)
+  +p(raw`Our three coefficient-matching equations are \(B^\top p=c_{\mathcal B}\). Here \(c_{\mathcal B}\) lists the objective coefficients of \((x,y,s_2)\):`)
+  +math(raw`\begin{pmatrix}1&2&1\\1&1&2\\0&1&0\end{pmatrix}p=\begin{pmatrix}2\\3\\0\end{pmatrix}\quad\Longrightarrow\quad p=(B^\top)^{-1}c_{\mathcal B}=(B^{-1})^\top c_{\mathcal B}.`)
+  +box(p(raw`\(p=(1,0,1)^\top\ge0\) satisfies both dual inequalities with equality. Its value is \(9+14=23=2(4)+3(5)\): <strong>both solutions are optimal</strong>.`),'green')
+  +p(raw`The <strong>reduced costs</strong> in \(z=23-s_1-s_3\) are \(\bar c_{s_1}=-p_1=-1\), \(\bar c_{s_3}=-p_3=-1\).`),[2],matrixLessonOptions),
+ slide('matrix-rhs-change','Derive the objective change when the RHS changes',compact()
+  +p(raw`Change only the resource limits by \(\Delta b=(\delta_1,\delta_2,\delta_3)^\top\) (hours, flour, sugar). Keep basis \((x,y,s_2)\) and set \(s_1=s_3=0\).`)
+  +math(raw`x_{\mathcal B}=(x,y,s_2)^\top,\qquad x_{\mathcal B}^{\rm old}=B^{-1}b,\qquad x_{\mathcal B}^{\rm new}=B^{-1}(b+\Delta b).`)
+  +box(math(raw`\begin{aligned}z^{\rm new}&=c_{\mathcal B}^\top x_{\mathcal B}^{\rm new}=c_{\mathcal B}^\top B^{-1}(b+\Delta b)\\&=c_{\mathcal B}^\top B^{-1}b+c_{\mathcal B}^\top B^{-1}\Delta b\\&=z^{\rm old}+p^\top\Delta b=23+\delta_1+\delta_3.\end{aligned}`))
+  +p(raw`Here \(p^\top=c_{\mathcal B}^\top B^{-1}\). Adding hours and sugar also gives \(z+s_1+s_3=23+\delta_1+\delta_3\).`)
+  +box(p('<strong>This is the new optimum if the updated basic values are nonnegative:</strong>')
+   +math(raw`x=4+2\delta_1-\delta_3\ge0,\quad y=5-\delta_1+\delta_3\ge0,\quad s_2=3-3\delta_1+\delta_2+\delta_3\ge0.`)
+   +p(raw`Reduced costs stay \(-1,-1\). A negative basic value requires reoptimization.`),'green'),[2],matrixLessonOptions),
  slide('new-product','Derive the dictionary for a new pastry',pastryModel()
   +p(raw`\(t\) counts pastry batches; each earns 4 and uses \((1,2,1)\) resources. Write the inequalities as equalities using slacks \(s_1,s_2,s_3\ge0\). Keep basis \((x,y,s_2)\).`)
   +box(p('<strong>Subtract hours from sugar, then substitute into hours and flour:</strong>')
