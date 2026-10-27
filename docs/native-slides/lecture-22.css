@@ -47,3 +47,13 @@
 .se-reoptimize .ns-slide-body{gap:.1em;}
 .se-reoptimize .ns-slide-body > p{margin-bottom:.1em;}
 .se-reoptimize .dy-box p{line-height:1.25;}
+
+/* Keep the two-resource comparison together without shrinking its mathematics. */
+.se-combined-rhs .ns-slide-body,.se-hundred-percent .ns-slide-body{gap:.18em;}
+.se-combined-rhs .dy-table :is(th,td),.se-hundred-percent .dy-table :is(th,td){padding:.18em .35em;}
+.se-combined-rhs .dy-box,.se-hundred-percent .dy-box{padding:.3em .55em;margin:0;}
+.se-combined-rhs .dy-box p,.se-hundred-percent .dy-box p{margin:0;}
+.se-combined-rhs .dy-math,.se-hundred-percent .dy-math,.se-hundred-counterexample .dy-math{margin:.1em 0;}
+.se-combined-rhs mjx-container[display="true"],.se-hundred-percent mjx-container[display="true"],.se-hundred-counterexample mjx-container[display="true"]{margin:.15em 0 !important;}
+.se-hundred-counterexample .ns-slide-body{gap:.18em;}
+.se-combined-rhs .ns-slide-body>p,.se-hundred-percent .ns-slide-body>p,.se-hundred-counterexample .ns-slide-body>p{margin-bottom:.1em;}
