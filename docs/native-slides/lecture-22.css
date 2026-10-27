@@ -38,3 +38,12 @@
 
 .se-rhs-panel label > :not(input){flex-shrink:0;}
 .se-rhs-panel input[type="range"]{flex:1; width:0;}
+
+/* The recap uses an explicit activity button beside the slider, not an extra footer. */
+.se-hours-recap .ns-slide-body{gap:.2em;}
+.se-reoptimize .dy-table :is(th,td){padding:.18em .3em;}
+.se-reoptimize .se-rhs-panel .dy-controls{flex-wrap:wrap;}
+.se-reoptimize .se-rhs-panel label{min-width:170px;}
+.se-reoptimize .ns-slide-body{gap:.1em;}
+.se-reoptimize .ns-slide-body > p{margin-bottom:.1em;}
+.se-reoptimize .dy-box p{line-height:1.25;}
