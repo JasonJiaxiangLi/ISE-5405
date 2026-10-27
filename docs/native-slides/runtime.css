@@ -1308,50 +1308,6 @@
   }
 }
 
-/* A browser-window presentation avoids native fullscreen's swipe-to-exit.
-   Scope to screen so the final-state PDF/print layout is unchanged. */
-@media screen {
-  html.ns-presentation-open,
-  body.ns-presentation-open {
-    overflow: hidden;
-    overscroll-behavior: none;
-  }
-
-  .native-deck.is-presentation-view {
-    position: fixed;
-    z-index: 100;
-    inset: 0;
-    width: 100%;
-    height: 100dvh;
-    min-height: 0;
-    grid-template-rows: minmax(0, 1fr);
-    overflow: hidden;
-    padding-top: env(safe-area-inset-top);
-  }
-
-  .is-presentation-view .ns-masthead { display: none; }
-  .is-presentation-view .ns-progress-row progress { display: none; }
-  .is-presentation-view .ns-progress-row { flex-wrap: wrap; gap: 0.35rem; }
-  .ns-presentation-links {
-    display: flex;
-    gap: 0.35rem;
-    margin-left: auto;
-  }
-  .ns-presentation-links .ns-link-button { white-space: nowrap; }
-  .is-presentation-view .ns-stage-area { overflow: auto; min-width: 0; }
-  .is-presentation-view .ns-controls { position: static; }
-}
-
-@media screen and (min-width: 761px) {
-  .native-deck.is-presentation-view .ns-stage {
-    height: var(--ns-presentation-height, 50dvh);
-    max-height: 100%;
-  }
-  .is-presentation-view .ns-controls {
-    padding-bottom: max(0.45rem, env(safe-area-inset-bottom));
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .native-deck *,
   .native-deck *::before,

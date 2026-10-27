@@ -1176,14 +1176,14 @@
         {
           "auto_open": true,
           "choices": [
-            "Accept because $390 exceeds each individual leg price.",
-            "Reject because $390 is below their sum, $400.",
-            "Accept because every connection uses two legs."
+            "One passenger uses one seat on each flight, so both capacity dual variables enter the revenue bound.",
+            "Only the larger capacity dual variable matters because there is one passenger.",
+            "The two original direct-ticket fares must always add to the connecting-ticket fare."
           ],
-          "correct_index": 1,
-          "explanation": "The request consumes both resources, so their opportunity costs add. The relevant comparison is $390 versus $170+$230.",
+          "correct_index": 0,
+          "explanation": "The passenger uses both flights. Reserving those two seats lowers the dual upper bound for the original journeys by $170 + $230 = $400. Adding $390 cannot recover that loss.",
           "page": 11,
-          "question": "A new connection earns $390 and uses legs priced at $170 and $230. What does the current marginal rule say?"
+          "question": "The new $390 ticket is for New York → Chicago → Los Angeles. Why compare its fare with $170 + $230?"
         },
         {
           "auto_open": true,
@@ -1204,10 +1204,10 @@
       "display_number": 14,
       "id": "lecture-27",
       "number": 27,
-      "pdf_hash": "11ba9e25b1ed7ff21168056db8b34a5de0df8eb240a750f7da2bc5bb99e02208",
-      "pdf_size": 686825,
+      "pdf_hash": "3c171cf419bcc7e6d9633fcf465ccb1d067634aa6683a7abf1cfbcb7d818fe77",
+      "pdf_size": 720328,
       "pdf_url": "materials/lecture_27.pdf",
-      "pdf_url_versioned": "materials/lecture_27.pdf?v=11ba9e25b1ed",
+      "pdf_url_versioned": "materials/lecture_27.pdf?v=3c171cf419bc",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

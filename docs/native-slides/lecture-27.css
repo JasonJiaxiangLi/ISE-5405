@@ -16,6 +16,10 @@
 .ap-dual-panel .dy-math { margin:.1em 0; }
 .ap-dual-panel mjx-container[display="true"] { margin:.15em 0 !important; }
 .ap-flight-key { line-height:1.15; margin:.2em 0 0 !important; }
+.ap-booking-explanation .ns-slide-body { gap:.2em; }
+.ap-booking-explanation p { margin-bottom:.2em; }
+.ap-booking-explanation .dy-table { line-height:1.2; }
+.ap-booking-explanation mjx-container[display="true"] { margin:.2em 0 !important; }
 .ap-slide .ap-network svg { max-height:none; }
 .ap-network:focus-visible { outline:3px solid #1874ad; outline-offset:2px; }
 .ap-slide .ap-network svg text { font-size:26px; }
