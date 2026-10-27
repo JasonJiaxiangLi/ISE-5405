@@ -73,3 +73,7 @@
 [data-native-deck="lecture-22"] .se-matrix-lesson{padding-top:1.1cqw;padding-bottom:1.1cqw;}
 .se-matrix-lesson .ns-eyebrow{display:none;}
 @media(max-width:760px){[data-native-deck="lecture-22"] .se-matrix-lesson{padding:1.1rem;}}
+
+/* One complete dictionary, in two equation groups; retain linear phone flow. */
+.se-practice-dictionary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5em;}
+@media(max-width:760px){.se-practice-dictionary{grid-template-columns:minmax(0,1fr);gap:0;}}
