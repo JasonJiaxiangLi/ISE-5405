@@ -9,6 +9,13 @@
 .ap-equation-flow { display:flex; flex-wrap:wrap; justify-content:center; column-gap:1em; row-gap:.1em; }
 .ap-equation-flow > .dy-math { flex:0 0 auto; }
 .ap-model-comparison { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.6em; }
+.ap-dual-pair { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.65em; align-items:start; }
+.ap-dual-panel { min-width:0; padding:.35em .5em; border-top:.2em solid #326b8c; border-radius:.25em; background:#eff6fa; }
+.ap-dual-panel[data-ap-model="dual"] { border-color:#861f41; background:#f8f1f4; }
+.ap-dual-panel h3 { font:700 1em/1.2 var(--ns-sans); color:#731b3c; margin:0 0 .25em; }
+.ap-dual-panel .dy-math { margin:.1em 0; }
+.ap-dual-panel mjx-container[display="true"] { margin:.15em 0 !important; }
+.ap-flight-key { line-height:1.15; margin:.2em 0 0 !important; }
 .ap-slide .ap-network svg { max-height:none; }
 .ap-network:focus-visible { outline:3px solid #1874ad; outline-offset:2px; }
 .ap-slide .ap-network svg text { font-size:26px; }
@@ -22,6 +29,7 @@
 @media(max-width:760px){
  .ap-equation-flow {column-gap:.6em;}
  .ap-model-comparison {grid-template-columns:minmax(0,1fr); gap:.1em;}
+ .ap-dual-pair {grid-template-columns:minmax(0,1fr);}
  [data-native-deck="lecture-27"] .ns-slide {font-size:18px;padding:1.1rem;}
  .ap-slide .dy-pair {grid-template-columns:minmax(0,1fr);}
  .ap-slide .dy-table {min-width:28em;}
@@ -31,3 +39,8 @@
  .ap-slide .ap-network svg { min-width:640px; }
 }
 @media print { .ap-slide .dy-figure svg {max-height:15em;} }
+
+:is([data-slide-id="l27-uncertainty"],[data-slide-id="l27-scenario-test"]) .dy-table {font-size:1em;}
+:is([data-slide-id="l27-uncertainty"],[data-slide-id="l27-scenario-test"]) .dy-table-wrap {padding-bottom:.6em;}
+:is([data-slide-id="l27-booking-dual"],[data-slide-id="l27-adversary"]) .dy-box {padding-bottom:.65em;}
+[data-slide-id="l27-adversary-dual"] .ns-slide-body > p:last-child {padding-bottom:.6em;}
