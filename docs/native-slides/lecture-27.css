@@ -9,6 +9,16 @@
 .ap-equation-flow { display:flex; flex-wrap:wrap; justify-content:center; column-gap:1em; row-gap:.1em; }
 .ap-equation-flow > .dy-math { flex:0 0 auto; }
 .ap-model-comparison { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:.6em; }
+.ap-slide .ap-network svg { max-height:none; }
+.ap-network:focus-visible { outline:3px solid #1874ad; outline-offset:2px; }
+.ap-slide .ap-network svg text { font-size:26px; }
+.ap-slide .ap-network .ap-city text { font-size:28px; font-weight:700; }
+.ap-slide .ap-network .ap-seat-use { font-weight:700; }
+.ap-route-control label { width:100%; }
+.ap-route-control select { min-width:44px; max-width:100%; flex:1; padding:.2em .35em; border:2px solid #861f41; border-radius:.25em; background:white; color:#263943; }
+.ap-route-control { margin:.15em 0; }
+[data-slide-id="l27-booking-data"] .dy-table { line-height:1.2; }
+[data-slide-id="l27-booking-data"] .dy-table :is(th,td):nth-child(2) { width:48%; }
 @media(max-width:760px){
  .ap-equation-flow {column-gap:.6em;}
  .ap-model-comparison {grid-template-columns:minmax(0,1fr); gap:.1em;}
@@ -16,5 +26,8 @@
  .ap-slide .dy-pair {grid-template-columns:minmax(0,1fr);}
  .ap-slide .dy-table {min-width:28em;}
  .ap-slide mjx-container {padding-bottom:.12em;}
+ .ap-route-control select { flex-basis:100%; width:100%; }
+ .ap-network { overflow-x:auto; }
+ .ap-slide .ap-network svg { min-width:640px; }
 }
 @media print { .ap-slide .dy-figure svg {max-height:15em;} }

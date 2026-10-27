@@ -1182,7 +1182,7 @@
           ],
           "correct_index": 1,
           "explanation": "The request consumes both resources, so their opportunity costs add. The relevant comparison is $390 versus $170+$230.",
-          "page": 12,
+          "page": 11,
           "question": "A new connection earns $390 and uses legs priced at $170 and $230. What does the current marginal rule say?"
         },
         {
@@ -1194,7 +1194,7 @@
           ],
           "correct_index": 0,
           "explanation": "To test one proposed plan, keep x fixed and search over the allowed uncertain data for the largest consumption.",
-          "page": 21,
+          "page": 20,
           "question": "In the inner worst-case LP, which quantities are fixed?"
         }
       ],
@@ -1204,10 +1204,10 @@
       "display_number": 14,
       "id": "lecture-27",
       "number": 27,
-      "pdf_hash": "c8e75afa467b25d0b0b3606639e441dff756a1f6cf5eca17a618698d9ee24a2c",
-      "pdf_size": 608238,
+      "pdf_hash": "539517c502b27d0624da8b091394a88919817f6ef369829b29bdf5193f572c3c",
+      "pdf_size": 636867,
       "pdf_url": "materials/lecture_27.pdf",
-      "pdf_url_versioned": "materials/lecture_27.pdf?v=c8e75afa467b",
+      "pdf_url_versioned": "materials/lecture_27.pdf?v=539517c502b2",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
