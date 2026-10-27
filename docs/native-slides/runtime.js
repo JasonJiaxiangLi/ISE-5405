@@ -360,6 +360,7 @@ export class NativeDeckController {
     this.annotationStore = null;
     this.annotationController = null;
     this.pencilMode = false;
+    this.presentationView = false;
     this.handoutMode = false;
     this.laserActive = false;
     this.destroyed = false;
@@ -417,6 +418,10 @@ export class NativeDeckController {
         <div class="ns-progress-row">
           <progress data-role="progress" value="1" max="${this.deck.slides.length}"></progress>
           <span data-role="counter">Slide 1 of ${this.deck.slides.length}</span>
+          <nav class="ns-presentation-links" aria-label="Lecture resources" hidden>
+            <a class="ns-link-button" data-role="presentation-home">&#8592; Course home</a>
+            <a class="ns-link-button" data-role="presentation-pdf">Download PDF</a>
+          </nav>
         </div>
 
         <div class="ns-stage-area">
@@ -444,6 +449,7 @@ export class NativeDeckController {
             <button class="ns-control" type="button" data-action-shell="clear-ink" aria-keyshortcuts="C" disabled>Clear ink</button>
             <button class="ns-control" type="button" data-action-shell="ink-backup">Ink backup</button>
           </div>
+          <button class="ns-control" type="button" data-action-shell="presentation-view" aria-keyshortcuts="V" aria-pressed="false" title="Enlarge the slide within the browser window. Recommended for writing on iPad.">Presentation view</button>
           <button class="ns-control" type="button" data-action-shell="fullscreen" aria-keyshortcuts="F" aria-pressed="false">Fullscreen</button>
           <button class="ns-control" type="button" data-action-shell="handout" aria-keyshortcuts="H" aria-pressed="false">Handout</button>
           <button class="ns-control" type="button" data-action-shell="print">Print</button>
@@ -480,6 +486,9 @@ export class NativeDeckController {
     const metadata = this.deck.metadata;
     this.elements = {
       stage: this.root.querySelector("[data-role='stage']"),
+      stageArea: this.root.querySelector(".ns-stage-area"),
+      presentationView: this.root.querySelector("[data-action-shell='presentation-view']"),
+      presentationLinks: this.root.querySelector(".ns-presentation-links"),
       slideSurface: this.root.querySelector("[data-role='slide-surface']"),
       annotationCanvas: this.root.querySelector("[data-role='annotation-canvas']"),
       whiteboardLabel: this.root.querySelector("[data-role='whiteboard-label']"),
@@ -524,6 +533,12 @@ export class NativeDeckController {
     );
 
     this.elements.whiteboard.hidden = this.whiteboardCount === 0;
+    setOptionalLink(this.root.querySelector("[data-role='presentation-home']"),
+      this.options.homeUrl ?? metadata.homeUrl,
+      this.options.homeLabel ?? metadata.homeLabel ?? "← Course home");
+    setOptionalLink(this.root.querySelector("[data-role='presentation-pdf']"),
+      this.options.pdfUrl ?? metadata.pdfUrl,
+      this.options.pdfLabel ?? metadata.pdfLabel ?? "Download PDF");
   }
 
   setupAnnotations() {
@@ -559,6 +574,14 @@ export class NativeDeckController {
   }
 
   bindShell() {
+    this.elements.presentationView.addEventListener("click", () => this.togglePresentationView());
+    this.presentationResizeObserver = new ResizeObserver(([entry]) => {
+      if (!this.presentationView) return;
+      // The available space already excludes header, controls and padding.
+      // ResizeObserver follows iPad rotation and changes to the browser bars.
+      const { width, height } = entry.contentRect;
+      this.elements.stage.style.setProperty("--ns-presentation-height", `${Math.max(0, Math.min(height, width * 9 / 16))}px`);
+    });
     this.elements.pencilMode.addEventListener("click", () => this.setPencilMode(!this.pencilMode));
     this.root
       .querySelector("[data-action-shell='previous']")
@@ -1062,6 +1085,7 @@ export class NativeDeckController {
     const active = force === null ? !this.handoutMode : Boolean(force);
     if (active === this.handoutMode) return active;
     if (active) {
+      await this.togglePresentationView(false);
       if (this.laserActive) this.toggleLaser(false);
       if (this.annotationMode !== "none") this.setAnnotationMode("none");
       this.printReady = this.preparePrintDeck();
@@ -1458,6 +1482,11 @@ export class NativeDeckController {
         return;
       }
       if (this.handoutMode) return;
+      if (key === "v") {
+        event.preventDefault();
+        this.togglePresentationView();
+        return;
+      }
       if (key === "m") {
         event.preventDefault();
         this.openSlideMenu();
@@ -1497,6 +1526,11 @@ export class NativeDeckController {
         event.preventDefault();
         if (this.laserActive) this.toggleLaser(false);
         else this.setAnnotationMode("none");
+        return;
+      }
+      if (key === "escape" && this.presentationView) {
+        event.preventDefault();
+        this.togglePresentationView(false);
         return;
       }
     }
@@ -1672,6 +1706,7 @@ export class NativeDeckController {
           <div><dt>Back or hide reveal</dt><dd><kbd>←</kbd> <kbd>↑</kbd> <kbd>Page Up</kbd></dd></div>
           <div><dt>First / last slide</dt><dd><kbd>Home</kbd> / <kbd>End</kbd></dd></div>
           <div><dt>Fullscreen</dt><dd><kbd>F</kbd></dd></div>
+          <div><dt>Presentation view (within browser)</dt><dd><kbd>V</kbd></dd></div>
           <div><dt>Slide menu</dt><dd><kbd>M</kbd></dd></div>
           <div><dt>Explore current slide</dt><dd><kbd>X</kbd></dd></div>
           <div><dt>Open checkpoint</dt><dd><kbd>K</kbd></dd></div>
@@ -1683,6 +1718,7 @@ export class NativeDeckController {
           <div><dt>Turn ink or laser off</dt><dd><kbd>Esc</kbd></dd></div>
         </dl>
         <p>All functions are also available through the visible controls. A normal click on slide content does not advance.</p>
+        <p><strong>For writing on iPad:</strong> use <em>Presentation view</em> with <em>Pencil mode</em>. Presentation view enlarges the slide without browser fullscreen, so downward strokes cannot trigger its exit gesture. Browser bars may remain visible. Tap <em>Exit presentation</em> to return.</p>
         <p><strong>On iPad:</strong> turn on <em>Pencil mode</em>. Write with Apple Pencil; lift it before tapping Previous or Next with your finger. Finger contacts on the slide are ignored. Toolbar touches are briefly ignored during and after writing. Choose Eraser to erase with Pencil. Turn Pencil mode off (or press Escape) to select text or operate slide activities. This preference is saved in this browser.</p>
         <p><strong>Save an annotated PDF:</strong> open <em>Handout</em>, then choose <em>Print / Save PDF</em>. Every reveal and saved slide annotation is included. On iPad, use Share → Print → Save to Files. Use <em>Ink backup</em> to export or import annotations between browsers or devices.</p>
       `;
@@ -1727,7 +1763,43 @@ export class NativeDeckController {
     }
   }
 
+  async togglePresentationView(force = null) {
+    const active = force === null ? !this.presentationView : Boolean(force);
+    if (active === this.presentationView || this.destroyed) return;
+    if (active && this.handoutMode) return;
+    if (active && document.fullscreenElement) {
+      try {
+        await document.exitFullscreen();
+      } catch {
+        this.announce("Exit browser fullscreen, then choose Presentation view.");
+        return;
+      }
+    }
+    if (this.destroyed) return;
+    this.annotationController?.finishStroke();
+    this.presentationView = active;
+    this.root.classList.toggle("is-presentation-view", active);
+    document.documentElement.classList.toggle("ns-presentation-open", active);
+    document.body.classList.toggle("ns-presentation-open", active);
+    this.elements.presentationLinks.hidden = !active;
+    this.elements.fullscreen.hidden = active;
+    this.elements.presentationView.setAttribute("aria-pressed", String(active));
+    this.elements.presentationView.textContent = active ? "Exit presentation" : "Presentation view";
+    if (active) this.presentationResizeObserver.observe(this.elements.stageArea);
+    else {
+      this.presentationResizeObserver.disconnect();
+      this.elements.stage.style.removeProperty("--ns-presentation-height");
+    }
+    this.elements.presentationView.focus({ preventScroll: true });
+    this.announce(active ? "Presentation view opened within the browser. Fullscreen is off." : "Presentation view closed.");
+  }
+
   async toggleFullscreen() {
+    // Keep the safe writing view out of native fullscreen, including shortcut F.
+    if (this.presentationView) {
+      this.announce("Exit Presentation view before using browser fullscreen.");
+      return;
+    }
     try {
       if (document.fullscreenElement === this.root) {
         await document.exitFullscreen();
@@ -1947,6 +2019,8 @@ export class NativeDeckController {
 
   destroy() {
     if (this.destroyed) return;
+    this.togglePresentationView(false);
+    this.presentationResizeObserver?.disconnect();
     this.destroyed = true;
     this.runMountCleanup();
     document.removeEventListener("keydown", this.handleKeydown);
@@ -1962,7 +2036,7 @@ export class NativeDeckController {
     clearMath([this.currentElement, this.elements.dialogBody, this.elements.printDeck]);
     this.closeDialog();
     this.root.replaceChildren();
-    this.root.classList.remove("native-deck", "is-handout", "is-laser-active", "is-pencil-mode");
+    this.root.classList.remove("native-deck", "is-handout", "is-laser-active", "is-pencil-mode", "is-presentation-view");
     delete this.root.dataset.nativeDeck;
   }
 }
