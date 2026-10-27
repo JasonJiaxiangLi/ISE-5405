@@ -150,19 +150,22 @@ export const mainSlides=[
   +box(math(raw`x=4-2s_1+s_3,\qquad y=5+s_1-s_3,\qquad s_2=3+3s_1-s_3.`))
   +p(raw`For the objective, substitute these expressions for \(x,y\):`)
   +math(raw`z=2(4-2s_1+s_3)+3(5+s_1-s_3)=23-s_1-s_3.`),[2],matrixLessonOptions),
- slide('objective-multipliers','Build the objective row from the constraints',compact()
-  +math(raw`\begin{aligned}x+y+s_1&=9&&\text{(hours)},\\2x+y+s_2&=16&&\text{(flour)},\\x+2y+s_3&=14&&\text{(sugar)}.\end{aligned}`)
-  +p(raw`Goal: write \(z\) using only \(s_1,s_3\). Multiply the equalities by \(p_1,p_2,p_3\), then add. Match the coefficients of \((x,y,s_2)\) to \((2,3,0)\), as in \(z=2x+3y\).`)
-  +math(raw`\begin{aligned}p_1+2p_2+p_3&=2&&\text{(coefficient of }x\text{)},\\p_1+p_2+2p_3&=3&&\text{(coefficient of }y\text{)},\\p_2&=0&&\text{(coefficient of }s_2\text{)}.\end{aligned}`)
-  +box(p(raw`Thus \(p=(1,0,1)^\top\): <strong>add the hours and sugar equations</strong>.`)
-   +math(raw`2x+3y+s_1+s_3=9+14\quad\Longrightarrow\quad z=23-s_1-s_3.`),'green'),[2],matrixLessonOptions),
- slide('matrix-dual','The same multipliers are the dual variables',compact()
-  +p(raw`The dual variables \(p_1,p_2,p_3\) correspond to hours, flour, sugar. The dual is`)
+ slide('objective-multipliers','A basis determines dual equalities',compact()
+  +p(raw`Use basis \((x,y,s_2)\), where \(s_2\) is unused flour. To write \(z\) using only \(s_1,s_3\), multiply the hours, flour and sugar equalities by \(p_1,p_2,p_3\), then add. Match the basic-variable coefficients in \(z=2x+3y\):`)
+  +table(['Basic variable','Objective coefficient','Coefficient-matching equation'],[
+   [raw`\(x\)`,'2',raw`\(p_1+2p_2+p_3=2\)`],
+   [raw`\(y\)`,'3',raw`\(p_1+p_2+2p_3=3\)`],
+   [raw`\(s_2\)`,'0',raw`\(p_2=0\)`]])
+  +p(raw`These equations are \(B^\top p=c_{\mathcal B}\); \(c_{\mathcal B}=(2,3,0)^\top\) lists the basic objective coefficients.`)
+  +math(raw`\begin{aligned}p&=(B^\top)^{-1}c_{\mathcal B}=(B^{-1})^\top c_{\mathcal B}\\&=(1,0,1)^\top.\end{aligned}`)
+  +box(p(raw`<strong>Every basis</strong> determines a unique \(p\) making its basic-variable dual constraints equalities. This \(p\) is a <strong>dual candidate</strong>: we must still check the other dual constraints.`)),[2],matrixLessonOptions),
+ slide('matrix-dual','Check dual feasibility to establish optimality',compact()
+  +p(raw`The dual variables \(p_1,p_2,p_3\) correspond to hours, flour, sugar:`)
   +math(raw`\begin{aligned}\min\quad &9p_1+16p_2+14p_3\\\text{s.t.}\quad &p_1+2p_2+p_3\ge2,\quad p_1+p_2+2p_3\ge3,\quad p\ge0.\end{aligned}`)
-  +p(raw`Our three coefficient-matching equations are \(B^\top p=c_{\mathcal B}\). Here \(c_{\mathcal B}\) lists the objective coefficients of \((x,y,s_2)\):`)
-  +math(raw`\begin{pmatrix}1&2&1\\1&1&2\\0&1&0\end{pmatrix}p=\begin{pmatrix}2\\3\\0\end{pmatrix}\quad\Longrightarrow\quad p=(B^\top)^{-1}c_{\mathcal B}=(B^{-1})^\top c_{\mathcal B}.`)
-  +box(p(raw`\(p=(1,0,1)^\top\ge0\) satisfies both dual inequalities with equality. Its value is \(9+14=23=2(4)+3(5)\): <strong>both solutions are optimal</strong>.`),'green')
-  +p(raw`The <strong>reduced costs</strong> in \(z=23-s_1-s_3\) are \(\bar c_{s_1}=-p_1=-1\), \(\bar c_{s_3}=-p_3=-1\).`),[2],matrixLessonOptions),
+  +p(raw`Check \(p=(1,0,1)^\top\): \(1+2(0)+1=2\), \(1+0+2(1)=3\), and \(p\ge0\). All dual constraints hold. Adding the hours and sugar equations gives`)
+  +math(raw`2x+3y+s_1+s_3=23\quad\Longrightarrow\quad z=23-s_1-s_3.`)
+  +box(p(raw`The primal point \((x,y)=(4,5)\) is feasible. Its value \(2(4)+3(5)=23\) equals the dual value \(9(1)+16(0)+14(1)=23\). By <strong>weak duality, both solutions are optimal</strong>.`),'green')
+  +p(raw`<strong>A different basis:</strong> the initial slack basis \((s_1,s_2,s_3)\) gives \(p=(0,0,0)\). It makes the three slack-variable dual constraints equalities, but violates \(0\ge2\) and \(0\ge3\). A basis need not give a dual-feasible vector.`),[2],matrixLessonOptions),
  slide('matrix-rhs-change','Derive the objective change when the RHS changes',compact()
   +p(raw`Change only the resource limits by \(\Delta b=(\delta_1,\delta_2,\delta_3)^\top\) (hours, flour, sugar). Keep basis \((x,y,s_2)\) and set \(s_1=s_3=0\).`)
   +math(raw`x_{\mathcal B}=(x,y,s_2)^\top,\qquad x_{\mathcal B}^{\rm old}=B^{-1}b,\qquad x_{\mathcal B}^{\rm new}=B^{-1}(b+\Delta b).`)
@@ -180,13 +183,19 @@ export const mainSlides=[
    [raw`\(y\)`,raw`\(S-H\)`,raw`\(y=5+s_1-s_3\)`],
    [raw`\(s_2\)`,raw`\(F-3H+S\)`,raw`\(s_2=3+3s_1-s_3\)`]])
   +box(p(raw`<strong>No pivot yet:</strong> \(s_1=s_3=t=0\) gives the feasible plan \((x,y,t)=(4,5,0)\). Next, connect these row operations to \(B^{-1}\) and substitute into the objective.`)),[6],matrixLessonOptions),
- slide('new-product-test','The inverse records the same row operations',pastryModel()
+ slide('new-product-test','Compute the new dictionary column',pastryModel()
   +p(raw`Keep \(x_{\mathcal B}=(x,y,s_2)^\top\), \(x_{\mathcal N}=(s_1,s_3)^\top\). The columns of \(A_{\mathcal N}\) belong to \(s_1,s_3\); \(A_t=(1,2,1)^\top\).`)
   +math(raw`\begin{aligned}Bx_{\mathcal B}+A_{\mathcal N}x_{\mathcal N}+A_tt&=b,\\x_{\mathcal B}&=\underbrace{B^{-1}b-B^{-1}A_{\mathcal N}x_{\mathcal N}}_{\text{old constraint dictionary}}-B^{-1}A_tt.\end{aligned}`)
   +p(raw`Rows of \(B^{-1}\) combine the original hours \(H\), flour \(F\), sugar \(S\) rows as \(2H-S\), \(S-H\), \(F-3H+S\):`)
   +math(raw`-B^{-1}A_t=-\begin{pmatrix}2&0&-1\\-1&0&1\\-3&1&1\end{pmatrix}\begin{pmatrix}1\\2\\1\end{pmatrix}=\begin{pmatrix}-1\\0\\0\end{pmatrix}.`)
-  +math(raw`z=2(4-2s_1+s_3-t)+3(5+s_1-s_3)+4t=23-s_1-s_3+2t.`)
-  +p(raw`<strong>Maximize:</strong> \(\bar c_t=2>0\): \(t\) may enter; apply the ratio test. `+link('new-product-full','Two pivots')),[],matrixLessonOptions),
+  +box(p(raw`The coefficient of \(t\) is \(-1\) in the \(x\) equation and \(0\) in the \(y,s_2\) equations. This gives exactly the same constraint dictionary as elimination.`)),[],matrixLessonOptions),
+ slide('new-product-objective','Compute the new objective coefficient',pastryModel()
+  +p(raw`The basis is still \((x,y,s_2)\). Substitute its equations into \(z=2x+3y+4t\):`)
+  +math(raw`\begin{aligned}x&=4-2s_1+s_3-t,\\y&=5+s_1-s_3,\\s_2&=3+3s_1-s_3.\end{aligned}`)
+  +math(raw`\begin{aligned}z&=2(4-2s_1+s_3-t)+3(5+s_1-s_3)+4t\\&=23-s_1-s_3+2t.\end{aligned}`)
+  +p(raw`Check with \(p=(1,0,1)^\top\) and \(A_t=(1,2,1)^\top\): the reduced-cost formula agrees.`)
+  +math(raw`\bar c_t=4-p^\top A_t=4-(1+0+1)=2.`)
+  +box(p(raw`<strong>Maximize:</strong> increasing \(t\) improves the objective since \(\bar c_t=2>0\). The <strong>ratio test</strong> determines how far we can increase it. `+link('new-product-full','Complete two-pivot solution')),'green'),[],matrixLessonOptions),
  slide('recipe-change','Extra pastry hours: when is the old plan optimal?',pastryModel(true)
   +p(raw`<strong>Before any pivot:</strong> keep basis \((x,y,s_2)\). Only pastry hours rise, by \(\delta\ge0\). Add the hours and sugar equalities, including their slacks:`)
   +math(raw`2x+3y+(2+\delta)t+s_1+s_3=9+14=23.`)
