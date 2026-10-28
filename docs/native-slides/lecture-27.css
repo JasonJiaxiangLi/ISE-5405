@@ -30,6 +30,7 @@
 .ap-booking-explanation p { margin-bottom:.2em; }
 .ap-booking-explanation .dy-table { line-height:1.2; }
 .ap-booking-explanation mjx-container[display="true"] { margin:.2em 0 !important; }
+.ap-reservation-bound .dy-box { padding-bottom:.65em; }
 .ap-slide .ap-network svg { max-height:none; }
 .ap-network:focus-visible { outline:3px solid #1874ad; outline-offset:2px; }
 .ap-slide .ap-network svg text { font-size:26px; }

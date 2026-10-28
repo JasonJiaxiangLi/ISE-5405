@@ -78,33 +78,37 @@ slide('recover-prices','Use complementary slackness to find a dual solution',
  p('<strong>Next:</strong> check dual feasibility and the matching objective value.'),
  [16,17],{className:'dy-slide ap-slide ap-cs'}),
 slide('booking-certificate','Check feasibility and the matching upper bound',table(['Itinerary','Dual left side','Fare'],[['1','170 + 30 = 200','200'],['2','170 + 230 = 400','400'],['3','170 + 180 = 350','350'],['4','230 + 20 = 250','250'],['5','180','180']])+math(raw`100(170)+100(230)+80(180)+50(30)+60(20)=57{,}100.`)+box(p('All dual variables are nonnegative, all five constraints hold, and the dual value equals the feasible revenue. Both solutions are optimal.'),'green'),[16,17]),
-slide('bid-prices','One more New York–Chicago passenger offers $180',
- p('We are choosing future ticket sales; none are final. The original optimum earns <strong>$57,100</strong> and uses all seats: 100 New York–Chicago, 100 Chicago–Los Angeles, and 80 Chicago–Miami.')+
- table(['Original journey','Fare per ticket','Tickets to sell'],[
-  ['New York → Chicago','$200','50'],['New York → Los Angeles via Chicago','$400','40'],
-  ['New York → Miami via Chicago','$350','10'],['Chicago → Los Angeles','$250','60'],['Chicago → Miami','$180','70']])+
- p('All 50 available customers paying $200 for New York–Chicago are already included. Their fares and the original demand limits stay unchanged.')+
- box(p('<strong>New offer:</strong> one additional customer will pay <strong>$180 for New York → Chicago</strong>. Can changing the ticket quantities make room and increase total revenue?')),
- [18,19,21],{className:'dy-slide ap-slide ap-booking-explanation'}),
-slide('displacement','Make room and calculate the revenue change',
- p('<strong>Continue the $180 New York–Chicago case.</strong> Change these three quantities; keep all other ticket quantities unchanged.')+
- table(['Journey and fare','Before','After','Revenue change'],[
-  ['New York → Miami via Chicago · $350','10','9','−$350'],
-  ['Chicago → Miami · $180','70','71','+$180'],
-  ['Additional New York → Chicago customer · $180','0','1','+$180']])+
- p('One fewer connecting ticket frees a seat on <strong>both New York–Chicago and Chicago–Miami</strong>. The two direct passengers use those seats. Chicago–Miami demand allows 71 tickets: its limit is 90.')+
- box(math(raw`\text{Revenue change}=-350+180+180=10.`)+p('<strong>New total: $57,110.</strong> The two $180 payments come from different passengers.'),'green')+
- p(raw`Revenue from the original journeys falls by \(350-180=170\), exactly the New York–Chicago capacity dual variable \(p_1=170\). The new passenger pays $180, giving a $10 increase.`),
- [19,20],{className:'dy-slide ap-slide ap-booking-explanation'}),
-slide('booking-practice','A connecting passenger uses two flights',
- p('<strong>Separate case:</strong> start again from the original <strong>$57,100</strong> optimum. A new passenger offers <strong>$390 for New York → Chicago → Los Angeles</strong>.')+
- table(['Flight','Capacity dual variable','Seats left for original journeys'],[
-  ['New York → Chicago',raw`\(p_1=170\)`,'100 → 99'],
-  ['Chicago → Los Angeles',raw`\(p_2=230\)`,'100 → 99']])+
- p('The same dual variables remain feasible. With all other limits unchanged, reducing these two seat limits by 1 decreases the dual upper bound by $170 + $230:')+
- math(raw`\begin{aligned}\text{Revenue from original tickets}&\le57{,}100-170-230=56{,}700,\\\text{Total revenue with new ticket}&\le56{,}700+390=57{,}090.\end{aligned}`)+
- box(p('<strong>Keep the original ticket quantities:</strong> $57,100 exceeds $57,090. Compare the $390 offer with <strong>$170 + $230 = $400</strong>, for both flights.'),'orange'),
- [18,21],{className:'dy-slide ap-slide ap-booking-explanation',checkpoint:checkpoint('The new $390 ticket is for New York → Chicago → Los Angeles. Why compare its fare with $170 + $230?',['One passenger uses one seat on each flight, so both capacity dual variables enter the revenue bound.','Only the larger capacity dual variable matters because there is one passenger.','The two original direct-ticket fares must always add to the connecting-ticket fare.'],0,'The passenger uses both flights. Reserving those two seats lowers the dual upper bound for the original journeys by $170 + $230 = $400. Adding $390 cannot recover that loss.')}),
+slide('bid-prices','How much revenue must we give up to reserve one seat?',
+ p('Before selling tickets, <strong>reserve one New York → Chicago seat and leave it empty</strong>. Only 99 of its 100 seats remain for the original journeys. Other flight capacities stay at 100 to Los Angeles and 80 to Miami.')+
+ p('<strong>Original optimal revenue: $57,100.</strong> Compare these ticket quantities; all fares and demand limits stay fixed:')+
+ table(['Journey · fare','Original','Seat reserved','Demand limit'],[
+  ['New York → Chicago · $200','50','50','50'],
+  ['New York → Chicago → Los Angeles · $400','40','40','100'],
+  ['New York → Chicago → Miami · $350','10','9','70'],
+  ['Chicago → Los Angeles · $250','60','60','60'],
+  ['Chicago → Miami · $180','70','71','90']])+
+ p('One fewer connecting ticket frees two seats. The extra Chicago → Miami ticket fills the second seat again. Only the New York → Chicago seat stays empty.')+
+ box(p('<strong>Sell one fewer direct ticket:</strong> lose $200. <strong>Use the change above:</strong> lose $350 − $180 = <strong>$170</strong>, while keeping all 50 direct customers paying $200.'),'green'),
+ [18,19,20],{className:'dy-slide ap-slide ap-booking-explanation ap-reserve-seat'}),
+slide('displacement','Why is $170 the smallest possible revenue loss?',
+ p(raw`Dual solution: \(p=(170,230,180)\) (flight capacities); \(u=(30,0,0,20,0)\) (demand limits).`)+
+ p('Fares and routes are unchanged, so <strong>the dual constraints still hold</strong>. Only New York → Chicago capacity changes: <strong>100 → 99</strong>. Weak duality bounds the original ticket revenue:')+
+ math(raw`\begin{aligned}\text{Original bound}&=100(170)+100(230)+80(180)\\&\quad+50(30)+60(20)=57{,}100,\\\text{One seat reserved}&=99(170)+100(230)+80(180)\\&\quad+50(30)+60(20)=56{,}930.\end{aligned}`)+
+ table(['Evidence','What it proves'],[
+  ['One fewer $350 New York → Miami ticket;<br>one more $180 Chicago → Miami ticket','We can earn $57,100 − $350 + $180 = $56,930.'],
+  ['Dual upper bound','No feasible ticket quantities can earn more than $56,930.']])+
+ box(p(raw`<strong>Smallest revenue loss:</strong> \(57{,}100-56{,}930=170=p_1\).`),'green'),
+ [19,20],{className:'dy-slide ap-slide ap-booking-explanation ap-reservation-bound'}),
+slide('accept-direct','Now a new customer offers $180 for the reserved seat',
+ p('<strong>New offer:</strong> one additional customer pays <strong>$180 for New York → Chicago</strong>. All 50 original customers paying $200 remain included; the original fares and demand limits stay fixed.')+
+ table(['Case','Total ticket revenue'],[
+  ['Keep the original optimal quantities; decline the new offer','$57,100'],
+  ['Reserve one New York → Chicago seat; do not sell it yet','$56,930'],
+  ['Use the reserved seat for the new $180 customer','$56,930 + $180 = $57,110']])+
+ p('The new customer fills the empty New York → Chicago seat. The other flights remain unchanged: 100 passengers to Los Angeles and 80 to Miami.')+
+ box(math(raw`\text{New payment}-\text{revenue given up}=180-170=10.`)+p('<strong>Accept:</strong> the $180 payment exceeds the smallest revenue loss of $170. We gain <strong>$10</strong>.'),'green')+
+ p(link('booking-practice','Optional follow-up: a new passenger uses two flights')),
+ [18,19,20],{className:'dy-slide ap-slide ap-booking-explanation',checkpoint:checkpoint('Why compare the new $180 payment with $170 rather than the $200 direct-ticket fare?',['The smallest total revenue loss from reserving that seat is $170; all 50 original $200 customers remain included.','The airline changes the price paid by every direct passenger from $200 to $170.','A dual variable is always equal to the ticket fare for that flight.'],0,'The explicit ticket change loses $350 − $180 = $170. The dual bound proves that no feasible rearrangement loses less. The additional $180 payment therefore raises total revenue by $10.')}),
 slide('uncertainty','New problem: what if production takes longer?',p('<strong>We now consider a factory production problem.</strong> The factory has <strong>8 machine-hours</strong>. Estimated times are 2 hours per batch of product 1 and 1 hour per batch of product 2.')+p('Suppose we choose <strong>3 batches of product 1</strong> and <strong>2 batches of product 2</strong>.')+table(['Product 1: hours/batch','Product 2: hours/batch','Total machine-hours','Within 8 hours?'],[['2 (estimated)','1 (estimated)',raw`\(2(3)+1(2)=8\)`,'Yes'],['3 (slower)','1',raw`\(3(3)+1(2)=11\)`,'No']])+box(p('<strong>Decision:</strong> choose the production quantities before processing times are known. Which quantities satisfy the capacity constraint for <strong>every processing-time combination included in our model</strong>?'),'green'),[23,24]),
 slide('coefficient-model','Define the production quantities and uncertain times',p(raw`\(x_1,x_2\): batches of products 1 and 2. Profit is $3 and $2 per batch, respectively; at most 5 batches can be produced in total.`)+p(raw`\(z_1,z_2\): additional processing hours per batch. <strong>Assume</strong> \(z_1,z_2\ge0\) and \(z_1+z_2\le1\). Each allowed pair is a <strong>scenario</strong>; all these pairs form the <strong>uncertainty set</strong>.`)+math(raw`\begin{aligned}\max_{x_1,x_2}\quad&3x_1+2x_2\\\text{s.t.}\quad&(2+z_1)x_1+(1+z_2)x_2\le8\\&\qquad\text{for every allowed }(z_1,z_2),\\&x_1+x_2\le5,\qquad x_1,x_2\ge0.\end{aligned}`)+box(p(raw`<strong>Robust feasibility:</strong> the <em>same</em> quantities \(x_1,x_2\) satisfy the constraints for every allowed pair. We choose \(x\); we do not choose the actual processing-time increases \(z\).`),'green'),[24,25]),
 slide('scenario-test','Check two choices of production quantities',p(raw`Factory: 8 machine-hours, at most 5 batches, profit \(3x_1+2x_2\). Processing times are \(2+z_1\) and \(1+z_2\) hours per batch, with \(z_1,z_2\ge0\), \(z_1+z_2\le1\).`)+table([raw`Increases \((z_1,z_2)\)`,raw`Hours for \(x_1=3,x_2=2\)`,raw`Hours for \(x_1=2,x_2=2\)`],[[raw`\((0,0)\)`,raw`\(2(3)+1(2)=8\) ✓`,raw`\(2(2)+1(2)=6\) ✓`],[raw`\((1,0)\)`,raw`\(3(3)+1(2)=11\) ✗`,raw`\(3(2)+1(2)=8\) ✓`],[raw`\((0,1)\)`,raw`\(2(3)+2(2)=10\) ✗`,raw`\(2(2)+2(2)=8\) ✓`]])+p('✓ satisfies the 8-hour constraint; ✗ violates it. Both choices satisfy the 5-batch limit.')+box(p(raw`Profit falls from \(3(3)+2(2)=13\) to \(3(2)+2(2)=10\), but \((2,2)\) passes all three checks. Next: why do these checks cover <em>every</em> allowed pair?`),'green'),[23,26]),
@@ -130,6 +134,16 @@ slide('revenue-cs','Every complementary pair in the booking example',p(raw`Prima
 slide('booking-derivation','Recover the allocation directly from the certificates',p(raw`The positive dual variables \(p_1,p_2,p_3,u_1,u_4\) require the corresponding primal rows to be active:`)+math(raw`x_1=50,\quad x_4=60,\quad x_2+x_4=100,\quad x_1+x_2+x_3=100,\quad x_3+x_5=80.`)+math(raw`x_2=40,\qquad x_3=10,\qquad x_5=70.`)+box(p('Check every demand bound and nonnegativity afterwards. Complementary equations alone do not replace feasibility checks.'),'green'),[14,16]),
 slide('booking-range','The same booking basis gives a precise validity region',p(raw`Keep the same demand limits and the active bounds \(x_1=50,x_4=60\). For capacities \(C=(C_1,C_2,C_3)\), solve the three active leg equations:`)+math(raw`x_2=C_2-60,\qquad x_3=C_1-C_2+10,\qquad x_5=C_3-C_1+C_2-10.`)+box(math(raw`\begin{aligned}0&\le C_2-60\le100,\\0&\le C_1-C_2+10\le70,\\0&\le C_3-C_1+C_2-10\le90.\end{aligned}`))+p(raw`Within this region, revenue equals \(170C_1+230C_2+180C_3+2700\). Outside it, reoptimize.`),[19,21]),
 slide('new-request-proof','A bid price is the reduced-cost test for a new request',p('A flight’s <strong>bid price</strong> means its capacity dual variable. For a proposed new ticket, add these values over the flights it uses.')+p(raw`Add a new nonnegative variable \(t\), fare \(r\), and resource-use column \(a\). The old solution with \(t=0\) remains feasible.`)+math(raw`\bar r=r-p^\top a.`)+box(p(raw`For this maximization problem, \(\bar r\le0\) preserves the old dual bound. If \(\bar r>0\), the old certificate fails for the new column and primal simplex can test an improving move.`))+p('A positive reduced profit is a direction test; degeneracy or capacity restrictions can limit its feasible step.'),[18,19,20]),
+slide('booking-practice','A connecting passenger uses two flights',
+ p('<strong>Separate case:</strong> start again from the original <strong>$57,100</strong> optimum. A new passenger offers <strong>$390 for New York → Chicago → Los Angeles</strong>.')+
+ table(['Flight','Capacity dual variable','Seats left for original journeys'],[
+  ['New York → Chicago',raw`\(p_1=170\)`,'100 → 99'],
+  ['Chicago → Los Angeles',raw`\(p_2=230\)`,'100 → 99']])+
+ p('The same dual variables remain feasible. With all other limits unchanged, reducing these two seat limits by 1 decreases the dual upper bound by $170 + $230:')+
+ math(raw`\begin{aligned}\text{Revenue from original tickets}&\le57{,}100-170-230=56{,}700,\\\text{Total revenue with new ticket}&\le56{,}700+390=57{,}090.\end{aligned}`)+
+ box(p('<strong>Decline:</strong> total revenue would be at most $57,090, below the original $57,100.'),'orange')+
+ p(link('accept-direct','Return to the one-seat example')),
+ [18,21],{className:'dy-slide ap-slide ap-booking-explanation',checkpoint:checkpoint('The new $390 ticket is for New York → Chicago → Los Angeles. Why compare its fare with $170 + $230?',['One passenger uses one seat on each flight, so both capacity dual variables enter the revenue bound.','Only the larger capacity dual variable matters because there is one passenger.','The two original direct-ticket fares must always add to the connecting-ticket fare.'],0,'The passenger uses both flights. Reserving those two seats lowers the dual upper bound for the original journeys by $170 + $230 = $400. Adding $390 cannot recover that loss.')}),
 slide('lhs-proof','Robust coefficient rows: prove both directions',p(raw`Let \(U=\{a:Da\le d\}\ne\varnothing\). Fix \(x\) and a finite bound \(\beta\).`)+box(p(raw`If there is \(\lambda\ge0\) with \(D^\top\lambda=x\) and \(d^\top\lambda\le\beta\), then for every \(a\in U\), \(a^\top x=(Da)^\top\lambda\le d^\top\lambda\le\beta\).`))+box(p(raw`Conversely, if \(a^\top x\le\beta\) for every \(a\in U\), the feasible inner LP has a finite optimum. LP strong duality gives an optimal \(\lambda\ge0\) with \(D^\top\lambda=x\) and \(d^\top\lambda\le\beta\).`),'green')+p('The nonempty uncertainty-set assumption avoids treating an impossible scenario model as a useful guarantee.'),[26,27]),
 slide('general-budget','Budgeted coefficient uncertainty with individual caps',p(raw`Let \(a=\bar a+\widehat a\odot z\), with \(\widehat a_j\ge0\), \(0\le z_j\le1\), \(\sum_jz_j\le\Gamma\), and \(x\ge0\). Here \(\odot\) means componentwise multiplication.`)+math(raw`\max_z\sum_j\widehat a_jx_jz_j\quad\text{s.t. }\sum_jz_j\le\Gamma,\quad0\le z_j\le1.`)+p(raw`Use \(\lambda\ge0\) for the budget row and \(\mu_j\ge0\) for each upper bound.`)+box(math(raw`\min\ \Gamma\lambda+\sum_j\mu_j\quad\text{s.t. }\lambda+\mu_j\ge\widehat a_jx_j,\quad\lambda,\mu\ge0.`),'green'),[25,26,46]),
 slide('budget-counterpart','The budgeted robust row is a finite LP constraint',p(raw`For \((\bar a+\widehat a\odot z)^\top x\le\beta\) in every budgeted scenario, introduce the inner dual variables:`)+math(raw`\bar a^\top x+\Gamma\lambda+\sum_j\mu_j\le\beta,\qquad\lambda+\mu_j\ge\widehat a_jx_j,\qquad\lambda,\mu\ge0.`)+box(p('Here the deviations for several coefficients compete inside one constraint. Increasing Γ beyond 1 can allow more coefficients to deviate together.'))+p(raw`For the two-product example, \(\bar a=(2,1)\), \(\widehat a=(1,1)\), and \(\beta=8\). At \(\Gamma=2\), the robust row is \(3x_1+2x_2\le8\).`),[26,27,46]),

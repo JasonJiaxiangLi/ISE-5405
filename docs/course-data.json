@@ -1176,26 +1176,38 @@
         {
           "auto_open": true,
           "choices": [
+            "The smallest total revenue loss from reserving that seat is $170; all 50 original $200 customers remain included.",
+            "The airline changes the price paid by every direct passenger from $200 to $170.",
+            "A dual variable is always equal to the ticket fare for that flight."
+          ],
+          "correct_index": 0,
+          "explanation": "The explicit ticket change loses $350 − $180 = $170. The dual bound proves that no feasible rearrangement loses less. The additional $180 payment therefore raises total revenue by $10.",
+          "page": 11,
+          "question": "Why compare the new $180 payment with $170 rather than the $200 direct-ticket fare?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
+            "The production quantities x are fixed; the uncertain scenario is optimized.",
+            "The uncertain scenario is fixed; the production quantities are optimized.",
+            "Both are fixed, so no optimization remains."
+          ],
+          "correct_index": 0,
+          "explanation": "To test chosen production quantities, keep x fixed and search over the allowed uncertain data for the largest consumption.",
+          "page": 20,
+          "question": "In the inner worst-case LP, which quantities are fixed?"
+        },
+        {
+          "auto_open": true,
+          "choices": [
             "One passenger uses one seat on each flight, so both capacity dual variables enter the revenue bound.",
             "Only the larger capacity dual variable matters because there is one passenger.",
             "The two original direct-ticket fares must always add to the connecting-ticket fare."
           ],
           "correct_index": 0,
           "explanation": "The passenger uses both flights. Reserving those two seats lowers the dual upper bound for the original journeys by $170 + $230 = $400. Adding $390 cannot recover that loss.",
-          "page": 11,
+          "page": 35,
           "question": "The new $390 ticket is for New York → Chicago → Los Angeles. Why compare its fare with $170 + $230?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
-            "The production plan x is fixed; the uncertain scenario is optimized.",
-            "The uncertain scenario is fixed; the production plan is optimized.",
-            "Both are fixed, so no optimization remains."
-          ],
-          "correct_index": 0,
-          "explanation": "To test one proposed plan, keep x fixed and search over the allowed uncertain data for the largest consumption.",
-          "page": 20,
-          "question": "In the inner worst-case LP, which quantities are fixed?"
         }
       ],
       "date": null,
@@ -1204,10 +1216,10 @@
       "display_number": 14,
       "id": "lecture-27",
       "number": 27,
-      "pdf_hash": "2d56f7621d17022502cd205d07a20904afb5f9eecd7d317fd5be4ea9ac53630a",
-      "pdf_size": 728384,
+      "pdf_hash": "8c50685ba9c7a1c417d43a5c4a86340980030c159ecf1c44d628c9ec696e5fbf",
+      "pdf_size": 742055,
       "pdf_url": "materials/lecture_27.pdf",
-      "pdf_url_versioned": "materials/lecture_27.pdf?v=2d56f7621d17",
+      "pdf_url_versioned": "materials/lecture_27.pdf?v=8c50685ba9c7",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
