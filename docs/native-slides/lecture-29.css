@@ -15,11 +15,22 @@
 .cg-slide .cg-flow {display:flex;flex-wrap:wrap;gap:.25em .65em;align-items:center;margin:.3em 0;}
 .cg-slide .cg-flow span {background:#eff6fa;border-bottom:3px solid #326b8c;padding:.25em .45em;}
 .cg-slide .cg-catalogue .dy-table :is(th,td) {padding:.12em .3em;}
+.cg-slide .cg-model-pair {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.7em;align-items:stretch;}
+.cg-slide .cg-model {min-width:0;padding:.25em .55em .35em;border-top:3px solid #326b8c;border-radius:.2em;background:#f1f7fa;}
+.cg-slide .cg-model[data-cg-model="dual"] {border-color:#861f41;background:#f8f1f4;}
+.cg-slide .cg-model h3 {font:inherit;font-weight:700;color:#731b3c;margin:0 0 .15em;line-height:1.2;}
+.cg-slide .cg-model .dy-math {margin:0;}
+.cg-slide .cg-model mjx-container[display="true"] {margin:.15em 0 !important;}
+.cg-paired-master .ns-slide-body {gap:.2em;}
+.cg-paired-master .dy-box {padding:.3em .55em;}
+.cg-slide .cg-intro-roll svg {max-height:10em;}
+.cg-master-introduction .dy-box {padding:.3em .55em;}
 @media(max-width:760px){
  [data-native-deck="lecture-29"] .ns-slide {font-size:18px;padding:1.1rem;}
  .cg-slide .ns-slide-body {flex:0 0 auto;}
  .cg-slide .ns-slide-body > * {flex-shrink:0;}
  .cg-slide .dy-pair {grid-template-columns:minmax(0,1fr);}
+ .cg-slide .cg-model-pair {grid-template-columns:minmax(0,1fr);}
  .cg-slide .dy-table {min-width:25em;}
  .cg-slide .dy-figure svg {max-height:none;}
  .cg-slide mjx-container {padding-bottom:.12em;}
