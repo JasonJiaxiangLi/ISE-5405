@@ -1257,18 +1257,6 @@
           "explanation": "The restricted solution is feasible for the full primal, and \\(p\\) is now feasible for the full dual. Their equal values prove optimality for the LP.",
           "page": 18,
           "question": "Pricing finds that every feasible pattern satisfies \\(p^\\top a\\le1\\). The restricted primal and dual have the same objective value. What follows?"
-        },
-        {
-          "auto_open": true,
-          "choices": [
-            "It is feasible for the full LP and attains an upper bound on its optimum.",
-            "It must satisfy every constraint at equality.",
-            "Its restricted objective value is always a lower bound."
-          ],
-          "correct_index": 0,
-          "explanation": "Removing constraints can only increase the maximum. A solution that attains that restricted maximum and satisfies all original rows proves equality of the two optima.",
-          "page": 30,
-          "question": "The optimum of a maximization LP with a subset of the original constraints satisfies every omitted constraint. Why can we stop?"
         }
       ],
       "date": null,
@@ -1277,10 +1265,10 @@
       "display_number": 15,
       "id": "lecture-29",
       "number": 29,
-      "pdf_hash": "a2d67e4d7cc2955548546277c7f2321b47084083665fb03bfeebb75a1244c565",
-      "pdf_size": 527589,
+      "pdf_hash": "73f2adc658770171a8d89421320694a302b20428caf0af2b64da18f27ba58dec",
+      "pdf_size": 531809,
       "pdf_url": "materials/lecture_29.pdf",
-      "pdf_url_versioned": "materials/lecture_29.pdf?v=a2d67e4d7cc2",
+      "pdf_url_versioned": "materials/lecture_29.pdf?v=73f2adc65877",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
