@@ -1292,7 +1292,7 @@
           ],
           "correct_index": 0,
           "explanation": "The capacity limits the total amount on the arc. Separate bounds would allow as many as 10 units.",
-          "page": 16,
+          "page": 17,
           "question": "For two commodities sharing an arc of capacity 5, which inequality represents the physical capacity?"
         },
         {
@@ -1304,7 +1304,7 @@
           ],
           "correct_index": 0,
           "explanation": "A residual arc represents an allowed change to the current original flows. Its capacity is the amount that can be canceled without making the original flow negative.",
-          "page": 28,
+          "page": 29,
           "question": "Why may a reverse residual arc b → a be available when there is no original arc b → a?"
         }
       ],
@@ -1314,10 +1314,10 @@
       "display_number": 16,
       "id": "lecture-30",
       "number": 30,
-      "pdf_hash": "59e0101187964484fe1c23389d1055b34bae4b0ad9b6add2764acf738e06c405",
-      "pdf_size": 737978,
+      "pdf_hash": "3dc81b2a55b8ce7c8750a6f08ff13555fe4676917e8d7f183756b5cfe503953e",
+      "pdf_size": 778546,
       "pdf_url": "materials/lecture_30.pdf",
-      "pdf_url_versioned": "materials/lecture_30.pdf?v=59e010118796",
+      "pdf_url_versioned": "materials/lecture_30.pdf?v=3dc81b2a55b8",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

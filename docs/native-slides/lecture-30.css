@@ -21,3 +21,12 @@
  .net-slide mjx-container {padding-bottom:.12em;}
 }
 @media print {.net-slide .ns-slide-body {flex:1 1 auto;}.net-slide .net-graph svg {max-height:13.9em;}.net-slide .ns-slide-body > .net-graph svg {max-height:10em;}}
+
+/* Keep the local depot picture beside its balance, without shrinking the math. */
+.net-conservation .net-graph svg {max-height:7.4em;}
+@media(max-width:760px){.net-conservation .net-graph svg {max-height:none;}}
+@media print {.net-conservation .net-graph svg {max-height:7.4em;}}
+
+.net-conservation .ns-slide-body > * {flex-shrink:0;}
+.net-conservation .dy-math {margin:0;}
+.net-conservation mjx-container[display="true"] {margin:.1em 0 !important;}
