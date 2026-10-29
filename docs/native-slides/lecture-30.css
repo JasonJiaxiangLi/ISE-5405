@@ -30,3 +30,7 @@
 .net-conservation .ns-slide-body > * {flex-shrink:0;}
 .net-conservation .dy-math {margin:0;}
 .net-conservation mjx-container[display="true"] {margin:.1em 0 !important;}
+
+.net-cost-practice .ns-slide-body > * {flex-shrink:0;}
+.net-cost-practice .dy-math {margin:0;}
+.net-cost-practice mjx-container[display="true"] {margin:.1em 0 !important;}
