@@ -1243,7 +1243,7 @@
           ],
           "correct_index": 0,
           "explanation": "The missing dual inequality is \\(p^\\top a\\le1\\). Its violation gives reduced cost \\(1-1.4=-0.4\\). Reoptimization determines the actual change.",
-          "page": 9,
+          "page": 12,
           "question": "For the minimization cutting-stock LP, a new pattern has cost 1 and \\(p^\\top a=1.4\\). What does this show?"
         },
         {
@@ -1255,7 +1255,7 @@
           ],
           "correct_index": 1,
           "explanation": "The restricted solution is feasible for the full primal, and \\(p\\) is now feasible for the full dual. Their equal values prove optimality for the LP.",
-          "page": 17,
+          "page": 18,
           "question": "Pricing finds that every feasible pattern satisfies \\(p^\\top a\\le1\\). The restricted primal and dual have the same objective value. What follows?"
         },
         {
@@ -1267,7 +1267,7 @@
           ],
           "correct_index": 0,
           "explanation": "Removing constraints can only increase the maximum. A solution that attains that restricted maximum and satisfies all original rows proves equality of the two optima.",
-          "page": 29,
+          "page": 30,
           "question": "The optimum of a maximization LP with a subset of the original constraints satisfies every omitted constraint. Why can we stop?"
         }
       ],
@@ -1277,10 +1277,10 @@
       "display_number": 15,
       "id": "lecture-29",
       "number": 29,
-      "pdf_hash": "27f0e9e5660ed00d477967890a4046271c7cc4ca3e9526f9edc4b0ee47f764fe",
-      "pdf_size": 508750,
+      "pdf_hash": "a2d67e4d7cc2955548546277c7f2321b47084083665fb03bfeebb75a1244c565",
+      "pdf_size": 527589,
       "pdf_url": "materials/lecture_29.pdf",
-      "pdf_url_versioned": "materials/lecture_29.pdf?v=27f0e9e5660e",
+      "pdf_url_versioned": "materials/lecture_29.pdf?v=a2d67e4d7cc2",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,

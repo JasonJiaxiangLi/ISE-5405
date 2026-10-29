@@ -18,7 +18,7 @@ function mountRows({slideElement,clearMath,typesetMath}){const root=slideElement
 // Keep each displayed dual beside the exact restricted primal it belongs to.
 const restrictedPrimal=count=>math(raw`\begin{aligned}\min\quad&${Array.from({length:count},(_,i)=>`x_${i+1}`).join('+')}\\\text{s.t.}\quad&3x_1${count===5?'+2x_5':''}\ge4,\\&2x_2${count>=4?'+x_4':''}${count===5?'+x_5':''}\ge3,\\&x_3${count>=4?'+x_4':''}\ge2,\\&x_1,\ldots,x_${count}\ge0.\end{aligned}`);
 const restrictedDual=count=>math(raw`\begin{aligned}\max\quad&4p_1+3p_2+2p_3\\\text{s.t.}\quad&3p_1\le1,\\&2p_2\le1,\\&p_3\le1,\\${count>=4?raw`&p_2+p_3\le1,\\`:''}${count===5?raw`&2p_1+p_2\le1,\\`:''}&p_1,p_2,p_3\ge0.\end{aligned}`);
-const masterPair=count=>`<div class="cg-model-pair" data-cg-pattern-count="${count}" role="group" aria-label="Corresponding primal and dual for patterns 1 to ${count}"><section class="cg-model" data-cg-model="primal"><h3>Primal · patterns 1–${count}</h3>${restrictedPrimal(count)}</section><section class="cg-model" data-cg-model="dual"><h3>Dual · one inequality per pattern</h3>${restrictedDual(count)}</section></div>`;
+const masterPair=(count,highlightFourth=false)=>`<div class="cg-model-pair" data-cg-pattern-count="${count}" role="group" aria-label="Corresponding primal and dual for patterns 1 to ${count}"><section class="cg-model" data-cg-model="primal"><h3>Primal · patterns 1–${count}</h3>${highlightFourth?restrictedPrimal(count).replaceAll('x_4',raw`\boldsymbol{x_4}`):restrictedPrimal(count)}</section><section class="cg-model" data-cg-model="dual"><h3>Dual · one inequality per pattern</h3>${highlightFourth?restrictedDual(count).replace(raw`p_2+p_3\le1`,raw`\boxed{p_2+p_3\le1}`):restrictedDual(count)}</section></div>`;
 const demandKey=()=>p(raw`Demand: 4, 3, 2 pieces of widths 3, 4, 6; dual variables: \(p_1,p_2,p_3\), respectively.`);
 function introductoryRoll(){return `<figure class="dy-figure cg-intro-roll"><svg viewBox="0 0 600 245" role="img" aria-label="A roll of width 10. One possible cut gives three pieces of width 3 and unused width 1."><text x="30" y="30">Original roll: width 10</text><rect x="30" y="48" width="540" height="42" fill="#d8eaf3" stroke="#326b8c" stroke-width="2"/><text x="30" y="132">One possible cut</text>${[0,1,2].map(i=>`<rect x="${30+i*162}" y="150" width="162" height="44" fill="#326b8c" stroke="white" stroke-width="2"/><text x="${111+i*162}" y="181" text-anchor="middle" style="fill:white;font-weight:700">3</text>`).join('')}<rect x="516" y="150" width="54" height="44" fill="#e2e5e7" stroke="white" stroke-width="2"/><text x="543" y="181" text-anchor="middle">1</text><text x="30" y="230">Three pieces; gray is unused width.</text></svg><figcaption>Widths add up to 3 + 3 + 3 + 1 = 10.</figcaption></figure>`;}
 const fullRows=()=>math(raw`\begin{aligned}\max\quad&3x_1+2x_2\\\text{s.t.}\quad&x_1+x_2\le5,\quad 2x_1+x_2\le6,\\&0\le x_1\le4,\quad0\le x_2\le4.\end{aligned}`);
@@ -35,15 +35,15 @@ slide('cutting-model','Example: a paper mill must fill customer orders',
  pair(table(['Width of each piece','Pieces ordered'],[['3','4'],['4','3'],['6','2']])+p('Every original roll has the same cost. Unused width is discarded.'),introductoryRoll())+
  box(p('<strong>Decision:</strong> how should we cut the rolls, and how many rolls should we use? Meet every order using as few original rolls as possible. Extra pieces are allowed.'),'green'),[53,58]),
 slide('initial-patterns','One cutting pattern becomes one LP variable',
- pair(p('A <strong>cutting pattern</strong> is one way of cutting one roll. Begin with the three patterns shown.')+
+ pair(p('A <strong>cutting pattern</strong> describes the entire cut of one roll. Start with these three choices; other patterns can be added later.')+
  p(raw`Pattern \(j\) has fixed piece counts \(a^{(j)}\), in width order \((3,4,6)\). For example, \(a^{(1)}=(3,0,0)\).`)+
  box(p(raw`\(x_j\) counts the rolls using pattern \(j\). Pattern 1 therefore produces \(3x_1\) width-3 pieces.`))+
  p(raw`Each pattern supplies one column of LP coefficients. A feasible pattern \(a\) satisfies \(3a_1+4a_2+6a_3\le10\), with nonnegative integer piece counts.`),patternFigure([0,1,2])),[54,59]),
 slide('initial-master','Write the LP using only these three patterns',
  p('Patterns 1, 2, 3 produce (3,0,0), (0,2,0), (0,0,1) pieces per roll, respectively. Orders are 4 width-3, 3 width-4, and 2 width-6 pieces.')+
  restrictedPrimal(3)+
- p(raw`The row \(3x_1\ge4\): each roll gives 3 width-3 pieces; the order needs 4. Minimize total rolls.`)+
- box(p('<strong>Restricted master problem:</strong> keep all demand constraints, but allow only these three patterns.'))+
+ p(raw`The row \(3x_1\ge4\) counts width-3 pieces. Each pattern already fits width 10; here we choose how many rolls use it.`)+
+ box(p('<strong>Restricted master problem:</strong> keep all demand constraints, but start with only these three patterns.'))+
  box(p(raw`The <strong>continuous LP relaxation</strong> allows fractional \(x_j\). For the same included patterns, this cannot increase the minimum.`),'orange'),[54,59],{className:'dy-slide cg-slide cg-master-introduction'}),
 slide('initial-solution','The first solution uses 29/6 rolls in the LP',math(raw`x_1=\frac43,\qquad x_2=\frac32,\qquad x_3=2,\qquad z=\frac43+\frac32+2=\frac{29}{6}.`)+table(['Produced pieces','Calculation','Demand'],[['Width 3',raw`\(3(4/3)=4\)`,'4'],['Width 4',raw`\(2(3/2)=3\)`,'3'],['Width 6',raw`\(1(2)=2\)`,'2']])+box(p('These pattern quantities are feasible for the full pattern LP: set every omitted pattern quantity to zero. More available patterns may lower its cost.'),'green'),[59]),
 slide('initial-dual','The three-pattern LP and its dual',
@@ -51,15 +51,35 @@ slide('initial-dual','The three-pattern LP and its dual',
  p(raw`Pattern 1 gives \(3p_1\le1\); patterns 2 and 3 give \(2p_2\le1\) and \(p_3\le1\). Each right-hand side is 1 because one use of a pattern uses one roll.`)+
  math(raw`x=(4/3,3/2,2),\qquad p=(1/3,1/2,1),\qquad\text{both values}=29/6.`)+
  box(p('<strong>Optimal with these three patterns.</strong> Could another cutting pattern reduce the number of rolls?'),'green'),[56,60],{className:'dy-slide cg-slide cg-paired-master'}),
-slide('missing-pattern','One omitted pattern breaks the current dual certificate',pair(p(raw`Pattern 4 cuts one width-4 piece and one width-6 piece: \(a^{(4)}=(0,1,1)\).`)+math(raw`p^\top a^{(4)}=\frac12+1=\frac32>1.`)+box(p(raw`Its reduced cost is \(1-p^\top a^{(4)}=-\frac12\). The current dual vector violates the missing constraint \(p_2+p_3\le1\).`),'orange')+p('Add this column and solve the restricted LP again.'),patternFigure([3])),[56,60]),
-slide('pricing','Pricing: search for a column with negative reduced cost',p(raw`Every roll costs 1. For any feasible pattern \(a\), compute`)+math(raw`\bar c(a)=1-p^\top a=1-(p_1a_1+p_2a_2+p_3a_3).`)+box(p(raw`Find the largest \(p^\top a\) over <strong>all feasible patterns</strong>. If it exceeds 1, that pattern has negative reduced cost.`))+p('This search is called <strong>pricing</strong>. Here the patterns are small enough to list; we do not need an integer-programming algorithm.')+p('Negative reduced cost identifies a candidate. Degeneracy can still prevent an immediate strict improvement.'),[56,57],{checkpoint:checkpoint(raw`For the minimization cutting-stock LP, a new pattern has cost 1 and \(p^\top a=1.4\). What does this show?`,[raw`Its reduced cost is \(-0.4\); the current full-dual certificate fails.`,'The current solution is infeasible.','The full LP optimum must immediately decrease by exactly 0.4.'],0,raw`The missing dual inequality is \(p^\top a\le1\). Its violation gives reduced cost \(1-1.4=-0.4\). Reoptimization determines the actual change.`)}),
-slide('add-first','Add pattern 4 as one new variable',math(raw`\begin{aligned}\min\quad&x_1+x_2+x_3+x_4\\\text{s.t.}\quad&3x_1\ge4,\\&2x_2+x_4\ge3,\\&x_3+x_4\ge2,\qquad x\ge0.\end{aligned}`)+box(p(raw`The new column is \(a^{(4)}=(0,1,1)\): it adds no width-3 pieces, one width-4 piece, and one width-6 piece per roll.`))+p('Retain all earlier columns, including a column whose new quantity becomes zero.'),[57,60]),
+slide('missing-pattern','Another way to cut one roll',
+ pair(p('The first three patterns are starting choices. A roll may also contain pieces of different widths.')+
+ math(raw`4+6=10,\qquad a^{(4)}=(0,1,1).`)+
+ p('Pattern 4 gives no width-3 pieces, one width-4 piece, and one width-6 piece.')+
+ box(p(raw`Let \(x_4\) be the number of rolls using pattern 4. It adds \(x_4\) to each of the last two demand rows and to the total rolls used.`))+
+ p('Keep patterns 1–3 as available choices. Next, write the four-pattern LP and its dual.'),patternFigure([3])),[54,56,60]),
+slide('add-first','Adding a pattern adds a dual constraint',
+ p(raw`Orders: \((4,3,2)\) in width order \((3,4,6)\). The new variable \(x_4\) is bold.`)+
+ masterPair(4,true)+
+ p(raw`Column of \(x_4\): \((0,1,1)^\top\); objective coefficient: 1. Hence \(0p_1+p_2+p_3\le1\).`)+
+ box(p(raw`The left-hand side is \(p^\top a^{(4)}=0p_1+p_2+p_3\): multiply each column entry by its demand dual variable and add.`)),[54,56,60],{className:'dy-slide cg-slide cg-paired-master'}),
+slide('test-fourth','Does the previous dual solution still work?',
+ p(raw`From the three-pattern LP: \(p^{\mathrm{old}}=(1/3,1/2,1)\). Test it in the four-pattern dual below.`)+
+ masterPair(4)+
+ math(raw`(p^{\mathrm{old}})^\top a^{(4)}=0\left(\frac13\right)+1\left(\frac12\right)+1(1)=\frac32>1.`)+
+ p('The old dual solution fails the new inequality. Pattern 4 itself still fits the roll.')+
+ box(p(raw`<strong>Reduced cost:</strong> \(\bar c_4=1-(p^{\mathrm{old}})^\top a^{(4)}=1-\frac32=-\frac12\). Solve again with pattern 4.`),'orange'),[56,60],{className:'dy-slide cg-slide cg-paired-master cg-pattern-test'}),
 slide('first-reoptimization','With pattern 4, the optimum decreases to 23/6',
  p('Orders: 4, 3, 2 pieces of widths 3, 4, 6. Pattern 4 gives one width-4 and one width-6 piece.')+
  masterPair(4)+
  math(raw`x=(4/3,1/2,0,2),\qquad p=(1/3,1/2,1/2),\qquad\text{both values}=23/6.`)+
  p(raw`Demand checks: \(3(4/3)=4\), \(2(1/2)+2=3\), \(0+2=2\). All four dual inequalities also hold.`)+
  box(p('<strong>Optimal for patterns 1–4.</strong> Use the new dual variables to search for another pattern.'),'green'),[60,61],{className:'dy-slide cg-slide cg-paired-master'}),
+slide('pricing','How do we find the next pattern?',
+ p(raw`Use the updated dual solution \(p\). Each new pattern has cost 1, so its reduced cost is`)+
+ math(raw`\bar c(a)=1-p^\top a=1-(p_1a_1+p_2a_2+p_3a_3).`)+
+ box(p(raw`Search for the largest \(p^\top a\) among patterns satisfying \(3a_1+4a_2+6a_3\le10\), with nonnegative integer piece counts. This search is called <strong>pricing</strong>.`))+
+ p(raw`If \(p^\top a>1\), the pattern has negative reduced cost: add it and solve again. Here the patterns are small enough to list.`)+
+ p('Negative reduced cost identifies a candidate. Degeneracy can still prevent an immediate strict improvement.'),[56,57],{checkpoint:checkpoint(raw`For the minimization cutting-stock LP, a new pattern has cost 1 and \(p^\top a=1.4\). What does this show?`,[raw`Its reduced cost is \(-0.4\); the current full-dual certificate fails.`,'The current solution is infeasible.','The full LP optimum must immediately decrease by exactly 0.4.'],0,raw`The missing dual inequality is \(p^\top a\le1\). Its violation gives reduced cost \(1-1.4=-0.4\). Reoptimization determines the actual change.`)}),
 slide('second-practice','Your turn: price the next pattern',pair(p(raw`The current dual vector is \(p=(1/3,1/2,1/2)\). Consider pattern 5, \(a^{(5)}=(2,1,0)\).`)+box(p(raw`1. Check that the pieces fit within width 10.<br>2. Compute \(p^\top a^{(5)}\).<br>3. Compute \(1-p^\top a^{(5)}\).<br>4. Should this column be added?`))+p(raw`Pause for 5 minutes and write your four answers before ${link('second-answer','checking the next page')}.`),patternFigure([4])),[60,61]),
 slide('second-answer','Pattern 5 has reduced cost −1/6',math(raw`3(2)+4(1)+6(0)=10.`)+math(raw`p^\top a^{(5)}=2\left(\frac13\right)+\frac12=\frac76,\qquad\bar c(a^{(5)})=1-\frac76=-\frac16.`)+box(p('Add pattern 5. For these dual variables, it is the pattern with the largest value in the complete feasible-pattern list.'),'green')+p('The full list and its coverage are shown after the next reoptimization.'),[60,61]),
 slide('add-second','The restricted LP now has five pattern variables',math(raw`\begin{aligned}\min\quad&x_1+x_2+x_3+x_4+x_5\\\text{s.t.}\quad&3x_1+2x_5\ge4,\\&2x_2+x_4+x_5\ge3,\\&x_3+x_4\ge2,\qquad x\ge0.\end{aligned}`)+box(p(raw`A new optimal solution is \(x=(2/3,0,0,2,1)\), with \(z=11/3\).`),'green')+p(raw`Check production: \(3(2/3)+2=4\), \(2+1=3\), and \(2=2\).`),[61]),

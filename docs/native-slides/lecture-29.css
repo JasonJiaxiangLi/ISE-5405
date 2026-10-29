@@ -23,6 +23,8 @@
 .cg-slide .cg-model mjx-container[display="true"] {margin:.15em 0 !important;}
 .cg-paired-master .ns-slide-body {gap:.2em;}
 .cg-paired-master .dy-box {padding:.3em .55em;}
+.cg-pattern-test .ns-slide-body > .dy-math {margin:0;}
+.cg-pattern-test .ns-slide-body > .dy-math mjx-container[display="true"] {margin:.15em 0 !important;}
 .cg-slide .cg-intro-roll svg {max-height:10em;}
 .cg-master-introduction .dy-box {padding:.3em .55em;}
 @media(max-width:760px){
