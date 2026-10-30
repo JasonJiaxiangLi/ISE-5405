@@ -1375,10 +1375,10 @@
       "display_number": 17,
       "id": "lecture-31",
       "number": 31,
-      "pdf_hash": "6ff700183090cbf0a48df2b01c14c1e353a925e75ad5fd2cef7a03bd3a7a8ac5",
-      "pdf_size": 740757,
+      "pdf_hash": "ec90844d0cd5bd2a3999fb3036590e9d0102efa24ba727819f36497f8da6c33f",
+      "pdf_size": 741400,
       "pdf_url": "materials/lecture_31.pdf",
-      "pdf_url_versioned": "materials/lecture_31.pdf?v=6ff700183090",
+      "pdf_url_versioned": "materials/lecture_31.pdf?v=ec90844d0cd5",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -1390,6 +1390,115 @@
       ],
       "title": "Shortest Paths and Spanning Trees",
       "viewer_url": "lectures/lecture-31",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Every worker chose its cheapest original entry.",
+            "It uses only active dual constraints, and the dual is feasible.",
+            "Every entry in the reduced table is zero."
+          ],
+          "correct_index": 1,
+          "explanation": "The chosen pairs have zero reduced cost. Their total original cost equals the feasible dual lower bound, 49.",
+          "page": 17,
+          "question": "Why is this complete assignment optimal?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Build and certify an assignment with a complete Hungarian trace, alternating paths, dual adjustments, and an auction example.",
+      "display_number": 18,
+      "id": "lecture-32",
+      "number": 32,
+      "pdf_hash": "c819097ff4f94cdcfd5ac102bae5085bc8e6740558149bc0dcacbfdbc052d7bb",
+      "pdf_size": 601569,
+      "pdf_url": "materials/lecture_32.pdf",
+      "pdf_url_versioned": "materials/lecture_32.pdf?v=c819097ff4f9",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "assignment",
+        "Hungarian",
+        "auction"
+      ],
+      "title": "Assignment and the Hungarian Method",
+      "viewer_url": "lectures/lecture-32",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Zero basic flows never matter.",
+            "Its flow increases along this particular cycle.",
+            "Only the entering arc has to remain nonnegative."
+          ],
+          "correct_index": 1,
+          "explanation": "The ratio test restricts decreasing basic flows. Here x₁₂ becomes θ ≥ 0; x₁₃ and x₃₄ become 10 - θ.",
+          "page": 17,
+          "question": "Why did x₁₂ = 0 not force a zero step?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Connect node balances, incidence matrices, spanning-tree bases, dictionaries, reduced costs, and one complete network-simplex pivot.",
+      "display_number": 19,
+      "id": "lecture-33",
+      "number": 33,
+      "pdf_hash": "9d555f9bc7d27c33761c736b1bce8de8f7e6ac91e0bf1781a4680a274da7f890",
+      "pdf_size": 475397,
+      "pdf_url": "materials/lecture_33.pdf",
+      "pdf_url_versioned": "materials/lecture_33.pdf?v=9d555f9bc7d2",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "network simplex",
+        "minimum-cost flow"
+      ],
+      "title": "Network Simplex I: Tree Bases and Pivots",
+      "viewer_url": "lectures/lecture-33",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "The objective decreased by 1.",
+            "The flows stayed fixed, but the basis and its dual candidate changed.",
+            "The algorithm proved optimality."
+          ],
+          "correct_index": 1,
+          "explanation": "The step was zero, so the same flow and cost remain. Replacing arc 45 by arc 43 changes the basis equations and the computed reduced costs.",
+          "page": 16,
+          "question": "After pivot 1, what changed?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Work through capacity-limited pivots, bound flips, zero-length pivots, artificial-root initialization, and the integrality of network LPs.",
+      "display_number": 20,
+      "id": "lecture-34",
+      "number": 34,
+      "pdf_hash": "e4ae57dc30d41b4c271c1187fa2e39062fb06ac3b740c85b731334422779d915",
+      "pdf_size": 560207,
+      "pdf_url": "materials/lecture_34.pdf",
+      "pdf_url_versioned": "materials/lecture_34.pdf?v=e4ae57dc30d4",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "network simplex",
+        "minimum-cost flow"
+      ],
+      "title": "Network Simplex II: Bounds, Initialization, and Integrality",
+      "viewer_url": "lectures/lecture-34",
       "whiteboards": 3
     }
   ],

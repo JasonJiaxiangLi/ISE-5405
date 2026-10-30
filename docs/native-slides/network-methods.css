@@ -1,0 +1,21 @@
+@import url('./duality.css');
+:is([data-native-deck="lecture-32"],[data-native-deck="lecture-33"],[data-native-deck="lecture-34"]) .ns-slide {font-size:clamp(18px,1.95cqw,30px);padding:2.1cqw 4.4cqw;gap:0;}
+.nm-slide .ns-slide-header h1 {font-size:1.48em;}
+.nm-slide .ns-slide-body {padding-bottom:.5em;}
+.nm-slide .dy-table :is(th,td) {padding:.17em .32em;}
+.nm-slide .dy-table-wrap:focus-visible {outline:3px solid #1874ad;outline-offset:2px;}
+.nm-slide .dy-figure svg {max-height:13.5em;}
+.nm-slide .dy-figure svg text {font-size:24px;}
+.nm-slide .nm-label {paint-order:stroke;stroke:#f7fafc;stroke-width:9px;stroke-linejoin:round;font-size:22px!important;}
+.nm-slide .nm-zero {font-weight:750;color:#731b3c;}
+.nm-slide .nm-covered {background:#f9e9d9;}
+.nm-slide .nm-matched {outline:3px solid #861f41;outline-offset:-4px;}
+.nm-slide .nm-model {background:#f1f6f9;padding:.25em .5em;border-left:.2em solid #326b8c;}
+@media(max-width:760px){
+ :is([data-native-deck="lecture-32"],[data-native-deck="lecture-33"],[data-native-deck="lecture-34"]) .ns-slide {font-size:18px;padding:1.1rem;}
+ .nm-slide .ns-slide-body {flex:0 0 auto;}
+ .nm-slide .ns-slide-body>* {flex-shrink:0;}
+ .nm-slide .dy-pair {grid-template-columns:minmax(0,1fr);}
+ .nm-slide .dy-figure svg {max-height:none;}
+}
+@media print{.nm-slide .ns-slide-body{flex:1 1 auto;}.nm-slide .dy-figure svg{max-height:13.5em;}}

@@ -58,6 +58,13 @@ algorithm traces, new practice examples, and numerical corrections are new
 course contributions; the adapted graphs and instructional material remain
 excluded from the repository’s reuse licenses.
 
+Assignment and the Hungarian Method, and Network Simplex I–II, also adapt
+Robert’s Lectures 15–17, including the assignment matrices and the textbook’s
+Example 7.3. The alternating-search explanations, corrected numerical
+calculations, capacity comparisons, artificial-root example, diagrams and
+practice solutions are new course contributions. Underlying faculty and
+textbook material remains excluded from this repository’s reuse licenses.
+
 ## GILP and other instructional references
 
 The Simplex I materials use selected states from the GILP reference sequence:
