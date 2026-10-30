@@ -34,3 +34,14 @@
 .net-cost-practice .ns-slide-body > * {flex-shrink:0;}
 .net-cost-practice .dy-math {margin:0;}
 .net-cost-practice mjx-container[display="true"] {margin:.1em 0 !important;}
+
+/* Keep search steps and their graph together at normal lecture text size. */
+.net-search .net-graph .net-layer-label {font-size:22px;font-weight:700;fill:#741f3e;}
+.net-search .net-graph svg {max-height:13em;}
+.net-slide:is(.net-search,.net-algorithm,.net-efficiency,.net-slow,.net-bfs-proof) .ns-slide-body > * {flex-shrink:0;}
+.net-slide:is(.net-search,.net-algorithm,.net-efficiency,.net-slow,.net-bfs-proof) .dy-math {margin:0;}
+.net-slide:is(.net-search,.net-algorithm,.net-efficiency,.net-slow,.net-bfs-proof) mjx-container[display="true"] {margin:.1em 0 !important;}
+@media(max-width:760px){.net-search .net-graph svg {max-height:none;}}
+
+.net-slide:is(.net-search,.net-slow) .ns-slide-body {gap:.25em;}
+.net-search .dy-stack {gap:.25em;}
