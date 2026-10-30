@@ -1304,7 +1304,7 @@
           ],
           "correct_index": 0,
           "explanation": "A residual arc represents an allowed change to the current original flows. Its capacity is the amount that can be canceled without making the original flow negative.",
-          "page": 31,
+          "page": 30,
           "question": "Why may a reverse residual arc b → a be available when there is no original arc b → a?"
         }
       ],
@@ -1314,10 +1314,10 @@
       "display_number": 16,
       "id": "lecture-30",
       "number": 30,
-      "pdf_hash": "aa159c2439641bbeb5f4ceb8e6389c33f49d3657aad64c59ce94bd7fb46caf88",
-      "pdf_size": 901447,
+      "pdf_hash": "d54c0186f60969f16a7312fb5cdb29b3ea90084ab244380427ea7f7f1bf20512",
+      "pdf_size": 887837,
       "pdf_url": "materials/lecture_30.pdf",
-      "pdf_url_versioned": "materials/lecture_30.pdf?v=aa159c243964",
+      "pdf_url_versioned": "materials/lecture_30.pdf?v=d54c0186f609",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
