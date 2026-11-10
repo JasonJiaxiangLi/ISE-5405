@@ -12,6 +12,7 @@ const edgeKey=(u,v)=>[u,v].sort().join('-');
 
 export const shortestGraph={nodes:['s','a','b','c','d','t'],source:'s',directed:false,positions:{s:[55,185],a:[215,75],b:[215,295],c:[400,75],d:[400,295],t:[560,185]},edges:[['s','a',3],['s','b',5],['a','b',2],['a','c',2],['a','d',6],['b','d',4],['c','d',5],['c','t',3],['d','t',2]]};
 export const negativeGraph={nodes:['s','a','b','t'],source:'s',directed:true,positions:{s:[60,185],a:[270,75],b:[270,295],t:[540,185]},edges:[['s','a',2],['s','b',5],['b','a',-4],['a','t',2],['b','t',5]]};
+export const negativeCycleGraph={...negativeGraph,edges:[...negativeGraph.edges,['a','b',1]]};
 export const treeGraph={nodes:['A','B','C','D','E'],source:'A',directed:false,positions:{A:[55,185],B:[230,75],C:[230,295],D:[485,75],E:[485,295]},edges:[['A','B',1],['A','C',3],['B','C',2],['B','D',4],['C','D',5],['C','E',6],['D','E',2]]};
 
 export function dijkstraTrace(graph=shortestGraph){
@@ -53,7 +54,7 @@ export function kruskalTrace(graph=treeGraph){
  }
  return result;
 }
-const dTrace=dijkstraTrace(),bTrace=bellmanFordTrace(),pTrace=primTrace(),kTrace=kruskalTrace();
+const dTrace=dijkstraTrace(),bTrace=bellmanFordTrace(),cycleTrace=bellmanFordTrace(negativeCycleGraph),pTrace=primTrace(),kTrace=kruskalTrace();
 function graphFigure(graph,{chosen=[],settled=[],distances=null,focus=[],caption='',label='',distanceName='d'}={}){
  const selected=new Set(chosen.map(e=>graph.directed?`${e[0]}-${e[1]}`:edgeKey(e[0],e[1]))),focused=new Set(focus.map(e=>graph.directed?`${e[0]}-${e[1]}`:edgeKey(e[0],e[1])));
  const description=`${graph.directed?'Directed':'Undirected'} graph. ${graph.edges.map(([u,v,c])=>`${u} ${graph.directed?'to':'to and from'} ${v}: cost ${c}`).join('; ')}. ${label}`;
@@ -61,6 +62,14 @@ function graphFigure(graph,{chosen=[],settled=[],distances=null,focus=[],caption
  return `<figure class="dy-figure na-graph"><svg viewBox="0 0 620 390" role="img" aria-label="${description}${stateDescription}">${graph.edges.map(([u,v,c])=>{
   const [x1,y1]=graph.positions[u],[x2,y2]=graph.positions[v],dx=x2-x1,dy=y2-y1,length=Math.hypot(dx,dy),ux=dx/length,uy=dy/length;
   const key=graph.directed?`${u}-${v}`:edgeKey(u,v),active=selected.has(key),fresh=focused.has(key),color=fresh?'#b95013':active?'#861f41':'#748792',width=active||fresh?6:2.5;
+  // Separate opposite directed arcs so their arrowheads and costs stay distinct.
+  if(graph.directed&&graph.edges.some(([a,b])=>a===v&&b===u)){
+   const cx=(x1+x2)/2+65*uy,cy=(y1+y2)/2-65*ux;
+   const startLength=Math.hypot(cx-x1,cy-y1),endLength=Math.hypot(x2-cx,y2-cy);
+   const tx=(x2-cx)/endLength,ty=(y2-cy)/endLength;
+   const start=[x1+27*(cx-x1)/startLength,y1+27*(cy-y1)/startLength],end=[x2-27*tx,y2-27*ty];
+   return `<path d="M ${start[0]} ${start[1]} Q ${cx} ${cy} ${end[0]} ${end[1]}" fill="none" stroke="${color}" stroke-width="${width}"/><polygon points="${end[0]},${end[1]} ${end[0]-13*tx+6*ty},${end[1]-13*ty-6*tx} ${end[0]-13*tx-6*ty},${end[1]-13*ty+6*tx}" fill="${color}"/><text class="na-cost" x="${(x1+x2)/2+62*uy}" y="${(y1+y2)/2-62*ux+8}" text-anchor="middle">${c}</text>`;
+  }
   const end=[x2-27*ux,y2-27*uy],start=[x1+27*ux,y1+27*uy];
   const offset=u==='a'&&v==='d'?[-14,-6]:u==='C'&&v==='D'?[-20,-6]:dx===0?[25,0]:[0,-14];
   return `<line x1="${start[0]}" y1="${start[1]}" x2="${end[0]}" y2="${end[1]}" stroke="${color}" stroke-width="${width}"/>${graph.directed?`<polygon points="${end[0]},${end[1]} ${end[0]-13*ux+6*uy},${end[1]-13*uy-6*ux} ${end[0]-13*ux-6*uy},${end[1]-13*uy+6*ux}" fill="${color}"/>`:''}<text class="na-cost" x="${(x1+x2)/2+offset[0]}" y="${(y1+y2)/2+offset[1]}" text-anchor="middle">${c}</text>`;
@@ -71,6 +80,7 @@ const distanceTable=states=>`<div class="na-trace">${table(['Selected',...shorte
 const dFigure=(k,highlight=[])=>graphFigure(shortestGraph,{distances:dTrace[k].distances,settled:dTrace[k].settled,chosen:dTrace[k].predecessors.map((u,i)=>u?[u,shortestGraph.nodes[i]]:null).filter(Boolean),focus:highlight,caption:'Undirected edges; labels are costs. Filled nodes have final distances. Bold edges record current predecessors.'});
 const bFigure=(k,chosen=[])=>graphFigure(negativeGraph,{distances:bTrace[k],chosen,distanceName:`D${['₀','₁','₂','₃','₄'][k]}`,caption:`Node labels: row ${k} (≤ ${k} ${k===1?'arc':'arcs'}). Arc labels: costs.`});
 const bTable=ks=>table(['Pass k',...negativeGraph.nodes],ks.map(k=>[k,...bTrace[k].map(show)]));
+const cycleFigure=k=>graphFigure(negativeCycleGraph,{chosen:[['b','a']],focus:[['a','b']],distances:k===undefined?null:cycleTrace[k],distanceName:`D${k===4?'₄':k}`,caption:k===undefined?'Orange: new a → b arc. Arc labels are costs.':'Node labels: row 4. Orange: new a → b arc.'});
 const treeState=(trace,k,extra={})=>graphFigure(treeGraph,{chosen:trace[k].chosen,settled:trace===pTrace?trace[k].reached:[],...extra,caption:extra.caption||'Undirected edges; labels are costs. Bold maroon edges have been selected.'});
 export const metadata={id:'lecture-31',number:31,title:'Shortest Paths and Spanning Trees',subtitle:'Lecture 17 · Four algorithms on small networks',course:'ISE 5405 · Optimization I',homeUrl:'../../',pdfUrl:'../../materials/lecture_31.pdf',whiteboards:3};
 export const mainSlides=[
@@ -127,7 +137,21 @@ export const mainSlides=[
   +box(p('<strong>Shortest route:</strong> s → b → a → t, with cost 5 − 4 + 2 = 3.'),'green')
   +p('Stop: row 4 = row 3. All comparisons are unchanged, so no later row can improve.'),
   [],{source:'New complete Bellman–Ford example'}),
- slide('negative-cycles','When a finite shortest distance does not exist',p('A <strong>negative-cost directed cycle</strong> is a directed cycle whose arc costs sum to a negative number.')+box(p('If the cycle is reachable from s and can reach t, repeat the cycle before traveling to t. Each repetition lowers the cost, so there is no finite minimum walk cost to t.'),'orange')+p(raw`For a graph with n nodes, a strict improvement on pass n detects a negative-cost cycle reachable from s. Only nodes reachable <em>from that cycle</em> have distance \(-\infty\).`)+box(p('An unreachable negative cycle does not affect distances from s. A reachable cycle that cannot reach t does not destroy the finite shortest distance to t.'))+p(raw`${link('negative-cycle-proof','Appendix: why the pass-n test works.')}`),[],{source:'BT §7.9; Robert final-topic guide p5'}),
+ slide('negative-cycles','A negative cycle makes the cost unbounded below',
+  p('Add a → b with cost 1 to the previous graph; all other arcs stay unchanged.')
+  +pair(p('<strong>Negative-cost directed cycle:</strong> a → b → a has total cost 1 − 4 = −3.')
+   +p('Start: s → b → a → t, cost 3.<br>One repetition: s → b → a → b → a → t, cost 0.')
+   +table(['Cycle repetitions r','Walk cost'],[['0','3'],['1','3 − 3 = 0'],['2','3 − 6 = −3'],[raw`\(r=0,1,2,\ldots\)`,'3 − 3r']]),cycleFigure())
+  +box(p(raw`Repeat the cycle \(r\) times before going to t: \(3-3r\to-\infty\). There is <strong>no finite minimum walk cost</strong>; every finite walk still has a finite cost.`),'orange'),
+  [],{source:'New negative-cycle extension of the Bellman–Ford example; BT §7.9'}),
+ slide('negative-cycle-detection','How Bellman–Ford detects the negative cycle',
+  pair(p(raw`Four nodes, \(n=4\). Compare rows 3 and 4:`)
+   +table(['Pass k',...negativeCycleGraph.nodes],[3,4].map(k=>[k,...cycleTrace[k].map(show)]))
+   +math(raw`D_4(t)=\min\{3,-1+2,2+5\}=1\lt3.`)
+   +box(p(raw`If <strong>any entry decreases on pass \(n\)</strong>, a negative-cost cycle is reachable from s.`)),cycleFigure(4))
+  +box(p(raw`For the value at t to be \(-\infty\), <strong>both connections</strong> must exist: s → cycle and cycle → t. Here s → b reaches the cycle, and a → t reaches the destination.`),'orange')
+  +p(raw`${link('negative-cycle-proof','Appendix: why the pass-n test works.')}`),
+  [],{source:'New worked detection example; BT §7.9; Robert final-topic guide p5'}),
  slide('shortest-summary','Choose the shortest-path algorithm by its assumptions',table(['','Dijkstra','Bellman–Ford'],[['Arc costs','All nonnegative','May be negative'],['Progress','Finalize a node','Allow one more arc per pass'],['Can a label improve later?','Not after it is final','Yes, on later passes'],['Typical work',raw`\(O(n^2+m)\) by simple scans`,raw`\(O(nm)\) for n passes`],['Negative-cycle information','Not applicable','Detects cycles reachable from s']])+p(raw`Here n is the number of nodes and m the number of arcs; represent undirected edges by opposite arcs. A binary-heap Dijkstra implementation takes \(O((n+m)\log n)\).`),[44],{checkpoint:checkpoint('A graph has one negative arc but no directed cycle. Which statement is correct?',['Dijkstra is guaranteed to work.','Bellman–Ford finds finite shortest distances to the reachable nodes.','Every destination has distance minus infinity.'],1,'A negative arc is different from a negative cycle. Bellman–Ford allows negative arcs, whereas Dijkstra’s finalization proof requires nonnegative costs.')}),
  slide('tree-definition','A spanning tree connects every node without a cycle',box(p('For an undirected graph, a <strong>tree</strong> is connected and has no cycle. A <strong>spanning tree</strong> uses every node of the original graph.'))+p(raw`A tree on n nodes has exactly \(n-1\) edges. A connected graph has a spanning tree; a disconnected graph does not.`)+table(['Tree operation','Consequence'],[['Remove any tree edge','The nodes split into two connected components'],['Add an edge between two tree nodes','Exactly one cycle appears']])+p('These properties will also explain how a network-simplex basis changes. Today we minimize the total cost of the tree edges.'),[82,83,84,85,86]),
  slide('tree-model','Choose four edges with the smallest total cost',pair(p('The graph is undirected and connected. A spanning tree on these five nodes must contain four edges.')+math(raw`\min_{T\text{ a spanning tree}}\ \sum_{e\in T}c_e.`)+box(p('We call this the <strong>minimum spanning tree</strong> problem, abbreviated MST.'))+p('Prim and Kruskal solve the same problem. For tied edge costs, compare endpoint pairs alphabetically: B–C precedes D–E.'),graphFigure(treeGraph,{caption:'Five nodes, seven candidate edges. Each edge cost is paid once when that edge is selected.'})),[82,86],{source:'New MST example; Robert Lecture 14 pp82–88 and final-topic guide p6'}),
@@ -162,6 +186,6 @@ const pages=new Map(assembled.map((s,i)=>[s.key,i+1]));
 const resolve=html=>html.replace(/data-na-link="([^"]+)" href="#slide=1"/g,(_,key)=>{if(!pages.has(key))throw new Error(`Unknown network slide: ${key}`);return `data-na-link="${key}" href="#slide=${pages.get(key)}"`;});
 export const slides=assembled.map((s,i)=>({...s,page:i+1,eyebrow:s.section,html:resolve(s.html)}));
 export const referenceMap=slides.map(({id,page,title,section,referencePages,source})=>({id,page,title,section,referencePages,source:source||'Robert Lecture 14 — Network Flow Problems and Algorithms'}));
-export const auditData={shortestGraph,negativeGraph,treeGraph,dijkstra:dTrace,bellmanFord:bTrace,prim:pTrace,kruskal:kTrace,mainCount:mainSlides.length,appendixCount:appendixSlides.length};
+export const auditData={shortestGraph,negativeGraph,negativeCycleGraph,treeGraph,dijkstra:dTrace,bellmanFord:bTrace,negativeCycleBellmanFord:cycleTrace,prim:pTrace,kruskal:kTrace,mainCount:mainSlides.length,appendixCount:appendixSlides.length};
 export const deck={schemaVersion:1,id:metadata.id,number:metadata.number,title:metadata.title,metadata,styles:new URL('./lecture-31.css',import.meta.url).href,slides};
 export default deck;

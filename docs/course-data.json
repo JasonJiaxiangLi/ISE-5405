@@ -1353,7 +1353,7 @@
           ],
           "correct_index": 1,
           "explanation": "A negative arc is different from a negative cycle. Bellman–Ford allows negative arcs, whereas Dijkstra’s finalization proof requires nonnegative costs.",
-          "page": 22,
+          "page": 23,
           "question": "A graph has one negative arc but no directed cycle. Which statement is correct?"
         },
         {
@@ -1365,7 +1365,7 @@
           ],
           "correct_index": 0,
           "explanation": "At Prim step 3, D and E were both unreached. The cost-2 edge D–E did not cross the current cut.",
-          "page": 36,
+          "page": 37,
           "question": "Why can Prim select an edge of cost 4 before an edge of cost 2?"
         }
       ],
@@ -1375,10 +1375,10 @@
       "display_number": 17,
       "id": "lecture-31",
       "number": 31,
-      "pdf_hash": "e933b03c2f339949b2dd46d4e9548c3a552db66d9233a1fe264d9b159e96c382",
-      "pdf_size": 784890,
+      "pdf_hash": "fd1aa6ee01bac2ad3ca9b622cdcd84ccc95c0e1cc26ed6553073f9047dcf15ab",
+      "pdf_size": 823450,
       "pdf_url": "materials/lecture_31.pdf",
-      "pdf_url_versioned": "materials/lecture_31.pdf?v=e933b03c2f33",
+      "pdf_url_versioned": "materials/lecture_31.pdf?v=fd1aa6ee01ba",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
