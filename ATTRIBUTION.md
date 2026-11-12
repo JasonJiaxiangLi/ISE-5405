@@ -65,6 +65,17 @@ calculations, capacity comparisons, artificial-root example, diagrams and
 practice solutions are new course contributions. Underlying faculty and
 textbook material remains excluded from this repository’s reuse licenses.
 
+## Interior-point methods and PDHG
+
+Interior-Point Methods I–II adapt Robert’s Lecture18 and Bertsimas–Tsitsiklis
+§9.4. The bounded two-variable example, central-path exploration, Newton-step
+visualization and arithmetic walkthrough are new course contributions.
+The PDHG introduction follows Applegate et al.,
+[*Practical Large-Scale Linear Programming using Primal-Dual Hybrid Gradient*](https://research.google/pubs/practical-large-scale-linear-programming-using-primal-dual-hybrid-gradient/)
+(NeurIPS2021). The numerical demonstrations are original implementations;
+underlying third-party examples, text and figures are excluded from this
+repository’s reuse licenses.
+
 ## GILP and other instructional references
 
 The Simplex I materials use selected states from the GILP reference sequence:

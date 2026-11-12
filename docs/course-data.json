@@ -1413,10 +1413,10 @@
       "display_number": 18,
       "id": "lecture-32",
       "number": 32,
-      "pdf_hash": "137e6d4576d3226278493f9aaf6a10f1b7a94b77e0ad489ae17a4e01985d8350",
-      "pdf_size": 637526,
+      "pdf_hash": "33e3d31e43917c5f4784b640c83a12919ba6d7ff813de76b134885deaaa8199e",
+      "pdf_size": 659430,
       "pdf_url": "materials/lecture_32.pdf",
-      "pdf_url_versioned": "materials/lecture_32.pdf?v=137e6d4576d3",
+      "pdf_url_versioned": "materials/lecture_32.pdf?v=33e3d31e4391",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
@@ -1499,6 +1499,67 @@
       ],
       "title": "Network Simplex II: Bounds, Initialization, and Integrality",
       "viewer_url": "lectures/lecture-34",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [],
+      "date": null,
+      "demos": [],
+      "description": "Visualize a central path, construct logarithmic barriers, compute a Newton step, and connect the barrier equations to primal–dual optimality certificates.",
+      "display_number": 21,
+      "id": "lecture-35",
+      "number": 35,
+      "pdf_hash": "d0fd03ba65a0373835c17ea3b9eae668cf315864ffb3b5eaf2ebaeed8bcaac85",
+      "pdf_size": 649343,
+      "pdf_url": "materials/lecture_35.pdf",
+      "pdf_url_versioned": "materials/lecture_35.pdf?v=d0fd03ba65a0",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "interior point",
+        "central path",
+        "Newton method"
+      ],
+      "title": "Interior-Point Methods I: Barriers and the Central Path",
+      "viewer_url": "lectures/lecture-35",
+      "whiteboards": 3
+    },
+    {
+      "checkpoints": [
+        {
+          "auto_open": true,
+          "choices": [
+            "Only that x is nonnegative.",
+            "Primal feasibility and dual feasibility.",
+            "That x is a basic solution."
+          ],
+          "correct_index": 1,
+          "explanation": "Weak duality bounds the optimum only when the compared points are feasible for the primal and dual.",
+          "page": 16,
+          "question": "A computed objective difference is small. What else must be checked before using it as an optimality certificate?"
+        }
+      ],
+      "date": null,
+      "demos": [],
+      "description": "Compute a complete primal–dual Newton update, choose a positive step, check stopping conditions, and explore a first-order method for large linear programs.",
+      "display_number": 22,
+      "id": "lecture-36",
+      "number": 36,
+      "pdf_hash": "9d1cf7b9ac9c25ffe718c0256fb5d1483270720c59da3ab29ac234d64efb1729",
+      "pdf_size": 613752,
+      "pdf_url": "materials/lecture_36.pdf",
+      "pdf_url_versioned": "materials/lecture_36.pdf?v=9d1cf7b9ac9c",
+      "plugin_url": null,
+      "presentation": "native-html",
+      "published": true,
+      "tags": [
+        "interior point",
+        "primal–dual methods",
+        "PDHG"
+      ],
+      "title": "Interior-Point Methods II and an Introduction to PDHG",
+      "viewer_url": "lectures/lecture-36",
       "whiteboards": 3
     }
   ],

@@ -1,0 +1,12 @@
+@import url('./duality.css');
+@import url('./ipm-visuals.css');
+:is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .ns-slide {font-size:clamp(18px,1.95cqw,30px);padding:2.1cqw 4.4cqw;gap:0;}
+:is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .ns-slide-header h1 {font-size:1.48em;}
+:is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .ns-slide-body {padding-bottom:.5em;}
+:is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .dy-table :is(th,td) {padding:.2em .35em;}
+:is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .dy-table-wrap:focus-visible {outline:3px solid #1874ad;outline-offset:2px;}
+@media(max-width:760px){
+ :is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .ns-slide {font-size:18px;padding:1.1rem;}
+ :is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .ns-slide-body {flex:0 0 auto;}
+ :is([data-native-deck="lecture-35"],[data-native-deck="lecture-36"]) .ns-slide-body>* {flex-shrink:0;}
+}
