@@ -1403,7 +1403,7 @@
           ],
           "correct_index": 1,
           "explanation": "The chosen pairs have zero reduced cost. Their total original cost equals the feasible dual lower bound, 49.",
-          "page": 17,
+          "page": 18,
           "question": "Why is this complete assignment optimal?"
         }
       ],
@@ -1413,10 +1413,10 @@
       "display_number": 18,
       "id": "lecture-32",
       "number": 32,
-      "pdf_hash": "db730d722a029870d657829592194685ba646bfd4f81173661d5bdc65b0da104",
-      "pdf_size": 603103,
+      "pdf_hash": "137e6d4576d3226278493f9aaf6a10f1b7a94b77e0ad489ae17a4e01985d8350",
+      "pdf_size": 637526,
       "pdf_url": "materials/lecture_32.pdf",
-      "pdf_url_versioned": "materials/lecture_32.pdf?v=db730d722a02",
+      "pdf_url_versioned": "materials/lecture_32.pdf?v=137e6d4576d3",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
