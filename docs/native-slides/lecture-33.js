@@ -18,8 +18,23 @@ export const states=[
  {tree:[0,3,4],flows:[10,0,0,10,0],p:[0,-2,1,-3],reduced:[0,4,5,0,0],cost:30}
 ];
 const fig=k=>network(shipping,{...states[k],caption:'Arc labels are current flows. Thick maroon arcs form the basis tree; thin arcs are nonbasic.'});
-const primal=math(r`\min c^\top x\quad\text{s.t. }Ax=b,\quad x\ge0.`);
-const dual=math(r`\max b^\top p\quad\text{s.t. }p_i-p_j\le c_{ij}\ \ ((i,j)\in E).`);
+const primal=math(r`\begin{aligned}
+\min\quad &2x_{12}+3x_{13}+2x_{23}+x_{24}+4x_{34}\\
+&x_{12}+x_{13}=10 &&[p_1]\\
+&-x_{12}+x_{23}+x_{24}=0 &&[p_2]\\
+&-x_{13}-x_{23}+x_{34}=0 &&[p_3]\\
+&-x_{24}-x_{34}=-10 &&[p_4]\\
+&x_{12},x_{13},x_{23},x_{24},x_{34}\ge0.
+\end{aligned}`);
+const dual=math(r`\begin{aligned}
+\max\quad &10p_1-10p_4\\
+&p_1-p_2\le2 &&[x_{12}]\\
+&p_1-p_3\le3 &&[x_{13}]\\
+&p_2-p_3\le2 &&[x_{23}]\\
+&p_2-p_4\le1 &&[x_{24}]\\
+&p_3-p_4\le4 &&[x_{34}]\\
+&p_i\in\mathbb R\quad(i=1,\ldots,4).
+\end{aligned}`);
 export const mainSlides=[
  s('title','Network Simplex I: A Pivot on a Graph',p('A minimum-cost flow problem is an LP. Network simplex performs the familiar simplex steps using a spanning tree.')+table(['Ordinary simplex','Network calculation'],[['Choose basic columns','Choose a spanning tree'],['Solve for basic variables','Use node-balance equations'],['Compute reduced costs','Use one dual variable per node'],['Choose direction and ratio','Follow a cycle and find a blocking arc']])+box(p('We will compute one complete pivot in equations, a graph, and matrix notation.')),'Robert Lectures 16–17; BT sections 7.1–7.3'),
  s('shipping','A shipping problem with four locations',pair(p('A depot at node 1 has 10 units to ship to a customer at node 4. Nodes 2 and 3 are transfer locations: shipments neither appear nor disappear there.')+p(r`The flow \(x_{ij}\) is the amount sent on the arrow \(i\to j\). Its unit cost is \(c_{ij}\). In this first example, arcs have no upper capacity limits.`)+box(p('Choose nonnegative flows to satisfy the required deliveries at minimum total transportation cost.')),network(shipping)),'Robert Lecture 16, pp21–28'),
@@ -51,13 +66,13 @@ x_{12}+x_{13}=10&\quad\Rightarrow x_{13}=10,\\
 B^{-1}=\begin{pmatrix}0&-1&0\\1&1&0\\1&1&1\end{pmatrix},\quad
 A_N=\begin{pmatrix}0&0\\1&1\\-1&0\end{pmatrix}.`)+math(r`B^{-1}b_{\mathrm{red}}=\begin{pmatrix}0\\10\\10\end{pmatrix},\quad
 B^{-1}A_N=\begin{pmatrix}-1&-1\\1&1\\0&1\end{pmatrix}.`)+box(math(r`x_B=B^{-1}b_{\mathrm{red}}-B^{-1}A_Nx_N.`))+p('The two products give the same three basic-variable equations as substitution.')),
- s('dual','One dual variable per node balance',p('Here A and b include all four node balances, so p = (p₁, p₂, p₃, p₄). E is the set of original directed arcs.')+pair(box(p('<strong>Primal: minimum-cost flow</strong>')+primal+p(r`Column \(ij\) has +1 in row i and -1 in row j.`)),box(p('<strong>Dual: all pᵢ are unrestricted</strong>')+dual+p(r`Thus \(A_{ij}^{\top}p=p_i-p_j\).`),'maroon'))+math(r`\bar c_{ij}=c_{ij}-(p_i-p_j)=c_{ij}-p_i+p_j.`)+p('Adding the same constant to every pᵢ changes no constraint and no dual value, since the balances sum to zero. We may set p₁ = 0.')),
- s('basis-dual','Compute the basis dual variables on the tree',pair(p('For a basis, choose p so each basic reduced cost is zero. On every tree arc, solve pᵢ - pⱼ = cᵢⱼ.')+math(r`\begin{aligned}
-p_1&=0,\\p_1-p_2&=2 &&\Rightarrow p_2=-2,\\
+ s('dual','Write the dual of our shipping problem',p(r`Restore node 4’s redundant balance. Let \(p_i\) be the dual variable for node \(i\).`)+pair(box(p('<strong>Primal: same shipping problem</strong>')+primal),box(p('<strong>Dual: one constraint per flow</strong>')+dual,'maroon'))+p(r`For \(x_{12}\): coefficients +1 at node 1 and −1 at node 2, with unit cost 2, give \(p_1-p_2\le2\).`)+p('Equality balances give unrestricted dual variables. Nonnegative primal flows give ≤ dual constraints.')),
+ s('basis-dual','Compute a dual candidate from the current tree',p(r`Use the feasible tree \(T=\{12,13,34\}\). As in ordinary simplex, choose \(p\) so the basic reduced costs are zero: \(p_i-p_j=c_{ij}\) on each tree arc.`)+pair(p(r`Choose \(p_1=0\). Adding a constant to all four \(p_i\) changes neither their differences nor \(10p_1-10p_4\).`)+math(r`\begin{aligned}
+p_1-p_2&=2 &&\Rightarrow p_2=-2,\\
 p_1-p_3&=3 &&\Rightarrow p_3=-3,\\
 p_3-p_4&=4 &&\Rightarrow p_4=-7.
-\end{aligned}`)+p(r`These are the basis equalities \(A_T^\top p=c_T\). Fixing one node value makes their solution unique. These node dual variables are also called node potentials.`),network(shipping,{tree:[0,1,4]}))+box(p('This constructs a dual candidate. We must still check the inequalities on nonbasic arcs; complementary slackness alone does not establish feasibility.')),'Robert Lecture 17, node potentials; careful basis interpretation'),
- s('reduced-costs','Check every nonbasic reduced cost',model()+p(r`For the initial tree, \(p=(0,-2,-3,-7)\). The nonbasic arcs are 23 and 24.`)+table(['Arc','Calculation','Reduced cost'],[['2 → 3',r`\(2-(-2)+(-3)\)`,1],['2 → 4',r`\(1-(-2)+(-7)\)`,-4]])+box(p('Arc 24 violates its dual inequality. Its reduced cost -4 matches the coefficient of x₂₄ in f = 70 + x₂₃ - 4x₂₄. Choose arc 24 to enter.'))+p('Basic arcs have zero reduced cost, including arc 12 whose basic flow is zero.')),
+\end{aligned}`)+p(r`The candidate is \(p=(0,-2,-3,-7)\). Node dual variables are also called <strong>node potentials</strong>.`),network(shipping,{tree:[0,1,4],caption:'Arc labels: unit costs. Maroon: basic arcs.'}))+box(p('This is a dual candidate. Check the two nonbasic-arc inequalities next.')),'Robert Lecture 17, node potentials; careful basis interpretation'),
+ s('reduced-costs','Check the dual inequalities and reduced costs',model()+p(r`Candidate \(p=(0,-2,-3,-7)\), in node order 1–4. Only the two nonbasic-arc inequalities remain:`)+table(['Arc','Dual constraint check','Cost minus dual expression'],[['2 → 3',r`\(p_2-p_3=-2-(-3)=1\le2\)`,r`\(2-1=1\)`],['2 → 4',r`\(p_2-p_4=-2-(-7)=5>1\)`,r`\(1-5=-4\)`]])+p(r`In general, an arc's dual constraint is \(p_i-p_j\le c_{ij}\). Its <strong>reduced cost</strong> is \(\bar c_{ij}=c_{ij}-(p_i-p_j)\).`)+math(r`f=70+\underbrace{1}_{\bar c_{23}}x_{23}\underbrace{-4}_{\bar c_{24}}x_{24}.`)+box(p(r`Arc 24 fails the dual feasibility check. The reduced costs match the dictionary coefficients. Choose \(x_{24}\) to enter; next find its feasible step.`))),
  s('cycle','Adding one nonbasic arc creates one cycle',pair(p('Add arc 2 → 4 to the tree. Start by following that entering arrow; return from 4 to 2 along the unique tree path.')+math(r`2\to4\to3\to1\to2.`)+box(p('Increase an original arc’s flow when its arrow agrees with the traversal. Decrease its flow when its arrow opposes the traversal.'))+p('The increases and decreases need not alternate.'),network(shipping,{tree:[0,1,4],focus:[3],flows:states[0].flows,caption:'Orange: entering arc 24. Return along 34 backward, 13 backward, then 12 forward.'})),'Robert Lecture 16, pp25–27 (corrected signs)'),
  s('direction','Write all flow changes before taking a ratio',model()+table(['Arc','Direction on the cycle','New flow'],[['24','Same as arrow',r`\(\theta\)`],['34','Opposite arrow',r`\(10-\theta\)`],['13','Opposite arrow',r`\(10-\theta\)`],['12','Same as arrow',r`\(\theta\)`],['23','Not on cycle','0']])+box(p('At every node, the changes preserve outgoing minus incoming flow. Arc 12 starts at zero but increases, so it cannot block this move.'))),
  s('ratio-practice','Your turn: how far can we send flow around the cycle?',pair(initial,box(p('Work for about 5 minutes. Hold x₂₃ = 0 and set x₂₄ = θ ≥ 0.')+p('1. Which basic flows decrease?')+p('2. What is the largest feasible θ?')+p('3. Which arc can leave? Compute the new total cost.')+p('Use the full flow-change table, not only the entering arc.')))),
@@ -83,7 +98,7 @@ export const appendixSlides=[
  s('tree-proof','Tree columns are independent; cycle columns are dependent',p('On a tree, suppose a linear combination of incidence columns is zero. A leaf row involves exactly one tree column, whose coefficient must be zero. Remove that leaf and repeat. All coefficients are zero.')+p('This remains true after one row is removed: the missing row is the negative sum of the others. Thus n - 1 tree columns form an invertible square reduced matrix.')+p('Conversely, columns on any undirected cycle have a nonzero signed combination equal to zero. Follow the cycle, using +1 for agreeing arrows and -1 for opposing arrows.')+box(p('A set of n - 1 arcs with no cycle is a spanning tree. A connected graph has such a tree, so its incidence rank is n - 1.'))),
  s('cycle-proof','A cycle direction solves the same basis equations',p('Give the entering arc direction +1. Each cycle node receives and sends the same change; all other nodes are unchanged. Therefore Ad = 0.')+math(r`Bd_B+A_{\mathrm{enter}}=0
 \quad\Rightarrow\quad d_B=-B^{-1}A_{\mathrm{enter}}.`)+p('Because B is invertible, the graph direction and the algebraic direction are identical. The cycle entries are +1 or -1, and arcs outside the cycle have direction 0.')+box(p('For uncapacitated flows, θ is limited only by dₑ = -1. If no such arc exists, every θ ≥ 0 remains feasible.'))),
- s('reduced-proof','The cycle cost is the entering reduced cost',p(r`On the tree, \(c_e=p^\top A_e\). For a cycle direction d with entering component 1 and \(Ad=0\),`)+math(r`\begin{aligned}
+ s('reduced-proof','The cycle cost is the entering reduced cost',p(r`Let \(A_T\) contain the tree columns and \(c_T\) their costs. The basis equalities are \(A_T^\top p=c_T\), so \(c_e=p^\top A_e\) on each tree arc. For a cycle direction d with entering component 1 and \(Ad=0\),`)+math(r`\begin{aligned}
 c^\top d
 &=c_{\mathrm{enter}}+\sum_{e\in T}c_ed_e\\
 &=c_{\mathrm{enter}}+p^\top\sum_{e\in T}A_ed_e\\
