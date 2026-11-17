@@ -1476,7 +1476,7 @@
           ],
           "correct_index": 1,
           "explanation": "The step was zero, so the same flow and cost remain. Replacing arc 45 by arc 43 changes the basis equations and the computed reduced costs.",
-          "page": 16,
+          "page": 17,
           "question": "After pivot 1, what changed?"
         }
       ],
@@ -1486,10 +1486,10 @@
       "display_number": 20,
       "id": "lecture-34",
       "number": 34,
-      "pdf_hash": "b2c93fea27588647370e83f31ac0a9cc9ffa315bc2d8c80473e0af5acf280c5f",
-      "pdf_size": 570132,
+      "pdf_hash": "c8f003e6381a16ff48b14b2b12d4b483939146f98499f985fb7f50e1334e563d",
+      "pdf_size": 588324,
       "pdf_url": "materials/lecture_34.pdf",
-      "pdf_url_versioned": "materials/lecture_34.pdf?v=b2c93fea2758",
+      "pdf_url_versioned": "materials/lecture_34.pdf?v=c8f003e6381a",
       "plugin_url": null,
       "presentation": "native-html",
       "published": true,
