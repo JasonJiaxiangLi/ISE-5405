@@ -19,7 +19,7 @@ export function assemble(number,title,mainSlides,appendixSlides,subtitle){
 export const slide=(key,title,html,reference='',options={})=>({key,title,html,reference,...options});
 export const shipping={nodes:['1','2','3','4'],positions:[[65,180],[290,55],[290,310],[520,180]],arcs:[[1,2,2],[1,3,3],[2,3,2],[2,4,1],[3,4,4]],b:[10,0,0,-10]};
 export const degenerate={nodes:['1','2','3','4','5'],positions:[[80,310],[500,310],[80,160],[500,160],[290,40]],arcs:[[1,2,0],[1,3,1],[2,4,0],[3,5,0],[4,3,0],[4,5,1]],b:[1,0,0,0,-1]};
-export function network(graph,{flows=null,tree=[],focus=[],caption='',costs=null}={}){
+export function network(graph,{flows=null,tree=[],focus=[],caption='',costs=null,showCosts=false}={}){
  let svg='';
  graph.arcs.forEach(([i,j,c],k)=>{
   const [x,y]=graph.positions[i-1],[X,Y]=graph.positions[j-1],dx=X-x,dy=Y-y,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;
@@ -27,7 +27,10 @@ export function network(graph,{flows=null,tree=[],focus=[],caption='',costs=null
   const a=[x+25*ux,y+25*uy],b=[X-28*ux,Y-28*uy];
   const [tx,ty]=graph.labelPositions?.[k]||[(x+X)/2-uy*24,(y+Y)/2+ux*24];
   svg+=`<path d="M${a} L${b}" stroke="${col}" stroke-width="${tree.includes(k)||focus.includes(k)?5:2}" fill="none"/><path d="M${b} l${-11*ux+6*uy},${-11*uy-6*ux} M${b} l${-11*ux-6*uy},${-11*uy+6*ux}" stroke="${col}" stroke-width="3"/>`;
-  svg+=`<text class="nm-label" x="${tx}" y="${ty}" text-anchor="middle">${flows?`x=${flows[k]}`:`c=${costs?costs[k]:c}`}</text>`;
+  const label=flows&&showCosts
+   ? `c=${costs?costs[k]:c}<tspan x="${tx}" dy="26">x=${flows[k]}</tspan>`
+   : flows?`x=${flows[k]}`:`c=${costs?costs[k]:c}`;
+  svg+=`<text class="nm-label" x="${tx}" y="${ty}" text-anchor="middle">${label}</text>`;
  });
  graph.nodes.forEach((n,k)=>{const [x,y]=graph.positions[k];svg+=`<circle cx="${x}" cy="${y}" r="23" fill="white" stroke="#354b58" stroke-width="2"/><text x="${x}" y="${y+8}" text-anchor="middle" font-weight="700">${n}</text>`;});
  const desc=graph.arcs.map(([i,j,c],k)=>`${i} to ${j}: cost ${costs?costs[k]:c}${flows?', flow '+flows[k]:''}${tree.includes(k)?', basic arc':''}`).join('; ');
