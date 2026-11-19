@@ -10,3 +10,8 @@
 :is([data-slide-id="l34-phase-example"],[data-slide-id="l34-phase-auxiliary-pair"]) .dy-pair { flex-shrink: 0; }
 :is([data-slide-id="l34-phase-example"],[data-slide-id="l34-phase-auxiliary-pair"],[data-slide-id="l34-phase-dual"]) .dy-stack { gap: .15em; }
 :is([data-slide-id="l34-phase-example"],[data-slide-id="l34-phase-auxiliary-pair"]) .ns-slide-body { gap: .2em; }
+
+/* Keep the integrality example and equation/matrix comparison uncompressed. */
+:is([data-slide-id="l34-integer-practice"],[data-slide-id="l34-tu"]) .dy-pair { flex-shrink: 0; }
+:is([data-slide-id="l34-integer-practice"],[data-slide-id="l34-tu"]) .dy-stack { gap: .1em; }
+:is([data-slide-id="l34-integer-practice"],[data-slide-id="l34-tu"]) .ns-slide-body { gap: .2em; }
