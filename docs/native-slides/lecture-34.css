@@ -5,3 +5,8 @@
 [data-slide-id="l34-strong-feasible"] .dy-stack { gap: .1em; }
 [data-slide-id="l34-strong-feasible"] .ns-slide-body { gap: .2em; }
 [data-slide-id="l34-strong-feasible"] .dy-pair { flex-shrink: 0; }
+
+/* These paired calculations retain their natural height and full-size type. */
+:is([data-slide-id="l34-phase-example"],[data-slide-id="l34-phase-auxiliary-pair"]) .dy-pair { flex-shrink: 0; }
+:is([data-slide-id="l34-phase-example"],[data-slide-id="l34-phase-auxiliary-pair"],[data-slide-id="l34-phase-dual"]) .dy-stack { gap: .15em; }
+:is([data-slide-id="l34-phase-example"],[data-slide-id="l34-phase-auxiliary-pair"]) .ns-slide-body { gap: .2em; }

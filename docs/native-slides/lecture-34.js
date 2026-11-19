@@ -20,6 +20,13 @@ export const phaseStates=[
 const bfig=k=>network(shipping,{...boundedStates[k],caption:`Arc labels: flows. Thick arcs: basic tree. Capacities in arc order (12, 13, 23, 24, 34): (${boundedStates[k].upper.join(', ')}).`});
 const dfig=k=>network(degenerate,{...degenerateStates[k],caption:'Send one unit from 1 to 5. Labels: flows. Thick maroon arcs: the current basis tree.'});
 const afig=k=>network(auxiliary,{...phaseStates[k],caption:'Auxiliary network. Arcs touching r are artificial. Labels: flows; thick arcs: current basis.'});
+// Keep the initial network's flows and add the balance at each node.
+function initialArtificialFigure(){
+ const labels=[[65,211,'b₁ = 2'],[290,21,'b₂ = 0'],[520,211,'b₃ = −2'],[290,356,'bᵣ = 0']];
+ return afig(0).replace('</svg>',labels.map(([x,y,label])=>`<text class="nm-label" x="${x}" y="${y}" text-anchor="middle">${label}</text>`).join('')+'</svg>')
+  .replace('Auxiliary network. Arcs touching r are artificial. Labels: flows; thick arcs: current basis.','b: balance; x: flow; thick arcs: tree.')
+  .replace('aria-label="','aria-label="Node balances: node 1 supplies 2; node 2 has balance 0; node 3 demands 2; artificial node r has balance 0. ');
+}
 // Show original tree arrows separately from allowed residual traversal.
 function rootedTreeFigure(){
  const pos=[[85,265],[485,265],[85,130],[485,130],[285,35]];
@@ -92,13 +99,45 @@ x_{34}&=x_{13}+x_{23}=6+s_{12}+x_{23}.
  s('degenerate-final','The second pivot reaches cost zero',pair(p('Final positive flows: x₁₂ = x₂₄ = x₄₃ = x₃₅ = 1. The unused flows x₁₃ and x₄₅ are zero.')+math(r`f=x_{13}+x_{45}=0.`)+p('All original arc costs are nonnegative, so no feasible flow can cost below zero. Equivalently, p = 0 is dual feasible and has value zero.')+box(p('A zero step does not mean that the current flow is optimal or that the algorithm should stop.'),'green'),dfig(2)),'Robert Lecture 17, Example 7.3',{checkpoint:checkpoint('After pivot 1, what changed?',['The objective decreased by 1.','The flows stayed fixed, but the basis and its dual candidate changed.','The algorithm proved optimality.'],1,'The step was zero, so the same flow and cost remain. Replacing arc 45 by arc 43 changes the basis equations and the computed reduced costs.')}),
  s('anticycling','Zero steps require a rule that prevents cycling',box(p('<strong>Zero step:</strong> the flows and cost stay fixed, but the basis tree changes.'))+box(p('<strong>Cycling:</strong> a sequence of zero-step pivots can return to a previous basis.'),'orange')+box(p('<strong>Prevention:</strong> use an anticycling rule. Bland’s or a lexicographic rule applies to the standard-form LP.'),'green')+p('Bland’s rule chooses the smallest-index eligible entering variable, then the smallest-index basic variable among minimum-ratio ties.')+p('<strong>Next:</strong> how do we obtain an initial feasible tree?'),'Robert Lecture 16, degeneracy and anticycling'),
  s('initialization','Initialization: finding an initial feasible tree',p('A cheapest-looking spanning tree can give negative flows or violate capacities. We need a systematic start, just as in ordinary simplex.')+box(p('Use Phase I: add artificial arcs that make the balance equations easy to satisfy. Minimize total artificial flow, temporarily ignoring the original costs.'))+p('If the minimum artificial flow is zero, remove artificial arcs from the basis and restore the original objective. If it is positive, the original flow problem is infeasible.')+p('The artificial arcs represent auxiliary variables, not real shipping routes.'),'Robert Lecture 17, initialization'),
- s('artificial-root','Add an artificial root and satisfy every balance',p(r`Assume \(\sum_i b_i=0\) and lower bounds are zero. Add a new artificial node \(r\), called the <strong>artificial root</strong>, with balance 0. Connect every original node to it as follows:`)+table(['Original node balance','Artificial arc','Initial artificial flow'],[['bᵢ > 0','i → r','bᵢ'],['bᵢ < 0','r → i','-bᵢ'],['bᵢ = 0','i → r','0']])+p('Set every original arc flow to zero. The artificial star is a spanning tree on the enlarged network, and all its flows are nonnegative.')+math(r`\min w=\sum_{\text{artificial arcs }e}x_e.`)+p('Artificial arcs have no upper bounds. Keep the original arcs’ capacity constraints; their Phase I costs are zero.'),'Robert Lecture 17, artificial-root construction'),
- s('phase-example','Phase I example: two units must travel from 1 to 3',pair(p('Original arcs: 12, 23, 13. Original costs: 2, 1, 5; no upper bounds. Original balances: (2, 0, -2).')+p('Add artificial arcs 1 → r, 2 → r, r → 3. Initial artificial flows are (2, 0, 2), so w = 4.')+box(p('For Phase I, every original arc has cost 0 and every artificial arc has cost 1. The original transportation costs wait until Phase II.'))+p('The initial tree consists of the three artificial arcs. All original flows start at zero.'),afig(0))),
- s('phase-dual','Use the auxiliary costs to choose the first entering arc',p('Set the artificial root’s dual variable to pᵣ = 0. The three basic artificial arcs have Phase I cost 1.')+math(r`\begin{aligned}
-p_1-p_r=1&\quad\Rightarrow p_1=1,\\
-p_2-p_r=1&\quad\Rightarrow p_2=1,\\
-p_r-p_3=1&\quad\Rightarrow p_3=-1.
-\end{aligned}`)+table(['Original arc','Phase I reduced cost'],[['12',r`\(0-1+1=0\)`],['23',r`\(0-1+(-1)=-2\)`],['13',r`\(0-1+(-1)=-2\)`]])+box(p('Choose arc 23 among the two tied improving arcs. Use auxiliary reduced costs while minimizing w.'))),
+ s('artificial-root','Node balances: what does bᵢ mean?',p(r`The <strong>node balance</strong> \(b_i\) specifies: outgoing flow − incoming flow \(=b_i\). Positive means net supply; negative means net demand.`)+p(r`Example: send 2 units from node 1 to node 3 through arcs 12, 23, 13. Add an <strong>artificial root</strong>: a new auxiliary node \(r\), with \(b_r=0\).`)+table(['Original node','Meaning of its balance','Artificial arc','Initial flow'],[[r`\(b_1=2\)`,'Supply 2 units','1 → r',2],[r`\(b_2=0\)`,'Outgoing = incoming','2 → r',0],[r`\(b_3=-2\)`,'Receive 2 units','r → 3',2]],'Node balances determine the artificial arc directions and initial flows')+box(p(r`Set all original flows to zero. In general: if \(b_i>0\), send \(b_i\) on \(i\to r\); if \(b_i\lt0\), send \(-b_i\) on \(r\to i\). For \(b_i=0\), use \(i\to r\) with flow 0.`))+p(r`Assume \(\sum_i b_i=0\) and lower bounds 0. Keep original capacities; artificial arcs have no upper bounds.`),'Robert Lecture 17 pp174–176; explicit artificial-root example and balance definition added'),
+ s('phase-example','Derive the initial artificial flows',p(r`Send 2 units from 1 to 3: \((b_1,b_2,b_3,b_r)=(2,0,-2,0)\). Start with original flows \(x_{12}=x_{23}=x_{13}=0\).`)+pair(p('Substitute these zeros into each node balance:')+math(r`\begin{aligned}
+x_{12}+x_{13}+x_{1r}=2&\ \Rightarrow\ x_{1r}=2,\\
+-x_{12}+x_{23}+x_{2r}=0&\ \Rightarrow\ x_{2r}=0,\\
+-x_{13}-x_{23}-x_{r3}=-2&\ \Rightarrow\ x_{r3}=2.
+\end{aligned}`)+p(r`At the artificial root, outgoing minus incoming is also correct:`)+math(r`x_{r3}-x_{1r}-x_{2r}=2-2-0=0.`),initialArtificialFigure())+box(p(r`The artificial arcs \(\{1r,2r,r3\}\) form a feasible initial tree. Their flows are nonnegative, and every node balance is satisfied.`),'green')),
+ s('phase-original-pair','Before Phase I: the original primal and dual',p(r`Ship 2 units from 1 to 3. Flow \(x_{ij}\ge0\) uses arc \(i\to j\); there are no upper bounds. Dual variable \(p_i\) corresponds to node \(i\)'s balance equality.`)+pair(box(p('<strong>Primal: minimize shipping cost</strong>')+math(r`\begin{aligned}
+\min\quad &f=2x_{12}+x_{23}+5x_{13}\\
+\text{node }1:\quad &x_{12}+x_{13}=2,\\
+\text{node }2:\quad &-x_{12}+x_{23}=0,\\
+\text{node }3:\quad &-x_{13}-x_{23}=-2,\\
+&x_{12},x_{23},x_{13}\ge0.
+\end{aligned}`)),box(p('<strong>Dual: maximize a lower bound</strong>')+math(r`\begin{aligned}
+\max\quad &2p_1-2p_3\\
+\text{arc }12:\quad &p_1-p_2\le2,\\
+\text{arc }23:\quad &p_2-p_3\le1,\\
+\text{arc }13:\quad &p_1-p_3\le5.
+\end{aligned}`)+p(r`All \(p_1,p_2,p_3\) are unrestricted.`),'maroon'))+box(p(r`Each balance equality gives an unrestricted dual variable. Each nonnegative flow \(x_{ij}\) gives a dual constraint \(p_i-p_j\le c_{ij}\), where \(c_{ij}\) is its unit cost.`))+p('Next: add the artificial arcs and replace shipping cost by total artificial flow.'),'Explicit original model pair before the auxiliary construction'),
+ s('phase-auxiliary-pair','During Phase I: the auxiliary primal and dual',p(r`Original arcs now have cost 0; artificial arcs have cost 1. The new node balance has dual variable \(p_r\). All original balances stay unchanged.`)+pair(box(p('<strong>Primal: minimize artificial flow</strong>')+math(r`\begin{aligned}
+\min\quad &w=x_{1r}+x_{2r}+x_{r3}\\
+\text{node }1:\quad &x_{12}+x_{13}+x_{1r}=2,\\
+\text{node }2:\quad &-x_{12}+x_{23}+x_{2r}=0,\\
+\text{node }3:\quad &-x_{13}-x_{23}-x_{r3}=-2,\\
+\text{node }r:\quad &-x_{1r}-x_{2r}+x_{r3}=0.
+\end{aligned}`)+p('All six flows are nonnegative.')),
+box(p('<strong>Dual: one constraint per arc</strong>')+math(r`\begin{aligned}
+\max\quad &2p_1-2p_3\\
+\text{arc }12:\quad &p_1-p_2\le0,\\
+\text{arc }23:\quad &p_2-p_3\le0,\\
+\text{arc }13:\quad &p_1-p_3\le0,\\
+\text{arc }1r:\quad &p_1-p_r\le1,\\
+\text{arc }2r:\quad &p_2-p_r\le1,\\
+\text{arc }r3:\quad &p_r-p_3\le1.
+\end{aligned}`)+p(r`All \(p_1,p_2,p_3,p_r\) are unrestricted.`),'maroon'))+p(r`Added node \(r\) → new dual variable \(p_r\). Added arcs → three new dual constraints. Since \(b_r=0\), the dual objective has no \(p_r\) term.`),'Robert Lecture 17 pp174–176; explicit auxiliary model pair added'),
+ s('phase-dual','The initial tree determines a dual candidate',p(r`For a <strong>basic arc</strong>, use equality in its dual constraint. The initial tree consists of artificial arcs \(1r,2r,r3\), each with Phase I cost 1.`)+p(r`Adding the same constant to every \(p_i\) leaves all differences and \(2p_1-2p_3\) unchanged. Choose \(p_r=0\).`)+pair(math(r`\begin{aligned}
+p_1-p_r=1&\ \Rightarrow\ p_1=1,\\
+p_2-p_r=1&\ \Rightarrow\ p_2=1,\\
+p_r-p_3=1&\ \Rightarrow\ p_3=-1.
+\end{aligned}`)+p(r`Thus \((p_1,p_2,p_3,p_r)=(1,1,-1,0)\).`),p('Original-arc costs are 0 in Phase I:')+math(r`\bar c_{ij}=0-p_i+p_j.`)+table(['Arc','Phase I reduced cost'],[['12',r`\(0-1+1=0\)`],['23',r`\(0-1+(-1)=-2\)`],['13',r`\(0-1+(-1)=-2\)`]],'Reduced costs computed with the Phase I objective'))+box(p(r`This candidate is <strong>not dual feasible</strong>: \(p_2-p_3=p_1-p_3=2>0\). Choose arc 23 among the two tied negative reduced costs; the next page finds its step length.`)),'Basis equalities followed by explicit dual-feasibility and reduced-cost checks'),
  s('phase-zero','Phase I pivot 1: remove a zero artificial arc',pair(p('Cycle 2 → 3 → r → 2 increases x₂₃, decreases xᵣ₃, and decreases x₂ᵣ.')+math(r`\theta^*=\min\{x_{r3},x_{2r}\}=\min\{2,0\}=0.`)+p('Arc 2r leaves; arc 23 becomes basic at zero. The new basis dual values are p = (1, -1, -1, 0).')+math(r`\bar c_{12}=0-1+(-1)=-2.`)+box(p('Artificial flow is still 4, but the new tree allows arc 12 to enter.')),afig(1))),
  s('phase-positive','Phase I pivot 2: eliminate the positive artificial flows',pair(p('Enter 12 and follow 1 → 2 → 3 → r → 1. Increase x₁₂ and x₂₃; decrease xᵣ₃ and x₁ᵣ.')+math(r`\theta^*=\min\{2,2\}=2,\qquad w=4-2(2)=0.`)+p('Choose 1r to leave. The tree is now {12, 23, r3}, with flows (2, 2, 0).')+box(p('The only remaining artificial tree arc is r3 at zero. Delete it and the artificial root. The original arcs {12, 23} form a feasible tree.')),afig(2))),
  s('phase-two','Restore the original costs and check optimality',p('Original problem: send 2 units from 1 to 3 on arcs 12, 23, 13, with costs 2, 1, 5. The feasible tree {12, 23} carries x₁₂ = x₂₃ = 2; x₁₃ = 0.')+math(r`f=2(2)+1(2)=6.`)+p(r`Set \(p_1=0\). Tree equations give \(p_2=-2\), \(p_3=-3\).`)+math(r`\bar c_{13}=5-0-3=2\ge0,\qquad b^\top p=2(0)-2(-3)=6.`)+box(p('The original flow is already optimal. A zero Phase I objective proves feasibility; the original reduced-cost test proves optimality for the original costs.'),'green')),
