@@ -1,1 +1,7 @@
 @import url('./network-methods.css');
+
+/* Reclaim duplicate paragraph/stack spacing; keep the teaching type size. */
+[data-slide-id="l34-degenerate-first"] .dy-stack { gap: .15em; }
+[data-slide-id="l34-strong-feasible"] .dy-stack { gap: .1em; }
+[data-slide-id="l34-strong-feasible"] .ns-slide-body { gap: .2em; }
+[data-slide-id="l34-strong-feasible"] .dy-pair { flex-shrink: 0; }
